@@ -29,5 +29,5 @@ urlpatterns = [
     path("api/health/", health_check, name="health-check"),
     path("api/account/", include("account.urls")),
     path("api/contract/", include("contract.urls")),
-    path("gestion-interne-x7k2/", admin.site.urls),
+    path("gestion-interne-gf62/", admin.site.urls),
 ]

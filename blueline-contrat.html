@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BlueLine Works — Module Contrat</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0a1628; --blue: #1a3a6e; --accent: #2a7fff; --gold: #c8a96e;
+    --light: #f0f4fa; --gray: #8a99b3; --border: #dce4f0; --text: #1e2d4a;
+    --green: #22c55e; --red: #ef4444;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--light); color: var(--text); min-height: 100vh; }
+
+  header { background: var(--navy); padding: 0 48px; display: flex; align-items: center; justify-content: space-between; height: 72px; box-shadow: 0 2px 24px rgba(0,0,0,0.3); position: sticky; top: 0; z-index: 100; }
+  .logo { display: flex; align-items: center; gap: 14px; }
+  .logo-icon { width: 42px; height: 42px; background: linear-gradient(135deg, var(--accent), var(--gold)); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+  .logo-text { font-family: 'Playfair Display', serif; color: white; font-size: 20px; font-weight: 600; }
+  .logo-sub { color: var(--gold); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; font-weight: 300; display: block; }
+  .header-actions { display: flex; gap: 12px; align-items: center; }
+
+  .btn { padding: 10px 22px; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; cursor: pointer; border: none; transition: all 0.2s; }
+  .btn-ghost { background: transparent; color: var(--gray); border: 1px solid rgba(255,255,255,0.1); }
+  .btn-ghost:hover { color: white; border-color: rgba(255,255,255,0.3); }
+  .btn-primary { background: linear-gradient(135deg, var(--accent), #1a6ee8); color: white; box-shadow: 0 4px 14px rgba(42,127,255,0.4); }
+  .btn-primary:hover { transform: translateY(-1px); }
+  .btn-gold { background: linear-gradient(135deg, var(--gold), #b8944e); color: var(--navy); font-weight: 600; }
+  .btn-gold:hover { transform: translateY(-1px); }
+
+  .container { max-width: 1400px; margin: 0 auto; padding: 36px 48px; }
+  .page-title { font-family: 'Playfair Display', serif; font-size: 28px; color: var(--navy); margin-bottom: 6px; }
+  .page-sub { color: var(--gray); font-size: 14px; margin-bottom: 32px; }
+
+  .stepper { display: flex; align-items: center; margin-bottom: 36px; background: white; border-radius: 14px; padding: 20px 32px; box-shadow: 0 2px 16px rgba(10,22,40,0.07); }
+  .step { display: flex; align-items: center; gap: 12px; flex: 1; cursor: pointer; }
+  .step:not(:last-child)::after { content: ''; flex: 1; height: 2px; background: var(--border); margin: 0 16px; border-radius: 2px; }
+  .step.active:not(:last-child)::after, .step.done:not(:last-child)::after { background: var(--accent); }
+  .step-num { width: 36px; height: 36px; border-radius: 50%; background: var(--border); color: var(--gray); font-weight: 600; font-size: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: 0.3s; }
+  .step.active .step-num { background: var(--accent); color: white; box-shadow: 0 4px 12px rgba(42,127,255,0.4); }
+  .step.done .step-num { background: var(--green); color: white; }
+  .step-label { font-size: 13px; font-weight: 500; color: var(--gray); }
+  .step.active .step-label { color: var(--accent); }
+  .step.done .step-label { color: var(--green); }
+
+  .panels { display: grid; grid-template-columns: 1fr 420px; gap: 24px; align-items: start; }
+  .panel { background: white; border-radius: 14px; padding: 32px; box-shadow: 0 2px 16px rgba(10,22,40,0.07); }
+  .panel + .panel { margin-top: 20px; }
+  .panel-title { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--navy); margin-bottom: 24px; padding-bottom: 16px; border-bottom: 2px solid var(--border); display: flex; align-items: center; gap: 10px; }
+  .panel-title .icon { width: 32px; height: 32px; background: linear-gradient(135deg, var(--accent), #1a6ee8); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .form-grid.full { grid-template-columns: 1fr; }
+  .form-grid.three { grid-template-columns: 1fr 1fr 1fr; }
+  .form-grid.four { grid-template-columns: 1fr 1fr 1fr 1fr; }
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .field.span2 { grid-column: span 2; }
+  .field.span3 { grid-column: span 3; }
+  .field.span4 { grid-column: span 4; }
+  label { font-size: 12px; font-weight: 600; color: var(--gray); text-transform: uppercase; letter-spacing: 0.8px; }
+  input, select, textarea { padding: 11px 14px; border: 1.5px solid var(--border); border-radius: 9px; font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--text); background: #fafbfe; transition: all 0.2s; outline: none; width: 100%; }
+  input:focus, select:focus, textarea:focus { border-color: var(--accent); background: white; box-shadow: 0 0 0 3px rgba(42,127,255,0.08); }
+  textarea { resize: vertical; min-height: 80px; }
+  input[readonly] { background: #f0f4fa; color: var(--gray); cursor: not-allowed; }
+
+  .section-divider { font-size: 12px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 1.5px; margin: 24px 0 14px; padding-bottom: 8px; border-bottom: 1px dashed var(--border); display: flex; align-items: center; gap: 8px; }
+
+  .prestations-list { display: flex; flex-direction: column; gap: 14px; }
+  .prestation-item { border: 1.5px solid var(--border); border-radius: 12px; padding: 18px; background: #fafbfe; transition: 0.2s; }
+  .prestation-item:hover { border-color: rgba(42,127,255,0.3); box-shadow: 0 2px 12px rgba(42,127,255,0.07); }
+  .prestation-header { display: grid; grid-template-columns: 1fr auto auto; gap: 12px; align-items: center; margin-bottom: 14px; }
+  .prestation-details { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 12px; }
+  .btn-remove { background: #fee2e2; color: var(--red); border: none; width: 32px; height: 32px; border-radius: 7px; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: 0.2s; flex-shrink: 0; }
+  .btn-remove:hover { background: #fecaca; }
+  .btn-add { background: rgba(42,127,255,0.06); color: var(--accent); border: 1.5px dashed rgba(42,127,255,0.4); border-radius: 10px; padding: 12px; width: 100%; cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; transition: 0.2s; margin-top: 10px; }
+  .btn-add:hover { background: rgba(42,127,255,0.12); border-color: var(--accent); }
+  .prest-total-badge { background: rgba(42,127,255,0.1); color: var(--accent); padding: 5px 12px; border-radius: 20px; font-weight: 700; font-size: 13px; white-space: nowrap; }
+
+  .garantie-control { display: flex; align-items: center; gap: 10px; }
+  .garantie-control input[type=number] { width: 80px; text-align: center; font-weight: 700; font-size: 16px; flex-shrink: 0; }
+  .garantie-note { font-size: 11px; color: var(--gray); margin-top: 6px; font-style: italic; }
+
+  .summary-card { background: var(--navy); border-radius: 14px; padding: 28px; color: white; margin-bottom: 20px; }
+  .summary-title { font-family: 'Playfair Display', serif; font-size: 16px; color: var(--gold); margin-bottom: 20px; }
+  .summary-line { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.08); font-size: 13px; }
+  .summary-line:last-child { border-bottom: none; }
+  .summary-line .lbl { color: var(--gray); }
+  .summary-line.total { padding-top: 16px; margin-top: 8px; border-top: 2px solid var(--gold); border-bottom: none; }
+  .summary-line.total .lbl { color: white; font-weight: 600; font-size: 15px; }
+  .summary-line.total .val { color: var(--gold); font-weight: 700; font-size: 20px; }
+
+  .quick-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { display: inline-block; padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 500; cursor: pointer; transition: 0.15s; user-select: none; }
+  .tag-blue { background: rgba(42,127,255,0.1); color: var(--accent); border: 1px solid rgba(42,127,255,0.15); }
+  .tag-blue:hover { background: rgba(42,127,255,0.22); }
+
+  .form-section { display: none; }
+  .form-section.active { display: block; animation: fadeIn 0.3s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  .actions-bar { display: flex; gap: 12px; justify-content: flex-end; padding: 24px 0; }
+  .alert { background: rgba(42,127,255,0.06); border: 1px solid rgba(42,127,255,0.2); border-radius: 10px; padding: 12px 16px; font-size: 13px; color: var(--blue); margin-bottom: 18px; }
+
+  /* ===== CONTRACT PREVIEW ===== */
+  #preview-section { display: none; }
+  .contract-preview { background: white; border-radius: 14px; padding: 56px 64px; box-shadow: 0 8px 40px rgba(10,22,40,0.12); position: relative; max-width: 920px; margin: 0 auto; font-size: 13px; line-height: 1.65; color: #1e2d4a; }
+  .contract-preview::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 6px; background: linear-gradient(90deg, var(--navy), var(--accent), var(--gold)); border-radius: 14px 14px 0 0; }
+
+  .cv-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 32px; padding-bottom: 24px; border-bottom: 2px solid var(--border); }
+  .cv-logo-area { display: flex; align-items: center; gap: 14px; }
+  .cv-logo-box { width: 54px; height: 54px; background: linear-gradient(135deg, var(--navy), var(--blue)); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 26px; flex-shrink: 0; }
+  .cv-company-name { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--navy); font-weight: 700; }
+  .cv-company-tag { font-size: 11px; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; margin-top: 2px; }
+  .cv-company-contacts { font-size: 12px; color: var(--gray); margin-top: 6px; line-height: 1.8; }
+  .cv-meta { text-align: right; }
+  .cv-contract-num { font-size: 20px; font-weight: 700; color: var(--navy); }
+  .cv-date { font-size: 12px; color: var(--gray); margin-top: 4px; }
+  .cv-badge { display: inline-block; background: rgba(42,127,255,0.1); color: var(--accent); padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; letter-spacing: 1px; margin-top: 8px; }
+
+  .cv-title-block { text-align: center; margin-bottom: 30px; }
+  .cv-title-big { font-family: 'Playfair Display', serif; font-size: 27px; color: var(--navy); font-weight: 700; }
+  .cv-title-sub { font-size: 13px; color: var(--gray); margin-top: 4px; }
+  .cv-title-line { width: 80px; height: 3px; background: linear-gradient(90deg, var(--accent), var(--gold)); border-radius: 2px; margin: 12px auto 0; }
+
+  .cv-parties { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 26px; }
+  .cv-party { border: 1.5px solid var(--border); border-radius: 10px; padding: 18px; }
+  .cv-party.prestataire { border-color: var(--navy); background: rgba(10,22,40,0.02); }
+  .cv-party.client { border-color: var(--accent); background: rgba(42,127,255,0.03); }
+  .cv-party-label { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
+  .cv-party.prestataire .cv-party-label { color: var(--navy); }
+  .cv-party.client .cv-party-label { color: var(--accent); }
+  .cv-party-name { font-weight: 700; font-size: 16px; color: var(--navy); margin-bottom: 8px; }
+  .cv-party-info { font-size: 12px; color: #4a5e7e; line-height: 1.9; }
+
+  .cv-section { margin: 24px 0 12px; }
+  .cv-section-title { font-family: 'Playfair Display', serif; font-size: 14px; color: var(--navy); font-weight: 600; padding: 9px 16px; background: linear-gradient(90deg, rgba(10,22,40,0.04), transparent); border-left: 4px solid var(--accent); border-radius: 0 6px 6px 0; }
+
+  .cv-chantier-box { background: #f8fafe; border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 4px; }
+  .cv-info-item label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gray); display: block; margin-bottom: 3px; }
+  .cv-info-item span { font-size: 13px; font-weight: 600; color: var(--navy); }
+
+  .cv-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  .cv-table thead tr { background: var(--navy); }
+  .cv-table th { color: white; padding: 10px 12px; text-align: left; font-weight: 600; font-size: 11px; letter-spacing: 0.5px; }
+  .cv-table th:first-child { border-radius: 8px 0 0 8px; }
+  .cv-table th:last-child { border-radius: 0 8px 8px 0; text-align: right; }
+  .cv-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .cv-table td:last-child { text-align: right; font-weight: 600; color: var(--navy); }
+  .cv-table tr:nth-child(even) td { background: rgba(240,244,250,0.4); }
+  .cv-desc-small { font-size: 11px; color: var(--gray); margin-top: 3px; }
+  .cv-totaux { display: flex; justify-content: flex-end; margin-top: 14px; }
+  .cv-totaux-box { min-width: 300px; }
+  .cv-total-row { display: flex; justify-content: space-between; padding: 7px 0; font-size: 13px; border-bottom: 1px solid var(--border); }
+  .cv-total-row:last-child { border-bottom: none; border-top: 2px solid var(--navy); margin-top: 6px; padding-top: 12px; font-size: 16px; font-weight: 700; color: var(--navy); }
+  .cv-total-row:last-child span:last-child { color: var(--accent); }
+
+  .cv-paiement-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-bottom: 14px; }
+  .cv-paiement-echeance { border: 1.5px solid var(--border); border-radius: 10px; padding: 16px; }
+  .cv-paiement-echeance.acompte { border-color: rgba(200,169,110,0.5); background: rgba(200,169,110,0.06); }
+  .cv-paiement-echeance.tranche2 { border-color: rgba(42,127,255,0.3); background: rgba(42,127,255,0.04); }
+  .cv-paiement-echeance.solde { border-color: rgba(34,197,94,0.4); background: rgba(34,197,94,0.04); }
+  .cv-ech-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--gray); margin-bottom: 6px; }
+  .cv-ech-amount { font-size: 19px; font-weight: 700; color: var(--navy); }
+  .cv-ech-detail { font-size: 11px; color: var(--gray); margin-top: 4px; }
+
+  .cv-articles { display: flex; flex-direction: column; gap: 10px; }
+  .cv-article { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .cv-article-title { background: rgba(10,22,40,0.04); padding: 8px 14px; font-weight: 700; font-size: 12.5px; color: var(--navy); border-bottom: 1px solid var(--border); }
+  .cv-article-body { padding: 10px 14px; font-size: 12.5px; color: #3a4e6e; line-height: 1.75; }
+
+  .cv-garantie-badge { display: inline-block; background: rgba(34,197,94,0.1); color: #16a34a; padding: 2px 10px; border-radius: 20px; font-weight: 700; font-size: 13px; border: 1px solid rgba(34,197,94,0.3); }
+  .cv-no-garantie-badge { display: inline-block; background: rgba(239,68,68,0.08); color: #dc2626; padding: 2px 10px; border-radius: 20px; font-weight: 700; font-size: 13px; border: 1px solid rgba(239,68,68,0.2); }
+
+  .cv-signatures { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-top: 40px; padding-top: 28px; border-top: 2px solid var(--border); }
+  .cv-sig-box { text-align: center; }
+  .cv-sig-area { border: 1.5px dashed var(--border); border-radius: 10px; height: 80px; margin-bottom: 12px; background: #fafbfe; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 8px; font-size: 11px; color: #ccc; }
+  .cv-sig-label { font-size: 12px; color: var(--gray); text-transform: uppercase; letter-spacing: 1px; line-height: 1.9; }
+  .cv-sig-name { font-weight: 700; color: var(--navy); font-size: 14px; text-transform: none; }
+  .cv-footer { text-align: center; margin-top: 28px; padding-top: 18px; border-top: 1px solid var(--border); font-size: 11px; color: var(--gray); line-height: 1.9; }
+  .cv-watermark { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%) rotate(-35deg); font-family: 'Playfair Display', serif; font-size: 70px; color: rgba(42,127,255,0.035); font-weight: 700; pointer-events: none; white-space: nowrap; z-index: 0; }
+
+  @media print {
+    header, .stepper, .actions-bar, .panels > div:nth-child(2), .form-section:not(#section4) { display: none !important; }
+    #section4 { display: block !important; }
+    #preview-section { display: block !important; }
+    .contract-preview { box-shadow: none; padding: 20px 28px; border-radius: 0; }
+    body { background: white; }
+    .container { padding: 0; }
+    .panels { display: block; }
+    @page { margin: 1.5cm; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-icon">🏗️</div>
+    <div>
+      <div class="logo-text">BlueLine Works</div>
+      <span class="logo-sub">Travaux & Finitions</span>
+    </div>
+  </div>
+  <div class="header-actions">
+    <button class="btn btn-ghost" onclick="resetForm()">🔄 Nouveau</button>
+    <button class="btn btn-primary" onclick="showPreview()">👁 Aperçu</button>
+    <button class="btn btn-gold" onclick="window.print()">🖨 Imprimer</button>
+  </div>
+</header>
+
+<div class="container">
+  <div class="page-title">Module Contrat</div>
+  <div class="page-sub">Créez des contrats professionnels complets pour vos chantiers en quelques minutes</div>
+
+  <div class="stepper">
+    <div class="step active" id="step1" onclick="goToStep(1)"><div class="step-num">1</div><div class="step-label">Client & Chantier</div></div>
+    <div class="step" id="step2" onclick="goToStep(2)"><div class="step-num">2</div><div class="step-label">Prestations</div></div>
+    <div class="step" id="step3" onclick="goToStep(3)"><div class="step-num">3</div><div class="step-label">Paiement & Garantie</div></div>
+    <div class="step" id="step4" onclick="goToStep(4)"><div class="step-num">4</div><div class="step-label">Aperçu Final</div></div>
+  </div>
+
+  <div class="panels">
+    <div>
+
+      <!-- STEP 1 -->
+      <div class="form-section active" id="section1">
+        <div class="panel">
+          <div class="panel-title"><div class="icon">👤</div> Informations Client</div>
+          <div class="form-grid">
+            <div class="field"><label>Nom complet / Société *</label><input type="text" id="clientNom" placeholder="M. Jean Dupont / SARL XYZ" oninput="updateSidebar()"></div>
+            <div class="field"><label>ICE / CIN / RC</label><input type="text" id="clientICE" placeholder="00123456789" oninput="updateSidebar()"></div>
+            <div class="field span2"><label>Adresse complète *</label><input type="text" id="clientAdresse" placeholder="123 Rue Mohamed V, Quartier Gauthier" oninput="updateSidebar()"></div>
+            <div class="field"><label>Ville</label><input type="text" id="clientVille" placeholder="Casablanca" oninput="updateSidebar()"></div>
+            <div class="field"><label>Code Postal</label><input type="text" id="clientCP" placeholder="20000" oninput="updateSidebar()"></div>
+            <div class="field"><label>Téléphone *</label><input type="tel" id="clientTel" placeholder="+212 6XX XXX XXX" oninput="updateSidebar()"></div>
+            <div class="field"><label>Email</label><input type="email" id="clientEmail" placeholder="client@email.com" oninput="updateSidebar()"></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title"><div class="icon">📍</div> Désignation du Chantier</div>
+          <div class="form-grid">
+            <div class="field span2"><label>Adresse du chantier *</label><input type="text" id="chantierAdresse" placeholder="Lotissement Al Wifaq, Villa N°12, Aïn Diab" oninput="updateSidebar()"></div>
+            <div class="field"><label>Ville du chantier</label><input type="text" id="chantierVille" placeholder="Casablanca" oninput="updateSidebar()"></div>
+            <div class="field"><label>Étage / Appartement</label><input type="text" id="chantierEtage" placeholder="3ème étage / Appt. 14" oninput="updateSidebar()"></div>
+            <div class="field"><label>Type de bien</label>
+              <select id="typeBien"><option>Villa</option><option>Appartement</option><option>Duplex</option><option>Commerce / Local</option><option>Bureau</option><option>Immeuble</option><option>Autre</option></select>
+            </div>
+            <div class="field"><label>Surface totale (m²)</label><input type="number" id="surfaceChantier" placeholder="120" min="1"></div>
+          </div>
+          <div class="section-divider">📅 Planification</div>
+          <div class="form-grid four">
+            <div class="field"><label>N° Contrat</label><input type="text" id="numContrat" placeholder="BLW-2025-001" oninput="updateSidebar()"></div>
+            <div class="field"><label>Date de signature</label><input type="date" id="dateSignature"></div>
+            <div class="field"><label>Date de début</label><input type="date" id="dateDebut"></div>
+            <div class="field"><label>Durée estimée (jours)</label><input type="number" id="dureeChantier" placeholder="15" min="1"></div>
+          </div>
+          <div class="section-divider">🏢 Informations BlueLine Works</div>
+          <div class="form-grid">
+            <div class="field"><label>Téléphone</label><input type="text" id="blTel" value="+212 5XX XXX XXX"></div>
+            <div class="field"><label>Email</label><input type="email" id="blEmail" value="worksblueline@gmail.com"></div>
+            <div class="field"><label>ICE</label><input type="text" id="blICE" value="003852374000069"></div>
+            <div class="field"><label>Adresse</label><input type="text" id="blAdresse" value="148 AV MOHAMED V, RESIDENCE NECTAR, ETAGE 1 N°013 – TANGER"></div>
+          </div>
+        </div>
+        <div class="actions-bar"><button class="btn btn-primary" onclick="goToStep(2)">Suivant : Prestations →</button></div>
+      </div>
+
+      <!-- STEP 2 -->
+      <div class="form-section" id="section2">
+        <div class="panel">
+          <div class="panel-title"><div class="icon">🔨</div> Détail des Prestations & Travaux</div>
+          <div class="alert">Ajoutez toutes les prestations. Utilisez les raccourcis à droite pour gagner du temps.</div>
+          <div class="prestations-list" id="prestationsList"></div>
+          <button class="btn-add" onclick="addPrestation()">+ Ajouter une prestation</button>
+        </div>
+        <div class="actions-bar">
+          <button class="btn btn-ghost" onclick="goToStep(1)">← Retour</button>
+          <button class="btn btn-primary" onclick="goToStep(3)">Suivant : Paiement →</button>
+        </div>
+      </div>
+
+      <!-- STEP 3 -->
+      <div class="form-section" id="section3">
+        <div class="panel">
+          <div class="panel-title"><div class="icon">💰</div> Conditions Financières & Paiement</div>
+          <div class="section-divider">📊 Échéancier de paiement</div>
+          <div class="form-grid four">
+            <div class="field"><label>Acompte (%)</label><input type="number" id="acompte" value="30" min="0" max="100" oninput="syncSolde()"></div>
+            <div class="field"><label>2ème tranche (%)</label><input type="number" id="tranche2" value="0" min="0" max="100" oninput="syncSolde()"></div>
+            <div class="field"><label>Solde livraison (%)</label><input type="number" id="solde" value="70" min="0" max="100" readonly></div>
+            <div class="field"><label>Mode de paiement</label>
+              <select id="modePaiement"><option>Virement bancaire</option><option>Espèces</option><option>Chèque</option><option>Virement ou Chèque</option><option>Mobile Money</option></select>
+            </div>
+          </div>
+          <div class="field" style="margin-top:14px;"><label>Coordonnées bancaires (RIB)</label><input type="text" id="rib" value="0116 4000 0019 2100 0067 9737"></div>
+
+          <div class="section-divider">🔧 Fournitures & Matériaux</div>
+          <div class="form-grid">
+            <div class="field"><label>Fournitures incluses ?</label>
+              <select id="fournitures">
+                <option value="non_incluses">Non incluses — à la charge du client</option>
+                <option value="incluses">Incluses dans le prix</option>
+                <option value="partielles">Partielles — voir détail</option>
+              </select>
+            </div>
+            <div class="field"><label>Matériaux à fournir par client</label><input type="text" id="materiauxDetail" placeholder="Carrelage, colle, joints, silicone…"></div>
+            <div class="field span2"><label>Eau & Électricité sur chantier</label>
+              <select id="eauElec">
+                <option value="client">À la charge du client (fournis par le client)</option>
+                <option value="blueline">À la charge de BlueLine Works (fournis par nous)</option>
+                <option value="partage">Partagés entre le client et BlueLine Works</option>
+                <option value="selon_cas">Selon disponibilité — client ou BlueLine Works</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="section-divider">🛡 Garantie des Travaux</div>
+          <div class="form-grid">
+            <div class="field">
+              <label>Durée de garantie *</label>
+              <div class="garantie-control">
+                <input type="number" id="garantieNb" value="2" min="0" max="120" oninput="updateSidebar()">
+                <select id="garantieUnite" style="flex:1;" oninput="updateSidebar()">
+                  <option value="mois">Mois</option>
+                  <option value="ans" selected>Ans</option>
+                </select>
+              </div>
+              <div class="garantie-note">Saisissez 0 pour "Sans garantie". Exemple : 6 mois, 1 an, 18 mois, 10 ans…</div>
+            </div>
+            <div class="field"><label>Type de garantie</label>
+              <select id="garantieType">
+                <option value="defauts">Défauts d'exécution</option>
+                <option value="bonne_fin">Bonne fin des travaux</option>
+                <option value="decennale">Garantie décennale</option>
+                <option value="aucune">Aucune</option>
+              </select>
+            </div>
+            <div class="field span2"><label>Exclusions de garantie</label>
+              <textarea id="exclusionsGarantie">La garantie ne couvre pas : l'usure normale des matériaux, les dommages causés par une mauvaise utilisation, les modifications effectuées par des tiers non mandatés, les dégâts des eaux provenant de l'extérieur du chantier.</textarea>
+            </div>
+          </div>
+
+          <div class="section-divider">📋 Clauses Supplémentaires</div>
+          <div class="form-grid full">
+            <div class="field"><label>Pénalités de retard de paiement</label><input type="text" id="penalitesRetard" value="1,5% par mois de retard sur les sommes dues"></div>
+            <div class="field"><label>Clause de résiliation</label>
+              <select id="clauseResiliation">
+                <option value="30j">Préavis de 30 jours par lettre recommandée</option>
+                <option value="15j">Préavis de 15 jours par lettre recommandée</option>
+                <option value="mutuel">D'un commun accord entre les parties</option>
+                <option value="aucune">Aucune clause</option>
+              </select>
+            </div>
+            <div class="field"><label>Juridiction compétente (litiges)</label><input type="text" id="juridiction" value="Tribunal de Commerce de Casablanca"></div>
+            <div class="field"><label>Notes & Observations particulières</label><textarea id="notes" placeholder="Conditions spéciales, horaires d'accès, remarques sur les matériaux…"></textarea></div>
+          </div>
+        </div>
+        <div class="actions-bar">
+          <button class="btn btn-ghost" onclick="goToStep(2)">← Retour</button>
+          <button class="btn btn-primary" onclick="goToStep(4)">Voir le contrat →</button>
+        </div>
+      </div>
+
+      <!-- STEP 4 -->
+      <div class="form-section" id="section4">
+        <div id="preview-section"><div class="contract-preview" id="contractPreview"></div></div>
+        <div class="actions-bar">
+          <button class="btn btn-ghost" onclick="goToStep(3)">← Modifier</button>
+          <button class="btn btn-primary" onclick="window.print()">🖨 Imprimer / PDF</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SIDEBAR -->
+    <div>
+      <div class="summary-card">
+        <div class="summary-title">📊 Récapitulatif</div>
+        <div class="summary-line"><span class="lbl">Client</span><span id="sum-client" style="font-size:12px;max-width:180px;text-align:right;">—</span></div>
+        <div class="summary-line"><span class="lbl">Chantier</span><span id="sum-chantier" style="font-size:12px;">—</span></div>
+        <div class="summary-line"><span class="lbl">N° Contrat</span><span id="sum-num" style="font-size:12px;">—</span></div>
+        <div class="summary-line"><span class="lbl">Prestations</span><span id="sum-nb">0</span></div>
+        <div class="summary-line"><span class="lbl">Sous-total HT</span><span id="sum-ht">0,00 MAD</span></div>
+        <div class="summary-line"><span class="lbl">TVA (20%)</span><span id="sum-tva">0,00 MAD</span></div>
+        <div class="summary-line"><span class="lbl">Acompte dû</span><span id="sum-acompte">0,00 MAD</span></div>
+        <div class="summary-line"><span class="lbl">Garantie</span><span id="sum-garantie" style="font-size:12px;">2 ans</span></div>
+        <div class="summary-line total"><span class="lbl">TOTAL TTC</span><span class="val" id="sum-ttc">0,00 MAD</span></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title" style="font-size:15px;margin-bottom:16px;"><div class="icon" style="background:linear-gradient(135deg,var(--gold),#b8944e);">🔨</div>Raccourcis Prestations</div>
+        <div class="quick-tags">
+          <span class="tag tag-blue" onclick="quickAdd('Pose de carrelage')">🔲 Carrelage</span>
+          <span class="tag tag-blue" onclick="quickAdd('Pose de marbre')">🪨 Marbre</span>
+          <span class="tag tag-blue" onclick="quickAdd('Plan de travail cuisine')">🍳 Plan de travail</span>
+          <span class="tag tag-blue" onclick="quickAdd('Revêtement mural faïence')">🧱 Faïence</span>
+          <span class="tag tag-blue" onclick="quickAdd('Finitions peinture')">🎨 Peinture</span>
+          <span class="tag tag-blue" onclick="quickAdd('Pose de parquet')">🌳 Parquet</span>
+          <span class="tag tag-blue" onclick="quickAdd('Enduit & crépi')">🏠 Enduit</span>
+          <span class="tag tag-blue" onclick="quickAdd('Joints & silicone')">🔧 Joints</span>
+          <span class="tag tag-blue" onclick="quickAdd('Dépose & démolition')">🔨 Démolition</span>
+          <span class="tag tag-blue" onclick="quickAdd('Préparation des surfaces')">🧹 Préparation</span>
+          <span class="tag tag-blue" onclick="quickAdd('Seuils & plinthes')">📐 Seuils</span>
+          <span class="tag tag-blue" onclick="quickAdd('Douche à l\'italienne')">🚿 Douche</span>
+          <span class="tag tag-blue" onclick="quickAdd('Escalier marbre')">🪜 Escalier</span>
+          <span class="tag tag-blue" onclick="quickAdd('Terrasse extérieure')">🌿 Terrasse</span>
+          <span class="tag tag-blue" onclick="quickAdd('Main d\'œuvre qualifiée')">👷 Main d'œuvre</span>
+          <span class="tag tag-blue" onclick="quickAdd('Transport & déplacement')">🚛 Transport</span>
+        </div>
+      </div>
+
+      <div class="panel" style="margin-top:20px;">
+        <div class="panel-title" style="font-size:15px;margin-bottom:16px;"><div class="icon" style="background:linear-gradient(135deg,#22c55e,#16a34a);">🛡</div>Garantie rapide</div>
+        <div class="quick-tags">
+          <span class="tag tag-blue" onclick="setGarantie(0,'mois')">❌ Sans garantie</span>
+          <span class="tag tag-blue" onclick="setGarantie(3,'mois')">3 mois</span>
+          <span class="tag tag-blue" onclick="setGarantie(6,'mois')">6 mois</span>
+          <span class="tag tag-blue" onclick="setGarantie(1,'ans')">1 an</span>
+          <span class="tag tag-blue" onclick="setGarantie(2,'ans')">2 ans ✓</span>
+          <span class="tag tag-blue" onclick="setGarantie(5,'ans')">5 ans</span>
+          <span class="tag tag-blue" onclick="setGarantie(10,'ans')">10 ans</span>
+        </div>
+        <div style="font-size:11px;color:var(--gray);margin-top:10px;">Ou saisissez librement dans l'étape 3</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+let prestations = [];
+let prestationCounter = 0;
+
+const categories = [
+  'Pose de carrelage','Pose de marbre','Plan de travail cuisine',
+  'Revêtement mural faïence','Finitions peinture','Pose de parquet',
+  'Enduit & crépi','Joints & silicone','Dépose & démolition',
+  'Préparation des surfaces','Seuils & plinthes','Douche à l\'italienne',
+  'Escalier marbre','Terrasse extérieure','Main d\'œuvre qualifiée',
+  'Transport & déplacement','Autre'
+];
+
+window.onload = () => {
+  const y = new Date().getFullYear();
+  document.getElementById('numContrat').value = 'BLW-' + y + '-' + String(Math.floor(Math.random()*900)+100);
+  document.getElementById('dateSignature').value = new Date().toISOString().split('T')[0];
+  addPrestation();
+  updateSidebar();
+};
+
+function goToStep(n) {
+  document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
+  document.getElementById('section' + n).classList.add('active');
+  document.querySelectorAll('.step').forEach((s, i) => {
+    s.classList.remove('active','done');
+    if (i+1 < n) s.classList.add('done');
+    else if (i+1 === n) s.classList.add('active');
+  });
+  if (n === 4) { document.getElementById('preview-section').style.display = 'block'; renderContract(); }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function addPrestation(nom='') {
+  const id = ++prestationCounter;
+  prestations.push({ id, nom: nom||categories[0], desc:'', qte:1, unite:'m²', pu:0 });
+  renderPrestations();
+}
+
+function quickAdd(nom) { goToStep(2); addPrestation(nom); }
+
+function setGarantie(nb, unite) {
+  if (document.getElementById('garantieNb')) { document.getElementById('garantieNb').value = nb; document.getElementById('garantieUnite').value = unite; updateSidebar(); }
+}
+
+function removePrestation(id) { prestations = prestations.filter(p => p.id !== id); renderPrestations(); }
+
+function renderPrestations() {
+  const list = document.getElementById('prestationsList');
+  list.innerHTML = '';
+  prestations.forEach(p => {
+    const total = (p.qte * p.pu).toFixed(2);
+    list.innerHTML += `<div class="prestation-item" id="prest-${p.id}">
+      <div class="prestation-header">
+        <select onchange="upd(${p.id},'nom',this.value)" style="font-weight:600;">
+          ${categories.map(c=>`<option ${c===p.nom?'selected':''}>${c}</option>`).join('')}
+        </select>
+        <span class="prest-total-badge">${parseFloat(total).toLocaleString('fr-FR',{minimumFractionDigits:2})} MAD</span>
+        <button class="btn-remove" onclick="removePrestation(${p.id})">×</button>
+      </div>
+      <div class="prestation-details">
+        <div class="field"><label>Description / Détail</label><input type="text" value="${p.desc}" placeholder="Ex: Marbre Sahara 60×60, jointoiement gris" onchange="upd(${p.id},'desc',this.value)"></div>
+        <div class="field"><label>Quantité</label><input type="number" value="${p.qte}" min="0" step="0.5" oninput="upd(${p.id},'qte',parseFloat(this.value)||0)"></div>
+        <div class="field"><label>Unité</label>
+          <select onchange="upd(${p.id},'unite',this.value)">
+            ${['m²','ml','m³','unité','forfait','heure','jour','kg'].map(u=>`<option ${u===p.unite?'selected':''}>${u}</option>`).join('')}
+          </select>
+        </div>
+        <div class="field"><label>P.U. HT (MAD)</label><input type="number" value="${p.pu}" min="0" step="10" oninput="upd(${p.id},'pu',parseFloat(this.value)||0)"></div>
+      </div>
+    </div>`;
+  });
+  updateSidebar();
+}
+
+function upd(id, field, value) {
+  const p = prestations.find(x => x.id === id);
+  if (p) { p[field] = value; renderPrestations(); }
+}
+
+function syncSolde() {
+  const a = parseFloat(document.getElementById('acompte').value)||0;
+  const t = parseFloat(document.getElementById('tranche2').value)||0;
+  document.getElementById('solde').value = Math.max(0, 100-a-t);
+  updateSidebar();
+}
+
+function getHT() { return prestations.reduce((s,p)=>s+p.qte*p.pu,0); }
+function getTVA() { return getHT()*0.20; }
+function getTTC() { return getHT()+getTVA(); }
+function fmt(n) { return n.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})+' MAD'; }
+
+function getGarantieText() {
+  const nb = parseInt(document.getElementById('garantieNb')?.value||0);
+  const unite = document.getElementById('garantieUnite')?.value||'ans';
+  if (nb===0) return 'Sans garantie';
+  return nb+' '+(unite==='ans'?(nb>1?'ans':'an'):'mois');
+}
+
+function updateSidebar() {
+  const ht=getHT(),tva=getTVA(),ttc=getTTC();
+  const acompte=parseFloat(document.getElementById('acompte')?.value||30);
+  document.getElementById('sum-ht').textContent=fmt(ht);
+  document.getElementById('sum-tva').textContent=fmt(tva);
+  document.getElementById('sum-ttc').textContent=fmt(ttc);
+  document.getElementById('sum-nb').textContent=prestations.length;
+  document.getElementById('sum-acompte').textContent=fmt(ttc*acompte/100);
+  document.getElementById('sum-garantie').textContent=getGarantieText();
+  document.getElementById('sum-client').textContent=document.getElementById('clientNom')?.value||'—';
+  document.getElementById('sum-chantier').textContent=document.getElementById('chantierVille')?.value||'—';
+  document.getElementById('sum-num').textContent=document.getElementById('numContrat')?.value||'—';
+}
+
+function renderContract() {
+  const g = id => (document.getElementById(id)?.value||'').trim();
+  const ht=getHT(),tva=getTVA(),ttc=getTTC();
+  const acompte=parseFloat(g('acompte'))||30;
+  const tranche2=parseFloat(g('tranche2'))||0;
+  const solde=100-acompte-tranche2;
+  const montAcompte=ttc*acompte/100;
+  const montT2=ttc*tranche2/100;
+  const montSolde=ttc*solde/100;
+  const garantieNb=parseInt(g('garantieNb')||0);
+  const garantieUnite=g('garantieUnite')||'ans';
+  const garantieText=getGarantieText();
+
+  const dateSignature = g('dateSignature') ? new Date(g('dateSignature')).toLocaleDateString('fr-FR') : new Date().toLocaleDateString('fr-FR');
+  const dateDebut = g('dateDebut') ? new Date(g('dateDebut')).toLocaleDateString('fr-FR') : '—';
+  const dateFin = g('dateDebut') && g('dureeChantier')
+    ? new Date(new Date(g('dateDebut')).getTime()+parseInt(g('dureeChantier'))*86400000).toLocaleDateString('fr-FR') : '—';
+
+  const fournituresText = {
+    non_incluses:'Non incluses dans le présent contrat — à la charge exclusive du client',
+    incluses:'Incluses dans le prix contractuel (voir détail des prestations)',
+    partielles:'Partiellement incluses — se référer au détail des prestations'
+  }[g('fournitures')] || 'Non incluses';
+
+  const resiliationText = {
+    '30j':'Le présent contrat peut être résilié par l\'une ou l\'autre des parties moyennant un préavis de <strong>30 jours</strong> notifié par lettre recommandée avec accusé de réception.',
+    '15j':'Le présent contrat peut être résilié par l\'une ou l\'autre des parties moyennant un préavis de <strong>15 jours</strong> notifié par lettre recommandée avec accusé de réception.',
+    mutuel:'Le présent contrat ne peut être résilié que d\'un <strong>commun accord écrit</strong> entre les deux parties.',
+    aucune:'Aucune clause de résiliation anticipée n\'est prévue dans ce contrat.'
+  }[g('clauseResiliation')] || '';
+
+  const rows = prestations.map((p,i)=>`
+    <tr>
+      <td><strong>${i+1}. ${p.nom}</strong>${p.desc?`<div class="cv-desc-small">${p.desc}</div>`:''}</td>
+      <td>${p.qte} ${p.unite}</td>
+      <td>${p.pu.toLocaleString('fr-FR',{minimumFractionDigits:2})} MAD</td>
+      <td>20%</td>
+      <td>${(p.qte*p.pu).toLocaleString('fr-FR',{minimumFractionDigits:2})} MAD</td>
+    </tr>`).join('');
+
+  const t2Block = tranche2>0 ? `<div class="cv-paiement-echeance tranche2">
+    <div class="cv-ech-label">2ème tranche (${tranche2}%)</div>
+    <div class="cv-ech-amount">${fmt(montT2)}</div>
+    <div class="cv-ech-detail">En cours de chantier</div>
+  </div>` : '';
+
+  const garantieBadge = garantieNb===0
+    ? `<span class="cv-no-garantie-badge">Sans garantie</span>`
+    : `<span class="cv-garantie-badge">${garantieText}</span>`;
+
+  document.getElementById('contractPreview').innerHTML = `
+    <div class="cv-watermark">BLUELINE WORKS</div>
+
+    <div class="cv-header">
+      <div class="cv-logo-area">
+        <div class="cv-logo-box">🏗️</div>
+        <div>
+          <div class="cv-company-name">BlueLine Works</div>
+          <div class="cv-company-tag">Céramique · Marbre · Finitions · Plans de travail</div>
+          <div class="cv-company-contacts">
+            📞 ${g('blTel')||'+212 5XX XXX XXX'}&nbsp;&nbsp;✉ ${g('blEmail')||'worksblueline@gmail.com'}<br>
+            ${g('blAdresse')?'📍 '+g('blAdresse')+'<br>':'📍 148 AV MOHAMED V, RESIDENCE NECTAR, ETAGE 1 N°013 – TANGER<br>'}
+            ${g('blICE')?'🏛 ICE : '+g('blICE'):'🏛 ICE : 003852374000069'}
+          </div>
+        </div>
+      </div>
+      <div class="cv-meta">
+        <div class="cv-contract-num">N° ${g('numContrat')||'BLW-2025-001'}</div>
+        <div class="cv-date">Date de signature : ${dateSignature}</div>
+        <div><span class="cv-badge">CONTRAT DE TRAVAUX</span></div>
+      </div>
+    </div>
+
+    <div class="cv-title-block">
+      <div class="cv-title-big">Contrat de Prestations de Travaux</div>
+      <div class="cv-title-sub">Pose de carrelage, marbre, finitions et travaux connexes</div>
+      <div class="cv-title-line"></div>
+    </div>
+
+    <div class="cv-section"><div class="cv-section-title">🤝 Parties au Contrat</div></div>
+    <div class="cv-parties">
+      <div class="cv-party prestataire">
+        <div class="cv-party-label">Le Prestataire</div>
+        <div class="cv-party-name">BlueLine Works</div>
+        <div class="cv-party-info">
+          Spécialiste en pose de carrelage, marbre,<br>finitions et plans de travail<br>
+          <strong>Tél :</strong> ${g('blTel')||'+212 5XX XXX XXX'}<br>
+          <strong>Email :</strong> ${g('blEmail')||'worksblueline@gmail.com'}<br>
+          ${g('blICE')?'<strong>ICE :</strong> '+g('blICE')+'<br>':'<strong>ICE :</strong> 003852374000069<br>'}
+          ${g('blAdresse')?'<strong>Adresse :</strong> '+g('blAdresse'):'<strong>Adresse :</strong> 148 AV MOHAMED V, RESIDENCE NECTAR, ETAGE 1 N°013 – TANGER'}
+        </div>
+      </div>
+      <div class="cv-party client">
+        <div class="cv-party-label">Le Client</div>
+        <div class="cv-party-name">${g('clientNom')||'—'}</div>
+        <div class="cv-party-info">
+          ${g('clientAdresse')?'<strong>Adresse :</strong> '+g('clientAdresse')+(g('clientVille')?' — '+g('clientVille'):'')+(g('clientCP')?' '+g('clientCP'):'')+'<br>':''}
+          ${g('clientTel')?'<strong>Tél :</strong> '+g('clientTel')+'<br>':''}
+          ${g('clientEmail')?'<strong>Email :</strong> '+g('clientEmail')+'<br>':''}
+          ${g('clientICE')?'<strong>CIN/ICE :</strong> '+g('clientICE'):''}
+        </div>
+      </div>
+    </div>
+
+    <div class="cv-section"><div class="cv-section-title">📍 Description du Chantier</div></div>
+    <div class="cv-chantier-box">
+      <div class="cv-info-item"><label>Adresse chantier</label><span>${g('chantierAdresse')||'—'}${g('chantierEtage')?' — '+g('chantierEtage'):''}</span></div>
+      <div class="cv-info-item"><label>Ville</label><span>${g('chantierVille')||'—'}</span></div>
+      <div class="cv-info-item"><label>Type de bien</label><span>${g('typeBien')||'—'}</span></div>
+      <div class="cv-info-item"><label>Surface totale</label><span>${g('surfaceChantier')?g('surfaceChantier')+' m²':'—'}</span></div>
+      <div class="cv-info-item"><label>Date de début</label><span>${dateDebut}</span></div>
+      <div class="cv-info-item"><label>Fin estimée</label><span>${dateFin}${g('dureeChantier')?' ('+g('dureeChantier')+' j.)':''}</span></div>
+    </div>
+
+    <div class="cv-section"><div class="cv-section-title">🔨 Détail des Prestations & Travaux</div></div>
+    <table class="cv-table">
+      <thead><tr><th style="width:40%">Désignation</th><th>Qté</th><th>P.U. HT</th><th>TVA</th><th>Montant HT</th></tr></thead>
+      <tbody>${rows||'<tr><td colspan="5" style="text-align:center;color:var(--gray);padding:18px">Aucune prestation</td></tr>'}</tbody>
+    </table>
+    <div class="cv-totaux">
+      <div class="cv-totaux-box">
+        <div class="cv-total-row"><span>Sous-total HT</span><span>${fmt(ht)}</span></div>
+        <div class="cv-total-row"><span>TVA (20%)</span><span>${fmt(tva)}</span></div>
+        <div class="cv-total-row"><span><strong>TOTAL TTC</strong></span><span>${fmt(ttc)}</span></div>
+      </div>
+    </div>
+
+    <div class="cv-section"><div class="cv-section-title">💰 Conditions & Échéancier de Paiement</div></div>
+    <div class="cv-paiement-grid">
+      <div class="cv-paiement-echeance acompte">
+        <div class="cv-ech-label">Acompte à la commande (${acompte}%)</div>
+        <div class="cv-ech-amount">${fmt(montAcompte)}</div>
+        <div class="cv-ech-detail">Dû à la signature du contrat</div>
+      </div>
+      ${t2Block}
+      <div class="cv-paiement-echeance solde">
+        <div class="cv-ech-label">Solde à la livraison (${solde}%)</div>
+        <div class="cv-ech-amount">${fmt(montSolde)}</div>
+        <div class="cv-ech-detail">À la réception & signature PV</div>
+      </div>
+    </div>
+    <p style="font-size:13px;margin-top:10px;"><strong>Mode de paiement :</strong> ${g('modePaiement')||'Virement bancaire'}${g('rib')?'<br><strong>Coordonnées bancaires :</strong> '+g('rib'):''}</p>
+
+    <div class="cv-section"><div class="cv-section-title">📋 Conditions Générales & Clauses Contractuelles</div></div>
+    <div class="cv-articles">
+
+      <div class="cv-article">
+        <div class="cv-article-title">Article 1 — Objet du contrat</div>
+        <div class="cv-article-body">Le présent contrat a pour objet la réalisation par <strong>BlueLine Works</strong> (ci-après le "Prestataire") des travaux de pose de carrelage, marbre, finitions et travaux connexes décrits dans le tableau des prestations, au bénéfice de <strong>${g('clientNom')||'le Client'}</strong> (ci-après le "Client"), sur le chantier situé à l'adresse indiquée. Le Prestataire s'engage à exécuter ces travaux dans les règles de l'art, avec tout le soin et le professionnalisme requis.</div>
+      </div>
+
+      <div class="cv-article">
+        <div class="cv-article-title">Article 2 — Fournitures & Matériaux</div>
+        <div class="cv-article-body">
+          <strong>Fournitures :</strong> ${fournituresText}.<br>
+          ${g('materiauxDetail')?'<strong>Matériaux à fournir par le client :</strong> '+g('materiauxDetail')+'.<br>':''}
+          ${(() => {
+            const eauElec = g('eauElec');
+            if (!eauElec || eauElec === 'client') return '<strong>Eau & Électricité :</strong> Le Client s\'engage à mettre à disposition, à ses frais, l\'eau et l\'électricité nécessaires à la réalisation des travaux.';
+            if (eauElec === 'blueline') return '<strong>Eau & Électricité :</strong> BlueLine Works prendra en charge la fourniture de l\'eau et de l\'électricité nécessaires à la réalisation des travaux, incluse dans le prix contractuel.';
+            if (eauElec === 'partage') return '<strong>Eau & Électricité :</strong> La fourniture de l\'eau et de l\'électricité sera partagée entre le Client et BlueLine Works selon les disponibilités sur chantier.';
+            return '<strong>Eau & Électricité :</strong> La fourniture de l\'eau et de l\'électricité sera assurée selon disponibilité par le Client ou par BlueLine Works, sans impact sur le prix contractuel.';
+          })()}<br>
+          Les matériaux fournis par le Client doivent être disponibles sur chantier au minimum <strong>24 heures avant</strong> le début des travaux concernés. Tout retard de livraison des matériaux imputable au Client pourra entraîner un décalage du planning et/ou une facturation complémentaire.
+        </div>
+      </div>
+
+      <div class="cv-article">
+        <div class="cv-article-title">Article 3 — Délais d'exécution</div>
+        <div class="cv-article-body">Les travaux débuteront le <strong>${dateDebut}</strong> et se termineront le <strong>${dateFin}</strong>${g('dureeChantier')?' (durée estimée : <strong>'+g('dureeChantier')+' jours ouvrables</strong>)':''}. Ces délais sont donnés de bonne foi à titre indicatif et peuvent être prolongés en cas de : (i) force majeure, (ii) retard de livraison des matériaux non imputable au Prestataire, (iii) mauvaises conditions climatiques, (iv) modifications demandées par le Client en cours de chantier, ou (v) arrêt de chantier causé par le Client. Tout arrêt injustifié imputé au Client fera l'objet d'une facturation complémentaire couvrant les frais de mobilisation et d'immobilisation des équipes.</div>
+      </div>
+
+      <div class="cv-article">
+        <div class="cv-article-title">Article 4 — Garantie des travaux</div>
+        <div class="cv-article-body">
+          ${garantieNb===0
+            ? `Les travaux objets du présent contrat sont réalisés ${garantieBadge}. Le Client reconnaît avoir été expressément informé de cette absence de garantie contractuelle et l'accepte. Cette disposition ne remet pas en cause les obligations légales du Prestataire telles que définies par la législation marocaine en vigueur.`
+            : `Les travaux sont couverts par une garantie ${garantieBadge} à compter de la date de réception et de signature du procès-verbal de réception, contre tout défaut d'exécution directement imputable au Prestataire.`
+          }<br><br>
+          <strong>Exclusions de garantie :</strong> ${g('exclusionsGarantie')||'Usure normale, mauvaise utilisation, modifications par des tiers.'}
+        </div>
+      </div>
+
+      <div class="cv-article">
+        <div class="cv-article-title">Article 5 — Réception des travaux</div>
+        <div class="cv-article-body">La réception des travaux est effectuée contradictoirement à l'issue des travaux. Un <strong>procès-verbal de réception</strong> sera établi et signé par les deux parties. Le solde du contrat (<strong>${solde}%</strong> soit <strong>${fmt(montSolde)}</strong>) est exigible immédiatement à la signature de ce procès-verbal. Toute réserve devra être notifiée par écrit dans les <strong>48 heures</strong> suivant la fin des travaux ; l'absence de réserve dans ce délai vaut acceptation définitive. Les travaux réservés feront l'objet d'une reprise dans un délai convenu entre les parties.</div>
+      </div>
+
+      <div class="cv-article">
+        <div class="cv-article-title">Article 6 — Retards de paiement</div>
+        <div class="cv-article-body">Tout retard de paiement entraînera l'application de pénalités de retard au taux de <strong>${g('penalitesRetard')||'1,5% par mois'}</strong>, calculées à partir du lendemain de la date d'échéance, sans qu'une mise en demeure préalable soit nécessaire. Le Prestataire se réserve le droit de <strong>suspendre les travaux</strong> en cas de non-paiement après mise en demeure restée sans effet pendant 72 heures. Les frais de recouvrement éventuels seront à la charge du Client.</div>
+      </div>
+
+      <div class="cv-article">
+        <div class="cv-article-title">Article 7 — Résiliation du contrat</div>
+        <div class="cv-article-body">${resiliationText} En cas de résiliation anticipée à l'initiative du Client, les travaux déjà réalisés seront facturés au prorata de leur avancement constaté contradictoirement, et l'acompte versé restera acquis au Prestataire à titre d'indemnité forfaitaire de dédit couvrant les préjudices subis (mobilisation du matériel, main-d'œuvre réservée, sous-traitants engagés, etc.).</div>
+      </div>
+
+      <div class="cv-article">
+        <div class="cv-article-title">Article 8 — Sécurité, accès et obligations du client</div>
+        <div class="cv-article-body">Le Prestataire s'engage à : (i) respecter les règles de sécurité en vigueur, (ii) maintenir le chantier dans un état de propreté acceptable, (iii) protéger les zones adjacentes non concernées par les travaux. Le Client s'engage à : (i) faciliter l'accès au chantier aux horaires convenus (généralement 8h00–18h00, du lundi au samedi), (ii) évacuer les meubles et objets gênants avant le début des travaux, (iii) informer le Prestataire de toute contrainte particulière (copropriété, voisinage, etc.).</div>
+      </div>
+
+      <div class="cv-article">
+        <div class="cv-article-title">Article 9 — Responsabilité & Assurance</div>
+        <div class="cv-article-body">Le Prestataire déclare être couvert par une assurance responsabilité civile professionnelle couvrant les travaux objets du présent contrat. Sa responsabilité ne peut être engagée pour : les dommages résultant d'une mauvaise utilisation des ouvrages réalisés, des modifications effectuées par des tiers non mandatés, des vices cachés dans les matériaux fournis par le Client, ou des sinistres survenus après l'expiration de la garantie contractuelle.</div>
+      </div>
+
+      <div class="cv-article">
+        <div class="cv-article-title">Article 10 — Protection des données personnelles</div>
+        <div class="cv-article-body">Les données personnelles collectées dans le cadre de ce contrat (nom, adresse, coordonnées) sont utilisées exclusivement pour la gestion de la relation contractuelle entre BlueLine Works et le Client. Elles ne seront en aucun cas cédées à des tiers. Le Client dispose d'un droit d'accès, de rectification et de suppression de ses données conformément à la législation en vigueur.</div>
+      </div>
+
+      <div class="cv-article">
+        <div class="cv-article-title">Article 11 — Règlement des litiges & Juridiction</div>
+        <div class="cv-article-body">En cas de différend relatif à l'exécution ou à l'interprétation du présent contrat, les parties s'engagent à rechercher une <strong>solution amiable</strong> dans un délai de 30 jours à compter de la notification du différend. À défaut d'accord amiable, le litige sera porté exclusivement devant le <strong>${g('juridiction')||'Tribunal de Commerce de Casablanca'}</strong>, nonobstant pluralité de défendeurs ou appel en garantie, même pour les procédures d'urgence ou conservatoires.</div>
+      </div>
+
+      ${g('notes')?`<div class="cv-article">
+        <div class="cv-article-title">Notes & Observations Particulières</div>
+        <div class="cv-article-body">${g('notes')}</div>
+      </div>`:''}
+
+    </div>
+
+    <div style="margin-top:24px;padding:14px 18px;background:rgba(42,127,255,0.04);border:1px solid rgba(42,127,255,0.15);border-radius:8px;font-size:12.5px;color:var(--text);">
+      <strong>Fait à _______________</strong>, le ${dateSignature}, en deux (2) exemplaires originaux, dont un remis à chacune des parties.
+    </div>
+
+    <div class="cv-signatures">
+      <div class="cv-sig-box">
+        <div class="cv-sig-area">Signature & Cachet</div>
+        <div class="cv-sig-label">Le Prestataire<br><span class="cv-sig-name">BlueLine Works</span><br>Date : _______________</div>
+      </div>
+      <div class="cv-sig-box">
+        <div class="cv-sig-area">"Lu et approuvé"</div>
+        <div class="cv-sig-label">Le Client<br><span class="cv-sig-name">${g('clientNom')||'Client'}</span><br>Date : _______________</div>
+      </div>
+    </div>
+
+    <div class="cv-footer">
+      <strong>BlueLine Works</strong> — Spécialiste Pose Céramique, Marbre & Finitions — Plans de travail cuisine<br>
+      ${g('blTel')||'+212 5XX XXX XXX'} | ${g('blEmail')||'worksblueline@gmail.com'}${g('blICE')?' | ICE : '+g('blICE'):' | ICE : 003852374000069'}<br>
+      <em>Document généré le ${new Date().toLocaleDateString('fr-FR')} à ${new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})} — Ce contrat a valeur juridique une fois signé par les deux parties.</em>
+    </div>
+  `;
+}
+
+function showPreview() { goToStep(4); }
+function resetForm() { if(confirm('Nouveau contrat ? Les données actuelles seront perdues.')) location.reload(); }
+</script>
+</body>
+</html>

@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 from rest_framework_simplejwt.tokens import AccessToken
 from unittest.mock import AsyncMock, MagicMock
 
-from facturation_backend.asgi import application
+from contracts_backend.asgi import application
 from ws.jwt_middleware import (
     _AwaitableUser,
     SimpleJwtTokenAuthMiddleware,
