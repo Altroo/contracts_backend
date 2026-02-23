@@ -1,0 +1,69 @@
+# Production docker-compose configuration
+
+services:
+  web:
+    build: .
+    container_name: contracts_web
+    restart: always
+    command: daphne -b 0.0.0.0 -p 8000 contracts_backend.asgi:application
+    ports:
+      - "8001:8000"
+    env_file:
+      - .env
+    volumes:
+      - ./media:/app/media
+      - ./static:/app/static
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8000/api/health/ || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  celery:
+    build: .
+    container_name: contracts_celery
+    restart: always
+    command: celery -A contracts_backend worker --loglevel=info --concurrency=32 -E -P gevent
+    env_file:
+      - .env
+    volumes:
+      - ./media:/app/media
+      - ./static:/app/static
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - backend
+
+  db:
+    image: postgres:17
+    container_name: contracts_db
+    restart: always
+    expose:
+      - "5432"
+    env_file:
+      - .env
+    volumes:
+      - contracts_db_data:/var/lib/postgresql/data
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER:-postgres} -d $${POSTGRES_DB:-postgres}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+volumes:
+  contracts_db_data:
+
+networks:
+  backend:
+    driver: bridge
+

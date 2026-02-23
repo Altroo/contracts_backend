@@ -1,0 +1,2084 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CASA DI LUSSO – Générateur de Contrats Professionnel</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #B8973A;
+  --gold-light: #D4AF5A;
+  --gold-pale: #F7F0E0;
+  --gold-subtle: #FAF6EC;
+  --dark: #0F0F1A;
+  --dark2: #1A1A2E;
+  --dark3: #242438;
+  --ink: #1C1C2E;
+  --cream: #FEFCF7;
+  --cream2: #F9F5EC;
+  --muted: #6B6B80;
+  --border: #E2D9C8;
+  --border2: #EDE8DA;
+  --red: #B5341A;
+  --red-pale: #FDF0EC;
+  --green: #1E7A4A;
+  --green-pale: #EEF7F2;
+  --blue: #1A3A6E;
+  --shadow-sm: 0 1px 4px rgba(15,15,26,0.06);
+  --shadow: 0 4px 20px rgba(15,15,26,0.08);
+  --shadow-lg: 0 16px 56px rgba(15,15,26,0.14);
+}
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  min-height: 100vh;
+  font-size: 13px;
+}
+
+/* ───── HEADER ───── */
+.header {
+  background: var(--dark);
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  border-bottom: 1px solid rgba(184,151,58,0.2);
+}
+.hlogo { display:flex; align-items:center; gap:14px; }
+.hlogo-mark {
+  width: 36px; height: 36px;
+  border: 1.5px solid var(--gold);
+  border-radius: 6px;
+  display: flex; align-items:center; justify-content:center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px; font-weight: 700;
+  color: var(--gold);
+  letter-spacing: -0.5px;
+}
+.hlogo-text { font-family:'Cormorant Garamond', serif; font-size:18px; font-weight:700; color:var(--gold); letter-spacing:2px; line-height:1; }
+.hlogo-sub { font-size:10px; color:#666; font-weight:400; letter-spacing:1.5px; text-transform:uppercase; margin-top:2px; }
+.header-right { display:flex; align-items:center; gap:16px; }
+.lang-pill {
+  display:flex; gap:2px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 20px;
+  padding: 3px;
+}
+.lbtn {
+  padding: 4px 14px;
+  border: none; border-radius: 16px;
+  font-family:'Inter',sans-serif; font-size:12px; font-weight:600;
+  cursor:pointer; transition:all 0.2s;
+  background: transparent; color: #666;
+}
+.lbtn.active { background: var(--gold); color: var(--dark); }
+
+/* ───── LAYOUT ───── */
+.layout {
+  display: grid;
+  grid-template-columns: 400px 1fr;
+  min-height: calc(100vh - 64px);
+}
+
+/* ───── SIDEBAR ───── */
+.sidebar {
+  background: #fff;
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  max-height: calc(100vh - 64px);
+  position: sticky;
+  top: 64px;
+}
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-track { background: transparent; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius:2px; }
+
+.sb-inner { padding: 24px 24px 48px; }
+
+/* Steps nav */
+.steps-nav {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 3px;
+  margin-bottom: 24px;
+  background: var(--cream2);
+  border-radius: 10px;
+  padding: 4px;
+  border: 1px solid var(--border2);
+}
+.snav {
+  padding: 8px 4px;
+  text-align: center;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  user-select: none;
+  line-height: 1.3;
+}
+.snav .sn { display:block; font-size:8px; opacity:0.6; margin-bottom:2px; }
+.snav.active { background: var(--dark); color: var(--gold); }
+.snav:not(.active):hover { background: var(--gold-pale); color: var(--dark); }
+
+/* Section header */
+.sec-h {
+  font-size:11px; font-weight:700;
+  color: var(--gold);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--gold-pale);
+  display: flex; align-items:center; gap:7px;
+}
+.sec-h .ico { font-size:14px; }
+
+.step-panel { animation: fadeUp 0.25s ease; }
+@keyframes fadeUp { from {opacity:0;transform:translateY(6px)} to {opacity:1;transform:translateY(0)} }
+
+/* Form elements */
+.frow { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:8px; }
+.frow.full { grid-template-columns:1fr; }
+.fg { margin-bottom:8px; }
+
+label.fl {
+  display:block;
+  font-size:10.5px; font-weight:600;
+  color: var(--muted);
+  text-transform: uppercase; letter-spacing:0.7px;
+  margin-bottom:4px;
+}
+input[type=text], input[type=email], input[type=number], input[type=date],
+textarea, select {
+  width:100%; padding:8px 11px;
+  border: 1.5px solid var(--border);
+  border-radius: 7px;
+  font-family:'Inter',sans-serif; font-size:12.5px;
+  color: var(--ink); background: var(--cream);
+  transition: border-color 0.15s, box-shadow 0.15s;
+  outline: none;
+  -webkit-appearance: none;
+}
+input:focus, textarea:focus, select:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(184,151,58,0.12);
+  background: #fff;
+}
+textarea { resize:vertical; min-height:68px; line-height:1.55; }
+select { cursor:pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position: right 10px center; padding-right:28px; }
+
+/* Services grid */
+.svc-grid { display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+.svc-chip {
+  display:flex; align-items:center; gap:6px;
+  padding:7px 9px;
+  border:1.5px solid var(--border); border-radius:7px;
+  cursor:pointer; transition:all 0.15s;
+  background:var(--cream); user-select:none;
+}
+.svc-chip:hover { border-color:var(--gold); background:var(--gold-subtle); }
+.svc-chip.on { border-color:var(--gold); background:var(--gold-pale); }
+.svc-cb {
+  width:15px; height:15px;
+  border:2px solid var(--border); border-radius:4px;
+  flex-shrink:0; display:flex; align-items:center; justify-content:center;
+  font-size:9px; font-weight:700; transition:all 0.15s;
+}
+.svc-chip.on .svc-cb { background:var(--gold); border-color:var(--gold); color:#fff; }
+.svc-lbl { font-size:11px; font-weight:500; color:var(--ink); line-height:1.3; }
+
+/* Toggle switch */
+.toggle-row {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:8px 10px; border:1px solid var(--border2); border-radius:7px;
+  margin-bottom:6px; background:var(--cream);
+}
+.toggle-lbl { font-size:12px; font-weight:500; color:var(--ink); flex:1; padding-right:10px; }
+.toggle-sw {
+  width:36px; height:20px; border-radius:10px;
+  background: var(--border); position:relative;
+  cursor:pointer; transition:background 0.2s; flex-shrink:0;
+  border:none; outline:none;
+}
+.toggle-sw.on { background: var(--gold); }
+.toggle-sw::after {
+  content:''; position:absolute;
+  width:14px; height:14px; border-radius:50%;
+  background:#fff; top:3px; left:3px;
+  transition:left 0.2s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+.toggle-sw.on::after { left:19px; }
+
+/* Tranche rows */
+.tr-list { display:flex; flex-direction:column; gap:6px; }
+.tr-row {
+  display:grid;
+  grid-template-columns: 1fr 72px 28px;
+  gap:5px; align-items:center;
+}
+.tr-pct { display:flex; align-items:center; gap:3px; }
+.tr-pct input { width:52px; text-align:center; }
+.tr-pct span { font-size:12px; color:var(--muted); }
+.btn-rm {
+  width:26px; height:26px;
+  border:none; background:#fff3f3; color:var(--red);
+  border-radius:6px; cursor:pointer; font-size:13px;
+  display:flex; align-items:center; justify-content:center;
+  transition:all 0.15s; flex-shrink:0;
+}
+.btn-rm:hover { background:var(--red); color:#fff; }
+.btn-add-tr {
+  width:100%; padding:7px;
+  border:1.5px dashed var(--gold); border-radius:7px;
+  background:transparent; color:var(--gold);
+  font-family:'Inter',sans-serif; font-size:11.5px; font-weight:600;
+  cursor:pointer; margin-top:6px; transition:all 0.15s;
+}
+.btn-add-tr:hover { background:var(--gold-subtle); }
+
+/* Finance summary */
+.fin-sum {
+  background: var(--dark);
+  border-radius:10px; padding:14px 16px;
+  display:flex; justify-content:space-between; align-items:center;
+  margin:10px 0;
+}
+.fin-sum .label { font-size:10px; text-transform:uppercase; letter-spacing:1px; color:#666; font-weight:600; }
+.fin-sum .value { font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:700; color:var(--gold); }
+.fin-sum .pct { font-size:13px; font-weight:700; color:#aaa; }
+
+/* Warning */
+.warn {
+  display:flex; align-items:center; gap:6px;
+  padding:7px 10px;
+  background:var(--red-pale); border:1px solid #f0c4bc; border-radius:6px;
+  font-size:11px; color:var(--red); font-weight:500;
+  margin-top:6px;
+}
+.ok-note {
+  display:flex; align-items:center; gap:6px;
+  padding:7px 10px;
+  background:var(--green-pale); border:1px solid #b8e0cb; border-radius:6px;
+  font-size:11px; color:var(--green); font-weight:500;
+  margin-top:6px;
+}
+
+/* Action buttons */
+.actions {
+  border-top: 1px solid var(--border2);
+  padding-top: 20px; margin-top: 20px;
+  display:flex; flex-direction:column; gap:8px;
+}
+.abtn {
+  padding:12px 18px;
+  border:none; border-radius:9px;
+  cursor:pointer; font-family:'Inter',sans-serif;
+  font-size:13px; font-weight:600;
+  display:flex; align-items:center; justify-content:center; gap:8px;
+  transition:all 0.2s; letter-spacing:0.2px;
+}
+.abtn-gold { background:var(--gold); color:var(--dark); }
+.abtn-gold:hover { background:var(--gold-light); transform:translateY(-1px); box-shadow:0 4px 16px rgba(184,151,58,0.35); }
+.abtn-dark { background:var(--dark2); color:var(--gold); }
+.abtn-dark:hover { background:var(--dark3); transform:translateY(-1px); box-shadow:0 4px 16px rgba(15,15,26,0.25); }
+.abtn-blue { background:#1E3A5F; color:#fff; }
+.abtn-blue:hover { background:#162E4D; transform:translateY(-1px); box-shadow:0 4px 16px rgba(30,58,95,0.35); }
+.abtn-red { background:var(--red); color:#fff; }
+.abtn-red:hover { background:#9A2B14; transform:translateY(-1px); box-shadow:0 4px 16px rgba(181,52,26,0.35); }
+
+/* ───── PREVIEW ───── */
+.preview {
+  background: #DDD8CF;
+  padding: 32px 24px;
+  overflow-y: auto;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+.preview::-webkit-scrollbar { width:6px; }
+.preview::-webkit-scrollbar-thumb { background:#bbb; border-radius:3px; }
+
+/* ───── CONTRACT PAGE ───── */
+.cpage {
+  background: #fff;
+  width: 100%;
+  max-width: 800px;
+  min-height: 1100px;
+  padding: 56px 64px;
+  box-shadow: 0 4px 40px rgba(0,0,0,0.15), 0 1px 3px rgba(0,0,0,0.08);
+  border-radius: 2px;
+  font-family: 'Inter', sans-serif;
+  font-size: 11.5px;
+  line-height: 1.75;
+  color: #111;
+  position: relative;
+}
+
+/* Contract top strip */
+.c-topstrip {
+  height: 4px;
+  background: linear-gradient(90deg, var(--dark) 0%, var(--gold) 50%, var(--dark) 100%);
+  margin: -56px -64px 36px;
+}
+
+/* Contract header */
+.c-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-bottom: 20px;
+  border-bottom: 0.5px solid var(--border);
+  margin-bottom: 24px;
+}
+.c-logo { font-family:'Cormorant Garamond',serif; font-size:26px; font-weight:700; color:var(--dark); letter-spacing:2px; line-height:1; }
+.c-logo .cg { color:var(--gold); }
+.c-logo-tag { font-size:9.5px; color:#999; letter-spacing:2px; text-transform:uppercase; margin-top:3px; }
+.c-logo-info { font-size:9px; color:#bbb; margin-top:7px; line-height:1.8; }
+.c-meta { text-align:right; }
+.c-ref {
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px; font-weight:600;
+  background:var(--dark); color:var(--gold);
+  padding:4px 10px; border-radius:4px;
+  display:inline-block; letter-spacing:1px;
+  margin-bottom:8px;
+}
+.c-date { font-size:10px; color:#888; line-height:1.9; }
+.c-date strong { color:var(--ink); font-weight:600; }
+
+/* Confidential ribbon */
+.c-confidential {
+  text-align:center; margin-bottom:20px;
+  font-size:8.5px; letter-spacing:3px; text-transform:uppercase;
+  color:#ccc; font-weight:600;
+}
+.c-confidential span { border:0.5px solid #ddd; padding:2px 12px; border-radius:10px; }
+
+/* Contract title block */
+.c-title {
+  text-align:center;
+  padding: 20px 0 16px;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 22px;
+  position: relative;
+}
+.c-title::before {
+  content:'';
+  position:absolute; top:0; left:50%; transform:translateX(-50%);
+  width:40px; height:3px; background:var(--gold);
+  border-radius:0 0 2px 2px;
+}
+.c-title h1 {
+  font-family:'Cormorant Garamond',serif;
+  font-size:18px; font-weight:700;
+  color:var(--dark); letter-spacing:2px;
+  text-transform:uppercase; margin-bottom:4px;
+}
+.c-title .c-subtitle { font-size:10px; color:#aaa; letter-spacing:1.5px; text-transform:uppercase; }
+.c-title .c-type-badge {
+  display:inline-block; margin-top:8px;
+  background:var(--gold-pale); border:1px solid var(--gold);
+  color:var(--gold); font-size:9px; font-weight:700;
+  padding:2px 10px; border-radius:12px; letter-spacing:1.5px;
+  text-transform:uppercase;
+}
+
+/* Parties */
+.c-between { font-size:11px; font-weight:600; color:#666; margin-bottom:10px; font-style:italic; }
+.c-parties {
+  display:grid; grid-template-columns:1fr 1fr; gap:12px;
+  margin-bottom:20px;
+}
+.c-party {
+  padding:14px 16px;
+  border-radius:6px;
+  font-size:10.5px; line-height:1.85;
+}
+.c-party.prest {
+  background: var(--dark);
+  color: rgba(255,255,255,0.85);
+}
+.c-party.client { background:var(--gold-subtle); border:1px solid var(--gold); }
+.c-party-label {
+  font-size:8.5px; font-weight:700;
+  letter-spacing:2px; text-transform:uppercase;
+  margin-bottom:8px;
+  padding-bottom:6px;
+}
+.c-party.prest .c-party-label { color:var(--gold); border-bottom:1px solid rgba(184,151,58,0.3); }
+.c-party.client .c-party-label { color:var(--gold); border-bottom:1px solid var(--gold); }
+.c-party.prest strong { color:#fff; }
+.c-party.client strong { color:var(--dark); }
+.c-party em { font-size:9.5px; opacity:0.7; font-style:italic; }
+
+/* Services section */
+.c-services-box {
+  background:var(--cream2);
+  border:1px solid var(--border2);
+  border-radius:6px;
+  padding:12px 14px;
+  margin:10px 0;
+}
+.c-services-title { font-size:9px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); margin-bottom:8px; }
+.c-stags { display:flex; flex-wrap:wrap; gap:5px; }
+.c-stag {
+  background:var(--dark); color:var(--gold);
+  padding:2px 9px; border-radius:10px;
+  font-size:9.5px; font-weight:600; letter-spacing:0.3px;
+}
+
+/* Article */
+.art { margin-bottom:14px; }
+.art-title {
+  font-size:10px; font-weight:700;
+  text-transform:uppercase; letter-spacing:1.5px;
+  color:var(--dark);
+  background:var(--gold-pale);
+  border-left:3px solid var(--gold);
+  padding:5px 10px 5px 12px;
+  border-radius:0 4px 4px 0;
+  margin-bottom:7px;
+  display:flex; align-items:center; gap:6px;
+}
+.art-title .anum {
+  font-family:'JetBrains Mono',monospace;
+  font-size:8px; color:var(--gold);
+  background:var(--dark); padding:1px 5px;
+  border-radius:3px; letter-spacing:0;
+}
+.art-body { font-size:11px; color:#222; padding: 0 4px; line-height:1.8; }
+.art-body p { margin-bottom:5px; }
+.art-body ul { padding-left:18px; margin:4px 0; }
+.art-body ol { padding-left:18px; margin:4px 0; }
+.art-body li { margin-bottom:3px; }
+.art-body strong { color:var(--dark); }
+.art-body .highlight {
+  background:var(--gold-pale); border-left:2px solid var(--gold);
+  padding:6px 10px; border-radius:0 4px 4px 0;
+  margin:6px 0; font-size:10.5px;
+}
+.art-body .warning-box {
+  background:var(--red-pale); border:1px solid #f0c4bc;
+  padding:7px 10px; border-radius:4px;
+  margin:6px 0; font-size:10.5px; color:var(--red);
+}
+.art-body .sub-title {
+  font-size:10px; font-weight:700;
+  color:var(--dark); margin:8px 0 3px;
+  padding-left:0;
+}
+
+/* Payment table */
+.pay-table {
+  width:100%; border-collapse:collapse;
+  margin:8px 0; font-size:10.5px;
+}
+.pay-table thead tr { background:var(--dark); }
+.pay-table th {
+  padding:6px 10px; text-align:left;
+  font-size:8.5px; letter-spacing:1px;
+  text-transform:uppercase; color:var(--gold);
+  font-weight:600;
+}
+.pay-table td { padding:6px 10px; border-bottom:0.5px solid var(--border); }
+.pay-table tr:nth-child(even) td { background:var(--cream2); }
+.pay-table .ptotal { font-weight:700; color:var(--dark); background:var(--gold-pale) !important; }
+.pay-table .mono { font-family:'JetBrains Mono',monospace; font-weight:600; font-size:10px; }
+
+/* Signatures */
+.sigs-box {
+  margin-top:30px;
+  border-top:1px solid var(--border);
+  padding-top:20px;
+}
+.sigs-top {
+  display:flex; justify-content:space-between; align-items:center;
+  margin-bottom:16px;
+}
+.sigs-title {
+  font-size:10px; font-weight:700; letter-spacing:2px;
+  text-transform:uppercase; color:var(--dark);
+}
+.sigs-date { font-size:10px; color:#888; }
+.sigs-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.sig-box {
+  border:1px solid var(--border);
+  border-radius:6px; padding:14px;
+  min-height:110px;
+}
+.sig-label { font-size:8.5px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); margin-bottom:3px; }
+.sig-note { font-size:9.5px; color:#aaa; margin-bottom:12px; font-style:italic; }
+.sig-line { border-bottom:0.5px dashed #ccc; height:50px; margin-bottom:8px; }
+.sig-name { font-size:10px; font-weight:600; color:var(--ink); }
+.sig-role { font-size:9px; color:#aaa; }
+
+/* Contract footer */
+.c-footer {
+  margin-top:20px;
+  padding-top:10px;
+  border-top:0.5px solid var(--border);
+  display:flex; justify-content:space-between; align-items:center;
+  font-size:8.5px; color:#bbb;
+}
+.c-footer .c-footer-logo { font-family:'Cormorant Garamond',serif; font-size:12px; font-weight:700; color:var(--gold); }
+
+/* Initials row */
+.initials-row {
+  margin-top:12px;
+  border:1px solid var(--border2);
+  border-radius:6px; padding:10px 14px;
+  background:var(--cream2);
+  display:flex; justify-content:space-around; align-items:center;
+  font-size:10px; color:#888; text-align:center;
+}
+.init-box { display:flex; flex-direction:column; align-items:center; gap:4px; }
+.init-line { width:80px; height:28px; border-bottom:0.5px dashed #ccc; }
+.init-label { font-size:8.5px; color:#bbb; letter-spacing:0.5px; }
+
+/* Page number area */
+.c-page-n {
+  position:absolute; bottom:20px; right:40px;
+  font-size:9px; color:#ccc;
+  font-family:'JetBrains Mono',monospace;
+}
+
+/* Planning grid */
+.plan-grid {
+  display:grid; grid-template-columns:repeat(3,1fr); gap:8px;
+  margin:8px 0;
+}
+.plan-card {
+  background:var(--cream2); border:1px solid var(--border2);
+  border-radius:5px; padding:8px 10px; font-size:10px;
+}
+.plan-card-label { font-size:8.5px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--muted); margin-bottom:3px; }
+.plan-card-val { font-weight:600; color:var(--dark); font-size:11px; }
+
+/* Toast */
+.toast {
+  position:fixed; bottom:24px; right:24px;
+  background:var(--dark); color:var(--gold);
+  padding:12px 20px; border-radius:10px;
+  font-size:13px; font-weight:500;
+  box-shadow:var(--shadow-lg); z-index:9999;
+  transform:translateY(80px); opacity:0;
+  transition:all 0.3s ease; display:flex; align-items:center; gap:8px;
+}
+.toast.show { transform:translateY(0); opacity:1; }
+
+/* Divider */
+.art-divider { height:1px; background:var(--border2); margin:10px 0; }
+
+/* ── Print ── */
+@media print {
+  .header,.sidebar,.actions,.toast { display:none!important; }
+  .layout { grid-template-columns:1fr; }
+  .preview { padding:0; background:#fff; }
+  .cpage { box-shadow:none; max-width:100%; padding:32px 40px; min-height:auto; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="hlogo">
+    <div class="hlogo-mark">CL</div>
+    <div>
+      <div class="hlogo-text">CASA DI LUSSO</div>
+      <div class="hlogo-sub">Générateur de Contrats Professionnel</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="lang-pill">
+      <button class="lbtn active" onclick="setLang('fr')">🇫🇷 FR</button>
+      <button class="lbtn" onclick="setLang('en')">🇬🇧 EN</button>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sb-inner">
+
+      <!-- STEP NAV -->
+      <div class="steps-nav">
+        <div class="snav active" onclick="go(1)" id="snav1"><span class="sn">01</span>CLIENT</div>
+        <div class="snav" onclick="go(2)" id="snav2"><span class="sn">02</span>PROJET</div>
+        <div class="snav" onclick="go(3)" id="snav3"><span class="sn">03</span>FINANCES</div>
+        <div class="snav" onclick="go(4)" id="snav4"><span class="sn">04</span>CLAUSES</div>
+        <div class="snav" onclick="go(5)" id="snav5"><span class="sn">05</span>OPTIONS</div>
+      </div>
+
+      <!-- STEP 1 : CLIENT -->
+      <div class="step-panel" id="sp1">
+        <div class="sec-h"><span class="ico">👤</span><span id="l-s1">Informations Client</span></div>
+
+        <div class="frow">
+          <div class="fg">
+            <label class="fl" id="l-nom">Nom & Prénom</label>
+            <input type="text" id="f-nom" oninput="upd()" placeholder="Mohamed Alami">
+          </div>
+          <div class="fg">
+            <label class="fl" id="l-cin">CIN / ICE / Passeport</label>
+            <input type="text" id="f-cin" oninput="upd()" placeholder="AB123456">
+          </div>
+        </div>
+
+        <div class="fg">
+          <label class="fl" id="l-qualite">Qualité du Client</label>
+          <select id="f-qualite" onchange="upd()">
+            <option value="particulier_fr">Particulier – Personne Physique</option>
+            <option value="societe_fr">Société / Personne Morale</option>
+            <option value="particulier_en">Individual – Natural Person</option>
+            <option value="societe_en">Company / Legal Entity</option>
+          </select>
+        </div>
+
+        <div class="fg">
+          <label class="fl" id="l-adresse">Adresse Complète</label>
+          <input type="text" id="f-adresse" oninput="upd()" placeholder="123 Rue Mohammed V, Tanger 90000">
+        </div>
+        <div class="frow">
+          <div class="fg">
+            <label class="fl" id="l-tel">Téléphone</label>
+            <input type="text" id="f-tel" oninput="upd()" placeholder="+212 6XX XXX XXX">
+          </div>
+          <div class="fg">
+            <label class="fl">Email</label>
+            <input type="email" id="f-email" oninput="upd()" placeholder="client@email.ma">
+          </div>
+        </div>
+        <div class="frow">
+          <div class="fg">
+            <label class="fl" id="l-dateC">Date du Contrat</label>
+            <input type="date" id="f-dateC" oninput="upd()">
+          </div>
+          <div class="fg">
+            <label class="fl" id="l-ref">Référence</label>
+            <input type="text" id="f-ref" oninput="upd()" placeholder="CDL-2025-001">
+          </div>
+        </div>
+        <div class="fg">
+          <label class="fl" id="l-ville">Ville de signature</label>
+          <input type="text" id="f-ville" oninput="upd()" placeholder="Tanger" value="Tanger">
+        </div>
+      </div>
+
+      <!-- STEP 2 : PROJET -->
+      <div class="step-panel" id="sp2" style="display:none">
+        <div class="sec-h"><span class="ico">🏗️</span><span id="l-s2">Projet & Services</span></div>
+
+        <div class="fg">
+          <label class="fl" id="l-adresseTx">Adresse des Travaux / Chantier</label>
+          <input type="text" id="f-adresseTx" oninput="upd()" placeholder="Appartement 4B, Résidence Malabata, Tanger">
+        </div>
+        <div class="frow">
+          <div class="fg">
+            <label class="fl" id="l-typeBien">Type de Bien</label>
+            <select id="f-typeBien" onchange="upd()">
+              <option value="appartement">Appartement</option>
+              <option value="villa">Villa</option>
+              <option value="bureau">Bureau / Local Commercial</option>
+              <option value="riad">Riad</option>
+              <option value="maison">Maison</option>
+              <option value="duplex">Duplex / Triplex</option>
+              <option value="local">Local Industriel</option>
+              <option value="autre">Autre</option>
+            </select>
+          </div>
+          <div class="fg">
+            <label class="fl" id="l-surface">Surface (m²)</label>
+            <input type="number" id="f-surface" oninput="upd()" placeholder="120" min="1">
+          </div>
+        </div>
+
+        <div class="fg" style="margin-top:6px">
+          <label class="fl" id="l-svc">Services Sélectionnés</label>
+          <div class="svc-grid" id="svc-grid"></div>
+        </div>
+
+        <div class="fg" style="margin-top:10px">
+          <label class="fl" id="l-descTx">Description Détaillée des Travaux</label>
+          <textarea id="f-descTx" oninput="upd()" rows="5" placeholder="Ex : Carrelage salon 45m² (réf. XXX), peinture 3 chambres, faux plafond couloir, installation cuisine équipée, etc."></textarea>
+        </div>
+
+        <div class="frow">
+          <div class="fg">
+            <label class="fl" id="l-debut">Date de Début Prévue</label>
+            <input type="date" id="f-debut" oninput="upd()">
+          </div>
+          <div class="fg">
+            <label class="fl" id="l-duree">Durée Estimée</label>
+            <input type="text" id="f-duree" oninput="upd()" placeholder="60 jours ouvrables">
+          </div>
+        </div>
+
+        <div class="fg">
+          <label class="fl" id="l-acces">Conditions d'Accès au Chantier</label>
+          <input type="text" id="f-acces" oninput="upd()" placeholder="Clés remises, accès 7h-19h, code digicode : XXXX">
+        </div>
+      </div>
+
+      <!-- STEP 3 : FINANCES -->
+      <div class="step-panel" id="sp3" style="display:none">
+        <div class="sec-h"><span class="ico">💰</span><span id="l-s3">Conditions Financières</span></div>
+
+        <div class="frow">
+          <div class="fg">
+            <label class="fl" id="l-montant">Montant Total HT</label>
+            <input type="number" id="f-montant" oninput="updF()" placeholder="150000" min="0">
+          </div>
+          <div class="fg">
+            <label class="fl" id="l-devise">Devise</label>
+            <select id="f-devise" onchange="updF()">
+              <option value="MAD">MAD – Dirham</option>
+              <option value="EUR">EUR – Euro</option>
+              <option value="USD">USD – Dollar</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="fg">
+          <label class="fl" id="l-tva">TVA</label>
+          <select id="f-tva" onchange="updF()">
+            <option value="0">Non assujetti à la TVA</option>
+            <option value="20">TVA 20%</option>
+            <option value="14">TVA 14%</option>
+            <option value="10">TVA 10%</option>
+          </select>
+        </div>
+
+        <div class="fin-sum">
+          <div>
+            <div class="label" id="l-totalTr">TRANCHES</div>
+            <div class="pct" id="v-pct">0%</div>
+          </div>
+          <div style="text-align:right">
+            <div class="label" id="l-totalMt">MONTANT TOTAL TTC</div>
+            <div class="value" id="v-total">0 MAD</div>
+          </div>
+        </div>
+        <div id="pct-warn"></div>
+
+        <div class="fg" style="margin-top:10px">
+          <label class="fl" id="l-tranches">Échéancier de Paiement</label>
+          <div class="tr-list" id="tr-list"></div>
+          <button class="btn-add-tr" id="btn-addtr" onclick="addTr()">+ Ajouter une tranche</button>
+        </div>
+
+        <div class="fg" style="margin-top:8px">
+          <label class="fl" id="l-mode">Mode de Paiement</label>
+          <select id="f-mode" onchange="upd()">
+            <option value="virement">Virement Bancaire</option>
+            <option value="cheque">Chèque Certifié</option>
+            <option value="especes">Espèces</option>
+            <option value="mixte">Paiement Mixte</option>
+          </select>
+        </div>
+
+        <div class="fg">
+          <label class="fl" id="l-rib">RIB / Coordonnées Bancaires</label>
+          <input type="text" id="f-rib" oninput="upd()" placeholder="BMCE : 011 780 0001234567890123 45">
+        </div>
+
+        <div class="frow">
+          <div class="fg">
+            <label class="fl" id="l-delaiRet">Délai Retard Toléré (j)</label>
+            <input type="number" id="f-delaiRet" oninput="upd()" value="5" min="1" max="30">
+          </div>
+          <div class="fg">
+            <label class="fl" id="l-penalite">Pénalité Retard (%/j)</label>
+            <input type="number" id="f-penalite" oninput="upd()" value="1.5" min="0" max="10" step="0.5">
+          </div>
+        </div>
+
+        <div class="fg">
+          <label class="fl" id="l-fraisRedem">Frais de Redémarrage Chantier (MAD)</label>
+          <input type="number" id="f-fraisRedem" oninput="upd()" placeholder="5000" min="0">
+        </div>
+      </div>
+
+      <!-- STEP 4 : CLAUSES -->
+      <div class="step-panel" id="sp4" style="display:none">
+        <div class="sec-h"><span class="ico">📋</span><span id="l-s4">Clauses Juridiques</span></div>
+
+        <div class="fg">
+          <label class="fl" id="l-garantie">Durée de Garantie Travaux</label>
+          <select id="f-garantie" onchange="upd()">
+            <option value="6 mois">6 mois</option>
+            <option value="1 an" selected>1 an</option>
+            <option value="2 ans">2 ans</option>
+            <option value="3 ans">3 ans</option>
+            <option value="Sans garantie contractuelle">Sans garantie contractuelle</option>
+          </select>
+        </div>
+        <div class="frow">
+          <div class="fg">
+            <label class="fl" id="l-delaiRes">Délai Réserves (j ouvrés)</label>
+            <input type="number" id="f-delaiRes" oninput="upd()" value="7" min="1" max="30">
+          </div>
+          <div class="fg">
+            <label class="fl" id="l-tribunal">Tribunal Compétent</label>
+            <select id="f-tribunal" onchange="upd()">
+              <option value="Tanger">Tanger</option>
+              <option value="Casablanca">Casablanca</option>
+              <option value="Rabat">Rabat</option>
+              <option value="Marrakech">Marrakech</option>
+              <option value="Fès">Fès</option>
+              <option value="Agadir">Agadir</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="margin-top:4px; margin-bottom:12px; font-size:11px; font-weight:600; color:var(--muted);">CLAUSES ACTIVES</div>
+
+        <div id="clauses-toggles"></div>
+
+        <div class="fg" style="margin-top:12px">
+          <label class="fl" id="l-clauseSpec">Clauses Spécifiques Additionnelles</label>
+          <textarea id="f-clauseSpec" oninput="upd()" rows="4" placeholder="Ex: Les matériaux carrelage (réf. XXXX) sont fournis par le client et déposés sur chantier avant J+7..."></textarea>
+        </div>
+
+        <div class="fg">
+          <label class="fl" id="l-exclusions">Exclusions Explicites du Contrat</label>
+          <textarea id="f-exclusions" oninput="upd()" rows="3" placeholder="Ex: Mobilier de cuisine non inclus, peinture extérieure non incluse..."></textarea>
+        </div>
+      </div>
+
+      <!-- STEP 5 : OPTIONS -->
+      <div class="step-panel" id="sp5" style="display:none">
+        <div class="sec-h"><span class="ico">⚙️</span><span id="l-s5">Options & Présentation</span></div>
+
+        <div class="fg">
+          <label class="fl" id="l-typeContrat">Type de Contrat</label>
+          <select id="f-typeContrat" onchange="upd()">
+            <option value="travaux_finition">Travaux de Finition</option>
+            <option value="travaux_gros_oeuvre">Travaux Gros Œuvre & Rénovation</option>
+            <option value="design_interior">Design d'Intérieur</option>
+            <option value="cle_main">Contrat Clé en Main (Global)</option>
+            <option value="ameublement">Vente & Installation Ameublement</option>
+            <option value="maintenance">Contrat de Maintenance</option>
+            <option value="suivi_chantier">Suivi & Coordination de Chantier</option>
+          </select>
+        </div>
+
+        <div class="fg">
+          <label class="fl" id="l-responsableProjet">Responsable de Projet CASA DI LUSSO</label>
+          <input type="text" id="f-responsable" oninput="upd()" placeholder="M. Amine Benali – Chef de Projet">
+        </div>
+        <div class="fg">
+          <label class="fl" id="l-architecte">Architecte / Designer Associé (si applicable)</label>
+          <input type="text" id="f-architecte" oninput="upd()" placeholder="Atelier Design XY – Ref: ARCH-2025">
+        </div>
+
+        <div class="fg">
+          <label class="fl" id="l-noteConfid">Note de Confidentialité</label>
+          <select id="f-confidentialite" onchange="upd()">
+            <option value="confidentiel">CONFIDENTIEL</option>
+            <option value="usage_interne">USAGE INTERNE</option>
+            <option value="standard">STANDARD</option>
+          </select>
+        </div>
+
+        <div class="fg">
+          <label class="fl" id="l-version">Version du Document</label>
+          <input type="text" id="f-version" oninput="upd()" value="v1.0 – Définitif" placeholder="v1.0 – Définitif">
+        </div>
+
+        <div class="fg">
+          <label class="fl" id="l-annexes">Annexes Jointes</label>
+          <textarea id="f-annexes" oninput="upd()" rows="3" placeholder="Annexe A : Devis détaillé signé&#10;Annexe B : Plans & Visuels&#10;Annexe C : Tableau des matériaux"></textarea>
+        </div>
+
+        <!-- ACTIONS -->
+        <div class="actions">
+          <button class="abtn abtn-gold" onclick="upd()">👁 <span id="l-preview">Actualiser l'Aperçu</span></button>
+          <button class="abtn abtn-blue" onclick="doWord()">📝 <span id="l-exportWord">Exporter Word (.doc)</span></button>
+          <button class="abtn abtn-red" onclick="doPrint()">📄 <span id="l-exportPDF">Imprimer / PDF</span></button>
+          <button class="abtn abtn-dark" onclick="doCopy()">📋 <span id="l-copy">Copier le texte brut</span></button>
+        </div>
+      </div>
+
+    </div>
+  </aside>
+
+  <!-- PREVIEW -->
+  <main class="preview">
+    <div class="cpage" id="cpage">
+      <div class="c-page-n">Page 1</div>
+    </div>
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ─── LANG ────────────────────────────────────────────────────────────────────
+let L = 'fr';
+
+const TX = {
+fr: {
+  's1':'Informations Client','s2':'Projet & Services','s3':'Conditions Financières',
+  's4':'Clauses Juridiques','s5':'Options & Présentation',
+  'nom':'Nom & Prénom','cin':'CIN / ICE / Passeport','adresse':'Adresse Complète',
+  'tel':'Téléphone','dateC':'Date du Contrat','ref':'Référence Contrat',
+  'ville':'Ville de Signature','adresseTx':'Adresse du Chantier','typeBien':'Type de Bien',
+  'surface':'Surface (m²)','svc':'Services Sélectionnés','descTx':'Description des Travaux',
+  'debut':'Date de Début','duree':'Durée Estimée','acces':'Accès Chantier',
+  'montant':'Montant Total HT','devise':'Devise','tva':'TVA',
+  'totalTr':'TRANCHES','totalMt':'MONTANT TOTAL TTC','tranches':'Échéancier',
+  'mode':'Mode de Paiement','rib':'RIB / Banque','delaiRet':'Délai Retard (j)',
+  'penalite':'Pénalité (%/j)','fraisRedem':'Frais Redémarrage (MAD)',
+  'garantie':'Durée de Garantie','delaiRes':'Délai Réserves (j)','tribunal':'Tribunal',
+  'clauseSpec':'Clauses Spécifiques','exclusions':'Exclusions Explicites',
+  'typeContrat':'Type de Contrat','responsable':'Responsable Projet','architecte':'Architecte/Designer',
+  'confidentialite':'Niveau de Confidentialité','version':'Version du Document','annexes':'Annexes',
+  'preview':'Actualiser l\'Aperçu','exportWord':'Exporter Word (.doc)',
+  'exportPDF':'Imprimer / PDF','copy':'Copier le texte',
+  'qualite':'Qualité du Client','addtr':'+ Ajouter une tranche',
+  'contrat_title': 'CONTRAT DE PRESTATIONS DE SERVICES',
+  'entre': 'ENTRE LES SOUSSIGNÉS :',
+  'et': 'ET',
+  'ci-prest': 'Ci-après dénommée « Le Prestataire »',
+  'ci-client': 'Ci-après dénommé(e) « Le Client »',
+  'lbl-prest': 'LE PRESTATAIRE',
+  'lbl-client': 'LE CLIENT',
+  'fait-a': 'Fait à',
+  'le': 'le',
+  'lu-approuve': 'Lu et approuvé – Bon pour accord',
+  'sig-cachet': 'Signature & Cachet',
+  'p1': 'Page 1 sur 2',
+  'confid-mark': 'DOCUMENT CONFIDENTIEL – USAGE EXCLUSIF DES PARTIES SIGNATAIRES',
+  'paraf': 'Paraphes des parties (chaque page)',
+  'client-lbl': 'Client', 'prest-lbl': 'Prestataire',
+  'total': 'TOTAL',
+  'tr-names': ["Acompte à l'ouverture du chantier","Règlement à mi-chantier","Solde final à la livraison"],
+  'devise-names': { MAD:'MAD', EUR:'EUR', USD:'USD' },
+  'mode-names': { virement:'Virement Bancaire', cheque:'Chèque Certifié', especes:'Espèces', mixte:'Paiement Mixte' },
+},
+en: {
+  's1':'Client Information','s2':'Project & Services','s3':'Financial Terms',
+  's4':'Legal Clauses','s5':'Options & Layout',
+  'nom':'Full Name','cin':'ID / Passport / Tax No.','adresse':'Full Address',
+  'tel':'Phone Number','dateC':'Contract Date','ref':'Contract Reference',
+  'ville':'Signing City','adresseTx':'Works / Site Address','typeBien':'Property Type',
+  'surface':'Surface Area (m²)','svc':'Selected Services','descTx':'Works Description',
+  'debut':'Start Date','duree':'Estimated Duration','acces':'Site Access',
+  'montant':'Total Amount (excl. tax)','devise':'Currency','tva':'VAT',
+  'totalTr':'INSTALLMENTS','totalMt':'TOTAL INCL. TAX','tranches':'Payment Schedule',
+  'mode':'Payment Method','rib':'Bank Account / IBAN','delaiRet':'Payment Delay (days)',
+  'penalite':'Late Penalty (%/day)','fraisRedem':'Restart Fee (MAD)',
+  'garantie':'Warranty Period','delaiRes':'Defects Period (days)','tribunal':'Competent Court',
+  'clauseSpec':'Specific Clauses','exclusions':'Explicit Exclusions',
+  'typeContrat':'Contract Type','responsable':'Project Manager','architecte':'Architect/Designer',
+  'confidentialite':'Confidentiality Level','version':'Document Version','annexes':'Annexes',
+  'preview':'Refresh Preview','exportWord':'Export Word (.doc)',
+  'exportPDF':'Print / Export PDF','copy':'Copy plain text',
+  'qualite':'Client Status','addtr':'+ Add installment',
+  'contrat_title': 'SERVICE AGREEMENT',
+  'entre': 'BETWEEN THE UNDERSIGNED:',
+  'et': 'AND',
+  'ci-prest': 'Hereinafter referred to as "The Service Provider"',
+  'ci-client': 'Hereinafter referred to as "The Client"',
+  'lbl-prest': 'THE SERVICE PROVIDER',
+  'lbl-client': 'THE CLIENT',
+  'fait-a': 'Done in',
+  'le': 'on',
+  'lu-approuve': 'Read and approved – Agreement',
+  'sig-cachet': 'Signature & Stamp',
+  'p1': 'Page 1 of 2',
+  'confid-mark': 'CONFIDENTIAL DOCUMENT – FOR SIGNATORY PARTIES ONLY',
+  'paraf': 'Initials of parties (each page)',
+  'client-lbl': 'Client', 'prest-lbl': 'Provider',
+  'total': 'TOTAL',
+  'tr-names': ["Deposit at project start","Mid-project payment","Final balance at delivery"],
+  'devise-names': { MAD:'MAD', EUR:'EUR', USD:'USD' },
+  'mode-names': { virement:'Bank Transfer', cheque:'Certified Cheque', especes:'Cash', mixte:'Mixed Payment' },
+},
+};
+function t(k){ return TX[L][k]||k; }
+
+function setLang(l) {
+  L = l;
+  document.querySelectorAll('.lbtn').forEach(b=>b.classList.remove('active'));
+  document.querySelector(`.lbtn[onclick="setLang('${l}')"]`).classList.add('active');
+  refreshAllLabels();
+  renderServices();
+  renderClauses();
+  upd();
+}
+
+const LABEL_MAP = [
+  ['l-s1','s1'],['l-s2','s2'],['l-s3','s3'],['l-s4','s4'],['l-s5','s5'],
+  ['l-nom','nom'],['l-cin','cin'],['l-adresse','adresse'],['l-tel','tel'],
+  ['l-dateC','dateC'],['l-ref','ref'],['l-ville','ville'],['l-adresseTx','adresseTx'],
+  ['l-typeBien','typeBien'],['l-surface','surface'],['l-svc','svc'],
+  ['l-descTx','descTx'],['l-debut','debut'],['l-duree','duree'],['l-acces','acces'],
+  ['l-montant','montant'],['l-devise','devise'],['l-tva','tva'],
+  ['l-totalTr','totalTr'],['l-totalMt','totalMt'],['l-tranches','tranches'],
+  ['l-mode','mode'],['l-rib','rib'],['l-delaiRet','delaiRet'],
+  ['l-penalite','penalite'],['l-fraisRedem','fraisRedem'],
+  ['l-garantie','garantie'],['l-delaiRes','delaiRes'],['l-tribunal','tribunal'],
+  ['l-clauseSpec','clauseSpec'],['l-exclusions','exclusions'],
+  ['l-typeContrat','typeContrat'],['l-responsableProjet','responsable'],
+  ['l-architecte','architecte'],['l-noteConfid','confidentialite'],
+  ['l-version','version'],['l-annexes','annexes'],
+  ['l-preview','preview'],['l-exportWord','exportWord'],
+  ['l-exportPDF','exportPDF'],['l-copy','copy'],
+  ['l-qualite','qualite'],['btn-addtr','addtr'],
+];
+function refreshAllLabels() {
+  LABEL_MAP.forEach(([id,k])=>{
+    const el=document.getElementById(id);
+    if(el) el.textContent=t(k);
+  });
+}
+
+// ─── SERVICES ────────────────────────────────────────────────────────────────
+const SVCS = {
+  fr:[
+    {id:'design',      lbl:'Design d\'Intérieur'},
+    {id:'construction',lbl:'Construction & Gros Œuvre'},
+    {id:'finition',    lbl:'Travaux de Finition'},
+    {id:'electricite', lbl:'Électricité & Domotique'},
+    {id:'plomberie',   lbl:'Plomberie & Sanitaire'},
+    {id:'climatisation',lbl:'Climatisation & CVC'},
+    {id:'carrelage',   lbl:'Carrelage & Revêtements'},
+    {id:'peinture',    lbl:'Peinture & Décoration'},
+    {id:'menuiserie',  lbl:'Menuiserie & Boiserie'},
+    {id:'faux-plafond',lbl:'Faux Plafonds & Plâtrerie'},
+    {id:'ameublement', lbl:'Ameublement & Mobilier'},
+    {id:'cuisine',     lbl:'Cuisine Équipée'},
+    {id:'amenagement', lbl:'Aménagement Extérieur'},
+    {id:'serrurerie',  lbl:'Serrurerie & Métallerie'},
+  ],
+  en:[
+    {id:'design',      lbl:'Interior Design'},
+    {id:'construction',lbl:'Construction & Structure'},
+    {id:'finition',    lbl:'Finishing Works'},
+    {id:'electricite', lbl:'Electrical & Smart Home'},
+    {id:'plomberie',   lbl:'Plumbing & Sanitary'},
+    {id:'climatisation',lbl:'HVAC & Air Conditioning'},
+    {id:'carrelage',   lbl:'Tiling & Flooring'},
+    {id:'peinture',    lbl:'Painting & Decoration'},
+    {id:'menuiserie',  lbl:'Carpentry & Woodwork'},
+    {id:'faux-plafond',lbl:'False Ceilings & Plasterwork'},
+    {id:'ameublement', lbl:'Furniture & Furnishings'},
+    {id:'cuisine',     lbl:'Fitted Kitchen'},
+    {id:'amenagement', lbl:'Exterior Landscaping'},
+    {id:'serrurerie',  lbl:'Metalwork & Locksmithing'},
+  ],
+};
+let selSvc = new Set();
+function renderServices() {
+  const g = document.getElementById('svc-grid');
+  g.innerHTML = SVCS[L].map(s=>`
+    <div class="svc-chip ${selSvc.has(s.id)?'on':''}" onclick="toggleSvc('${s.id}')">
+      <div class="svc-cb">${selSvc.has(s.id)?'✓':''}</div>
+      <span class="svc-lbl">${s.lbl}</span>
+    </div>`).join('');
+}
+function toggleSvc(id) {
+  selSvc.has(id)?selSvc.delete(id):selSvc.add(id);
+  renderServices(); upd();
+}
+
+// ─── CLAUSES ─────────────────────────────────────────────────────────────────
+const CLAUSE_DEFS = {
+  fr:[
+    {id:'c-comportement',  lbl:'Clause Comportement & Protection des Équipes', dflt:true},
+    {id:'c-prop-intel',    lbl:'Clause Propriété Intellectuelle (plans, designs)', dflt:true},
+    {id:'c-image',         lbl:'Clause Droit à l\'Image & Communication (réseaux, portfolio)', dflt:true},
+    {id:'c-anti-litige',   lbl:'Clause Médiation Amiable Obligatoire (avant tribunal)', dflt:true},
+    {id:'c-confidential',  lbl:'Clause de Confidentialité des Informations Projet', dflt:true},
+    {id:'c-sous-traiter',  lbl:'Clause de Sous-Traitance (droit de recourir à des sous-traitants)', dflt:true},
+    {id:'c-materiau-prix', lbl:'Clause de Révision Prix Matériaux (hausse fournisseurs > 10%)', dflt:false},
+    {id:'c-force-maj',     lbl:'Clause Force Majeure (détail étendu)', dflt:true},
+    {id:'c-abandon-chant', lbl:'Clause d\'Abandon de Chantier par le Client', dflt:true},
+    {id:'c-non-debauch',   lbl:'Clause Non-Débauchage du Personnel', dflt:false},
+  ],
+  en:[
+    {id:'c-comportement',  lbl:'Team Protection & Conduct Clause', dflt:true},
+    {id:'c-prop-intel',    lbl:'Intellectual Property Clause (plans, designs)', dflt:true},
+    {id:'c-image',         lbl:'Image Rights & Communication Clause (social media, portfolio)', dflt:true},
+    {id:'c-anti-litige',   lbl:'Mandatory Mediation Clause (before court)', dflt:true},
+    {id:'c-confidential',  lbl:'Project Confidentiality Clause', dflt:true},
+    {id:'c-sous-traiter',  lbl:'Subcontracting Rights Clause', dflt:true},
+    {id:'c-materiau-prix', lbl:'Material Price Revision Clause (supplier increase > 10%)', dflt:false},
+    {id:'c-force-maj',     lbl:'Force Majeure Clause (extended)', dflt:true},
+    {id:'c-abandon-chant', lbl:'Client Site Abandonment Clause', dflt:true},
+    {id:'c-non-debauch',   lbl:'Non-Poaching of Staff Clause', dflt:false},
+  ],
+};
+let clauseState = {};
+function renderClauses() {
+  const c = document.getElementById('clauses-toggles');
+  c.innerHTML = CLAUSE_DEFS[L].map(cl=>{
+    if (clauseState[cl.id] === undefined) clauseState[cl.id] = cl.dflt;
+    return `<div class="toggle-row">
+      <span class="toggle-lbl">${cl.lbl}</span>
+      <button class="toggle-sw ${clauseState[cl.id]?'on':''}" onclick="toggleC('${cl.id}')"></button>
+    </div>`;
+  }).join('');
+}
+function toggleC(id) {
+  clauseState[id] = !clauseState[id];
+  renderClauses(); upd();
+}
+function getClauses() {
+  const res = {};
+  CLAUSE_DEFS[L].forEach(cl => res[cl.id] = clauseState[cl.id]);
+  return res;
+}
+
+// ─── STEP NAV ─────────────────────────────────────────────────────────────────
+let curStep = 1;
+function go(n) {
+  [1,2,3,4,5].forEach(i=>{
+    document.getElementById(`sp${i}`).style.display = i===n?'':'none';
+    document.getElementById(`snav${i}`).classList.toggle('active', i===n);
+  });
+  curStep = n;
+}
+
+// ─── TRANCHES ─────────────────────────────────────────────────────────────────
+let tranches = [];
+function initTranches() {
+  const names = t('tr-names');
+  tranches = [{desc:names[0]||'', pct:50},{desc:names[1]||'', pct:40},{desc:names[2]||'', pct:10}];
+  renderTranches();
+}
+function renderTranches() {
+  const d = document.getElementById('tr-list');
+  d.innerHTML = tranches.map((tr,i)=>`
+    <div class="tr-row">
+      <input type="text" value="${tr.desc}" placeholder="${t('tr-names')[i]||'Description'}"
+        oninput="tranches[${i}].desc=this.value;upd()" style="font-size:11.5px">
+      <div class="tr-pct">
+        <input type="number" value="${tr.pct}" min="0" max="100"
+          oninput="tranches[${i}].pct=+this.value;updF()" style="font-size:11.5px">
+        <span>%</span>
+      </div>
+      <button class="btn-rm" onclick="remTr(${i})">×</button>
+    </div>`).join('');
+  updF();
+}
+function addTr() { tranches.push({desc:'',pct:0}); renderTranches(); }
+function remTr(i) { tranches.splice(i,1); renderTranches(); upd(); }
+
+// ─── FINANCE UPDATE ───────────────────────────────────────────────────────────
+function updF() {
+  const ht = +(document.getElementById('f-montant')?.value)||0;
+  const tva = +(document.getElementById('f-tva')?.value)||0;
+  const ttc = ht * (1 + tva/100);
+  const dev = document.getElementById('f-devise')?.value||'MAD';
+  const tot = tranches.reduce((s,t)=>s+(+t.pct||0),0);
+  document.getElementById('v-pct').textContent = tot+'%';
+  document.getElementById('v-pct').style.color = tot===100?'#1E7A4A':tot>100?'#B5341A':'#aaa';
+  document.getElementById('v-total').textContent = fmtAmt(ttc, dev);
+  const w = document.getElementById('pct-warn');
+  if (tot!==100&&ht>0)
+    w.innerHTML=`<div class="warn">⚠️ Les tranches totalisent ${tot}% — elles doivent atteindre 100%</div>`;
+  else if (tot===100&&ht>0)
+    w.innerHTML=`<div class="ok-note">✓ Échéancier équilibré – 100%</div>`;
+  else w.innerHTML='';
+  upd();
+}
+
+function fmtAmt(n, dev='MAD') {
+  if (!n) return '0 '+dev;
+  return n.toLocaleString('fr-MA', {minimumFractionDigits:2, maximumFractionDigits:2})+' '+dev;
+}
+function fmtDate(ds) {
+  if (!ds) return L==='fr'?'…… / …… / ………':'…… / …… / ………';
+  const d=new Date(ds);
+  return `${String(d.getDate()).padStart(2,'0')} / ${String(d.getMonth()+1).padStart(2,'0')} / ${d.getFullYear()}`;
+}
+
+// ─── GET DATA ──────────────────────────────────────────────────────────────────
+function getData() {
+  const ht = +(document.getElementById('f-montant')?.value)||0;
+  const tvaPct = +(document.getElementById('f-tva')?.value)||0;
+  const ttc = ht*(1+tvaPct/100);
+  const dev = document.getElementById('f-devise')?.value||'MAD';
+  return {
+    nom:        document.getElementById('f-nom')?.value||'',
+    cin:        document.getElementById('f-cin')?.value||'',
+    qualite:    document.getElementById('f-qualite')?.value||'particulier_fr',
+    adresse:    document.getElementById('f-adresse')?.value||'',
+    tel:        document.getElementById('f-tel')?.value||'',
+    email:      document.getElementById('f-email')?.value||'',
+    dateC:      document.getElementById('f-dateC')?.value||'',
+    ref:        document.getElementById('f-ref')?.value||'CDL-2025-001',
+    ville:      document.getElementById('f-ville')?.value||'Tanger',
+    adresseTx:  document.getElementById('f-adresseTx')?.value||'',
+    typeBien:   document.getElementById('f-typeBien')?.value||'appartement',
+    surface:    document.getElementById('f-surface')?.value||'',
+    descTx:     document.getElementById('f-descTx')?.value||'',
+    dateDebut:  document.getElementById('f-debut')?.value||'',
+    duree:      document.getElementById('f-duree')?.value||'',
+    acces:      document.getElementById('f-acces')?.value||'',
+    ht, tvaPct, ttc, dev,
+    mode:       document.getElementById('f-mode')?.value||'virement',
+    rib:        document.getElementById('f-rib')?.value||'',
+    delaiRet:   document.getElementById('f-delaiRet')?.value||'5',
+    penalite:   document.getElementById('f-penalite')?.value||'1.5',
+    fraisRedem: document.getElementById('f-fraisRedem')?.value||'',
+    garantie:   document.getElementById('f-garantie')?.value||'1 an',
+    delaiRes:   document.getElementById('f-delaiRes')?.value||'7',
+    tribunal:   document.getElementById('f-tribunal')?.value||'Tanger',
+    clauseSpec: document.getElementById('f-clauseSpec')?.value||'',
+    exclusions: document.getElementById('f-exclusions')?.value||'',
+    typeContrat:document.getElementById('f-typeContrat')?.value||'travaux_finition',
+    responsable:document.getElementById('f-responsable')?.value||'',
+    architecte: document.getElementById('f-architecte')?.value||'',
+    confidentialite:document.getElementById('f-confidentialite')?.value||'confidentiel',
+    version:    document.getElementById('f-version')?.value||'v1.0',
+    annexes:    document.getElementById('f-annexes')?.value||'',
+    services:   [...selSvc].map(id=>{const s=SVCS[L].find(x=>x.id===id); return s?s.lbl:id;}),
+    tranches:   tranches.map(tr=>({...tr, montant: Math.round(ttc*tr.pct/100*100)/100, dev})),
+    clauses:    getClauses(),
+  };
+}
+
+// ─── COMPUTE ARTICLE NUMBER ───────────────────────────────────────────────────
+function buildArticles(d) {
+  const fr = L==='fr';
+  let n = 1;
+  const art = (title, body) => `
+    <div class="art">
+      <div class="art-title"><span class="anum">ART. ${String(n).padStart(2,'0')}</span>${title}</div>
+      <div class="art-body">${body}</div>
+    </div>`;
+  const next = () => n++;
+
+  const TYPELABEL = {
+    travaux_finition: fr?'TRAVAUX DE FINITION':'FINISHING WORKS',
+    travaux_gros_oeuvre: fr?'TRAVAUX GROS ŒUVRE & RÉNOVATION':'CONSTRUCTION & RENOVATION',
+    design_interior: fr?'DESIGN D\'INTÉRIEUR':'INTERIOR DESIGN',
+    cle_main: fr?'CONTRAT CLÉ EN MAIN':'TURNKEY CONTRACT',
+    ameublement: fr?'VENTE & INSTALLATION AMEUBLEMENT':'FURNITURE SUPPLY & INSTALLATION',
+    maintenance: fr?'CONTRAT DE MAINTENANCE':'MAINTENANCE AGREEMENT',
+    suivi_chantier: fr?'SUIVI & COORDINATION':'SITE MANAGEMENT',
+  }[d.typeContrat]||d.typeContrat;
+
+  const modeLabel = t('mode-names')[d.mode]||d.mode;
+  const svcsStr = d.services.length>0 ? d.services.join(', ') : (fr?'Non précisé':'Not specified');
+  const typeBienLabel = {
+    appartement:fr?'Appartement':'Apartment', villa:'Villa',
+    bureau:fr?'Bureau / Local Commercial':'Office / Commercial Space',
+    riad:'Riad', maison:fr?'Maison':'House',
+    duplex:fr?'Duplex/Triplex':'Duplex/Triplex',
+    local:fr?'Local Industriel':'Industrial Space', autre:fr?'Autre':'Other',
+  }[d.typeBien]||d.typeBien;
+
+  let out = '';
+  const totPct = d.tranches.reduce((s,tr)=>s+(+tr.pct||0),0);
+
+  // ART 1 - OBJET
+  next();
+  out += art(
+    fr?'OBJET DU CONTRAT':'SCOPE OF AGREEMENT',
+    fr?`<p>Le présent contrat a pour objet la réalisation par <strong>CASA DI LUSSO SARL</strong> (ci-après « Le Prestataire ») de travaux et prestations de type <strong>${TYPELABEL}</strong> dans le bien immobilier du Client.</p>
+    <p><strong>${fr?'Type de bien :':'Property type:'}</strong> ${typeBienLabel}${d.surface?' – '+d.surface+' m²':''}</p>
+    <p><strong>${fr?'Adresse du chantier :':'Site address:'}</strong> ${d.adresseTx||'………………………………………………………………'}</p>
+    ${d.services.length>0?`<div class="c-services-box"><div class="c-services-title">${fr?'SERVICES CONVENUS':'AGREED SERVICES'}</div><div class="c-stags">${d.services.map(s=>`<span class="c-stag">${s}</span>`).join('')}</div></div>`:''}
+    ${d.descTx?`<div class="highlight"><strong>${fr?'Détail des travaux :':'Works description:'}</strong><br>${d.descTx.replace(/\n/g,'<br>')}</div>`:''}
+    <p>${fr?'Tout travail ou prestation non mentionné(e) expressément au présent article est <strong>formellement exclu(e)</strong> du présent contrat et ne pourra être réclamé(e) sans nouvel accord contractuel écrit.':'Any work or service not expressly mentioned in this article is <strong>expressly excluded</strong> from this contract and cannot be claimed without a new written contractual agreement.'}</p>`
+    :`<p>This contract covers the execution by <strong>CASA DI LUSSO SARL</strong> ("The Service Provider") of <strong>${TYPELABEL}</strong> works at the Client's property.</p>
+    <p><strong>Property type:</strong> ${typeBienLabel}${d.surface?' – '+d.surface+' m²':''}</p>
+    <p><strong>Site address:</strong> ${d.adresseTx||'………………………………………………………'}</p>
+    ${d.services.length>0?`<div class="c-services-box"><div class="c-services-title">AGREED SERVICES</div><div class="c-stags">${d.services.map(s=>`<span class="c-stag">${s}</span>`).join('')}</div></div>`:''}
+    ${d.descTx?`<div class="highlight"><strong>Works description:</strong><br>${d.descTx.replace(/\n/g,'<br>')}</div>`:''}
+    <p>Any work or service not expressly mentioned is <strong>excluded</strong> and may not be claimed without a new written agreement.</p>`
+  );
+
+  // ART 2 - PLANNING
+  if (d.dateDebut || d.duree) {
+    next();
+    out += art(
+      fr?'PLANNING & DÉLAIS D\'EXÉCUTION':'SCHEDULE & EXECUTION TIMELINE',
+      `<div class="plan-grid">
+        ${d.dateDebut?`<div class="plan-card"><div class="plan-card-label">${fr?'Date de début':'Start date'}</div><div class="plan-card-val">${fmtDate(d.dateDebut)}</div></div>`:''}
+        ${d.duree?`<div class="plan-card"><div class="plan-card-label">${fr?'Durée estimée':'Est. duration'}</div><div class="plan-card-val">${d.duree}</div></div>`:''}
+        ${d.dateDebut&&d.duree?`<div class="plan-card"><div class="plan-card-label">${fr?'Livraison prévisionnelle':'Est. delivery'}</div><div class="plan-card-val">${fr?'Selon planning':'Per schedule'}</div></div>`:''}
+      </div>
+      <p>${fr?`Le planning communiqué est <strong>estimatif</strong> et non contractuellement opposable. Le Prestataire mettra tout en œuvre pour respecter les délais convenus, sous réserve de la bonne exécution des obligations du Client (paiements, validations, accès chantier). Tout retard imputable au Client entraîne automatiquement un décalage du planning sans possibilité d'invoquer une quelconque pénalité à l'encontre du Prestataire.`
+        :`The communicated schedule is <strong>indicative</strong> and not contractually binding. The Service Provider will make every effort to meet agreed timelines, subject to the Client's timely fulfillment of obligations (payments, approvals, site access). Any delay attributable to the Client automatically pushes the schedule back with no right to invoke penalties against the Service Provider.`}</p>`
+    );
+  }
+
+  // ART - FORCE CONTRACTUELLE
+  next();
+  out += art(
+    fr?'FORCE CONTRACTUELLE ET PREUVE':'CONTRACTUAL FORCE AND EVIDENCE',
+    fr?`<p>Le présent contrat, le devis signé par les deux parties, les plans et visuels approuvés par écrit, ainsi que toutes les confirmations officielles écrites, constituent <strong>la base légale exclusive et exhaustive</strong> des engagements réciproques des parties.</p>
+    <ul>
+      <li>Tout échange oral, réunion informelle, discussion téléphonique ou message non validé officiellement par voie écrite ou électronique <strong>n'a aucune valeur contractuelle</strong>.</li>
+      <li>Les messages WhatsApp, SMS, e-mails et tout document signé ou validé par le Client <strong>font foi</strong> et peuvent être produits comme preuves en cas de litige.</li>
+      <li>Toute modification au présent contrat doit faire l'objet d'un <strong>avenant écrit signé</strong> par les deux parties pour être valide.</li>
+    </ul>
+    <div class="highlight">En cas de contradiction entre le présent contrat et tout autre document, <strong>le présent contrat prime</strong>, sauf avenant signé postérieurement.</div>`
+    :`<p>This contract, together with the quotation signed by both parties, written and approved plans, and all official written confirmations, constitutes the <strong>sole and exhaustive legal basis</strong> of the parties' mutual commitments.</p>
+    <ul>
+      <li>Any oral exchange, informal meeting, telephone discussion, or unvalidated message has <strong>no contractual value</strong>.</li>
+      <li>WhatsApp messages, SMS, emails, and any document signed or validated by the Client <strong>shall serve as evidence</strong> and may be produced in any dispute.</li>
+      <li>Any modification to this contract must be formalized by a <strong>written amendment signed</strong> by both parties.</li>
+    </ul>
+    <div class="highlight">In case of contradiction between this contract and any other document, <strong>this contract prevails</strong>, unless a later signed amendment exists.</div>`
+  );
+
+  // ART - OBLIGATIONS PRESTATAIRE
+  next();
+  out += art(
+    fr?'OBLIGATIONS DU PRESTATAIRE':'SERVICE PROVIDER OBLIGATIONS',
+    fr?`<p>Le Prestataire s'engage à :</p>
+    <ul>
+      <li>Exécuter les travaux conformément aux <strong>règles de l'art</strong> et aux normes techniques marocaines en vigueur.</li>
+      <li>Mettre à disposition une <strong>équipe qualifiée et expérimentée</strong>, sous la supervision d'un responsable de chantier désigné.</li>
+      <li>Respecter les choix esthétiques et techniques <strong>validés par écrit</strong> par le Client.</li>
+      <li>Informer le Client de tout aléa ou difficulté susceptible d'affecter le planning ou le budget.</li>
+      <li>Veiller au maintien d'un chantier <strong>propre et sécurisé</strong> tout au long de l'exécution.</li>
+      <li>Assurer la coordination entre les différents corps de métier intervenants.</li>
+    </ul>
+    ${d.responsable?`<p><strong>Responsable de projet désigné :</strong> ${d.responsable}</p>`:''}
+    ${d.architecte?`<p><strong>Architecte / Designer associé :</strong> ${d.architecte}</p>`:''}
+    <div class="highlight">Le Prestataire est tenu à une <strong>obligation de moyen</strong> et non de résultat pour les travaux dont les matériaux, choix esthétiques et contraintes spécifiques sont imposés par le Client.</div>`
+    :`<p>The Service Provider undertakes to:</p>
+    <ul>
+      <li>Execute works in compliance with <strong>professional standards</strong> and applicable Moroccan technical regulations.</li>
+      <li>Provide a <strong>qualified and experienced team</strong> under the supervision of a designated site manager.</li>
+      <li>Respect aesthetic and technical choices <strong>validated in writing</strong> by the Client.</li>
+      <li>Inform the Client of any hazard or difficulty likely to affect the schedule or budget.</li>
+      <li>Maintain a <strong>clean and safe worksite</strong> throughout execution.</li>
+      <li>Coordinate between the various trades involved.</li>
+    </ul>
+    ${d.responsable?`<p><strong>Designated Project Manager:</strong> ${d.responsable}</p>`:''}
+    ${d.architecte?`<p><strong>Associated Architect / Designer:</strong> ${d.architecte}</p>`:''}
+    <div class="highlight">The Service Provider is bound by a <strong>best-efforts obligation</strong> (not a results obligation) for works where materials, aesthetic choices, and specific constraints are imposed by the Client.</div>`
+  );
+
+  // ART - OBLIGATIONS CLIENT
+  next();
+  out += art(
+    fr?'OBLIGATIONS RENFORCÉES DU CLIENT':'REINFORCED CLIENT OBLIGATIONS',
+    fr?`<p>Le Client s'engage contractuellement et irrévocablement à :</p>
+    <ul>
+      <li><strong>Respecter</strong> l'ensemble des membres de l'équipe du Prestataire et leurs décisions techniques professionnelles.</li>
+      <li>Fournir toutes les <strong>validations écrites</strong> (plans, choix de matériaux, modifications) dans des délais raisonnables n'excédant pas 72h, sauf accord contraire.</li>
+      <li>Régler les <strong>paiements aux dates convenues</strong> dans l'échéancier contractuel.</li>
+      <li>N'exercer aucune pression, menace, intimidation ni contrainte sur les équipes, les sous-traitants ou les fournisseurs du Prestataire.</li>
+      <li>Garantir un <strong>accès libre, sécurisé et continu</strong> au chantier selon les conditions convenues.${d.acces?` (${d.acces})`:''}</li>
+      <li><strong>Assumer l'entière responsabilité</strong> de toutes les décisions esthétiques et techniques qu'il a validées par écrit.</li>
+      <li>S'abstenir de faire intervenir <strong>toute autre entreprise ou artisan</strong> sur le chantier sans accord préalable écrit du Prestataire.</li>
+      <li>Assurer la présence d'un représentant habilité à <strong>prendre des décisions</strong> lors des réunions de chantier planifiées.</li>
+    </ul>
+    <div class="warning-box">⚠️ En cas de non-respect de l'une de ces obligations, le Prestataire se réserve le droit de <strong>suspendre immédiatement les travaux</strong> sans préavis ni indemnité, et de facturer les frais de redémarrage prévus au présent contrat.</div>`
+    :`<p>The Client contractually and irrevocably undertakes to:</p>
+    <ul>
+      <li><strong>Respect</strong> all members of the Service Provider's team and their professional technical decisions.</li>
+      <li>Provide all <strong>written validations</strong> (plans, material choices, modifications) within reasonable timeframes not exceeding 72 hours, unless otherwise agreed.</li>
+      <li>Make <strong>payments on the agreed dates</strong> in the contractual schedule.</li>
+      <li>Not exert any pressure, threats, intimidation, or constraint on the teams, subcontractors, or suppliers.</li>
+      <li>Guarantee <strong>free, secure, and continuous site access</strong> under the agreed conditions.${d.acces?` (${d.acces})`:''}</li>
+      <li>Take <strong>full responsibility</strong> for all aesthetic and technical decisions validated in writing.</li>
+      <li>Refrain from having <strong>any other company or tradesperson</strong> on site without prior written consent from the Service Provider.</li>
+      <li>Ensure the presence of an authorized representative empowered to make decisions at scheduled site meetings.</li>
+    </ul>
+    <div class="warning-box">⚠️ In case of non-compliance, the Service Provider reserves the right to <strong>immediately suspend works</strong> without notice or compensation, and to invoice the restart fees provided in this contract.</div>`
+  );
+
+  // ART - RETARDS & ALEAS
+  next();
+  out += art(
+    fr?'DÉLAIS, RETARDS ET ALÉAS':'TIMELINES, DELAYS AND CONTINGENCIES',
+    fr?`<p>Le Prestataire ne saurait être tenu responsable de tout retard résultant des causes ci-après listées, qui constituent autant de <strong>cas de suspension automatique</strong> du délai contractuel :</p>
+    <ul>
+      <li>Retard ou défaut de paiement de la part du Client au-delà du délai toléré ;</li>
+      <li>Retard du Client dans la validation des plans, choix de matériaux ou modifications ;</li>
+      <li>Changement de design ou de prestation décidé après validation initiale ;</li>
+      <li>Retard d'importation, rupture de stock chez les fournisseurs ou délais douaniers ;</li>
+      <li>Cas de force majeure (pandémie, catastrophe naturelle, conflit, décision administrative) ;</li>
+      <li>Problème structurel imprévu découvert en cours de chantier ;</li>
+      <li>Intervention de tiers non mandatés par le Prestataire ;</li>
+      <li>Défaut d'accès au chantier.</li>
+    </ul>
+    <div class="highlight">Tout retard imputable au Client <strong>repousse automatiquement</strong> le planning d'un nombre de jours équivalent, sans possibilité pour le Client d'invoquer une quelconque pénalité à l'encontre du Prestataire.</div>`
+    :`<p>The Service Provider cannot be held liable for any delay resulting from the following causes, which constitute automatic <strong>suspension of the contractual timeline</strong>:</p>
+    <ul>
+      <li>Late or missing payment from the Client beyond the tolerated delay;</li>
+      <li>Client delay in validating plans, material choices, or modifications;</li>
+      <li>Design or scope changes decided after initial validation;</li>
+      <li>Import delays, supplier stock shortages, or customs issues;</li>
+      <li>Force majeure (pandemic, natural disaster, conflict, administrative order);</li>
+      <li>Unforeseen structural issues discovered during works;</li>
+      <li>Unauthorized third-party interventions;</li>
+      <li>Denied or blocked site access.</li>
+    </ul>
+    <div class="highlight">Any delay attributable to the Client <strong>automatically extends</strong> the timeline by the equivalent number of days, with no right for the Client to invoke penalties against the Service Provider.</div>`
+  );
+
+  // ART - MODIFICATIONS
+  next();
+  out += art(
+    fr?'MODIFICATIONS, AVENANTS ET TRAVAUX SUPPLÉMENTAIRES':'MODIFICATIONS, AMENDMENTS AND ADDITIONAL WORKS',
+    fr?`<p>Le périmètre des travaux défini à l'Article 1 est ferme et définitif à compter de la date de signature. Toute modification ultérieure est soumise aux règles suivantes :</p>
+    <ol>
+      <li>La demande de modification doit être formulée <strong>par écrit</strong> (email ou document signé).</li>
+      <li>Le Prestataire établira un <strong>devis complémentaire</strong> dans un délai raisonnable.</li>
+      <li>La modification ne sera exécutée qu'après <strong>signature du devis additionnel</strong> et versement de l'acompte correspondant.</li>
+      <li>Tout changement entraîne une <strong>révision du planning</strong> à la hausse ou à la baisse selon la nature des travaux.</li>
+      <li>Les <strong>moins-values</strong> (réductions de prestations) n'ouvrent pas droit au remboursement des sommes déjà versées.</li>
+    </ol>
+    <div class="warning-box">⚠️ <strong>Aucune modification verbale</strong> ne sera prise en compte. Tout travail supplémentaire exécuté sans avenant signé sera facturé sur la base du tarif horaire en vigueur du Prestataire.</div>`
+    :`<p>The works scope defined in Article 1 is firm and final from the signing date. Any subsequent modification is subject to the following rules:</p>
+    <ol>
+      <li>Any modification request must be made <strong>in writing</strong> (email or signed document).</li>
+      <li>The Service Provider will issue a <strong>supplementary quotation</strong> within a reasonable timeframe.</li>
+      <li>The modification will only be executed after <strong>signing the additional quotation</strong> and payment of the corresponding deposit.</li>
+      <li>Any change entails a <strong>revision of the timeline</strong>, up or down, depending on the nature of works.</li>
+      <li><strong>Reductions</strong> in scope do not entitle the Client to a refund of amounts already paid.</li>
+    </ol>
+    <div class="warning-box">⚠️ <strong>No verbal modification</strong> will be considered. Any additional work performed without a signed amendment will be invoiced at the Service Provider's current hourly rate.</div>`
+  );
+
+  // ART - CONDITIONS FINANCIERES
+  next();
+  const trRows = d.tranches.map((tr,i)=>`
+    <tr>
+      <td>${i+1}</td>
+      <td>${tr.desc}</td>
+      <td style="text-align:center">${tr.pct}%</td>
+      <td class="mono">${fmtAmt(tr.montant, tr.dev)}</td>
+    </tr>`).join('');
+  out += art(
+    fr?'CONDITIONS FINANCIÈRES ET IRRÉVOCABILITÉ DES PAIEMENTS':'FINANCIAL CONDITIONS AND PAYMENT IRREVOCABILITY',
+    fr?`<p><strong>Montant total HT :</strong> ${fmtAmt(d.ht, d.dev)}${d.tvaPct>0?` — TVA ${d.tvaPct}% : ${fmtAmt(d.ht*d.tvaPct/100, d.dev)} — <strong>TTC : ${fmtAmt(d.ttc, d.dev)}</strong>`:' (non assujetti TVA)'}</p>
+    <p>Les paiements sont échelonnés selon le tableau ci-après. Chaque versement est une condition suspensive à la poursuite des travaux :</p>
+    <table class="pay-table">
+      <thead><tr><th>#</th><th>${fr?'Description':'Description'}</th><th>%</th><th>${fr?'Montant':'Amount'}</th></tr></thead>
+      <tbody>${trRows}</tbody>
+      <tfoot><tr class="ptotal"><td colspan="2"><strong>TOTAL</strong></td><td style="text-align:center"><strong>${totPct}%</strong></td><td class="mono"><strong>${fmtAmt(d.ttc, d.dev)}</strong></td></tr></tfoot>
+    </table>
+    <p><strong>Mode de règlement :</strong> ${t('mode-names')[d.mode]||d.mode}${d.rib?` — ${d.rib}`:''}</p>
+    <ul>
+      <li>Tout acompte versé est <strong>définitivement acquis au Prestataire</strong> et non remboursable, sauf faute lourde dûment constatée par décision judiciaire définitive.</li>
+      <li>En cas de retard de paiement supérieur à <strong>${d.delaiRet} jours</strong> calendaires :
+        <ul>
+          <li>Les travaux sont <strong>immédiatement suspendus</strong> et les équipes retirées du chantier ;</li>
+          <li>Des <strong>pénalités de retard</strong> de <strong>${d.penalite}% par jour</strong> de retard sont automatiquement applicables sur les sommes dues ;</li>
+          <li>${d.fraisRedem?`Des <strong>frais de redémarrage</strong> d'un montant de <strong>${fmtAmt(+d.fraisRedem, d.dev)}</strong> seront facturés avant toute reprise des travaux ;`:''}</li>
+          <li>Le planning est automatiquement révisé sans droit à indemnité pour le Client.</li>
+        </ul>
+      </li>
+    </ul>`
+    :`<p><strong>Total amount (excl. tax):</strong> ${fmtAmt(d.ht, d.dev)}${d.tvaPct>0?` — VAT ${d.tvaPct}%: ${fmtAmt(d.ht*d.tvaPct/100, d.dev)} — <strong>Incl. tax: ${fmtAmt(d.ttc, d.dev)}</strong>`:' (VAT-exempt)'}</p>
+    <p>Payments are scheduled as follows. Each payment is a condition for the continuation of works:</p>
+    <table class="pay-table">
+      <thead><tr><th>#</th><th>Description</th><th>%</th><th>Amount</th></tr></thead>
+      <tbody>${trRows}</tbody>
+      <tfoot><tr class="ptotal"><td colspan="2"><strong>TOTAL</strong></td><td style="text-align:center"><strong>${totPct}%</strong></td><td class="mono"><strong>${fmtAmt(d.ttc, d.dev)}</strong></td></tr></tfoot>
+    </table>
+    <p><strong>Payment method:</strong> ${t('mode-names')[d.mode]||d.mode}${d.rib?` — ${d.rib}`:''}</p>
+    <ul>
+      <li>Any deposit paid is <strong>definitively retained by the Service Provider</strong> and non-refundable, except in case of serious fault established by final court decision.</li>
+      <li>In case of payment delay exceeding <strong>${d.delaiRet} calendar days</strong>:
+        <ul>
+          <li>Works are <strong>immediately suspended</strong> and teams removed from site;</li>
+          <li><strong>Late payment penalties</strong> of <strong>${d.penalite}% per day</strong> automatically apply on overdue amounts;</li>
+          <li>${d.fraisRedem?`<strong>Restart fees</strong> of <strong>${fmtAmt(+d.fraisRedem, d.dev)}</strong> will be invoiced before any resumption of works;`:''}</li>
+          <li>The schedule is automatically revised with no right to compensation for the Client.</li>
+        </ul>
+      </li>
+    </ul>`
+  );
+
+  // ART - LIMITATION RESPONSABILITE
+  next();
+  out += art(
+    fr?'LIMITATION DE RESPONSABILITÉ':'LIMITATION OF LIABILITY',
+    fr?`<p>La responsabilité du Prestataire est expressément <strong>limitée et exclusivement engagée</strong> pour les travaux qu'il a lui-même réalisés. Le Prestataire est formellement <strong>dégagé de toute responsabilité</strong> pour :</p>
+    <ul>
+      <li>Les <strong>défauts structurels</strong> préexistants ou découverts en cours de chantier ;</li>
+      <li>Les <strong>infiltrations</strong> et problèmes provenant d'éléments extérieurs au périmètre du contrat ;</li>
+      <li>Les <strong>matériaux, produits ou équipements</strong> fournis par le Client ou imposés par lui ;</li>
+      <li>Les travaux réalisés par <strong>d'autres entreprises ou artisans</strong> intervenant sur le chantier ;</li>
+      <li>Les dégâts résultant d'un <strong>usage non conforme</strong>, de modifications, ou d'un défaut d'entretien après livraison ;</li>
+      <li>Les conséquences des <strong>décisions esthétiques ou techniques</strong> validées par le Client.</li>
+    </ul>
+    <div class="warning-box">La responsabilité totale du Prestataire, toutes causes confondues, est <strong>strictement plafonnée au montant total TTC effectivement encaissé</strong> dans le cadre du présent contrat.</div>`
+    :`<p>The Service Provider's liability is expressly <strong>limited and exclusively engaged</strong> for works it has itself carried out. The Service Provider is formally <strong>released from all liability</strong> for:</p>
+    <ul>
+      <li>Pre-existing or in-progress <strong>structural defects</strong>;</li>
+      <li><strong>Infiltrations</strong> and issues from elements outside the contract scope;</li>
+      <li><strong>Materials, products, or equipment</strong> supplied or imposed by the Client;</li>
+      <li>Works carried out by <strong>other companies or tradespeople</strong> on site;</li>
+      <li>Damage resulting from <strong>improper use</strong>, modifications, or lack of maintenance after delivery;</li>
+      <li>Consequences of <strong>aesthetic or technical decisions</strong> validated by the Client.</li>
+    </ul>
+    <div class="warning-box">The Service Provider's total liability, for all causes, is <strong>strictly capped at the total amount actually received</strong> under this contract.</div>`
+  );
+
+  // ART - RECEPTION
+  next();
+  out += art(
+    fr?'RÉCEPTION ET LIVRAISON DES TRAVAUX':'ACCEPTANCE AND DELIVERY OF WORKS',
+    fr?`<p><strong>Réception provisoire :</strong> Elle est effectuée en présence physique et obligatoire du Client (ou de son représentant mandaté par écrit). Un <strong>procès-verbal de réception</strong> sera établi et signé par les deux parties.</p>
+    <p>Toute <strong>réserve</strong> (malfaçon, non-conformité) doit être formulée de manière précise et par écrit dans un délai de <strong>${d.delaiRes} jours ouvrés</strong> suivant la réception provisoire.</p>
+    <ul>
+      <li>Les réserves mentionnées feront l'objet d'une <strong>reprise contradictoire</strong> dans un délai raisonnable.</li>
+      <li>Passé le délai de ${d.delaiRes} jours sans réserve écrite, les travaux sont réputés <strong>réceptionnés définitivement et sans réserve</strong>.</li>
+      <li>La réception vaut <strong>point de départ</strong> du délai de garantie.</li>
+    </ul>
+    <div class="highlight">L'absence du Client à la réception, sans délégation écrite préalable, vaut <strong>acceptation tacite</strong> des travaux sans réserve.</div>`
+    :`<p><strong>Provisional acceptance:</strong> Carried out with the Client (or their duly mandated representative) present. A <strong>formal acceptance report</strong> will be drafted and signed by both parties.</p>
+    <p>Any <strong>reservations</strong> (defects, non-conformity) must be precisely stated in writing within <strong>${d.delaiRes} working days</strong> of provisional acceptance.</p>
+    <ul>
+      <li>Stated reservations will be subject to a <strong>jointly supervised correction</strong> within a reasonable timeframe.</li>
+      <li>After ${d.delaiRes} days with no written reservation, works are deemed <strong>definitively accepted without reservation</strong>.</li>
+      <li>Acceptance marks the <strong>start date</strong> of the warranty period.</li>
+    </ul>
+    <div class="highlight">The Client's absence at acceptance, without prior written delegation, constitutes <strong>tacit acceptance</strong> without reservation.</div>`
+  );
+
+  // ART - GARANTIE
+  next();
+  out += art(
+    fr?'GARANTIE ET APRÈS-LIVRAISON':'WARRANTY AND POST-DELIVERY',
+    fr?`<p>Le Prestataire accorde une <strong>garantie contractuelle de ${d.garantie}</strong> sur les travaux réalisés dans le cadre du présent contrat, à compter de la date de réception définitive.</p>
+    <p>Cette garantie couvre les <strong>défauts d'exécution</strong> directement imputables aux travaux du Prestataire, à l'exclusion de :</p>
+    <ul>
+      <li>L'usure normale liée à l'utilisation ;</li>
+      <li>Les dégradations causées par le Client, ses locataires ou des tiers ;</li>
+      <li>Les interventions de tiers sur les travaux garantis ;</li>
+      <li>Un défaut d'entretien ou une utilisation non conforme à la destination des travaux ;</li>
+      <li>Les problèmes structurels non liés aux travaux réalisés.</li>
+    </ul>
+    <p>La mise en jeu de la garantie requiert une <strong>notification écrite</strong> détaillée adressée au Prestataire avec photos à l'appui.</p>`
+    :`<p>The Service Provider grants a <strong>contractual warranty of ${d.garantie}</strong> on works performed under this contract, from the definitive acceptance date.</p>
+    <p>This warranty covers <strong>execution defects</strong> directly attributable to the Service Provider's works, excluding:</p>
+    <ul>
+      <li>Normal wear from use;</li>
+      <li>Damage caused by the Client, tenants, or third parties;</li>
+      <li>Third-party interventions on warranted works;</li>
+      <li>Lack of maintenance or improper use;</li>
+      <li>Structural issues unrelated to works performed.</li>
+    </ul>
+    <p>Invoking the warranty requires a <strong>detailed written notification</strong> to the Service Provider with supporting photos.</p>`
+  );
+
+  // ART - COMPORTEMENT (conditional)
+  if (d.clauses['c-comportement']) {
+    next();
+    out += art(
+      fr?'CLAUSE DE COMPORTEMENT ET PROTECTION DES ÉQUIPES':'CONDUCT AND TEAM PROTECTION CLAUSE',
+      fr?`<p>Le Client s'engage formellement à maintenir des relations <strong>respectueuses et professionnelles</strong> avec l'ensemble du personnel, des sous-traitants et des fournisseurs du Prestataire.</p>
+      <p>Constituent des motifs de <strong>résiliation immédiate</strong> et sans indemnité pour le Prestataire :</p>
+      <ul>
+        <li>Tout comportement abusif, humiliant, discriminatoire ou menaçant envers les équipes ;</li>
+        <li>Toute pression ou intimidation visant à obtenir des prestations non contractuelles ;</li>
+        <li>Toute ingérence non autorisée dans les décisions techniques du Prestataire ;</li>
+        <li>Tout dénigrement public du Prestataire ou de ses équipes.</li>
+      </ul>
+      <div class="warning-box">En cas de résiliation pour comportement abusif, <strong>toutes les sommes déjà versées restent définitivement acquises</strong> au Prestataire, et les travaux en cours seront facturés au prorata.</div>`
+      :`<p>The Client formally undertakes to maintain <strong>respectful and professional relations</strong> with all staff, subcontractors, and suppliers of the Service Provider.</p>
+      <p>The following constitute grounds for <strong>immediate termination</strong> without compensation for the Service Provider:</p>
+      <ul>
+        <li>Any abusive, humiliating, discriminatory, or threatening behavior toward teams;</li>
+        <li>Any pressure or intimidation to obtain non-contractual services;</li>
+        <li>Any unauthorized interference in the Service Provider's technical decisions;</li>
+        <li>Any public disparagement of the Service Provider or its teams.</li>
+      </ul>
+      <div class="warning-box">In case of termination for abusive conduct, <strong>all amounts already paid remain definitively retained</strong> by the Service Provider, and works in progress will be invoiced pro-rata.</div>`
+    );
+  }
+
+  // ART - PROPRIETE INTELLECTUELLE
+  if (d.clauses['c-prop-intel']) {
+    next();
+    out += art(
+      fr?'PROPRIÉTÉ INTELLECTUELLE':'INTELLECTUAL PROPERTY',
+      fr?`<p>L'ensemble des créations réalisées dans le cadre du présent contrat — incluant sans limitation les <strong>plans, dessins, moodboards, visuels, concepts d'aménagement, idées créatives, prototypes et études</strong> — demeurent la <strong>propriété intellectuelle exclusive et inaliénable</strong> de CASA DI LUSSO SARL.</p>
+      <p>Le Client bénéficie d'une <strong>licence d'utilisation personnelle</strong> pour le bien objet du contrat uniquement. Il lui est formellement interdit de :</p>
+      <ul>
+        <li>Reproduire, adapter ou diffuser ces créations à des fins commerciales ou publicitaires ;</li>
+        <li>Transmettre ou céder ces documents à des tiers ;</li>
+        <li>Utiliser ces créations pour un bien immobilier différent de celui visé au contrat ;</li>
+        <li>Déposer ces créations à titre de marque, brevet ou dessin industriel.</li>
+      </ul>
+      <p>Toute violation est susceptible d'engager la <strong>responsabilité civile et pénale</strong> du Client au titre du droit marocain de la propriété intellectuelle.</p>`
+      :`<p>All creations produced under this contract — including without limitation <strong>plans, drawings, moodboards, visuals, layout concepts, creative ideas, prototypes, and studies</strong> — remain the <strong>exclusive and inalienable intellectual property</strong> of CASA DI LUSSO SARL.</p>
+      <p>The Client is granted a <strong>personal use license</strong> for the property subject to this contract only. The Client is strictly prohibited from:</p>
+      <ul>
+        <li>Reproducing, adapting, or distributing these creations for commercial or advertising purposes;</li>
+        <li>Transferring or assigning these documents to third parties;</li>
+        <li>Using these creations for a property other than that specified in the contract;</li>
+        <li>Registering these creations as a trademark, patent, or industrial design.</li>
+      </ul>
+      <p>Any violation may engage the Client's <strong>civil and criminal liability</strong> under Moroccan intellectual property law.</p>`
+    );
+  }
+
+  // ART - IMAGE
+  if (d.clauses['c-image']) {
+    next();
+    out += art(
+      fr?'DROIT À L\'IMAGE ET COMMUNICATION':'IMAGE RIGHTS AND COMMUNICATION',
+      fr?`<p>Sauf refus <strong>exprès et écrit</strong> notifié dans les 8 jours suivant la signature du présent contrat, le Client autorise CASA DI LUSSO à :</p>
+      <ul>
+        <li>Photographier et filmer le chantier et le projet finalisé ;</li>
+        <li>Publier ces visuels sur son <strong>site internet, réseaux sociaux, portfolio</strong> et supports de communication ;</li>
+        <li>Citer le projet à titre de référence commerciale.</li>
+      </ul>
+      <p>Cette autorisation est concédée à titre <strong>gratuit, non exclusif et pour une durée illimitée</strong>. Le Prestataire s'engage à ne jamais mentionner les informations personnelles du Client sans accord exprès.</p>`
+      :`<p>Unless <strong>express written objection</strong> is notified within 8 days of signing, the Client authorizes CASA DI LUSSO to:</p>
+      <ul>
+        <li>Photograph and film the worksite and completed project;</li>
+        <li>Publish these visuals on its <strong>website, social media, portfolio</strong> and marketing materials;</li>
+        <li>Reference the project as a commercial reference.</li>
+      </ul>
+      <p>This authorization is granted <strong>free of charge, non-exclusively, and for an unlimited duration</strong>. The Service Provider undertakes never to mention the Client's personal information without express consent.</p>`
+    );
+  }
+
+  // ART - CONFIDENTIALITE
+  if (d.clauses['c-confidential']) {
+    next();
+    out += art(
+      fr?'CONFIDENTIALITÉ':'CONFIDENTIALITY',
+      fr?`<p>Les deux parties s'engagent mutuellement à traiter comme <strong>strictement confidentielles</strong> toutes les informations échangées dans le cadre du présent contrat, incluant notamment :</p>
+      <ul>
+        <li>Les montants financiers et conditions tarifaires ;</li>
+        <li>Les plans, documents techniques et spécifications du projet ;</li>
+        <li>Toute information relative aux méthodes de travail du Prestataire.</li>
+      </ul>
+      <p>Cette obligation de confidentialité survit à la <strong>résiliation ou fin du contrat</strong> pour une durée de <strong>5 ans</strong>.</p>`
+      :`<p>Both parties mutually undertake to treat as <strong>strictly confidential</strong> all information exchanged under this contract, including:</p>
+      <ul>
+        <li>Financial amounts and pricing conditions;</li>
+        <li>Plans, technical documents, and project specifications;</li>
+        <li>Any information relating to the Service Provider's working methods.</li>
+      </ul>
+      <p>This confidentiality obligation survives <strong>termination or expiry of the contract</strong> for a period of <strong>5 years</strong>.</p>`
+    );
+  }
+
+  // ART - SOUS-TRAITANCE
+  if (d.clauses['c-sous-traiter']) {
+    next();
+    out += art(
+      fr?'DROIT DE SOUS-TRAITANCE':'SUBCONTRACTING RIGHTS',
+      fr?`<p>Le Prestataire se réserve le droit de <strong>recourir à des sous-traitants</strong> qualifiés pour l'exécution de tout ou partie des travaux prévus au présent contrat, notamment pour les corps de métier spécialisés.</p>
+      <p>Le Prestataire demeure <strong>seul responsable</strong> vis-à-vis du Client de la bonne exécution des travaux sous-traités. Le Client renonce expressément à invoquer la sous-traitance comme motif de contestation, dès lors que les travaux sont conformes au présent contrat.</p>`
+      :`<p>The Service Provider reserves the right to <strong>engage qualified subcontractors</strong> for all or part of the works provided under this contract, particularly for specialized trades.</p>
+      <p>The Service Provider remains <strong>solely responsible</strong> to the Client for the proper execution of subcontracted works. The Client expressly waives the right to invoke subcontracting as a ground for dispute, provided works conform to this contract.</p>`
+    );
+  }
+
+  // ART - PRIX MATERIAUX
+  if (d.clauses['c-materiau-prix']) {
+    next();
+    out += art(
+      fr?'CLAUSE DE RÉVISION DES PRIX MATÉRIAUX':'MATERIAL PRICE REVISION CLAUSE',
+      fr?`<p>Dans l'hypothèse d'une <strong>hausse des prix des matériaux supérieure à 10%</strong> par rapport aux prix de référence au jour de la signature, imputable à des causes extérieures (inflation, rupture d'approvisionnement, décision gouvernementale), le Prestataire se réserve le droit de :</p>
+      <ul>
+        <li>Notifier le Client par écrit des nouvelles conditions tarifaires ;</li>
+        <li>Ajuster le montant du contrat à hauteur de la hausse constatée, après accord écrit du Client.</li>
+      </ul>
+      <p>En cas de désaccord, les parties s'engagent à <strong>négocier de bonne foi</strong> une solution dans un délai de 15 jours.</p>`
+      :`<p>In the event of a <strong>material price increase exceeding 10%</strong> versus reference prices at signing, due to external causes (inflation, supply shortage, government decision), the Service Provider reserves the right to:</p>
+      <ul>
+        <li>Notify the Client in writing of new pricing conditions;</li>
+        <li>Adjust the contract amount proportionally to the increase, subject to the Client's written agreement.</li>
+      </ul>
+      <p>In case of disagreement, parties undertake to <strong>negotiate in good faith</strong> within 15 days.</p>`
+    );
+  }
+
+  // ART - FORCE MAJEURE
+  if (d.clauses['c-force-maj']) {
+    next();
+    out += art(
+      fr?'FORCE MAJEURE':'FORCE MAJEURE',
+      fr?`<p>Aucune partie ne pourra être tenue responsable de l'inexécution de ses obligations lorsque celle-ci résulte d'un <strong>cas de force majeure</strong>, c'est-à-dire d'un événement imprévisible, irrésistible et extérieur aux parties, incluant notamment :</p>
+      <ul>
+        <li>Catastrophes naturelles, épidémies, pandémies ;</li>
+        <li>Conflits armés, émeutes, actes terroristes ;</li>
+        <li>Décisions gouvernementales ou administratives ;</li>
+        <li>Grèves générales affectant les secteurs d'approvisionnement.</li>
+      </ul>
+      <p>La partie invoquant la force majeure doit en notifier l'autre par <strong>écrit dans les 48 heures</strong>. Si la force majeure dure plus de <strong>60 jours consécutifs</strong>, chacune des parties pourra résilier le contrat sans indemnité, sous réserve de règlement des prestations déjà effectuées.</p>`
+      :`<p>Neither party shall be held liable for non-performance of obligations resulting from a <strong>force majeure event</strong>, defined as an unforeseeable, irresistible event external to the parties, including:</p>
+      <ul>
+        <li>Natural disasters, epidemics, pandemics;</li>
+        <li>Armed conflicts, riots, terrorist acts;</li>
+        <li>Government or administrative orders;</li>
+        <li>General strikes affecting supply chains.</li>
+      </ul>
+      <p>The invoking party must notify the other <strong>in writing within 48 hours</strong>. If force majeure lasts more than <strong>60 consecutive days</strong>, either party may terminate without compensation, subject to payment for works already performed.</p>`
+    );
+  }
+
+  // ART - ABANDON CHANTIER
+  if (d.clauses['c-abandon-chant']) {
+    next();
+    out += art(
+      fr?'ABANDON DE CHANTIER PAR LE CLIENT':'CLIENT SITE ABANDONMENT',
+      fr?`<p>Est considéré comme <strong>abandon de chantier</strong> le fait pour le Client de refuser ou d'empêcher l'accès au chantier pendant plus de <strong>15 jours consécutifs</strong> sans justification valable et acceptée par le Prestataire.</p>
+      <p>En cas d'abandon de chantier, le Prestataire est en droit de :</p>
+      <ul>
+        <li>Facturer l'intégralité des travaux réalisés et matériaux commandés ;</li>
+        <li>Retenir définitivement l'ensemble des sommes déjà versées ;</li>
+        <li>Récupérer tout matériel et outil lui appartenant ;</li>
+        <li>Facturer des <strong>indemnités d'immobilisation</strong> pour les équipes mobilisées.</li>
+      </ul>`
+      :`<p><strong>Site abandonment</strong> occurs when the Client refuses or prevents site access for more than <strong>15 consecutive days</strong> without valid justification accepted by the Service Provider.</p>
+      <p>In case of site abandonment, the Service Provider is entitled to:</p>
+      <ul>
+        <li>Invoice all completed works and ordered materials;</li>
+        <li>Definitively retain all amounts already paid;</li>
+        <li>Recover all equipment and tools belonging to it;</li>
+        <li>Invoice <strong>immobilization indemnities</strong> for mobilized teams.</li>
+      </ul>`
+    );
+  }
+
+  // ART - NON DEBAUCHAGE
+  if (d.clauses['c-non-debauch']) {
+    next();
+    out += art(
+      fr?'CLAUSE DE NON-DÉBAUCHAGE DU PERSONNEL':'NON-POACHING OF STAFF CLAUSE',
+      fr?`<p>Le Client s'engage, pendant la durée du présent contrat et pendant une période de <strong>24 mois</strong> suivant son terme ou sa résiliation, à ne pas directement ou indirectement :</p>
+      <ul>
+        <li>Recruter, solliciter ou engager tout membre du personnel ou sous-traitant du Prestataire ;</li>
+        <li>Inciter tout membre du personnel à quitter le Prestataire.</li>
+      </ul>
+      <p>En cas de violation, le Client s'engage à verser au Prestataire une <strong>indemnité forfaitaire</strong> équivalente à <strong>12 mois de salaire brut</strong> de la personne concernée.</p>`
+      :`<p>The Client undertakes, for the duration of this contract and for <strong>24 months</strong> following its end or termination, not to directly or indirectly:</p>
+      <ul>
+        <li>Recruit, solicit, or hire any member of the Service Provider's staff or subcontractors;</li>
+        <li>Encourage any staff member to leave the Service Provider.</li>
+      </ul>
+      <p>In case of violation, the Client agrees to pay the Service Provider a <strong>lump sum indemnity</strong> equivalent to <strong>12 months' gross salary</strong> of the person concerned.</p>`
+    );
+  }
+
+  // ART - RESILIATION
+  next();
+  out += art(
+    fr?'RÉSILIATION DU CONTRAT':'CONTRACT TERMINATION',
+    fr?`<div class="sub-title">12.1 – Résiliation à l'initiative du Client</div>
+    <p>Le Client peut mettre fin au présent contrat par <strong>lettre recommandée avec accusé de réception</strong>. En pareil cas, le Client s'engage à régler :</p>
+    <ul>
+      <li>La totalité des travaux réalisés à la date de résiliation, au prorata ;</li>
+      <li>Le coût de l'ensemble des matériaux commandés, livrés ou en cours de commande ;</li>
+      <li>Les frais de démobilisation des équipes ;</li>
+      <li>Une <strong>indemnité de résiliation</strong> de 15% du montant restant dû.</li>
+    </ul>
+    <p>L'acompte initial versé à l'ouverture du chantier reste <strong>définitivement et irrévocablement acquis</strong> au Prestataire.</p>
+    <div class="sub-title">12.2 – Résiliation à l'initiative du Prestataire</div>
+    <p>Le Prestataire peut résilier le présent contrat sans indemnité en cas de :</p>
+    <ul>
+      <li>Non-paiement d'une ou plusieurs tranches au-delà du délai toléré ;</li>
+      <li>Comportement abusif, menaçant ou irrespectueux envers les équipes ;</li>
+      <li>Blocage répété et injustifié du chantier ;</li>
+      <li>Refus répété de fournir les validations nécessaires à l'avancement des travaux ;</li>
+      <li>Insolvabilité ou redressement judiciaire du Client.</li>
+    </ul>`
+    :`<div class="sub-title">12.1 – Termination by the Client</div>
+    <p>The Client may terminate this contract by <strong>registered letter with acknowledgment of receipt</strong>. In such case, the Client undertakes to pay:</p>
+    <ul>
+      <li>All works completed at the termination date, on a pro-rata basis;</li>
+      <li>The cost of all materials ordered, delivered, or on order;</li>
+      <li>Team demobilization costs;</li>
+      <li>A <strong>termination indemnity</strong> of 15% of the remaining amount due.</li>
+    </ul>
+    <p>The initial deposit paid at project start is <strong>definitively and irrevocably retained</strong> by the Service Provider.</p>
+    <div class="sub-title">12.2 – Termination by the Service Provider</div>
+    <p>The Service Provider may terminate without compensation in case of:</p>
+    <ul>
+      <li>Non-payment of one or more installments beyond the tolerated delay;</li>
+      <li>Abusive, threatening, or disrespectful behavior toward teams;</li>
+      <li>Repeated and unjustified site blockage;</li>
+      <li>Repeated refusal to provide validations needed for works to progress;</li>
+      <li>Client insolvency or receivership.</li>
+    </ul>`
+  );
+
+  // ART - MEDIATION / REGLEMENT LITIGES
+  if (d.clauses['c-anti-litige']) {
+    next();
+    out += art(
+      fr?'MÉDIATION OBLIGATOIRE ET RÈGLEMENT DES LITIGES':'MANDATORY MEDIATION AND DISPUTE RESOLUTION',
+      fr?`<p>Avant tout recours judiciaire, les parties s'engagent expressément à rechercher une <strong>solution amiable</strong> selon la procédure suivante :</p>
+      <ol>
+        <li>La partie plaignante adresse une <strong>mise en demeure écrite</strong> à l'autre partie par lettre recommandée ;</li>
+        <li>L'autre partie dispose de <strong>15 jours ouvrés</strong> pour y répondre et proposer une solution ;</li>
+        <li>En l'absence d'accord dans un délai de <strong>30 jours</strong> suivant la mise en demeure, les parties peuvent saisir un médiateur agréé d'un commun accord ;</li>
+        <li>À défaut de médiation aboutie, les parties pourront saisir les juridictions compétentes.</li>
+      </ol>
+      <p>Les parties conviennent d'attribuer <strong>compétence exclusive</strong> aux juridictions commerciales du <strong>Tribunal de ${d.tribunal}</strong> pour connaître de tout litige relatif au présent contrat.</p>
+      <p>Le présent contrat est régi et interprété conformément au <strong>droit marocain</strong>, notamment le Dahir des obligations et contrats (DOC).</p>`
+      :`<p>Before any legal action, parties expressly undertake to seek an <strong>amicable solution</strong> through the following procedure:</p>
+      <ol>
+        <li>The complaining party sends a <strong>formal written notice</strong> to the other party by registered mail;</li>
+        <li>The other party has <strong>15 working days</strong> to respond and propose a solution;</li>
+        <li>Failing agreement within <strong>30 days</strong> of the formal notice, parties may jointly appoint an accredited mediator;</li>
+        <li>Failing successful mediation, parties may refer to the competent courts.</li>
+      </ol>
+      <p>Parties agree to grant <strong>exclusive jurisdiction</strong> to the commercial courts of the <strong>Court of ${d.tribunal}</strong> for any dispute arising from this contract.</p>
+      <p>This contract is governed and interpreted in accordance with <strong>Moroccan law</strong>, notably the Dahir of Obligations and Contracts (DOC).</p>`
+    );
+  }
+
+  // ART - LOI APPLICABLE
+  next();
+  out += art(
+    fr?'LOI APPLICABLE ET DISPOSITION FINALE':'APPLICABLE LAW AND FINAL PROVISIONS',
+    fr?`<p>Le présent contrat est régi et interprété conformément au <strong>droit du Royaume du Maroc</strong>. Tout sujet non expressément traité par le présent contrat sera régi par les dispositions légales marocaines applicables, notamment le Dahir du 12 août 1913 formant Code des Obligations et des Contrats (DOC).</p>
+    <p>Le présent contrat constitue l'intégralité de l'accord entre les parties et annule et remplace tous les accords, négociations et propositions antérieurs relatifs à son objet.</p>
+    <p>Si l'une des clauses du présent contrat est déclarée nulle ou inapplicable, les autres clauses demeurent <strong>pleinement en vigueur</strong>.</p>
+    ${d.exclusions?`<div class="art-divider"></div><p><strong>${fr?'Exclusions contractuelles expressément convenues :':'Expressly agreed exclusions:'}</strong><br>${d.exclusions.replace(/\n/g,'<br>')}</p>`:''}
+    ${d.clauseSpec?`<div class="art-divider"></div><p><strong>${fr?'Clauses spécifiques additionnelles :':'Additional specific clauses:'}</strong><br>${d.clauseSpec.replace(/\n/g,'<br>')}</p>`:''}
+    ${d.annexes?`<div class="highlight"><strong>${fr?'Annexes jointes au présent contrat :':'Annexes attached to this contract:'}</strong><br>${d.annexes.replace(/\n/g,'<br>')}</div>`:''}`
+    :`<p>This contract is governed and interpreted in accordance with the <strong>laws of the Kingdom of Morocco</strong>. Any matter not expressly covered is governed by applicable Moroccan legal provisions, notably the Dahir of 12 August 1913 forming the Code of Obligations and Contracts (DOC).</p>
+    <p>This contract constitutes the entire agreement between the parties and supersedes all prior agreements, negotiations, and proposals relating to its subject matter.</p>
+    <p>If any clause is declared void or unenforceable, the remaining clauses remain <strong>fully in force</strong>.</p>
+    ${d.exclusions?`<div class="art-divider"></div><p><strong>Expressly agreed exclusions:</strong><br>${d.exclusions.replace(/\n/g,'<br>')}</p>`:''}
+    ${d.clauseSpec?`<div class="art-divider"></div><p><strong>Additional specific clauses:</strong><br>${d.clauseSpec.replace(/\n/g,'<br>')}</p>`:''}
+    ${d.annexes?`<div class="highlight"><strong>Annexes attached to this contract:</strong><br>${d.annexes.replace(/\n/g,'<br>')}</div>`:''}`
+  );
+
+  return out;
+}
+
+// ─── GENERATE CONTRACT HTML ───────────────────────────────────────────────────
+function genContract(d) {
+  const fr = L==='fr';
+  const confidLabel = {confidentiel:'CONFIDENTIEL', usage_interne:'USAGE INTERNE', standard:'STANDARD'}[d.confidentialite]||'CONFIDENTIEL';
+  const CTYPES = {
+    travaux_finition: fr?'TRAVAUX DE FINITION':'FINISHING WORKS',
+    travaux_gros_oeuvre: fr?'GROS ŒUVRE & RÉNOVATION':'CONSTRUCTION & RENOVATION',
+    design_interior: fr?'DESIGN D\'INTÉRIEUR':'INTERIOR DESIGN',
+    cle_main: fr?'CONTRAT CLÉ EN MAIN':'TURNKEY CONTRACT',
+    ameublement: fr?'AMEUBLEMENT':'FURNITURE',
+    maintenance: fr?'MAINTENANCE':'MAINTENANCE',
+    suivi_chantier: fr?'COORDINATION DE CHANTIER':'SITE MANAGEMENT',
+  };
+
+  return `
+<div class="c-topstrip"></div>
+
+<div class="c-header">
+  <div>
+    <div class="c-logo">CASA DI <span class="cg">LUSSO</span></div>
+    <div class="c-logo-tag">Design · Travaux · Ameublement · Maroc</div>
+    <div class="c-logo-info">
+      SARL · RC 143377 · ICE 003389356000001<br>
+      IF 60116256 · CNSS 5001474<br>
+      Route N1, Al Moustakbal Roundabout – Tanger<br>
+      ${d.responsable?`<strong style="color:#888">${fr?'Chef de projet':'Project Manager'} :</strong> ${d.responsable}`:''}
+    </div>
+  </div>
+  <div class="c-meta">
+    <div class="c-ref">${d.ref||'CDL-2025-001'}</div>
+    <div class="c-date">
+      <strong>${fr?'Date :':'Date:'}</strong> ${fmtDate(d.dateC)}<br>
+      <strong>${fr?'Version :':'Version:'}</strong> ${d.version||'v1.0'}<br>
+      <strong>${fr?'Classe :':'Class:'}</strong> ${confidLabel}<br>
+      ${fr?'Tanger, Maroc':'Tangier, Morocco'}
+    </div>
+  </div>
+</div>
+
+<div class="c-confidential"><span>${t('confid-mark')}</span></div>
+
+<div class="c-title">
+  <h1>${t('contrat_title')}</h1>
+  <div class="c-subtitle">CASA DI LUSSO SARL · RC 143377 · ${fr?'Tanger, Maroc':'Tangier, Morocco'}</div>
+  <div class="c-type-badge">${CTYPES[d.typeContrat]||d.typeContrat}</div>
+</div>
+
+<p class="c-between">${t('entre')}</p>
+
+<div class="c-parties">
+  <div class="c-party prest">
+    <div class="c-party-label">${t('lbl-prest')}</div>
+    <strong>CASA DI LUSSO SARL</strong><br>
+    RC : 143377 · ICE : 003389356000001<br>
+    IF : 60116256 · CNSS : 5001474<br>
+    Route N1, Al Moustakbal Roundabout<br>
+    Tanger – Maroc<br><br>
+    <em>${t('ci-prest')}</em>
+  </div>
+  <div class="c-party client">
+    <div class="c-party-label">${t('lbl-client')}</div>
+    <strong>${d.nom||'…………………………………………'}</strong><br>
+    ${fr?'CIN / ICE':'ID / Passport'} : ${d.cin||'……………………………'}<br>
+    ${fr?'Qualité':'Status'} : ${d.qualite.includes('societe')?fr?'Personne Morale':'Legal Entity':fr?'Personne Physique':'Natural Person'}<br>
+    ${d.adresse||'……………………………………………'}<br>
+    ${d.tel||'…………………………………'}<br>
+    ${d.email?d.email+'<br>':''}<br>
+    <em>${t('ci-client')}</em>
+  </div>
+</div>
+
+${buildArticles(d)}
+
+<div class="sigs-box">
+  <div class="sigs-top">
+    <div class="sigs-title">✍ ${t('signatures-title')||'SIGNATURES'}</div>
+    <div class="sigs-date">${t('fait-a')} ${d.ville||'Tanger'}, ${t('le')} ${fmtDate(d.dateC)}</div>
+  </div>
+  <div class="sigs-grid">
+    <div class="sig-box">
+      <div class="sig-label">${t('lbl-client')}</div>
+      <div class="sig-note">${t('lu-approuve')}</div>
+      <div class="sig-line"></div>
+      <div class="sig-name">${d.nom||'…………………………………'}</div>
+      <div class="sig-role">${d.qualite.includes('societe')?fr?'Représentant légal':'Legal Representative':fr?'Particulier':'Individual'}</div>
+    </div>
+    <div class="sig-box">
+      <div class="sig-label">CASA DI LUSSO SARL</div>
+      <div class="sig-note">${t('sig-cachet')}</div>
+      <div class="sig-line"></div>
+      <div class="sig-name">Direction Générale</div>
+      <div class="sig-role">CASA DI LUSSO SARL</div>
+    </div>
+  </div>
+  <div class="initials-row">
+    <div class="init-box"><div class="init-line"></div><div class="init-label">${t('client-lbl')||'Client'}</div></div>
+    <div style="font-size:9.5px;color:#bbb;text-align:center;flex:1;padding:0 10px">${t('paraf')}</div>
+    <div class="init-box"><div class="init-line"></div><div class="init-label">${t('prest-lbl')||'Prestataire'}</div></div>
+  </div>
+</div>
+
+<div class="c-footer">
+  <div class="c-footer-logo">CASA DI LUSSO</div>
+  <div>${d.ref||'CDL-2025-001'} · RC 143377 · ${fr?'Tanger, Maroc':'Tangier, Morocco'}</div>
+  <div>${d.version||'v1.0'} · ${confidLabel}</div>
+</div>
+
+<div class="c-page-n">${t('p1')||'Page 1'}</div>
+`;
+}
+
+// ─── UPDATE ────────────────────────────────────────────────────────────────────
+function upd() {
+  const d = getData();
+  document.getElementById('cpage').innerHTML = genContract(d);
+}
+
+// ─── EXPORTS ───────────────────────────────────────────────────────────────────
+function doPrint() {
+  window.print();
+}
+
+function doWord() {
+  const d = getData();
+  const page = document.getElementById('cpage');
+  const styles = `
+    <style>
+      body { font-family: 'Times New Roman', serif; font-size: 11pt; margin: 2.5cm; color:#111; line-height:1.7; }
+      .c-topstrip { height:3px; background: linear-gradient(90deg,#0F0F1A,#B8973A,#0F0F1A); margin-bottom:20pt; }
+      .c-logo { font-size: 22pt; font-weight:bold; letter-spacing:2px; }
+      .cg { color:#B8973A; }
+      .c-ref { font-family: 'Courier New', monospace; background:#0F0F1A; color:#B8973A; padding:2pt 8pt; font-size:10pt; }
+      .c-title h1 { font-size:16pt; text-align:center; text-transform:uppercase; letter-spacing:2px; margin:16pt 0 6pt; }
+      .c-subtitle { text-align:center; font-size:9pt; color:#aaa; margin-bottom:4pt; }
+      .c-type-badge { display:block; text-align:center; border:1px solid #B8973A; color:#B8973A; padding:2pt 12pt; font-size:9pt; margin:6pt auto; width:fit-content; }
+      .c-parties { display:table; width:100%; margin-bottom:16pt; }
+      .c-party { display:table-cell; width:50%; padding:10pt; vertical-align:top; font-size:10pt; }
+      .c-party.prest { background:#0F0F1A; color:#eee; }
+      .c-party.client { background:#F7F0E0; border:1px solid #B8973A; }
+      .c-party-label { font-size:8pt; font-weight:bold; text-transform:uppercase; letter-spacing:1.5px; color:#B8973A; border-bottom:0.5pt solid #B8973A; padding-bottom:4pt; margin-bottom:6pt; }
+      .art { margin-bottom:14pt; }
+      .art-title { font-size:9.5pt; font-weight:bold; text-transform:uppercase; letter-spacing:1px; background:#F7F0E0; border-left:3pt solid #B8973A; padding:4pt 8pt; margin-bottom:6pt; }
+      .art-body { font-size:10.5pt; padding-left:4pt; }
+      .art-body p { margin-bottom:4pt; }
+      .art-body ul, .art-body ol { padding-left:16pt; margin:4pt 0; }
+      .art-body li { margin-bottom:2pt; }
+      .highlight { background:#F7F0E0; border-left:2pt solid #B8973A; padding:5pt 8pt; margin:5pt 0; font-size:10pt; }
+      .warning-box { background:#FDF0EC; border:1pt solid #f0c4bc; padding:5pt 8pt; margin:5pt 0; font-size:10pt; color:#B5341A; }
+      .pay-table { width:100%; border-collapse:collapse; font-size:10pt; margin:6pt 0; }
+      .pay-table th { background:#0F0F1A; color:#B8973A; padding:4pt 8pt; font-size:8.5pt; }
+      .pay-table td { padding:5pt 8pt; border-bottom:0.5pt solid #E2D9C8; }
+      .pay-table .ptotal td { background:#F7F0E0; font-weight:bold; }
+      .sig-box { border:1pt solid #E2D9C8; padding:12pt; min-height:100pt; display:table-cell; width:50%; vertical-align:top; }
+      .sigs-grid { display:table; width:100%; margin-top:12pt; }
+      .sig-label { font-size:8pt; font-weight:bold; text-transform:uppercase; letter-spacing:1.5px; color:#B8973A; margin-bottom:3pt; }
+      .sig-line { border-bottom:0.5pt dashed #ccc; height:50pt; margin:8pt 0; }
+      .c-footer { border-top:0.5pt solid #E2D9C8; padding-top:8pt; margin-top:20pt; font-size:8.5pt; color:#aaa; }
+      .c-confidential { text-align:center; font-size:8pt; letter-spacing:2px; text-transform:uppercase; color:#ccc; margin:8pt 0; }
+      .c-services-box { border:1pt solid #E2D9C8; padding:8pt; margin:6pt 0; }
+      .c-stag { background:#0F0F1A; color:#B8973A; padding:1pt 6pt; border-radius:8pt; font-size:9pt; margin:2pt; display:inline-block; }
+      .plan-grid { display:table; width:100%; margin:6pt 0; }
+      .plan-card { display:table-cell; width:33%; border:0.5pt solid #E2D9C8; padding:6pt; }
+      .plan-card-label { font-size:8pt; font-weight:bold; text-transform:uppercase; letter-spacing:0.5px; color:#999; }
+      .sub-title { font-size:10.5pt; font-weight:bold; margin:8pt 0 3pt; }
+      .art-divider { border-top:0.5pt solid #E2D9C8; margin:8pt 0; }
+      .initials-row { border:0.5pt solid #E2D9C8; padding:8pt; text-align:center; font-size:9pt; color:#999; margin-top:10pt; }
+    </style>`;
+
+  const html = `<!DOCTYPE html><html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'>${styles}</head><body>${page.innerHTML}</body></html>`;
+  const blob = new Blob([html], {type:'application/msword;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `Contrat_${d.ref||'CDL'}_${(d.nom||'Client').replace(/\s+/g,'_')}.doc`;
+  a.click();
+  URL.revokeObjectURL(url);
+  toast(L==='fr'?'✓ Contrat Word exporté avec succès !':'✓ Word contract exported!');
+}
+
+function doCopy() {
+  const text = document.getElementById('cpage').innerText;
+  navigator.clipboard.writeText(text).then(()=>{
+    toast(L==='fr'?'✓ Texte copié dans le presse-papier':'✓ Text copied to clipboard');
+  }).catch(()=>{
+    toast('⚠️ Copie non supportée sur ce navigateur');
+  });
+}
+
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(el._t);
+  el._t = setTimeout(()=>el.classList.remove('show'), 3500);
+}
+
+// ─── INIT ──────────────────────────────────────────────────────────────────────
+function init() {
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('f-dateC').value = today;
+  const num = String(Math.floor(Math.random()*900)+100);
+  const yr = new Date().getFullYear();
+  document.getElementById('f-ref').value = `CDL-${yr}-${num}`;
+  renderServices();
+  renderClauses();
+  initTranches();
+  upd();
+}
+init();
+</script>
+</body>
+</html>
