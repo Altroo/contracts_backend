@@ -225,7 +225,11 @@ SERVER_EMAIL = config("SERVER_EMAIL", default="")
 
 API_URL = config("API_URL")
 
-# ── Security ──────────────────────────────────────────────────────────────────
+# ──────────────────────────────────────────────
+# Security settings
+# ──────────────────────────────────────────────
+
+# Cookie security
 SESSION_COOKIE_SECURE = not DEBUG
 SESSION_COOKIE_HTTPONLY = True
 SESSION_COOKIE_SAMESITE = "Lax"
@@ -233,6 +237,7 @@ CSRF_COOKIE_SECURE = not DEBUG
 CSRF_COOKIE_HTTPONLY = True
 CSRF_COOKIE_SAMESITE = "Lax"
 
+# HTTPS enforcement (handled by nginx in production, but belt-and-suspenders)
 SECURE_SSL_REDIRECT = config("SECURE_SSL_REDIRECT", default=not DEBUG, cast=bool)
 SECURE_HSTS_SECONDS = 31536000
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
@@ -240,10 +245,13 @@ SECURE_HSTS_PRELOAD = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_BROWSER_XSS_FILTER = True
 
-# ── Django Axes ───────────────────────────────────────────────────────────────
-AXES_FAILURE_LIMIT = 5
-AXES_COOLOFF_TIME = timedelta(minutes=15)
-AXES_RESET_ON_SUCCESS = True
-AXES_LOCKOUT_CALLABLE = None
+# ──────────────────────────────────────────────
+# Django Axes — brute-force protection
+# ──────────────────────────────────────────────
+AXES_FAILURE_LIMIT = 5  # Lock after 5 failed attempts
+AXES_COOLOFF_TIME = timedelta(minutes=15)  # Lockout duration
+AXES_RESET_ON_SUCCESS = True  # Reset counter on successful login
+AXES_LOCKOUT_CALLABLE = None  # Use default 403 response
+# Get real IP from X-Forwarded-For header (behind nginx proxy)
 AXES_IPWARE_PROXY_COUNT = 1
 AXES_IPWARE_PROXY_ORDER = "left-most"

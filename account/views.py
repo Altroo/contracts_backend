@@ -457,7 +457,8 @@ class BulkDeleteUsersView(APIView):
 
     permission_classes = (permissions.IsAdminUser,)
 
-    def delete(self, request, *args, **kwargs):
+    @staticmethod
+    def delete(request, *args, **kwargs):
         ids = request.data.get("ids")
         if not ids or not isinstance(ids, list):
             raise ValidationError({"ids": _("Une liste d'identifiants est requise.")})

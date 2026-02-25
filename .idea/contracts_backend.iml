@@ -15,12 +15,33 @@
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/account" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/account/migrations" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/account/templates" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/contract" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/contract/migrations" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/contracts_backend" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/core" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/core/migrations" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/templates" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/templates/admin" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/ws" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/ws/migrations" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea" />
       <excludeFolder url="file://$MODULE_DIR$/.venv" />
+      <excludeFolder url="file://$MODULE_DIR$/.vscode" />
     </content>
     <orderEntry type="jdk" jdkName="Python 3.14 (contracts_backend)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_CONFIGURATION" value="Django" />
+    <option name="TEMPLATE_FOLDERS">
+      <list>
+        <option value="$MODULE_DIR$/templates" />
+        <option value="$MODULE_DIR$/templates/admin" />
+        <option value="$MODULE_DIR$/account/templates" />
+      </list>
+    </option>
   </component>
 </module>
