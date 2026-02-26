@@ -5,10 +5,9 @@ from pathlib import Path
 from django.conf import settings
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
-from rest_framework.exceptions import PermissionDenied
 
 from contracts_backend.utils import ImageProcessor
-from .models import CustomUser, Role
+from .models import CustomUser
 
 
 class CreateAccountSerializer(serializers.ModelSerializer):
@@ -64,7 +63,9 @@ class CreateAccountSerializer(serializers.ModelSerializer):
                 max_base64_length = getattr(settings, 'MAX_BASE64_IMAGE_SIZE', 15 * 1024 * 1024)
                 if len(imgstr) > max_base64_length:
                     raise serializers.ValidationError(
-                        f"Image trop grande pour {field_name}."
+                        f"Image trop grande pour {field_name}: {len(imgstr)} octets "
+                        f"(max {max_base64_length}). "
+                        f"Veuillez télécharger une image plus petite."
                     )
                 try:
                     data = b64decode(imgstr)
@@ -271,7 +272,9 @@ class ProfilePutSerializer(serializers.ModelSerializer):
                 max_base64_length = getattr(settings, 'MAX_BASE64_IMAGE_SIZE', 15 * 1024 * 1024)
                 if len(imgstr) > max_base64_length:
                     raise serializers.ValidationError(
-                        f"Image trop grande pour {field_name}."
+                        f"Image trop grande pour {field_name}: {len(imgstr)} octets "
+                        f"(max {max_base64_length}). "
+                        f"Veuillez télécharger une image plus petite."
                     )
                 try:
                     data = b64decode(imgstr)

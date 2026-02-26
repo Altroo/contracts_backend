@@ -25,7 +25,8 @@ class ContractListCreateView(APIView):
 
     permission_classes = (permissions.IsAuthenticated,)
 
-    def get(self, request, *args, **kwargs):
+    @staticmethod
+    def get(request, *args, **kwargs):
         pagination = request.query_params.get("pagination", "false").lower() == "true"
 
         base_qs = (
@@ -97,7 +98,8 @@ class GenerateNumeroContratView(APIView):
 
     permission_classes = (permissions.IsAuthenticated,)
 
-    def get(self, request, *args, **kwargs):
+    @staticmethod
+    def get(request, *args, **kwargs):
         numero = get_next_numero_contrat()
         return Response({"numero_contrat": numero}, status=status.HTTP_200_OK)
 
@@ -132,7 +134,8 @@ class BulkDeleteContractView(APIView):
 
     permission_classes = (permissions.IsAuthenticated,)
 
-    def delete(self, request, *args, **kwargs):
+    @staticmethod
+    def delete(request, *args, **kwargs):
         if not can_delete(request.user):
             raise PermissionDenied(_("Vous n'avez pas les droits pour supprimer des contrats."))
 

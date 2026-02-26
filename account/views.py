@@ -220,6 +220,7 @@ class SendPasswordResetView(APIView):
 
     @staticmethod
     def generate_random_code(length=6):
+        """Generate a cryptographically secure random code using secrets module."""
         return "".join(secrets.choice(digits) for _ in range(length))
 
     def post(self, request, *args, **kwargs):

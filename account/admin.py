@@ -136,9 +136,5 @@ class HistoricalCustomUserAdmin(admin.ModelAdmin):
 
 
 admin.site.register(CustomUser, CustomUserAdmin)
-try:
-    from .models import CustomUser as CU
-    HistoricalCustomUser = CU.history.model
-    admin.site.register(HistoricalCustomUser, HistoricalCustomUserAdmin)
-except Exception:
-    pass
+
+admin.site.register(CustomUser.history.model, HistoricalCustomUserAdmin)

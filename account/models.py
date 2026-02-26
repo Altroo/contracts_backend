@@ -13,36 +13,25 @@ from contracts_backend.settings import API_URL
 from .managers import CustomUserManager
 
 
-class Role(models.Model):
-    """Custom role model."""
-
-    name = models.CharField(max_length=150, unique=True, verbose_name="Nom rôle")
-    name.help_text = "Nom unique du rôle"
-
-    class Meta:
-        verbose_name = "Rôle"
-        verbose_name_plural = "Rôles"
-        ordering = ("name",)
-
-    def __str__(self):
-        return self.name
-
-
 def get_avatar_path(_, filename):
     _, ext = path.splitext(filename)
     return path.join("user_avatars/", str(uuid4()) + ext)
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
-    email = models.EmailField("Adresse e‑mail", unique=True)
-    first_name = models.CharField("Prénom", max_length=30, blank=True)
-    last_name = models.CharField("Nom", max_length=30, blank=True)
+    email = models.EmailField("Adresse e‑mail", unique=True,
+                              help_text="Adresse e‑mail de l'utilisateur")
+    first_name = models.CharField("Prénom", max_length=30, blank=True,
+                                  help_text="Prénom de l'utilisateur")
+    last_name = models.CharField("Nom", max_length=30, blank=True,
+                                 help_text="Nom de famille de l'utilisateur")
     GENDER_CHOICES = (("", "Unset"), ("H", "Homme"), ("F", "Femme"))
     gender = models.CharField(
         verbose_name="Sexe",
         max_length=1,
         choices=GENDER_CHOICES,
         default="",
+        help_text="Sexe de l'utilisateur",
     )
     avatar = models.ImageField(
         verbose_name="Photo de profil",
@@ -50,6 +39,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         blank=True,
         null=True,
         default=None,
+        help_text="Image de profil de l'utilisateur",
     )
     avatar_cropped = models.ImageField(
         upload_to=get_avatar_path,
@@ -58,38 +48,45 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         default=None,
         verbose_name="Photo de profil recadrée",
         max_length=1000,
+        help_text="Version recadrée de la photo de profil",
     )
     is_staff = models.BooleanField(
         "Statut personnel",
         default=False,
         db_index=True,
+        help_text="Indique si l'utilisateur peut se connecter au panneau d'administration.",
     )
     is_active = models.BooleanField(
         "Actif",
         default=True,
         db_index=True,
+        help_text="Indique si ce compte doit être considéré comme actif.",
     )
     date_joined = models.DateTimeField(
         "Date d'inscription",
         default=timezone.now,
         db_index=True,
+        help_text="Horodatage de l'inscription de l'utilisateur.",
     )
     date_updated = models.DateTimeField(
         auto_now=True,
         verbose_name="Date de modification",
         db_index=True,
+        help_text="Horodatage de la dernière modification du profil.",
     )
     password_reset_code = models.CharField(
         verbose_name="Mot de passe - Code de réinitialisation",
         blank=True,
         null=True,
         db_index=True,
+        help_text="Code de réinitialisation du mot de passe (généré automatiquement).",
     )
     password_reset_code_created_at = models.DateTimeField(
         verbose_name="Mot de passe - Date de création du code",
         blank=True,
         null=True,
         db_index=True,
+        help_text="Date à laquelle le code de réinitialisation a été créé.",
     )
     task_id_password_reset = models.CharField(
         verbose_name="Mot de passe - Task ID de réinitialisation",
@@ -98,11 +95,13 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         null=True,
         blank=True,
         db_index=True,
+        help_text="Identifiant de la tâche Celery de réinitialisation du mot de passe.",
     )
     default_password_set = models.BooleanField(
         verbose_name="Mot de passe par défaut défini",
         default=False,
         db_index=True,
+        help_text="Indique si le mot de passe par défaut a été défini.",
     )
     # Per-user permission flags (staff users bypass these checks)
     can_view = models.BooleanField("Peut consulter", default=True)
