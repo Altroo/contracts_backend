@@ -143,12 +143,22 @@ class PasswordResetView(APIView):
         try:
             user = CustomUser.objects.get(email=email)
             stored_code = user.password_reset_code or ""
-            if code is not None and stored_code and hmac.compare_digest(str(code), stored_code):
+            if (
+                code is not None
+                and stored_code
+                and hmac.compare_digest(str(code), stored_code)
+            ):
                 if user.password_reset_code_created_at:
-                    time_elapsed = datetime.now(timezone.utc) - user.password_reset_code_created_at
+                    time_elapsed = (
+                        datetime.now(timezone.utc) - user.password_reset_code_created_at
+                    )
                     if time_elapsed > timedelta(minutes=5):
                         raise ValidationError(
-                            {"code": ["Le code de réinitialisation a expiré. Veuillez demander un nouveau code."]}
+                            {
+                                "code": [
+                                    "Le code de réinitialisation a expiré. Veuillez demander un nouveau code."
+                                ]
+                            }
                         )
                 return Response(status=status.HTTP_204_NO_CONTENT)
             raise ValidationError(self.errors)
@@ -168,10 +178,16 @@ class PasswordResetView(APIView):
                 and hmac.compare_digest(str(code), stored_code)
             ):
                 if user.password_reset_code_created_at:
-                    time_elapsed = datetime.now(timezone.utc) - user.password_reset_code_created_at
+                    time_elapsed = (
+                        datetime.now(timezone.utc) - user.password_reset_code_created_at
+                    )
                     if time_elapsed > timedelta(minutes=5):
-                        raise ValidationError({
-                            "code": ["Le code de réinitialisation a expiré. Veuillez demander un nouveau code."]}
+                        raise ValidationError(
+                            {
+                                "code": [
+                                    "Le code de réinitialisation a expiré. Veuillez demander un nouveau code."
+                                ]
+                            }
                         )
 
                 serializer = PasswordResetSerializer(data=request.data)
@@ -202,8 +218,14 @@ class PasswordResetView(APIView):
                         user.password_reset_code = None
                         user.password_reset_code_created_at = None
                         user.default_password_set = False
-                        user.save(update_fields=["password", "password_reset_code", "password_reset_code_created_at",
-                                                 "default_password_set"])
+                        user.save(
+                            update_fields=[
+                                "password",
+                                "password_reset_code",
+                                "password_reset_code_created_at",
+                                "default_password_set",
+                            ]
+                        )
 
                     return Response(status=status.HTTP_204_NO_CONTENT)
                 raise ValidationError(serializer.errors)
@@ -293,7 +315,12 @@ class SendPasswordResetView(APIView):
                             )
                         )
                         user.task_id_password_reset = str(task_id_password_reset)
-                        user.save(update_fields=["task_id_password_reset", "password_reset_code_created_at"])
+                        user.save(
+                            update_fields=[
+                                "task_id_password_reset",
+                                "password_reset_code_created_at",
+                            ]
+                        )
                     return Response(status=status.HTTP_204_NO_CONTENT)
                 raise ValidationError(serializer.errors)
             else:

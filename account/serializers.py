@@ -60,7 +60,9 @@ class CreateAccountSerializer(serializers.ModelSerializer):
                     raise serializers.ValidationError(
                         f"Type MIME d'image invalide pour {field_name}"
                     )
-                max_base64_length = getattr(settings, 'MAX_BASE64_IMAGE_SIZE', 15 * 1024 * 1024)
+                max_base64_length = getattr(
+                    settings, "MAX_BASE64_IMAGE_SIZE", 15 * 1024 * 1024
+                )
                 if len(imgstr) > max_base64_length:
                     raise serializers.ValidationError(
                         f"Image trop grande pour {field_name}: {len(imgstr)} octets "
@@ -95,7 +97,9 @@ class CreateAccountSerializer(serializers.ModelSerializer):
         if avatar:
             instance.avatar.save(avatar.name, avatar, save=False)
         if avatar_cropped:
-            instance.avatar_cropped.save(avatar_cropped.name, avatar_cropped, save=False)
+            instance.avatar_cropped.save(
+                avatar_cropped.name, avatar_cropped, save=False
+            )
         instance.save()
         return instance
 
@@ -269,7 +273,9 @@ class ProfilePutSerializer(serializers.ModelSerializer):
                     raise serializers.ValidationError(
                         f"Type MIME d'image invalide pour {field_name}"
                     )
-                max_base64_length = getattr(settings, 'MAX_BASE64_IMAGE_SIZE', 15 * 1024 * 1024)
+                max_base64_length = getattr(
+                    settings, "MAX_BASE64_IMAGE_SIZE", 15 * 1024 * 1024
+                )
                 if len(imgstr) > max_base64_length:
                     raise serializers.ValidationError(
                         f"Image trop grande pour {field_name}: {len(imgstr)} octets "

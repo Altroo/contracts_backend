@@ -30,9 +30,7 @@ class ContractListCreateView(APIView):
         pagination = request.query_params.get("pagination", "false").lower() == "true"
 
         base_qs = (
-            Contract.objects.all()
-            .select_related("created_by_user")
-            .order_by("-id")
+            Contract.objects.all().select_related("created_by_user").order_by("-id")
         )
         filterset = ContractFilter(request.GET, queryset=base_qs)
         ordered_qs = filterset.qs
@@ -46,7 +44,8 @@ class ContractListCreateView(APIView):
         serializer = ContractListSerializer(ordered_qs, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def post(self, request, *args, **kwargs):
+    @staticmethod
+    def post(request, *args, **kwargs):
         if not can_create(request.user):
             raise PermissionDenied(
                 _("Vous n'avez pas les droits pour créer un contrat.")
@@ -78,7 +77,9 @@ class ContractDetailEditDeleteView(APIView):
 
     def put(self, request, pk: int, *args, **kwargs):
         if not can_update(request.user):
-            raise PermissionDenied(_("Vous n'avez pas les droits pour modifier ce contrat."))
+            raise PermissionDenied(
+                _("Vous n'avez pas les droits pour modifier ce contrat.")
+            )
         contract = self._get_contract(pk)
         serializer = ContractSerializer(contract, data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -87,7 +88,9 @@ class ContractDetailEditDeleteView(APIView):
 
     def delete(self, request, pk: int, *args, **kwargs):
         if not can_delete(request.user):
-            raise PermissionDenied(_("Vous n'avez pas les droits pour supprimer ce contrat."))
+            raise PermissionDenied(
+                _("Vous n'avez pas les droits pour supprimer ce contrat.")
+            )
         contract = self._get_contract(pk)
         contract.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
@@ -118,7 +121,9 @@ class ContractStatusUpdateView(APIView):
 
     def patch(self, request, pk: int, *args, **kwargs):
         if not can_update(request.user):
-            raise PermissionDenied(_("Vous n'avez pas les droits pour modifier ce contrat."))
+            raise PermissionDenied(
+                _("Vous n'avez pas les droits pour modifier ce contrat.")
+            )
         contract = self._get_contract(pk)
         new_status = request.data.get("statut")
         valid_statuses = [choice[0] for choice in contract.STATUT_CHOICES]
@@ -137,7 +142,9 @@ class BulkDeleteContractView(APIView):
     @staticmethod
     def delete(request, *args, **kwargs):
         if not can_delete(request.user):
-            raise PermissionDenied(_("Vous n'avez pas les droits pour supprimer des contrats."))
+            raise PermissionDenied(
+                _("Vous n'avez pas les droits pour supprimer des contrats.")
+            )
 
         ids = request.data.get("ids")
         if not ids or not isinstance(ids, list):
@@ -146,7 +153,9 @@ class BulkDeleteContractView(APIView):
         try:
             ids = [int(i) for i in ids]
         except (ValueError, TypeError):
-            raise ValidationError({"ids": _("Les identifiants doivent être des entiers.")})
+            raise ValidationError(
+                {"ids": _("Les identifiants doivent être des entiers.")}
+            )
 
         contracts = list(Contract.objects.filter(pk__in=ids).only("id"))
         if len(contracts) != len(ids):
@@ -172,7 +181,9 @@ class ContractPDFView(APIView):
 
     def get(self, request, pk: int, language: str = "fr", *args, **kwargs):
         if not can_print(request.user):
-            raise PermissionDenied(_("Vous n'avez pas les droits pour imprimer ce contrat."))
+            raise PermissionDenied(
+                _("Vous n'avez pas les droits pour imprimer ce contrat.")
+            )
         contract = self._get_contract(pk)
         generator = ContractPDFGenerator(contract, language=language)
         return generator.generate_response()
@@ -192,7 +203,9 @@ class ContractDOCView(APIView):
 
     def get(self, request, pk: int, language: str = "fr", *args, **kwargs):
         if not can_print(request.user):
-            raise PermissionDenied(_("Vous n'avez pas les droits pour télécharger ce contrat."))
+            raise PermissionDenied(
+                _("Vous n'avez pas les droits pour télécharger ce contrat.")
+            )
         contract = self._get_contract(pk)
         generator = ContractDOCGenerator(contract, language=language)
         return generator.generate_response()

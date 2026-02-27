@@ -1,4 +1,3 @@
-"""Tests for contracts_backend contract app."""
 import pytest
 from django.urls import reverse
 from rest_framework import status
@@ -10,9 +9,6 @@ from contract.models import Contract
 
 
 pytestmark = pytest.mark.django_db
-
-
-# ── Helpers ─────────────────────────────────────────────────────────────────
 
 
 def make_staff_user(email="staff@test.com", password="securepass123"):
@@ -64,9 +60,6 @@ def make_contract(created_by=None, numero="0001/26", **kwargs):
     return Contract.objects.create(**defaults)
 
 
-# ── Contract model ───────────────────────────────────────────────────────────
-
-
 class TestContractModel:
     def test_str_returns_numero_contrat(self):
         user, _ = make_staff_user()
@@ -108,9 +101,6 @@ class TestContractModel:
     def test_created_by_user_nullable(self):
         contract = make_contract(numero="NULL/01")
         assert contract.created_by_user is None
-
-
-# ── ContractListCreateView ───────────────────────────────────────────────────
 
 
 class TestContractListCreateView:
@@ -183,9 +173,6 @@ class TestContractListCreateView:
             assert item["statut"] == "Signé"
 
 
-# ── ContractDetailEditDeleteView ─────────────────────────────────────────────
-
-
 class TestContractDetailEditDeleteView:
     def setup_method(self):
         self.staff_user, self.staff_client = make_staff_user()
@@ -246,9 +233,6 @@ class TestContractDetailEditDeleteView:
         assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
-# ── ContractStatusUpdateView ─────────────────────────────────────────────────
-
-
 class TestContractStatusUpdateView:
     def setup_method(self):
         self.staff_user, self.staff_client = make_staff_user()
@@ -275,9 +259,6 @@ class TestContractStatusUpdateView:
         url = reverse("contract:contract-statut-update", kwargs={"pk": 99999})
         response = self.staff_client.patch(url, {"statut": "Signé"}, format="json")
         assert response.status_code == status.HTTP_404_NOT_FOUND
-
-
-# ── BulkDeleteContractView ───────────────────────────────────────────────────
 
 
 class TestBulkDeleteContractView:
@@ -315,9 +296,6 @@ class TestBulkDeleteContractView:
         c = make_contract(created_by=self.staff_user, numero="BULKPERM/01")
         response = self.readonly_client.delete(self.url, {"ids": [c.pk]}, format="json")
         assert response.status_code == status.HTTP_403_FORBIDDEN
-
-
-# ── GenerateNumeroContratView ────────────────────────────────────────────────
 
 
 class TestGenerateNumeroContratView:

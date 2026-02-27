@@ -1,4 +1,3 @@
-"""python-docx generator for Contract documents."""
 from io import BytesIO
 
 from django.http import HttpResponse
@@ -6,7 +5,7 @@ from docx import Document
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
-from docx.shared import Pt, RGBColor, Cm, Inches
+from docx.shared import Pt, RGBColor, Cm
 from docx.enum.table import WD_TABLE_ALIGNMENT
 
 BRAND_COLOR = RGBColor(0x1A, 0x2E, 0x4A)
@@ -280,29 +279,40 @@ class ContractDOCGenerator:
 
         # ── Section 1: Client ──────────────────────────────────────────
         self._add_section_header(self._("section_client"))
-        self._add_info_table([
-            (self._("nom"), c.client_nom),
-            (self._("cin"), c.client_cin),
-            (self._("qualite"), c.client_qualite),
-            (self._("adresse"), c.client_adresse),
-            (self._("tel"), c.client_tel),
-            (self._("email"), c.client_email),
-            (self._("ville_sig"), c.ville_signature),
-        ])
+        self._add_info_table(
+            [
+                (self._("nom"), c.client_nom),
+                (self._("cin"), c.client_cin),
+                (self._("qualite"), c.client_qualite),
+                (self._("adresse"), c.client_adresse),
+                (self._("tel"), c.client_tel),
+                (self._("email"), c.client_email),
+                (self._("ville_sig"), c.ville_signature),
+            ]
+        )
 
         # ── Section 2: Project ─────────────────────────────────────────
         self._add_section_header(self._("section_project"))
-        services_text = ", ".join(c.services) if isinstance(c.services, list) else str(c.services or "")
-        self._add_info_table([
-            (self._("adresse_tx"), c.adresse_travaux),
-            (self._("type_bien"), c.type_bien),
-            (self._("surface"), f"{c.surface} m²" if c.surface else None),
-            (self._("services"), services_text or None),
-            (self._("description"), c.description_travaux),
-            (self._("date_debut"), c.date_debut.strftime("%d/%m/%Y") if c.date_debut else None),
-            (self._("duree"), c.duree_estimee),
-            (self._("acces"), c.conditions_acces),
-        ])
+        services_text = (
+            ", ".join(c.services)
+            if isinstance(c.services, list)
+            else str(c.services or "")
+        )
+        self._add_info_table(
+            [
+                (self._("adresse_tx"), c.adresse_travaux),
+                (self._("type_bien"), c.type_bien),
+                (self._("surface"), f"{c.surface} m²" if c.surface else None),
+                (self._("services"), services_text or None),
+                (self._("description"), c.description_travaux),
+                (
+                    self._("date_debut"),
+                    c.date_debut.strftime("%d/%m/%Y") if c.date_debut else None,
+                ),
+                (self._("duree"), c.duree_estimee),
+                (self._("acces"), c.conditions_acces),
+            ]
+        )
 
         # ── Section 3: Financial ───────────────────────────────────────
         self._add_section_header(self._("section_financial"))
@@ -315,42 +325,76 @@ class ContractDOCGenerator:
             tranches_text = " | ".join(
                 f"{t.get('label', '')}: {t.get('pourcentage', '')}%" for t in c.tranches
             )
-        self._add_info_table([
-            (self._("montant_ht"), f"{montant_ht:,.2f} {c.devise}"),
-            (self._("tva"), f"{tva_pct}%"),
-            (self._("montant_ttc"), f"{montant_ttc:,.2f} {c.devise}"),
-            (self._("tranches"), tranches_text or None),
-            (self._("mode_paiement"), c.mode_paiement_texte),
-            (self._("rib"), c.rib),
-            (self._("delai_retard"), f"{c.delai_retard} {self._('days')}" if c.delai_retard is not None else None),
-            (self._("penalite"), f"{c.penalite_retard} {self._('per_day')}" if c.penalite_retard is not None else None),
-            (self._("frais_redemarrage"), f"{float(c.frais_redemarrage):,.2f} {c.devise}" if c.frais_redemarrage else None),
-        ])
+        self._add_info_table(
+            [
+                (self._("montant_ht"), f"{montant_ht:,.2f} {c.devise}"),
+                (self._("tva"), f"{tva_pct}%"),
+                (self._("montant_ttc"), f"{montant_ttc:,.2f} {c.devise}"),
+                (self._("tranches"), tranches_text or None),
+                (self._("mode_paiement"), c.mode_paiement_texte),
+                (self._("rib"), c.rib),
+                (
+                    self._("delai_retard"),
+                    (
+                        f"{c.delai_retard} {self._('days')}"
+                        if c.delai_retard is not None
+                        else None
+                    ),
+                ),
+                (
+                    self._("penalite"),
+                    (
+                        f"{c.penalite_retard} {self._('per_day')}"
+                        if c.penalite_retard is not None
+                        else None
+                    ),
+                ),
+                (
+                    self._("frais_redemarrage"),
+                    (
+                        f"{float(c.frais_redemarrage):,.2f} {c.devise}"
+                        if c.frais_redemarrage
+                        else None
+                    ),
+                ),
+            ]
+        )
 
         # ── Section 4: Clauses ─────────────────────────────────────────
         self._add_section_header(self._("section_clauses"))
         clauses_text = ""
         if isinstance(c.clauses_actives, list) and c.clauses_actives:
             clauses_text = "\n".join(f"• {cl}" for cl in c.clauses_actives)
-        self._add_info_table([
-            (self._("garantie"), c.garantie),
-            (self._("delai_reserves"), f"{c.delai_reserves} {self._('days')}" if c.delai_reserves is not None else None),
-            (self._("tribunal"), c.tribunal),
-            (self._("clauses"), clauses_text or None),
-            (self._("clause_spec"), c.clause_spec),
-            (self._("exclusions"), c.exclusions),
-        ])
+        self._add_info_table(
+            [
+                (self._("garantie"), c.garantie),
+                (
+                    self._("delai_reserves"),
+                    (
+                        f"{c.delai_reserves} {self._('days')}"
+                        if c.delai_reserves is not None
+                        else None
+                    ),
+                ),
+                (self._("tribunal"), c.tribunal),
+                (self._("clauses"), clauses_text or None),
+                (self._("clause_spec"), c.clause_spec),
+                (self._("exclusions"), c.exclusions),
+            ]
+        )
 
         # ── Section 5: Options ─────────────────────────────────────────
         self._add_section_header(self._("section_options"))
-        self._add_info_table([
-            (self._("type_contrat"), c.get_type_contrat_display()),
-            (self._("responsable"), c.responsable_projet),
-            (self._("architecte"), c.architecte),
-            (self._("confidentialite"), c.confidentialite),
-            (self._("version"), c.version_document),
-            (self._("annexes"), c.annexes),
-        ])
+        self._add_info_table(
+            [
+                (self._("type_contrat"), c.get_type_contrat_display()),
+                (self._("responsable"), c.responsable_projet),
+                (self._("architecte"), c.architecte),
+                (self._("confidentialite"), c.confidentialite),
+                (self._("version"), c.version_document),
+                (self._("annexes"), c.annexes),
+            ]
+        )
 
         # ── Signatures ─────────────────────────────────────────────────
         self._add_section_header(self._("section_signatures"))
@@ -376,7 +420,9 @@ class ContractDOCGenerator:
             cell.height = Cm(3)
 
         # Footer row
-        sig_table.rows[2].cells[0].paragraphs[0].add_run(self._("lu_approuve")).font.size = Pt(8)
+        sig_table.rows[2].cells[0].paragraphs[0].add_run(
+            self._("lu_approuve")
+        ).font.size = Pt(8)
         sig_table.rows[2].cells[1].paragraphs[0].add_run(
             c.responsable_projet or "CASA DI LUSSO"
         ).font.size = Pt(8)
@@ -393,4 +439,3 @@ class ContractDOCGenerator:
         )
         response["Content-Disposition"] = f'attachment; filename="{filename}"'
         return response
-

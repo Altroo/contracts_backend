@@ -4,7 +4,6 @@ from simple_history.admin import SimpleHistoryAdmin
 from .models import Contract
 
 
-@admin.register(Contract)
 class ContractAdmin(SimpleHistoryAdmin):
     list_display = (
         "numero_contrat",
@@ -111,3 +110,6 @@ class ContractAdmin(SimpleHistoryAdmin):
             },
         ),
     )
+
+
+admin.site.register(Contract, ContractAdmin)

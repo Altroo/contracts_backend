@@ -2,74 +2,17 @@ from django.db import models
 from simple_history.models import HistoricalRecords
 
 from account.models import CustomUser
-from core.constants import CURRENCY_CHOICES
-
-
-CONTRACT_TYPE_CHOICES = [
-    ("travaux_finition", "Travaux de Finition"),
-    ("travaux_gros_oeuvre", "Travaux Gros Œuvre"),
-    ("design_interieur", "Design Intérieur"),
-    ("cle_en_main", "Clé en Main"),
-    ("ameublement", "Ameublement"),
-    ("maintenance", "Maintenance"),
-    ("suivi_chantier", "Suivi Chantier"),
-]
-
-TYPE_BIEN_CHOICES = [
-    ("appartement", "Appartement"),
-    ("villa", "Villa"),
-    ("riad_maison_traditionnelle", "Riad / Maison Traditionnelle"),
-    ("bureau_local_commercial", "Bureau / Local Commercial"),
-    ("hotel_riad_hotelier", "Hôtel / Riad Hôtelier"),
-    ("autre", "Autre"),
-]
-
-CLIENT_QUALITE_CHOICES = [
-    ("particulier", "Particulier"),
-    ("entreprise_societe", "Entreprise / Société"),
-    ("investisseur_immobilier", "Investisseur Immobilier"),
-    ("administration_institution", "Administration / Institution"),
-]
-
-GARANTIE_CHOICES = [
-    ("6 mois", "6 mois"),
-    ("1 an", "1 an"),
-    ("2 ans", "2 ans"),
-    ("3 ans", "3 ans"),
-    ("sans_garantie", "Sans garantie contractuelle"),
-]
-
-TRIBUNAL_CHOICES = [
-    ("Tanger", "Tanger"),
-    ("Casablanca", "Casablanca"),
-    ("Rabat", "Rabat"),
-    ("Marrakech", "Marrakech"),
-    ("Fès", "Fès"),
-    ("Agadir", "Agadir"),
-]
-
-CONFIDENTIALITE_CHOICES = [
-    ("CONFIDENTIEL", "CONFIDENTIEL"),
-    ("USAGE INTERNE", "USAGE INTERNE"),
-    ("STANDARD", "STANDARD"),
-]
-
-STATUT_CHOICES = [
-    ("Brouillon", "Brouillon"),
-    ("Envoyé", "Envoyé"),
-    ("Signé", "Signé"),
-    ("En cours", "En cours"),
-    ("Terminé", "Terminé"),
-    ("Annulé", "Annulé"),
-    ("Expiré", "Expiré"),
-]
-
-MODE_PAIEMENT_TEXTE_CHOICES = [
-    ("Virement Bancaire", "Virement Bancaire"),
-    ("Chèque Certifié", "Chèque Certifié"),
-    ("Espèces", "Espèces"),
-    ("Paiement Mixte", "Paiement Mixte"),
-]
+from core.constants import (
+    CURRENCY_CHOICES,
+    GARANTIE_CHOICES,
+    MODE_PAIEMENT_TEXTE_CHOICES,
+    STATUT_CHOICES,
+    TRIBUNAL_CHOICES,
+    CLIENT_QUALITE_CHOICES,
+    CONTRACT_TYPE_CHOICES,
+    CONFIDENTIALITE_CHOICES,
+    TYPE_BIEN_CHOICES,
+)
 
 
 class Contract(models.Model):
@@ -77,7 +20,6 @@ class Contract(models.Model):
 
     STATUT_CHOICES = STATUT_CHOICES
 
-    # ── Reference & Date ──────────────────────────────────────────────────
     numero_contrat = models.CharField(
         max_length=30,
         unique=True,
@@ -96,9 +38,12 @@ class Contract(models.Model):
         db_index=True,
     )
 
-    # ── Client (denormalised fields, no FK) ───────────────────────────────
-    client_nom = models.CharField(max_length=200, blank=True, null=True, verbose_name="Nom & Prénom")
-    client_cin = models.CharField(max_length=50, blank=True, null=True, verbose_name="CIN / ICE / Passeport")
+    client_nom = models.CharField(
+        max_length=200, blank=True, null=True, verbose_name="Nom & Prénom"
+    )
+    client_cin = models.CharField(
+        max_length=50, blank=True, null=True, verbose_name="CIN / ICE / Passeport"
+    )
     client_qualite = models.CharField(
         max_length=50,
         choices=CLIENT_QUALITE_CHOICES,
@@ -106,8 +51,12 @@ class Contract(models.Model):
         null=True,
         verbose_name="Qualité du client",
     )
-    client_adresse = models.TextField(blank=True, null=True, verbose_name="Adresse complète")
-    client_tel = models.CharField(max_length=30, blank=True, null=True, verbose_name="Téléphone")
+    client_adresse = models.TextField(
+        blank=True, null=True, verbose_name="Adresse complète"
+    )
+    client_tel = models.CharField(
+        max_length=30, blank=True, null=True, verbose_name="Téléphone"
+    )
     client_email = models.EmailField(blank=True, null=True, verbose_name="Email")
     ville_signature = models.CharField(
         max_length=100,
@@ -115,8 +64,9 @@ class Contract(models.Model):
         verbose_name="Ville de signature",
     )
 
-    # ── Project & Services ────────────────────────────────────────────────
-    adresse_travaux = models.TextField(blank=True, null=True, verbose_name="Adresse des travaux")
+    adresse_travaux = models.TextField(
+        blank=True, null=True, verbose_name="Adresse des travaux"
+    )
     type_bien = models.CharField(
         max_length=50,
         choices=TYPE_BIEN_CHOICES,
@@ -131,18 +81,25 @@ class Contract(models.Model):
         blank=True,
         verbose_name="Surface (m²)",
     )
-    services = models.JSONField(default=list, blank=True, verbose_name="Services sélectionnés")
-    description_travaux = models.TextField(blank=True, null=True, verbose_name="Description des travaux")
-    date_debut = models.DateField(null=True, blank=True, verbose_name="Date de début prévue")
+    services = models.JSONField(
+        default=list, blank=True, verbose_name="Services sélectionnés"
+    )
+    description_travaux = models.TextField(
+        blank=True, null=True, verbose_name="Description des travaux"
+    )
+    date_debut = models.DateField(
+        null=True, blank=True, verbose_name="Date de début prévue"
+    )
     duree_estimee = models.CharField(
         max_length=100,
         blank=True,
         null=True,
         verbose_name="Durée estimée",
     )
-    conditions_acces = models.TextField(blank=True, null=True, verbose_name="Conditions d'accès")
+    conditions_acces = models.TextField(
+        blank=True, null=True, verbose_name="Conditions d'accès"
+    )
 
-    # ── Financial ─────────────────────────────────────────────────────────
     montant_ht = models.DecimalField(
         max_digits=14,
         decimal_places=2,
@@ -174,8 +131,15 @@ class Contract(models.Model):
         null=True,
         verbose_name="Mode de paiement",
     )
-    rib = models.CharField(max_length=200, blank=True, null=True, verbose_name="RIB / Coordonnées bancaires")
-    delai_retard = models.IntegerField(default=5, verbose_name="Délai retard toléré (jours)")
+    rib = models.CharField(
+        max_length=200,
+        blank=True,
+        null=True,
+        verbose_name="RIB / Coordonnées bancaires",
+    )
+    delai_retard = models.IntegerField(
+        default=5, verbose_name="Délai retard toléré (jours)"
+    )
     penalite_retard = models.DecimalField(
         max_digits=5,
         decimal_places=2,
@@ -190,14 +154,15 @@ class Contract(models.Model):
         verbose_name="Frais de redémarrage (MAD)",
     )
 
-    # ── Legal Clauses ─────────────────────────────────────────────────────
     garantie = models.CharField(
         max_length=50,
         choices=GARANTIE_CHOICES,
         default="1 an",
         verbose_name="Durée de garantie",
     )
-    delai_reserves = models.IntegerField(default=7, verbose_name="Délai réserves (j ouvrés)")
+    delai_reserves = models.IntegerField(
+        default=7, verbose_name="Délai réserves (j ouvrés)"
+    )
     tribunal = models.CharField(
         max_length=50,
         choices=TRIBUNAL_CHOICES,
@@ -209,10 +174,13 @@ class Contract(models.Model):
         blank=True,
         verbose_name="Clauses actives",
     )
-    clause_spec = models.TextField(blank=True, null=True, verbose_name="Clauses spécifiques additionnelles")
-    exclusions = models.TextField(blank=True, null=True, verbose_name="Exclusions explicites")
+    clause_spec = models.TextField(
+        blank=True, null=True, verbose_name="Clauses spécifiques additionnelles"
+    )
+    exclusions = models.TextField(
+        blank=True, null=True, verbose_name="Exclusions explicites"
+    )
 
-    # ── Options & Presentation ────────────────────────────────────────────
     type_contrat = models.CharField(
         max_length=50,
         choices=CONTRACT_TYPE_CHOICES,
@@ -244,7 +212,6 @@ class Contract(models.Model):
     )
     annexes = models.TextField(blank=True, null=True, verbose_name="Annexes jointes")
 
-    # ── Meta ──────────────────────────────────────────────────────────────
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
     created_by_user = models.ForeignKey(

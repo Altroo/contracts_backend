@@ -1,9 +1,7 @@
-"""Tests for contracts_backend.utils module (ImageProcessor, Base64ImageField, etc.)."""
 import base64
 import binascii
 from io import BytesIO
 from unittest.mock import patch
-
 import numpy as np
 import pytest
 from PIL import Image
@@ -43,8 +41,6 @@ class TestImageProcessor:
         assert result.shape == (100, 100, 3)
 
     def test_from_img_to_io(self):
-        import numpy as np
-
         image_array = np.zeros((100, 100, 3), dtype=np.uint8)
         image_array[:, :] = [255, 0, 0]  # Red image
 
@@ -296,7 +292,10 @@ class TestApiExceptionHandler:
         assert response is not None
         assert response.status_code == 403
         assert response.data["status_code"] == 403
-        assert "refusé" in response.data["message"].lower() or "Accès" in response.data["message"]
+        assert (
+            "refusé" in response.data["message"].lower()
+            or "Accès" in response.data["message"]
+        )
 
     def test_authentication_failed_returns_formatted_response(self):
         exc = AuthenticationFailed("Not authenticated")

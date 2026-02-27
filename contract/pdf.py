@@ -1,5 +1,3 @@
-"""ReportLab PDF generator for Contract documents."""
-from decimal import Decimal
 from io import BytesIO
 
 from django.http import HttpResponse
@@ -224,7 +222,11 @@ class ContractPDFGenerator:
         return Paragraph(f"  {title}", self.styles["SectionHeader"])
 
     def _row(self, label: str, value) -> list:
-        val = str(value) if value is not None and str(value).strip() else self._("not_specified")
+        val = (
+            str(value)
+            if value is not None and str(value).strip()
+            else self._("not_specified")
+        )
         return [self._p(f"<b>{label}</b>"), self._p(val)]
 
     def _info_table(self, rows: list) -> Table:
@@ -251,7 +253,9 @@ class ContractPDFGenerator:
         # ── Header ──────────────────────────────────────────────────────
         elements.append(self._p("CASA DI LUSSO", "Title"))
         elements.append(self._p(self._("title"), "SubTitle"))
-        elements.append(HRFlowable(width="100%", thickness=2, color=ACCENT_COLOR, spaceAfter=8))
+        elements.append(
+            HRFlowable(width="100%", thickness=2, color=ACCENT_COLOR, spaceAfter=8)
+        )
 
         # Ref / Date / Status row
         ref_table = Table(
@@ -299,13 +303,19 @@ class ContractPDFGenerator:
 
         # ── Section 2: Project ───────────────────────────────────────────
         elements.append(self._section(self._("section_project")))
-        services_text = ", ".join(c.services) if isinstance(c.services, list) else str(c.services or "")
+        services_text = (
+            ", ".join(c.services)
+            if isinstance(c.services, list)
+            else str(c.services or "")
+        )
         elements.append(
             self._info_table(
                 [
                     self._row(self._("adresse_tx"), c.adresse_travaux),
                     self._row(self._("type_bien"), c.type_bien),
-                    self._row(self._("surface"), f"{c.surface} m²" if c.surface else None),
+                    self._row(
+                        self._("surface"), f"{c.surface} m²" if c.surface else None
+                    ),
                     self._row(self._("services"), services_text or None),
                     self._row(self._("description"), c.description_travaux),
                     self._row(
@@ -349,15 +359,27 @@ class ContractPDFGenerator:
                     self._row(self._("rib"), c.rib),
                     self._row(
                         self._("delai_retard"),
-                        f"{c.delai_retard} {self._('days')}" if c.delai_retard is not None else None,
+                        (
+                            f"{c.delai_retard} {self._('days')}"
+                            if c.delai_retard is not None
+                            else None
+                        ),
                     ),
                     self._row(
                         self._("penalite"),
-                        f"{c.penalite_retard} {self._('per_day')}" if c.penalite_retard is not None else None,
+                        (
+                            f"{c.penalite_retard} {self._('per_day')}"
+                            if c.penalite_retard is not None
+                            else None
+                        ),
                     ),
                     self._row(
                         self._("frais_redemarrage"),
-                        f"{float(c.frais_redemarrage):,.2f} MAD" if c.frais_redemarrage else None,
+                        (
+                            f"{float(c.frais_redemarrage):,.2f} MAD"
+                            if c.frais_redemarrage
+                            else None
+                        ),
                     ),
                 ]
             )
@@ -376,7 +398,11 @@ class ContractPDFGenerator:
                     self._row(self._("garantie"), c.garantie),
                     self._row(
                         self._("delai_reserves"),
-                        f"{c.delai_reserves} {self._('days')}" if c.delai_reserves is not None else None,
+                        (
+                            f"{c.delai_reserves} {self._('days')}"
+                            if c.delai_reserves is not None
+                            else None
+                        ),
                     ),
                     self._row(self._("tribunal"), c.tribunal),
                     self._row(self._("clauses"), clauses_text or None),
@@ -458,4 +484,3 @@ class ContractPDFGenerator:
         response = HttpResponse(buffer.read(), content_type="application/pdf")
         response["Content-Disposition"] = f'inline; filename="{filename}"'
         return response
-

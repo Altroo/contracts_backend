@@ -10,7 +10,9 @@ class ContractListSerializer(serializers.ModelSerializer):
     created_by_user_name = serializers.SerializerMethodField()
     montant_tva = serializers.SerializerMethodField()
     montant_ttc = serializers.SerializerMethodField()
-    type_contrat_display = serializers.CharField(source="get_type_contrat_display", read_only=True)
+    type_contrat_display = serializers.CharField(
+        source="get_type_contrat_display", read_only=True
+    )
     statut_display = serializers.CharField(source="get_statut_display", read_only=True)
 
     @staticmethod
@@ -63,10 +65,14 @@ class ContractSerializer(serializers.ModelSerializer):
 
     client_name = serializers.SerializerMethodField(read_only=True)
     created_by_user_name = serializers.SerializerMethodField(read_only=True)
-    created_by_user_id = serializers.IntegerField(source="created_by_user.id", read_only=True)
+    created_by_user_id = serializers.IntegerField(
+        source="created_by_user.id", read_only=True
+    )
     montant_tva = serializers.SerializerMethodField(read_only=True)
     montant_ttc = serializers.SerializerMethodField(read_only=True)
-    type_contrat_display = serializers.CharField(source="get_type_contrat_display", read_only=True)
+    type_contrat_display = serializers.CharField(
+        source="get_type_contrat_display", read_only=True
+    )
 
     @staticmethod
     def get_client_name(obj: Contract) -> str | None:
@@ -93,9 +99,7 @@ class ContractSerializer(serializers.ModelSerializer):
         if self.instance:
             qs = qs.exclude(pk=self.instance.pk)
         if qs.exists():
-            raise serializers.ValidationError(
-                "Un contrat avec ce numéro existe déjà."
-            )
+            raise serializers.ValidationError("Un contrat avec ce numéro existe déjà.")
         return value
 
     class Meta:

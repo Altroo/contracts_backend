@@ -1,4 +1,3 @@
-"""Tests for contracts_backend account app."""
 import os
 import tempfile
 import shutil
@@ -45,10 +44,6 @@ from .tasks import (
 )
 
 
-# ---------------------------------------------------------------------------
-# Fixtures
-# ---------------------------------------------------------------------------
-
 @pytest.fixture(autouse=True)
 def temp_media_root(settings):
     """Redirect MEDIA_ROOT to a throw-away temp dir for every test."""
@@ -71,15 +66,9 @@ IMG_B64 = (
 )
 
 
-# ---------------------------------------------------------------------------
-# Helpers
-# ---------------------------------------------------------------------------
-
 def make_staff_user(email="staff@test.com", password="securepass123"):
     """Create a staff user with JWT token and return (user, authenticated_client)."""
-    user = CustomUser.objects.create_user(
-        email=email, password=password, is_staff=True
-    )
+    user = CustomUser.objects.create_user(email=email, password=password, is_staff=True)
     token = str(AccessToken.for_user(user))
     client = APIClient()
     client.credentials(HTTP_AUTHORIZATION=f"Bearer {token}")
@@ -109,10 +98,6 @@ def user_extra():
     )
 
 
-# ═══════════════════════════════════════════════════════════════════════════
-# 1. Core Account API tests
-# ═══════════════════════════════════════════════════════════════════════════
-
 @pytest.mark.django_db
 class TestAccountAPI:
     """Core CRUD & auth flow tests."""
@@ -126,8 +111,6 @@ class TestAccountAPI:
         self.token = str(AccessToken.for_user(self.user))
         self.auth_client = APIClient()
         self.auth_client.credentials(HTTP_AUTHORIZATION=f"Bearer {self.token}")
-
-    # ── Authentication ──────────────────────────────────────────────────
 
     def test_login_success(self):
         url = reverse("account:login")
@@ -161,8 +144,6 @@ class TestAccountAPI:
         resp = self.client.get(url)
         assert resp.status_code == status.HTTP_401_UNAUTHORIZED
 
-    # ── Email Check ─────────────────────────────────────────────────────
-
     def test_check_email_exists(self):
         url = reverse("account:check_email")
         resp = self.auth_client.post(url, {"email": self.user.email})
@@ -173,8 +154,6 @@ class TestAccountAPI:
         url = reverse("account:check_email")
         resp = self.auth_client.post(url, {"email": "new@example.com"})
         assert resp.status_code == status.HTTP_204_NO_CONTENT
-
-    # ── Password Change ─────────────────────────────────────────────────
 
     def test_password_change_success(self):
         url = reverse("account:password_change")
@@ -204,8 +183,6 @@ class TestAccountAPI:
         )
         assert resp.status_code == status.HTTP_400_BAD_REQUEST
         assert "old_password" in resp.data["details"]
-
-    # ── Password Reset Flow ─────────────────────────────────────────────
 
     def test_send_password_reset_valid_email(self):
         self.user.password_reset_code = "1234"
@@ -266,8 +243,6 @@ class TestAccountAPI:
         )
         assert resp.status_code == status.HTTP_400_BAD_REQUEST
 
-    # ── Profile ─────────────────────────────────────────────────────────
-
     def test_get_profile(self):
         url = reverse("account:profil")
         resp = self.auth_client.get(url)
@@ -283,15 +258,11 @@ class TestAccountAPI:
         assert resp.data["first_name"] == "Al"
         assert resp.data["gender"] == "H"
 
-    # ── Users List ──────────────────────────────────────────────────────
-
     def test_get_users_list(self):
         url = reverse("account:users")
         resp = self.auth_client.get(url)
         assert resp.status_code == status.HTTP_200_OK
         assert isinstance(resp.data, list) or "results" in resp.data
-
-    # ── User Detail ─────────────────────────────────────────────────────
 
     def test_get_user_detail(self):
         other = self.user_model.objects.create_user(
@@ -320,10 +291,6 @@ class TestAccountAPI:
         assert resp.status_code == status.HTTP_204_NO_CONTENT
 
 
-# ═══════════════════════════════════════════════════════════════════════════
-# 2. Extended Account API tests (tokens, edge‑cases, avatar, pagination)
-# ═══════════════════════════════════════════════════════════════════════════
-
 @pytest.mark.django_db
 class TestAccountAPIExtras:
     """Token verify/refresh, password edge cases, avatar upload, self‑protection."""
@@ -342,8 +309,6 @@ class TestAccountAPIExtras:
         self.auth_client = APIClient()
         self.auth_client.credentials(HTTP_AUTHORIZATION=f"Bearer {self.token}")
 
-    # Token verify ───────────────────────────────────────────────────────
-
     def test_token_verify_valid(self):
         url = reverse("account:token_verify")
         assert self.client.post(url, {"token": self.token}).status_code == 200
@@ -352,8 +317,6 @@ class TestAccountAPIExtras:
         url = reverse("account:token_verify")
         assert self.client.post(url, {"token": "invalid"}).status_code == 401
 
-    # Token refresh ──────────────────────────────────────────────────────
-
     def test_token_refresh(self):
         refresh = str(RefreshToken.for_user(self.user))
         url = reverse("account:token_refresh")
@@ -361,54 +324,65 @@ class TestAccountAPIExtras:
         assert resp.status_code == 200
         assert "access" in resp.data
 
-    # Password change validations ────────────────────────────────────────
-
     def test_password_change_mismatch(self):
         url = reverse("account:password_change")
-        resp = self.auth_client.put(url, {
-            "old_password": "securepass123",
-            "new_password": "newsecurepass456",
-            "new_password2": "mismatch",
-        })
+        resp = self.auth_client.put(
+            url,
+            {
+                "old_password": "securepass123",
+                "new_password": "newsecurepass456",
+                "new_password2": "mismatch",
+            },
+        )
         assert resp.status_code == 400
 
     def test_password_change_too_short(self):
         url = reverse("account:password_change")
-        resp = self.auth_client.put(url, {
-            "old_password": "securepass123",
-            "new_password": "short",
-            "new_password2": "short",
-        })
+        resp = self.auth_client.put(
+            url,
+            {
+                "old_password": "securepass123",
+                "new_password": "short",
+                "new_password2": "short",
+            },
+        )
         assert resp.status_code == 400
 
-    # Password reset edge cases ──────────────────────────────────────────
-
     def test_password_reset_code_check_unknown_email(self):
-        url = reverse("account:password_reset_detail", args=["unknown@example.com", "1234"])
+        url = reverse(
+            "account:password_reset_detail", args=["unknown@example.com", "1234"]
+        )
         assert self.client.get(url).status_code == 400
 
     def test_password_reset_put_mismatch(self):
         self.user.password_reset_code = "1234"
         self.user.save()
         url = reverse("account:password_reset")
-        resp = self.client.put(url, {
-            "email": self.user.email, "code": "1234",
-            "new_password": "newpass456", "new_password2": "wrong",
-        })
+        resp = self.client.put(
+            url,
+            {
+                "email": self.user.email,
+                "code": "1234",
+                "new_password": "newpass456",
+                "new_password2": "wrong",
+            },
+        )
         assert resp.status_code == 400
-
-    # Avatar base64 upload ───────────────────────────────────────────────
 
     def test_patch_profile_avatar_base64_sets_url(self):
         url = reverse("account:profil")
         resp = self.auth_client.patch(url, {"avatar": IMG_B64})
         assert resp.status_code in (200, 400)
         if resp.status_code == 200:
-            assert resp.data["avatar"] is None or str(resp.data["avatar"]).startswith("http")
+            assert resp.data["avatar"] is None or str(resp.data["avatar"]).startswith(
+                "http"
+            )
 
     def test_patch_profile_avatar_null_removes_files(self):
         url = reverse("account:profil")
-        seed = self.auth_client.patch(url, {"avatar": IMG_B64, "avatar_cropped": IMG_B64})
+        seed = self.auth_client.patch(
+            url, {"avatar": IMG_B64, "avatar_cropped": IMG_B64}
+        )
         if seed.status_code == 400:
             return  # seeding failed; skip remainder
 
@@ -431,8 +405,6 @@ class TestAccountAPIExtras:
                 if p:
                     assert not os.path.exists(p)
 
-    # Pagination ─────────────────────────────────────────────────────────
-
     def test_get_users_list_pagination_true(self):
         self.user_model.objects.create_user(email="p1@example.com", password="p")
         self.user_model.objects.create_user(email="p2@example.com", password="p")
@@ -442,23 +414,22 @@ class TestAccountAPIExtras:
         assert "results" in resp.data
         assert resp.data["count"] >= 2
 
-    # User create with avatar + uppercase email ──────────────────────────
-
     def test_post_users_create_with_avatar_and_uppercase_email(self):
         url = reverse("account:users")
         payload = {
             "email": "NEWUSER@EXAMPLE.COM",
-            "first_name": "New", "last_name": "User",
-            "is_staff": False, "is_active": True,
-            "avatar": IMG_B64, "avatar_cropped": IMG_B64,
+            "first_name": "New",
+            "last_name": "User",
+            "is_staff": False,
+            "is_active": True,
+            "avatar": IMG_B64,
+            "avatar_cropped": IMG_B64,
         }
         resp = self.auth_client.post(url, payload)
         assert resp.status_code == status.HTTP_204_NO_CONTENT
         created = self.user_model.objects.get(email="newuser@example.com")
         assert created.first_name == "New"
         assert created.default_password_set is True
-
-    # Self‑protection (operating on own account → 404) ───────────────────
 
     def test_user_detail_get_self_404(self):
         url = reverse("account:users_detail", args=[self.user.pk])
@@ -472,8 +443,6 @@ class TestAccountAPIExtras:
         url = reverse("account:users_detail", args=[self.user.pk])
         assert self.auth_client.delete(url).status_code == 404
 
-    # Profile field presence ─────────────────────────────────────────────
-
     def test_get_profile_fields_presence(self):
         url = reverse("account:profil")
         resp = self.auth_client.get(url)
@@ -482,16 +451,16 @@ class TestAccountAPIExtras:
             assert key in resp.data
 
 
-# ═══════════════════════════════════════════════════════════════════════════
-# 3. Celery task tests
-# ═══════════════════════════════════════════════════════════════════════════
-
 def test_send_email_task_updates_user_and_sends_mail():
     assert app_settings.EMAIL_BACKEND == "django.core.mail.backends.locmem.EmailBackend"
     user = CustomUser.objects.create(email="task_mail@example.com", password="1234")
     send_email.delay(
-        user.pk, user.email, "Reset", "<p>Hello</p>",
-        code="9999", type_="password_reset_code",
+        user.pk,
+        user.email,
+        "Reset",
+        "<p>Hello</p>",
+        code="9999",
+        type_="password_reset_code",
     )
     assert len(mail.outbox) == 1
     assert "Hello" in mail.outbox[0].body
@@ -562,9 +531,13 @@ def test_resize_avatar_saves_and_sends_event(monkeypatch):
 
 @patch("account.tasks.start_deleting_expired_codes.apply_async")
 @patch("account.views.current_app.control.revoke")
-def test_view_schedules_and_revokes(revoke_mock, apply_async_mock, client, django_user_model):
+def test_view_schedules_and_revokes(
+    revoke_mock, apply_async_mock, client, django_user_model
+):
     user = django_user_model.objects.create(
-        email="task_sched@example.com", password="1234", task_id_password_reset="prev-id"
+        email="task_sched@example.com",
+        password="1234",
+        task_id_password_reset="prev-id",
     )
 
     class FakeAsyncResult:
@@ -588,10 +561,6 @@ def test_view_schedules_and_revokes(revoke_mock, apply_async_mock, client, djang
     assert len(user.task_id_password_reset) <= 40
 
 
-# ═══════════════════════════════════════════════════════════════════════════
-# 4. Manager tests
-# ═══════════════════════════════════════════════════════════════════════════
-
 @pytest.mark.django_db
 class TestManagers:
     def test_create_user_requires_email(self):
@@ -606,35 +575,37 @@ class TestManagers:
         assert u.check_password("secret")
 
     def test_create_superuser_flags_and_validation(self):
-        User = get_user_model()
-        su = User.objects.create_superuser(email="admin@example.com", password="adminpw")
+        user_obj = get_user_model()
+        su = user_obj.objects.create_superuser(
+            email="admin@example.com", password="adminpw"
+        )
         assert su.is_staff and su.is_superuser and su.is_active
 
         with pytest.raises(ValueError):
-            User.objects.create_superuser(
+            user_obj.objects.create_superuser(
                 email="bad1@example.com", password="pw", is_staff=False
             )
         with pytest.raises(ValueError):
-            User.objects.create_superuser(
+            user_obj.objects.create_superuser(
                 email="bad2@example.com", password="pw", is_superuser=False
             )
 
-
-# ═══════════════════════════════════════════════════════════════════════════
-# 5. Model tests
-# ═══════════════════════════════════════════════════════════════════════════
 
 @pytest.mark.django_db
 class TestCustomUserModel:
     def test_str_with_full_name(self):
         user = CustomUser.objects.create_user(
-            email="str@test.com", password="pass",
-            first_name="Jane", last_name="Doe",
+            email="str@test.com",
+            password="pass",
+            first_name="Jane",
+            last_name="Doe",
         )
         assert str(user) == "Jane Doe"
 
     def test_str_with_email_only(self):
-        user = CustomUser.objects.create_user(email="emailonly@test.com", password="pass")
+        user = CustomUser.objects.create_user(
+            email="emailonly@test.com", password="pass"
+        )
         assert str(user) == "emailonly@test.com"
 
     def test_default_permission_flags(self):
@@ -662,40 +633,40 @@ class TestCustomUserModel:
         assert user.get_absolute_avatar_cropped_img is None
 
 
-# ═══════════════════════════════════════════════════════════════════════════
-# 6. Filter tests
-# ═══════════════════════════════════════════════════════════════════════════
-
 @pytest.mark.django_db
 class TestFilters:
     def test_empty_search_returns_all(self):
-        User = get_user_model()
-        u1 = User.objects.create_user(email="a1@example.com", password="p")
-        u2 = User.objects.create_user(email="a2@example.com", password="p")
-        qs = UsersFilter(data={"search": ""}, queryset=User.objects.all()).qs
+        user_obj = get_user_model()
+        u1 = user_obj.objects.create_user(email="a1@example.com", password="p")
+        u2 = user_obj.objects.create_user(email="a2@example.com", password="p")
+        qs = UsersFilter(data={"search": ""}, queryset=user_obj.objects.all()).qs
         assert u1 in qs and u2 in qs
 
     def test_search_by_name_and_email(self):
-        User = get_user_model()
-        alice = User.objects.create_user(
-            email="alice+tag@example.com", password="p",
-            first_name="Alice", last_name="Tester",
+        user_obj = get_user_model()
+        alice = user_obj.objects.create_user(
+            email="alice+tag@example.com",
+            password="p",
+            first_name="Alice",
+            last_name="Tester",
         )
-        bob = User.objects.create_user(
+        bob = user_obj.objects.create_user(
             email="bob@example.com", password="p", first_name="Bob"
         )
-        qs = UsersFilter(data={"search": "Alice"}, queryset=User.objects.all()).qs
+        qs = UsersFilter(data={"search": "Alice"}, queryset=user_obj.objects.all()).qs
         assert alice in qs and bob not in qs
 
-        qs2 = UsersFilter(data={"search": "example.com"}, queryset=User.objects.all()).qs
+        qs2 = UsersFilter(
+            data={"search": "example.com"}, queryset=user_obj.objects.all()
+        ).qs
         assert alice in qs2 and bob in qs2
 
     def test_search_matches_gender_display(self):
-        User = get_user_model()
-        user = User.objects.create_user(
+        user_obj = get_user_model()
+        user = user_obj.objects.create_user(
             email="gendertest@example.com", password="p", first_name="G", gender="H"
         )
-        qs = UsersFilter(data={"search": "Homme"}, queryset=User.objects.all()).qs
+        qs = UsersFilter(data={"search": "Homme"}, queryset=user_obj.objects.all()).qs
         assert user in qs
 
 
@@ -704,18 +675,26 @@ class TestUsersFilterExtra:
     """Thorough filter coverage: gender, email, metacharacters, text lookups, isempty."""
 
     def test_global_search_with_gender_homme(self):
-        user = CustomUser.objects.create_user(email="homme@test.com", password="p", gender="H")
+        user = CustomUser.objects.create_user(
+            email="homme@test.com", password="p", gender="H"
+        )
         result = UsersFilter.global_search(CustomUser.objects.all(), "search", "Homme")
         assert user in result
 
     def test_global_search_with_gender_femme(self):
-        user = CustomUser.objects.create_user(email="femme@test.com", password="p", gender="F")
+        user = CustomUser.objects.create_user(
+            email="femme@test.com", password="p", gender="F"
+        )
         result = UsersFilter.global_search(CustomUser.objects.all(), "search", "Femme")
         assert user in result
 
     def test_global_search_by_email(self):
-        user = CustomUser.objects.create_user(email="unique_email@test.com", password="p")
-        result = UsersFilter.global_search(CustomUser.objects.all(), "search", "unique_email")
+        user = CustomUser.objects.create_user(
+            email="unique_email@test.com", password="p"
+        )
+        result = UsersFilter.global_search(
+            CustomUser.objects.all(), "search", "unique_email"
+        )
         assert user in result
 
     def test_global_search_empty_value(self):
@@ -736,46 +715,72 @@ class TestUsersFilterExtra:
         assert result is not None
 
     def test_first_name_icontains(self):
-        u1 = CustomUser.objects.create_user(email="fn@test.com", password="p", first_name="Ahmed")
-        u2 = CustomUser.objects.create_user(email="fn2@test.com", password="p", first_name="Sara")
-        filt = UsersFilter({"first_name__icontains": "ahm"}, queryset=CustomUser.objects.all())
+        u1 = CustomUser.objects.create_user(
+            email="fn@test.com", password="p", first_name="Ahmed"
+        )
+        u2 = CustomUser.objects.create_user(
+            email="fn2@test.com", password="p", first_name="Sara"
+        )
+        filt = UsersFilter(
+            {"first_name__icontains": "ahm"}, queryset=CustomUser.objects.all()
+        )
         assert u1 in filt.qs and u2 not in filt.qs
 
     def test_last_name_istartswith(self):
-        u = CustomUser.objects.create_user(email="ln@test.com", password="p", last_name="Benali")
-        filt = UsersFilter({"last_name__istartswith": "Ben"}, queryset=CustomUser.objects.all())
+        u = CustomUser.objects.create_user(
+            email="ln@test.com", password="p", last_name="Benali"
+        )
+        filt = UsersFilter(
+            {"last_name__istartswith": "Ben"}, queryset=CustomUser.objects.all()
+        )
         assert u in filt.qs
 
     def test_gender_method_filter(self):
-        u_h = CustomUser.objects.create_user(email="gh@test.com", password="p", gender="H")
-        u_f = CustomUser.objects.create_user(email="gf@test.com", password="p", gender="F")
+        u_h = CustomUser.objects.create_user(
+            email="gh@test.com", password="p", gender="H"
+        )
+        u_f = CustomUser.objects.create_user(
+            email="gf@test.com", password="p", gender="F"
+        )
         filt = UsersFilter({"gender": "Homme"}, queryset=CustomUser.objects.all())
         assert u_h in filt.qs and u_f not in filt.qs
         filt2 = UsersFilter({"gender": "Femme"}, queryset=CustomUser.objects.all())
         assert u_f in filt2.qs and u_h not in filt2.qs
 
     def test_is_staff_boolean(self):
-        u1 = CustomUser.objects.create_user(email="bst@test.com", password="p", is_staff=True)
-        u2 = CustomUser.objects.create_user(email="bnst@test.com", password="p", is_staff=False)
+        u1 = CustomUser.objects.create_user(
+            email="bst@test.com", password="p", is_staff=True
+        )
+        u2 = CustomUser.objects.create_user(
+            email="bnst@test.com", password="p", is_staff=False
+        )
         filt = UsersFilter({"is_staff": "true"}, queryset=CustomUser.objects.all())
         assert u1 in filt.qs and u2 not in filt.qs
 
     def test_first_name_isempty_true(self):
-        u_e = CustomUser.objects.create_user(email="empty@test.com", password="p", first_name="")
-        u_f = CustomUser.objects.create_user(email="full@test.com", password="p", first_name="John")
-        filt = UsersFilter({"first_name__isempty": "true"}, queryset=CustomUser.objects.all())
+        u_e = CustomUser.objects.create_user(
+            email="empty@test.com", password="p", first_name=""
+        )
+        u_f = CustomUser.objects.create_user(
+            email="full@test.com", password="p", first_name="John"
+        )
+        filt = UsersFilter(
+            {"first_name__isempty": "true"}, queryset=CustomUser.objects.all()
+        )
         assert u_e in filt.qs and u_f not in filt.qs
 
     def test_first_name_isempty_false(self):
-        u_e = CustomUser.objects.create_user(email="e2@test.com", password="p", first_name="")
-        u_f = CustomUser.objects.create_user(email="f2@test.com", password="p", first_name="John")
-        filt = UsersFilter({"first_name__isempty": "false"}, queryset=CustomUser.objects.all())
+        u_e = CustomUser.objects.create_user(
+            email="e2@test.com", password="p", first_name=""
+        )
+        u_f = CustomUser.objects.create_user(
+            email="f2@test.com", password="p", first_name="John"
+        )
+        filt = UsersFilter(
+            {"first_name__isempty": "false"}, queryset=CustomUser.objects.all()
+        )
         assert u_f in filt.qs and u_e not in filt.qs
 
-
-# ═══════════════════════════════════════════════════════════════════════════
-# 7. Serializer tests
-# ═══════════════════════════════════════════════════════════════════════════
 
 @pytest.mark.django_db
 class TestSerializers:
@@ -804,14 +809,20 @@ class TestSerializers:
         img = Image.new("RGB", (10, 10), color="white")
         buf = BytesIO()
         img.save(buf, format="PNG")
-        uploaded = SimpleUploadedFile("avatar.png", buf.getvalue(), content_type="image/png")
-        cf = CreateAccountSerializer._process_image_field("avatar", {"avatar": uploaded})
+        uploaded = SimpleUploadedFile(
+            "avatar.png", buf.getvalue(), content_type="image/png"
+        )
+        cf = CreateAccountSerializer._process_image_field(
+            "avatar", {"avatar": uploaded}
+        )
         assert cf is not None
         assert getattr(cf, "name", "").endswith(".webp")
 
     def test_createaccount_process_image_field_invalid_raises(self):
         with pytest.raises(drf_serializers.ValidationError):
-            CreateAccountSerializer._process_image_field("avatar", {"avatar": "not-an-image"})
+            CreateAccountSerializer._process_image_field(
+                "avatar", {"avatar": "not-an-image"}
+            )
 
     def test_profileput_process_image_field_url(self):
         ret = ProfilePutSerializer._process_image_field(
@@ -829,24 +840,30 @@ class TestSerializers:
         img = Image.new("RGB", (10, 10), color="white")
         buf = BytesIO()
         img.save(buf, format="JPEG")
-        uploaded = SimpleUploadedFile("avatar.jpg", buf.getvalue(), content_type="image/jpeg")
+        uploaded = SimpleUploadedFile(
+            "avatar.jpg", buf.getvalue(), content_type="image/jpeg"
+        )
         cf, b, is_url = ProfilePutSerializer._process_image_field(
             "avatar", {"avatar": uploaded}
         )
         assert cf is not None and b is not None and is_url is False
 
     def test_userslist_and_profileget_get_gender(self):
-        User = get_user_model()
-        u_none = User.objects.create_user(email="gn@example.com", password="p", gender="")
-        u_h = User.objects.create_user(email="gh2@example.com", password="p", gender="H")
+        user_obj = get_user_model()
+        u_none = user_obj.objects.create_user(
+            email="gn@example.com", password="p", gender=""
+        )
+        u_h = user_obj.objects.create_user(
+            email="gh2@example.com", password="p", gender="H"
+        )
         assert UsersListSerializer.get_gender(u_none) is None
         assert ProfileGETSerializer.get_gender(u_none) is None
         assert UsersListSerializer.get_gender(u_h) == u_h.get_gender_display()
         assert ProfileGETSerializer.get_gender(u_h) == u_h.get_gender_display()
 
     def test_profileget_builds_absolute_urls(self):
-        User = get_user_model()
-        user = User.objects.create_user(email="repr@example.com", password="p")
+        user_obj = get_user_model()
+        user = user_obj.objects.create_user(email="repr@example.com", password="p")
         user.avatar.save("repr.png", ContentFile(b"img"), save=True)
 
         class FakeRequest:
@@ -856,7 +873,9 @@ class TestSerializers:
 
         ser = ProfileGETSerializer(user, context={"request": FakeRequest()})
         rep = ser.data
-        assert rep["avatar"] is None or str(rep["avatar"]).startswith(("http://", "https://"))
+        assert rep["avatar"] is None or str(rep["avatar"]).startswith(
+            ("http://", "https://")
+        )
 
     def test_create_raises_on_image_processing_exception(self, monkeypatch):
         def bad_process(*a, **kw):
@@ -871,8 +890,8 @@ class TestSerializers:
             )
 
     def test_profileput_update_deletes_old_files(self, monkeypatch):
-        User = get_user_model()
-        user = User.objects.create_user(email="upd@example.com", password="p")
+        user_obj = get_user_model()
+        user = user_obj.objects.create_user(email="upd@example.com", password="p")
         user.avatar.save("old.png", ContentFile(b"old"), save=True)
         user.avatar_cropped.save("oldc.png", ContentFile(b"oldc"), save=True)
 
@@ -882,18 +901,26 @@ class TestSerializers:
         def fake_delete(self, field):
             deleted.append(getattr(field, "name", str(field)))
 
-        monkeypatch.setattr(ProfilePutSerializer, "_delete_file", fake_delete, raising=False)
+        monkeypatch.setattr(
+            ProfilePutSerializer, "_delete_file", fake_delete, raising=False
+        )
 
         def fake_process(field_name, _data):
-            uploaded = SimpleUploadedFile("new.png", b"\x89PNG\r\n", content_type="image/png")
+            uploaded = SimpleUploadedFile(
+                "new.png", b"\x89PNG\r\n", content_type="image/png"
+            )
             return uploaded, BytesIO(b"new"), False
 
         monkeypatch.setattr(
-            ProfilePutSerializer, "_process_image_field",
-            staticmethod(fake_process), raising=False,
+            ProfilePutSerializer,
+            "_process_image_field",
+            staticmethod(fake_process),
+            raising=False,
         )
 
-        ser = ProfilePutSerializer(instance=user, data={"avatar": IMG_B64}, partial=True)
+        ser = ProfilePutSerializer(
+            instance=user, data={"avatar": IMG_B64}, partial=True
+        )
         try:
             ser.is_valid(raise_exception=True)
             ser.save()
@@ -915,10 +942,15 @@ class TestSerializersExtra:
     """Supplementary serializer tests."""
 
     def test_create_account_with_avatar_base64(self):
-        ser = CreateAccountSerializer(data={
-            "email": "avb64@example.com", "password": "testpass123",
-            "first_name": "Av", "last_name": "B64", "avatar": IMG_B64,
-        })
+        ser = CreateAccountSerializer(
+            data={
+                "email": "avb64@example.com",
+                "password": "testpass123",
+                "first_name": "Av",
+                "last_name": "B64",
+                "avatar": IMG_B64,
+            }
+        )
         assert ser.is_valid(), ser.errors
         user = ser.save()
         assert user.avatar is not None
@@ -927,8 +959,14 @@ class TestSerializersExtra:
         assert CreateAccountSerializer.validate_gender("") == ""
 
     def test_profile_put_process_image_empty(self):
-        assert ProfilePutSerializer._process_image_field("avatar", {"avatar": ""}) == (None, None, False)
-        assert ProfilePutSerializer._process_image_field("avatar", {"avatar": None}) == (None, None, False)
+        assert ProfilePutSerializer._process_image_field("avatar", {"avatar": ""}) == (
+            None,
+            None,
+            False,
+        )
+        assert ProfilePutSerializer._process_image_field(
+            "avatar", {"avatar": None}
+        ) == (None, None, False)
 
     def test_users_list_get_gender(self, user_extra):
         user_extra.gender = "H"
@@ -939,7 +977,10 @@ class TestSerializersExtra:
         assert UsersListSerializer.get_gender(user_extra) is None
 
     def test_change_password_validate(self):
-        assert ChangePasswordSerializer.validate_new_password("SecureP123!") == "SecureP123!"
+        assert (
+            ChangePasswordSerializer.validate_new_password("SecureP123!")
+            == "SecureP123!"
+        )
 
     def test_password_reset_matching(self):
         ser = PasswordResetSerializer(
@@ -955,10 +996,6 @@ class TestSerializersExtra:
         assert "new_password2" in ser.errors
 
 
-# ═══════════════════════════════════════════════════════════════════════════
-# 8. Tasks extra tests
-# ═══════════════════════════════════════════════════════════════════════════
-
 @pytest.mark.django_db
 class TestTasksExtra:
     """Fine‑grained task and helper function tests."""
@@ -972,8 +1009,14 @@ class TestTasksExtra:
     @patch("account.tasks.EmailMessage")
     def test_send_email_with_reset_code(self, mock_cls, user_extra):
         mock_cls.return_value = MagicMock()
-        send_email(user_extra.pk, user_extra.email, "Reset", "Code",
-                   code="1234", type_="password_reset_code")
+        send_email(
+            user_extra.pk,
+            user_extra.email,
+            "Reset",
+            "Code",
+            code="1234",
+            type_="password_reset_code",
+        )
         user_extra.refresh_from_db()
         assert user_extra.password_reset_code == "1234"
 
@@ -1025,23 +1068,25 @@ class TestTasksExtra:
                 mock_resize.assert_not_called()
 
 
-# ═══════════════════════════════════════════════════════════════════════════
-# 9. CreateAccountSerializer extra
-# ═══════════════════════════════════════════════════════════════════════════
-
 @pytest.mark.django_db
 class TestCreateAccountSerializerExtra:
 
     def test_process_image_field_file_exception(self):
         class BrokenFile:
             name = "broken.jpg"
+
             def read(self):
                 raise IOError("Read failed")
+
             def seek(self, pos):
                 pass
 
-        with pytest.raises(drf_serializers.ValidationError, match="Invalid file upload"):
-            CreateAccountSerializer._process_image_field("avatar", {"avatar": BrokenFile()})
+        with pytest.raises(
+            drf_serializers.ValidationError, match="Invalid file upload"
+        ):
+            CreateAccountSerializer._process_image_field(
+                "avatar", {"avatar": BrokenFile()}
+            )
 
     def test_process_image_field_invalid_base64(self):
         with pytest.raises(
@@ -1052,27 +1097,33 @@ class TestCreateAccountSerializerExtra:
             )
 
     def test_create_with_avatar_saves_file(self):
-        ser = CreateAccountSerializer(data={
-            "email": "avatar_s@example.com", "password": "testpass123",
-            "first_name": "Av", "last_name": "Save", "avatar": IMG_B64,
-        })
+        ser = CreateAccountSerializer(
+            data={
+                "email": "avatar_s@example.com",
+                "password": "testpass123",
+                "first_name": "Av",
+                "last_name": "Save",
+                "avatar": IMG_B64,
+            }
+        )
         assert ser.is_valid(), ser.errors
         user = ser.save()
         assert user.avatar and user.avatar.name != ""
 
     def test_create_with_cropped_saves_file(self):
-        ser = CreateAccountSerializer(data={
-            "email": "crop_s@example.com", "password": "testpass123",
-            "first_name": "Crop", "last_name": "Save", "avatar_cropped": IMG_B64,
-        })
+        ser = CreateAccountSerializer(
+            data={
+                "email": "crop_s@example.com",
+                "password": "testpass123",
+                "first_name": "Crop",
+                "last_name": "Save",
+                "avatar_cropped": IMG_B64,
+            }
+        )
         assert ser.is_valid(), ser.errors
         user = ser.save()
         assert user.avatar_cropped is not None
 
-
-# ═══════════════════════════════════════════════════════════════════════════
-# 10. ProfilePutSerializer extra
-# ═══════════════════════════════════════════════════════════════════════════
 
 @pytest.mark.django_db
 class TestProfilePutSerializerExtra:
@@ -1080,13 +1131,17 @@ class TestProfilePutSerializerExtra:
 
     def test_update_clears_avatar_on_null(self, user_extra):
         user_extra.avatar.save("t.png", ContentFile(b"t"), save=True)
-        ser = ProfilePutSerializer(instance=user_extra, data={"avatar": None}, partial=True)
+        ser = ProfilePutSerializer(
+            instance=user_extra, data={"avatar": None}, partial=True
+        )
         assert ser.is_valid(), ser.errors
         assert not ser.save().avatar
 
     def test_update_clears_avatar_on_empty_string(self, user_extra):
         user_extra.avatar.save("t2.png", ContentFile(b"t2"), save=True)
-        ser = ProfilePutSerializer(instance=user_extra, data={"avatar": ""}, partial=True)
+        ser = ProfilePutSerializer(
+            instance=user_extra, data={"avatar": ""}, partial=True
+        )
         assert ser.is_valid(), ser.errors
         assert not ser.save().avatar
 
@@ -1130,24 +1185,33 @@ class TestProfilePutSerializerExtra:
     def test_process_image_field_file_exception(self):
         class BrokenFile:
             name = "broken.jpg"
+
             def read(self):
                 raise IOError("Read failed")
+
             def seek(self, pos):
                 pass
 
-        with pytest.raises(drf_serializers.ValidationError, match="Invalid file upload"):
-            ProfilePutSerializer._process_image_field("avatar", {"avatar": BrokenFile()})
+        with pytest.raises(
+            drf_serializers.ValidationError, match="Invalid file upload"
+        ):
+            ProfilePutSerializer._process_image_field(
+                "avatar", {"avatar": BrokenFile()}
+            )
 
     def test_process_image_field_invalid_format(self):
         with pytest.raises(
             drf_serializers.ValidationError,
             match="Format d'image invalide|Format d'image base64 invalide",
         ):
-            ProfilePutSerializer._process_image_field("avatar", {"avatar": "not-url-not-base64"})
+            ProfilePutSerializer._process_image_field(
+                "avatar", {"avatar": "not-url-not-base64"}
+            )
 
     def test_delete_file_handles_missing_path(self):
         class FakeField:
             path = "/nonexistent/path/to/file.png"
+
             def delete(self, save=False):
                 pass
 
@@ -1166,7 +1230,9 @@ class TestProfilePutSerializerExtra:
             def build_absolute_uri(url):
                 return f"http://test.com{url}"
 
-        data = ProfilePutSerializer(instance=user_extra, context={"request": FakeRequest()}).data
+        data = ProfilePutSerializer(
+            instance=user_extra, context={"request": FakeRequest()}
+        ).data
         assert data["avatar"] is None or data["avatar"].startswith("http://")
 
 
@@ -1226,10 +1292,6 @@ class TestProfilePutSerializerDeleteBranches:
         assert not updated.avatar_cropped
 
 
-# ═══════════════════════════════════════════════════════════════════════════
-# 11. CreateAccountSerializer representation
-# ═══════════════════════════════════════════════════════════════════════════
-
 @pytest.mark.django_db
 class TestCreateAccountSerializerRepresentation:
 
@@ -1242,7 +1304,9 @@ class TestCreateAccountSerializerRepresentation:
             def build_absolute_uri(url):
                 return f"http://test.com{url}"
 
-        data = CreateAccountSerializer(instance=user, context={"request": FakeRequest()}).data
+        data = CreateAccountSerializer(
+            instance=user, context={"request": FakeRequest()}
+        ).data
         assert data["avatar"] is None or data["avatar"].startswith("http://")
 
     def test_to_representation_without_avatar(self):
@@ -1257,10 +1321,6 @@ class TestCreateAccountSerializerRepresentation:
         assert data["avatar"] is None or isinstance(data["avatar"], str)
 
 
-# ═══════════════════════════════════════════════════════════════════════════
-# 12. UserDetailSerializer extra
-# ═══════════════════════════════════════════════════════════════════════════
-
 @pytest.mark.django_db
 class TestUserDetailSerializerExtra:
 
@@ -1274,10 +1334,6 @@ class TestUserDetailSerializerExtra:
             assert field in data
 
 
-# ═══════════════════════════════════════════════════════════════════════════
-# 13. Account views extra
-# ═══════════════════════════════════════════════════════════════════════════
-
 @pytest.mark.django_db
 class TestAccountViewsExtra:
     """Comprehensive view edge-case and branch tests."""
@@ -1285,8 +1341,11 @@ class TestAccountViewsExtra:
     @pytest.fixture(autouse=True)
     def setup_data(self, db):
         self.user = CustomUser.objects.create_user(
-            email="viewstest@test.com", password="testpass123",
-            first_name="Views", last_name="Test", is_staff=True,
+            email="viewstest@test.com",
+            password="testpass123",
+            first_name="Views",
+            last_name="Test",
+            is_staff=True,
         )
         self.client = APIClient()
         self.client.force_authenticate(user=self.user)
@@ -1301,41 +1360,56 @@ class TestAccountViewsExtra:
         url = reverse("account:check_email")
         assert self.client.post(url, {"email": "x@test.com"}).status_code == 204
 
-    # Password change ────────────────────────────────────────────────────
-
     def test_password_change_wrong_old(self):
         url = reverse("account:password_change")
-        resp = self.client.put(url, {
-            "old_password": "wrongpw", "new_password": "np123456",
-            "new_password2": "np123456",
-        })
+        resp = self.client.put(
+            url,
+            {
+                "old_password": "wrongpw",
+                "new_password": "np123456",
+                "new_password2": "np123456",
+            },
+        )
         assert resp.status_code == 400
         assert "old_password" in resp.data.get("details", resp.data)
 
     def test_password_change_mismatch(self):
         url = reverse("account:password_change")
-        resp = self.client.put(url, {
-            "old_password": "testpass123", "new_password": "np123456",
-            "new_password2": "different",
-        })
+        resp = self.client.put(
+            url,
+            {
+                "old_password": "testpass123",
+                "new_password": "np123456",
+                "new_password2": "different",
+            },
+        )
         assert resp.status_code == 400
 
     def test_password_change_too_short(self):
         url = reverse("account:password_change")
-        resp = self.client.put(url, {
-            "old_password": "testpass123", "new_password": "short",
-            "new_password2": "short",
-        })
+        resp = self.client.put(
+            url,
+            {
+                "old_password": "testpass123",
+                "new_password": "short",
+                "new_password2": "short",
+            },
+        )
         assert resp.status_code == 400
 
     def test_password_change_success(self):
         url = reverse("account:password_change")
-        assert self.client.put(url, {
-            "old_password": "testpass123", "new_password": "np123456!!",
-            "new_password2": "np123456!!",
-        }).status_code == 204
-
-    # Profile ────────────────────────────────────────────────────────────
+        assert (
+            self.client.put(
+                url,
+                {
+                    "old_password": "testpass123",
+                    "new_password": "np123456!!",
+                    "new_password2": "np123456!!",
+                },
+            ).status_code
+            == 204
+        )
 
     def test_profile_get_fields(self):
         url = reverse("account:profil")
@@ -1347,9 +1421,15 @@ class TestAccountViewsExtra:
 
     def test_profile_patch_all_fields(self):
         url = reverse("account:profil")
-        resp = self.client.patch(url, {
-            "first_name": "Updated", "last_name": "Name", "gender": "Homme",
-        }, format="json")
+        resp = self.client.patch(
+            url,
+            {
+                "first_name": "Updated",
+                "last_name": "Name",
+                "gender": "Homme",
+            },
+            format="json",
+        )
         assert resp.status_code in (200, 400)
         if resp.status_code == 200:
             assert resp.data["first_name"] == "Updated"
@@ -1358,8 +1438,6 @@ class TestAccountViewsExtra:
         url = reverse("account:profil")
         resp = self.client.patch(url, {"gender": "InvalidGender"}, format="json")
         assert resp.status_code in (200, 400)
-
-    # Users list ─────────────────────────────────────────────────────────
 
     def test_users_list_no_pagination(self):
         url = reverse("account:users")
@@ -1373,25 +1451,30 @@ class TestAccountViewsExtra:
         assert resp.status_code == 200
         assert "results" in resp.data
 
-    # User detail self‑protection ────────────────────────────────────────
-
     def test_detail_self_get_404(self):
-        assert self.client.get(
-            reverse("account:users_detail", args=[self.user.pk])
-        ).status_code == 404
+        assert (
+            self.client.get(
+                reverse("account:users_detail", args=[self.user.pk])
+            ).status_code
+            == 404
+        )
 
     def test_detail_self_put_404(self):
-        assert self.client.put(
-            reverse("account:users_detail", args=[self.user.pk]),
-            {"first_name": "New"},
-        ).status_code == 404
+        assert (
+            self.client.put(
+                reverse("account:users_detail", args=[self.user.pk]),
+                {"first_name": "New"},
+            ).status_code
+            == 404
+        )
 
     def test_detail_self_delete_404(self):
-        assert self.client.delete(
-            reverse("account:users_detail", args=[self.user.pk])
-        ).status_code == 404
-
-    # Other user CRUD ────────────────────────────────────────────────────
+        assert (
+            self.client.delete(
+                reverse("account:users_detail", args=[self.user.pk])
+            ).status_code
+            == 404
+        )
 
     def test_detail_other_get(self):
         other = CustomUser.objects.create_user(
@@ -1406,50 +1489,58 @@ class TestAccountViewsExtra:
         )
         resp = self.client.put(
             reverse("account:users_detail", args=[other.pk]),
-            {"first_name": "Updated"}, format="json",
+            {"first_name": "Updated"},
+            format="json",
         )
         assert resp.status_code == 200
 
     def test_detail_other_delete(self):
-        other = CustomUser.objects.create_user(
-            email="delother@test.com", password="p"
+        other = CustomUser.objects.create_user(email="delother@test.com", password="p")
+        assert (
+            self.client.delete(
+                reverse("account:users_detail", args=[other.pk])
+            ).status_code
+            == 204
         )
-        assert self.client.delete(
-            reverse("account:users_detail", args=[other.pk])
-        ).status_code == 204
 
     def test_delete_user_with_avatar(self):
-        other = CustomUser.objects.create_user(
-            email="delav@test.com", password="p"
-        )
+        other = CustomUser.objects.create_user(email="delav@test.com", password="p")
         other.avatar.save("test.png", ContentFile(b"img"), save=True)
         other.avatar_cropped.save("testc.png", ContentFile(b"img"), save=True)
-        assert self.client.delete(
-            reverse("account:users_detail", args=[other.pk])
-        ).status_code == 204
+        assert (
+            self.client.delete(
+                reverse("account:users_detail", args=[other.pk])
+            ).status_code
+            == 204
+        )
 
     def test_detail_not_found(self):
-        assert self.client.get(
-            reverse("account:users_detail", args=[99999])
-        ).status_code == 404
-
-    # Users create ───────────────────────────────────────────────────────
+        assert (
+            self.client.get(reverse("account:users_detail", args=[99999])).status_code
+            == 404
+        )
 
     def test_users_create_post(self):
         url = reverse("account:users")
-        resp = self.client.post(url, {
-            "email": "newuser@test.com", "first_name": "New",
-            "last_name": "User", "avatar": "", "avatar_cropped": "",
-        }, format="json")
+        resp = self.client.post(
+            url,
+            {
+                "email": "newuser@test.com",
+                "first_name": "New",
+                "last_name": "User",
+                "avatar": "",
+                "avatar_cropped": "",
+            },
+            format="json",
+        )
         assert resp.status_code in (204, 400)
 
     def test_users_create_invalid_data(self):
         url = reverse("account:users")
-        assert self.client.post(
-            url, {"email": "invalid-email"}, format="json"
-        ).status_code == 400
-
-    # Password reset (anon) ──────────────────────────────────────────────
+        assert (
+            self.client.post(url, {"email": "invalid-email"}, format="json").status_code
+            == 400
+        )
 
     def test_pw_reset_get_valid(self):
         self.user.password_reset_code = "1234"
@@ -1471,26 +1562,59 @@ class TestAccountViewsExtra:
         self.user.password_reset_code = "1234"
         self.user.save()
         url = reverse("account:password_reset")
-        assert APIClient().put(url, {
-            "email": self.user.email, "code": "1234",
-            "new_password": "newpw123456", "new_password2": "newpw123456",
-        }, format="json").status_code == 204
+        assert (
+            APIClient()
+            .put(
+                url,
+                {
+                    "email": self.user.email,
+                    "code": "1234",
+                    "new_password": "newpw123456",
+                    "new_password2": "newpw123456",
+                },
+                format="json",
+            )
+            .status_code
+            == 204
+        )
 
     def test_pw_reset_put_invalid_code(self):
         self.user.password_reset_code = "1234"
         self.user.save()
         url = reverse("account:password_reset")
-        assert APIClient().put(url, {
-            "email": self.user.email, "code": "9999",
-            "new_password": "newpw123456", "new_password2": "newpw123456",
-        }, format="json").status_code == 400
+        assert (
+            APIClient()
+            .put(
+                url,
+                {
+                    "email": self.user.email,
+                    "code": "9999",
+                    "new_password": "newpw123456",
+                    "new_password2": "newpw123456",
+                },
+                format="json",
+            )
+            .status_code
+            == 400
+        )
 
     def test_pw_reset_put_user_not_found(self):
         url = reverse("account:password_reset")
-        assert APIClient().put(url, {
-            "email": "x@test.com", "code": "1234",
-            "new_password": "newpw123456", "new_password2": "newpw123456",
-        }, format="json").status_code == 400
+        assert (
+            APIClient()
+            .put(
+                url,
+                {
+                    "email": "x@test.com",
+                    "code": "1234",
+                    "new_password": "newpw123456",
+                    "new_password2": "newpw123456",
+                },
+                format="json",
+            )
+            .status_code
+            == 400
+        )
 
     def test_detail_put_invalid_serializer(self):
         target = CustomUser.objects.create_user(
@@ -1498,15 +1622,12 @@ class TestAccountViewsExtra:
         )
         resp = self.client.put(
             reverse("account:users_detail", args=[target.pk]),
-            {"gender": "InvalidGender"}, format="json",
+            {"gender": "InvalidGender"},
+            format="json",
         )
         assert resp.status_code == 400
         assert "gender" in resp.data.get("details", resp.data)
 
-
-# ═══════════════════════════════════════════════════════════════════════════
-# 14. Additional coverage
-# ═══════════════════════════════════════════════════════════════════════════
 
 @pytest.mark.django_db
 class TestAccountAdditionalCoverage:
@@ -1516,8 +1637,11 @@ class TestAccountAdditionalCoverage:
     def setup(self):
         self.User = get_user_model()
         self.user = self.User.objects.create_user(
-            email="acctcov@example.com", password="securepass123",
-            first_name="Test", last_name="Coverage", is_staff=True,
+            email="acctcov@example.com",
+            password="securepass123",
+            first_name="Test",
+            last_name="Coverage",
+            is_staff=True,
         )
         self.client = APIClient()
         self.client.credentials(
@@ -1526,77 +1650,121 @@ class TestAccountAdditionalCoverage:
 
     def test_change_password_short(self):
         url = reverse("account:password_change")
-        assert self.client.put(url, {
-            "old_password": "securepass123",
-            "new_password": "short", "new_password2": "short",
-        }, format="json").status_code == 400
+        assert (
+            self.client.put(
+                url,
+                {
+                    "old_password": "securepass123",
+                    "new_password": "short",
+                    "new_password2": "short",
+                },
+                format="json",
+            ).status_code
+            == 400
+        )
 
     def test_change_password_mismatch(self):
         url = reverse("account:password_change")
-        assert self.client.put(url, {
-            "old_password": "securepass123",
-            "new_password": "newpassword123", "new_password2": "diff123",
-        }, format="json").status_code == 400
+        assert (
+            self.client.put(
+                url,
+                {
+                    "old_password": "securepass123",
+                    "new_password": "newpassword123",
+                    "new_password2": "diff123",
+                },
+                format="json",
+            ).status_code
+            == 400
+        )
 
     def test_pw_reset_get_invalid_code_direct(self):
         self.user.password_reset_code = "1234"
         self.user.save()
-        assert APIClient().get(
-            f"/api/account/password_reset/{self.user.email}/9999/"
-        ).status_code == 400
+        assert (
+            APIClient()
+            .get(f"/api/account/password_reset/{self.user.email}/9999/")
+            .status_code
+            == 400
+        )
 
     def test_pw_reset_get_user_not_found_direct(self):
-        assert APIClient().get(
-            "/api/account/password_reset/nonexistent@test.com/1234/"
-        ).status_code == 400
+        assert (
+            APIClient()
+            .get("/api/account/password_reset/nonexistent@test.com/1234/")
+            .status_code
+            == 400
+        )
 
     def test_pw_reset_post_user_not_found(self):
         resp = APIClient().post(
             reverse("account:send_password_reset"),
-            {"email": "nonexistent@test.com"}, format="json",
+            {"email": "nonexistent@test.com"},
+            format="json",
         )
         assert resp.status_code in (200, 204, 400)
 
     def test_pw_reset_post_invalid_email(self):
         resp = APIClient().post(
             reverse("account:send_password_reset"),
-            {"email": "notanemail"}, format="json",
+            {"email": "notanemail"},
+            format="json",
         )
         assert resp.status_code in (200, 400)
 
     def test_pw_reset_put_mismatch_serializer(self):
         self.user.password_reset_code = "1234"
         self.user.save()
-        assert APIClient().put(reverse("account:password_reset"), {
-            "email": self.user.email, "code": "1234",
-            "new_password": "newpw123456", "new_password2": "mismatch123",
-        }, format="json").status_code == 400
+        assert (
+            APIClient()
+            .put(
+                reverse("account:password_reset"),
+                {
+                    "email": self.user.email,
+                    "code": "1234",
+                    "new_password": "newpw123456",
+                    "new_password2": "mismatch123",
+                },
+                format="json",
+            )
+            .status_code
+            == 400
+        )
 
     def test_password_reset_put_with_task_id_windows(self):
         self.user.password_reset_code = "1234"
         self.user.task_id_password_reset = "task-win"
         self.user.save()
         with patch("account.views.current_app") as mock_celery:
-            resp = self.client.put(reverse("account:password_reset"), {
-                "email": self.user.email, "code": "1234",
-                "new_password": "newsecurepass456", "new_password2": "newsecurepass456",
-            })
+            resp = self.client.put(
+                reverse("account:password_reset"),
+                {
+                    "email": self.user.email,
+                    "code": "1234",
+                    "new_password": "newsecurepass456",
+                    "new_password2": "newsecurepass456",
+                },
+            )
         assert resp.status_code == 204
         mock_celery.control.revoke.assert_called_once_with("task-win", terminate=False)
 
     def test_password_reset_put_with_task_id_unix(self):
-        u2 = self.User.objects.create_user(
-            email="unix_reset@test.com", password="p"
-        )
+        u2 = self.User.objects.create_user(email="unix_reset@test.com", password="p")
         u2.task_id_password_reset = "task-unix"
         u2.password_reset_code = "5678"
         u2.save()
-        with patch("account.views.platform", "linux"), \
-             patch("account.views.current_app") as mock_celery:
-            resp = self.client.put(reverse("account:password_reset"), {
-                "email": u2.email, "code": "5678",
-                "new_password": "newsecurepass456", "new_password2": "newsecurepass456",
-            })
+        with patch("account.views.platform", "linux"), patch(
+            "account.views.current_app"
+        ) as mock_celery:
+            resp = self.client.put(
+                reverse("account:password_reset"),
+                {
+                    "email": u2.email,
+                    "code": "5678",
+                    "new_password": "newsecurepass456",
+                    "new_password2": "newsecurepass456",
+                },
+            )
         assert resp.status_code == 204
         mock_celery.control.revoke.assert_called_once_with(
             "task-unix", terminate=True, signal="SIGKILL"
@@ -1615,15 +1783,14 @@ class TestAccountAdditionalCoverage:
         assert resp.status_code == 400
 
     def test_send_pw_reset_unix_revoke(self):
-        u2 = self.User.objects.create_user(
-            email="send_unix@test.com", password="p"
-        )
+        u2 = self.User.objects.create_user(email="send_unix@test.com", password="p")
         u2.task_id_password_reset = "send-unix-task"
         u2.save()
-        with patch("account.views.platform", "linux"), \
-             patch("account.views.current_app") as mock_celery, \
-             patch("account.views.send_email") as mock_se, \
-             patch("account.views.start_deleting_expired_codes") as mock_sd:
+        with patch("account.views.platform", "linux"), patch(
+            "account.views.current_app"
+        ) as mock_celery, patch("account.views.send_email") as mock_se, patch(
+            "account.views.start_deleting_expired_codes"
+        ) as mock_sd:
             mock_se.apply_async = MagicMock()
             mock_sd.apply_async = MagicMock(return_value="new-task-id")
             resp = self.client.post(
@@ -1636,10 +1803,6 @@ class TestAccountAdditionalCoverage:
         )
 
 
-# ═══════════════════════════════════════════════════════════════════════════
-# 15. Bulk delete users
-# ═══════════════════════════════════════════════════════════════════════════
-
 @pytest.mark.django_db
 class TestBulkDeleteUsersAPI:
 
@@ -1650,8 +1813,12 @@ class TestBulkDeleteUsersAPI:
         )
         self.api = APIClient()
         self.api.force_authenticate(user=self.admin)
-        self.u1 = self.User.objects.create_user(email="bu1@example.com", password="pass")
-        self.u2 = self.User.objects.create_user(email="bu2@example.com", password="pass")
+        self.u1 = self.User.objects.create_user(
+            email="bu1@example.com", password="pass"
+        )
+        self.u2 = self.User.objects.create_user(
+            email="bu2@example.com", password="pass"
+        )
 
     def test_bulk_delete_success(self):
         url = reverse("account:users-bulk-delete")
@@ -1661,7 +1828,10 @@ class TestBulkDeleteUsersAPI:
 
     def test_bulk_delete_single(self):
         url = reverse("account:users-bulk-delete")
-        assert self.api.delete(url, {"ids": [self.u1.id]}, format="json").status_code == 204
+        assert (
+            self.api.delete(url, {"ids": [self.u1.id]}, format="json").status_code
+            == 204
+        )
         assert not self.User.objects.filter(pk=self.u1.id).exists()
         assert self.User.objects.filter(pk=self.u2.id).exists()
 
@@ -1681,17 +1851,17 @@ class TestBulkDeleteUsersAPI:
 
     def test_bulk_delete_unauthenticated_401(self):
         url = reverse("account:users-bulk-delete")
-        assert APIClient().delete(url, {"ids": [self.u1.id]}, format="json").status_code == 401
+        assert (
+            APIClient().delete(url, {"ids": [self.u1.id]}, format="json").status_code
+            == 401
+        )
 
     def test_bulk_delete_non_admin_403(self):
         regular, client = make_regular_user(email="regbd@example.com")
         url = reverse("account:users-bulk-delete")
-        assert client.delete(url, {"ids": [self.u1.id]}, format="json").status_code == 403
-
-
-# ═══════════════════════════════════════════════════════════════════════════
-# 16. UserPatchSerializer
-# ═══════════════════════════════════════════════════════════════════════════
+        assert (
+            client.delete(url, {"ids": [self.u1.id]}, format="json").status_code == 403
+        )
 
 
 @pytest.mark.django_db
@@ -1710,9 +1880,17 @@ class TestUserPatchSerializer:
     def test_meta_fields_include_permission_flags(self):
         """UserPatchSerializer.Meta.fields includes permission and identity fields."""
         expected_extra = [
-            "id", "email", "is_active", "is_staff",
-            "date_joined", "last_login",
-            "can_view", "can_print", "can_create", "can_edit", "can_delete",
+            "id",
+            "email",
+            "is_active",
+            "is_staff",
+            "date_joined",
+            "last_login",
+            "can_view",
+            "can_print",
+            "can_create",
+            "can_edit",
+            "can_delete",
         ]
         for field in expected_extra:
             assert field in UserPatchSerializer.Meta.fields
@@ -1845,11 +2023,6 @@ class TestUserPatchSerializer:
         assert serializer.is_valid(), serializer.errors
         updated = serializer.save()
         assert updated.pk == self.user.pk
-
-
-# ═══════════════════════════════════════════════════════════════════════════
-# 17. generate_images_v2
-# ═══════════════════════════════════════════════════════════════════════════
 
 
 @pytest.mark.django_db
