@@ -14,6 +14,9 @@ class ContractListSerializer(serializers.ModelSerializer):
         source="get_type_contrat_display", read_only=True
     )
     statut_display = serializers.CharField(source="get_statut_display", read_only=True)
+    company_display = serializers.CharField(
+        source="get_company_display", read_only=True
+    )
 
     @staticmethod
     def get_client_name(obj: Contract) -> str | None:
@@ -39,6 +42,8 @@ class ContractListSerializer(serializers.ModelSerializer):
         fields = [
             "id",
             "numero_contrat",
+            "company",
+            "company_display",
             "client_name",
             "client_nom",
             "date_contrat",
@@ -73,6 +78,10 @@ class ContractSerializer(serializers.ModelSerializer):
     type_contrat_display = serializers.CharField(
         source="get_type_contrat_display", read_only=True
     )
+    company_display = serializers.CharField(
+        source="get_company_display", read_only=True
+    )
+    solde = serializers.SerializerMethodField(read_only=True)
 
     @staticmethod
     def get_client_name(obj: Contract) -> str | None:
@@ -93,6 +102,10 @@ class ContractSerializer(serializers.ModelSerializer):
     def get_montant_ttc(obj: Contract) -> float:
         return obj.montant_ttc
 
+    @staticmethod
+    def get_solde(obj: Contract) -> float:
+        return obj.solde
+
     def validate_numero_contrat(self, value: str) -> str:
         """Ensure numero_contrat is globally unique (excluding current instance on update)."""
         qs = Contract.objects.filter(numero_contrat=value)
@@ -107,6 +120,8 @@ class ContractSerializer(serializers.ModelSerializer):
         fields = [
             "id",
             "numero_contrat",
+            "company",
+            "company_display",
             "client_name",
             "client_nom",
             "client_cin",
@@ -153,6 +168,24 @@ class ContractSerializer(serializers.ModelSerializer):
             "confidentialite",
             "version_document",
             "annexes",
+            # Blueline Works specific
+            "client_ville",
+            "client_cp",
+            "chantier_ville",
+            "chantier_etage",
+            "prestations",
+            "fournitures",
+            "materiaux_detail",
+            "eau_electricite",
+            "garantie_nb",
+            "garantie_unite",
+            "garantie_type",
+            "exclusions_garantie",
+            "acompte",
+            "tranche2",
+            "solde",
+            "clause_resiliation",
+            "notes",
             # Meta
             "created_by_user",
             "created_by_user_id",
@@ -163,10 +196,12 @@ class ContractSerializer(serializers.ModelSerializer):
         read_only_fields = [
             "id",
             "client_name",
+            "company_display",
             "created_by_user_name",
             "created_by_user_id",
             "montant_tva",
             "montant_ttc",
+            "solde",
             "type_contrat_display",
             "date_created",
             "date_updated",

@@ -3,6 +3,7 @@ from simple_history.models import HistoricalRecords
 
 from account.models import CustomUser
 from core.constants import (
+    COMPANY_CHOICES,
     CURRENCY_CHOICES,
     GARANTIE_CHOICES,
     MODE_PAIEMENT_TEXTE_CHOICES,
@@ -12,17 +13,30 @@ from core.constants import (
     CONTRACT_TYPE_CHOICES,
     CONFIDENTIALITE_CHOICES,
     TYPE_BIEN_CHOICES,
+    FOURNITURES_CHOICES,
+    EAU_ELECTRICITE_CHOICES,
+    GARANTIE_UNITE_CHOICES,
+    GARANTIE_TYPE_CHOICES,
+    CLAUSE_RESILIATION_CHOICES,
 )
 
 
 class Contract(models.Model):
-    """Contract model for Casa di Lusso construction / design contracts."""
+    """Contract model for construction / design contracts (multi-company)."""
 
     STATUT_CHOICES = STATUT_CHOICES
 
+    # ── Company ──────────────────────────────────────────────────────────────
+    company = models.CharField(
+        max_length=50,
+        choices=COMPANY_CHOICES,
+        default="casa_di_lusso",
+        verbose_name="Société",
+        db_index=True,
+    )
+
     numero_contrat = models.CharField(
         max_length=30,
-        unique=True,
         verbose_name="Référence contrat",
         help_text="Format ex: 0001/26",
     )
@@ -212,6 +226,103 @@ class Contract(models.Model):
     )
     annexes = models.TextField(blank=True, null=True, verbose_name="Annexes jointes")
 
+    # ── Blueline Works specific fields ───────────────────────────────────────
+    client_ville = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+        verbose_name="Ville du client",
+    )
+    client_cp = models.CharField(
+        max_length=10,
+        blank=True,
+        null=True,
+        verbose_name="Code postal client",
+    )
+    chantier_ville = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+        verbose_name="Ville du chantier",
+    )
+    chantier_etage = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+        verbose_name="Étage / Appartement",
+    )
+    prestations = models.JSONField(
+        default=list,
+        blank=True,
+        verbose_name="Prestations",
+        help_text="Liste de {nom, desc, qte, unite, pu}",
+    )
+    fournitures = models.CharField(
+        max_length=50,
+        choices=FOURNITURES_CHOICES,
+        blank=True,
+        null=True,
+        verbose_name="Fournitures incluses",
+    )
+    materiaux_detail = models.TextField(
+        blank=True,
+        null=True,
+        verbose_name="Matériaux à fournir par le client",
+    )
+    eau_electricite = models.CharField(
+        max_length=50,
+        choices=EAU_ELECTRICITE_CHOICES,
+        blank=True,
+        null=True,
+        verbose_name="Eau & Électricité sur chantier",
+    )
+    garantie_nb = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+        verbose_name="Durée de garantie (valeur)",
+    )
+    garantie_unite = models.CharField(
+        max_length=10,
+        choices=GARANTIE_UNITE_CHOICES,
+        blank=True,
+        null=True,
+        verbose_name="Unité de garantie",
+    )
+    garantie_type = models.CharField(
+        max_length=50,
+        choices=GARANTIE_TYPE_CHOICES,
+        blank=True,
+        null=True,
+        verbose_name="Type de garantie",
+    )
+    exclusions_garantie = models.TextField(
+        blank=True,
+        null=True,
+        verbose_name="Exclusions de garantie",
+    )
+    acompte = models.DecimalField(
+        max_digits=5,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        verbose_name="Acompte (%)",
+    )
+    tranche2 = models.DecimalField(
+        max_digits=5,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        verbose_name="2ème tranche (%)",
+    )
+    clause_resiliation = models.CharField(
+        max_length=50,
+        choices=CLAUSE_RESILIATION_CHOICES,
+        blank=True,
+        null=True,
+        verbose_name="Clause de résiliation",
+    )
+    notes = models.TextField(blank=True, null=True, verbose_name="Notes & Observations")
+
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
     created_by_user = models.ForeignKey(
@@ -228,6 +339,7 @@ class Contract(models.Model):
         verbose_name = "Contrat"
         verbose_name_plural = "Contrats"
         ordering = ("-date_created",)
+        unique_together = [("company", "numero_contrat")]
         indexes = [
             models.Index(fields=["date_contrat"]),
             models.Index(fields=["statut"]),
@@ -243,3 +355,8 @@ class Contract(models.Model):
     @property
     def montant_ttc(self) -> float:
         return float(self.montant_ht) + self.montant_tva
+
+    @property
+    def solde(self) -> float:
+        """Compute remaining payment percentage: 100 - acompte - tranche2."""
+        return 100 - float(self.acompte or 0) - float(self.tranche2 or 0)

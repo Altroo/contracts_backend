@@ -39,7 +39,12 @@ class CreateAccountSerializer(serializers.ModelSerializer):
             try:
                 field_value.seek(0)
                 data = field_value.read()
-                return ImageProcessor.convert_to_webp(data)
+                result = ImageProcessor.convert_to_webp(data)
+                if result is None:
+                    raise serializers.ValidationError(
+                        f"Format d'image non reconnu pour {field_name}"
+                    )
+                return result
             except Exception as e:
                 raise serializers.ValidationError(
                     f"Invalid file upload for {field_name}: {str(e)}"
@@ -75,7 +80,12 @@ class CreateAccountSerializer(serializers.ModelSerializer):
                     raise serializers.ValidationError(
                         f"Encodage base64 invalide pour {field_name}: {str(decode_error)}"
                     )
-                return ImageProcessor.convert_to_webp(data)
+                result = ImageProcessor.convert_to_webp(data)
+                if result is None:
+                    raise serializers.ValidationError(
+                        f"Format d'image non reconnu pour {field_name}"
+                    )
+                return result
             except serializers.ValidationError:
                 raise
             except Exception as e:
@@ -252,6 +262,10 @@ class ProfilePutSerializer(serializers.ModelSerializer):
                 data = field_value.read()
                 field_value.seek(0)
                 webp_file = ImageProcessor.convert_to_webp(data)
+                if webp_file is None:
+                    raise serializers.ValidationError(
+                        f"Format d'image non reconnu pour {field_name}"
+                    )
                 return webp_file, BytesIO(data), False
             except Exception as e:
                 raise serializers.ValidationError(
@@ -289,6 +303,10 @@ class ProfilePutSerializer(serializers.ModelSerializer):
                         f"Encodage base64 invalide pour {field_name}: {str(decode_error)}"
                     )
                 webp_file = ImageProcessor.convert_to_webp(data)
+                if webp_file is None:
+                    raise serializers.ValidationError(
+                        f"Format d'image non reconnu pour {field_name}"
+                    )
                 return webp_file, BytesIO(data), False
             except serializers.ValidationError:
                 raise

@@ -41,9 +41,7 @@ def add_is_empty_filters(filterset):
         if isempty_name in filterset.filters:
             continue
         if isinstance(filt, django_filters.CharFilter):
-            filterset.filters[isempty_name] = IsEmptyFilter(
-                field_name=filt.field_name
-            )
+            filterset.filters[isempty_name] = IsEmptyFilter(field_name=filt.field_name)
         elif isinstance(filt, django_filters.NumberFilter):
             filterset.filters[isempty_name] = django_filters.BooleanFilter(
                 field_name=filt.field_name, lookup_expr="isnull"

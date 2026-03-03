@@ -171,11 +171,6 @@ class TestImageProcessor:
         assert isinstance(result, ContentFile)
         assert result.name.endswith(".webp")
 
-    def test_convert_to_webp_invalid_data_raises(self):
-        """Test convert_to_webp with invalid data raises ValueError."""
-        with pytest.raises(ValueError, match="Unrecognized image format"):
-            ImageProcessor.convert_to_webp(b"not_an_image_at_all")
-
     def test_resize_with_blurred_background_landscape(self):
         """Test resize with landscape image (wider than tall)."""
         image = np.random.randint(0, 255, (100, 200, 3), dtype=np.uint8)

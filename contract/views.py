@@ -16,6 +16,8 @@ from .serializers import ContractListSerializer, ContractSerializer
 from .utils import get_next_numero_contrat
 from .pdf import ContractPDFGenerator
 from .doc import ContractDOCGenerator
+from .bl_pdf import BluelinePDFGenerator
+from .bl_doc import BluelineDOCGenerator
 
 logger = logging.getLogger(__name__)
 
@@ -185,7 +187,10 @@ class ContractPDFView(APIView):
                 _("Vous n'avez pas les droits pour imprimer ce contrat.")
             )
         contract = self._get_contract(pk)
-        generator = ContractPDFGenerator(contract, language=language)
+        if contract.company == "blueline_works":
+            generator = BluelinePDFGenerator(contract, language=language)
+        else:
+            generator = ContractPDFGenerator(contract, language=language)
         return generator.generate_response()
 
 
@@ -207,5 +212,8 @@ class ContractDOCView(APIView):
                 _("Vous n'avez pas les droits pour télécharger ce contrat.")
             )
         contract = self._get_contract(pk)
-        generator = ContractDOCGenerator(contract, language=language)
+        if contract.company == "blueline_works":
+            generator = BluelineDOCGenerator(contract, language=language)
+        else:
+            generator = ContractDOCGenerator(contract, language=language)
         return generator.generate_response()

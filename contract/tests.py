@@ -7,18 +7,17 @@ from rest_framework_simplejwt.tokens import AccessToken
 from account.models import CustomUser
 from contract.models import Contract
 
-
 pytestmark = pytest.mark.django_db
 
 
 def make_staff_user(email="staff@test.com", password="securepass123"):
-    """Create a staff (can_create / can_update / can_delete / can_print) user."""
+    """Create a staff (can_create / can_edit / can_delete / can_print) user."""
     user = CustomUser.objects.create_user(
         email=email,
         password=password,
         is_staff=True,
         can_create=True,
-        can_update=True,
+        can_edit=True,
         can_delete=True,
         can_print=True,
     )
@@ -35,7 +34,7 @@ def make_readonly_user(email="readonly@test.com", password="securepass123"):
         password=password,
         is_staff=False,
         can_create=False,
-        can_update=False,
+        can_edit=False,
         can_delete=False,
         can_print=False,
     )
@@ -68,12 +67,16 @@ class TestContractModel:
 
     def test_montant_tva_property(self):
         user, _ = make_staff_user()
-        contract = make_contract(created_by=user, numero="TVA/01", montant_ht="10000.00", tva="20.00")
+        contract = make_contract(
+            created_by=user, numero="TVA/01", montant_ht="10000.00", tva="20.00"
+        )
         assert contract.montant_tva == pytest.approx(2000.0)
 
     def test_montant_ttc_property(self):
         user, _ = make_staff_user()
-        contract = make_contract(created_by=user, numero="TTC/01", montant_ht="10000.00", tva="20.00")
+        contract = make_contract(
+            created_by=user, numero="TTC/01", montant_ht="10000.00", tva="20.00"
+        )
         assert contract.montant_ttc == pytest.approx(12000.0)
 
     def test_default_statut_is_brouillon(self):
@@ -176,7 +179,9 @@ class TestContractListCreateView:
 class TestContractDetailEditDeleteView:
     def setup_method(self):
         self.staff_user, self.staff_client = make_staff_user()
-        self.readonly_user, self.readonly_client = make_readonly_user(email="ro2@test.com")
+        self.readonly_user, self.readonly_client = make_readonly_user(
+            email="ro2@test.com"
+        )
         self.contract = make_contract(created_by=self.staff_user, numero="DET/01")
         self.url = reverse("contract:contract-detail", kwargs={"pk": self.contract.pk})
         self.anon_client = APIClient()
@@ -236,23 +241,35 @@ class TestContractDetailEditDeleteView:
 class TestContractStatusUpdateView:
     def setup_method(self):
         self.staff_user, self.staff_client = make_staff_user()
-        self.readonly_user, self.readonly_client = make_readonly_user(email="ro3@test.com")
-        self.contract = make_contract(created_by=self.staff_user, numero="STAT/01", statut="Brouillon")
-        self.url = reverse("contract:contract-statut-update", kwargs={"pk": self.contract.pk})
+        self.readonly_user, self.readonly_client = make_readonly_user(
+            email="ro3@test.com"
+        )
+        self.contract = make_contract(
+            created_by=self.staff_user, numero="STAT/01", statut="Brouillon"
+        )
+        self.url = reverse(
+            "contract:contract-statut-update", kwargs={"pk": self.contract.pk}
+        )
 
     def test_patch_statut_valid_returns_200(self):
-        response = self.staff_client.patch(self.url, {"statut": "Envoyé"}, format="json")
+        response = self.staff_client.patch(
+            self.url, {"statut": "Envoyé"}, format="json"
+        )
         assert response.status_code == status.HTTP_200_OK
         assert response.data["statut"] == "Envoyé"
         self.contract.refresh_from_db()
         assert self.contract.statut == "Envoyé"
 
     def test_patch_statut_invalid_returns_400(self):
-        response = self.staff_client.patch(self.url, {"statut": "Inexistant"}, format="json")
+        response = self.staff_client.patch(
+            self.url, {"statut": "Inexistant"}, format="json"
+        )
         assert response.status_code == status.HTTP_400_BAD_REQUEST
 
     def test_patch_statut_without_can_update_returns_403(self):
-        response = self.readonly_client.patch(self.url, {"statut": "Signé"}, format="json")
+        response = self.readonly_client.patch(
+            self.url, {"statut": "Signé"}, format="json"
+        )
         assert response.status_code == status.HTTP_403_FORBIDDEN
 
     def test_patch_statut_not_found_returns_404(self):
@@ -264,7 +281,9 @@ class TestContractStatusUpdateView:
 class TestBulkDeleteContractView:
     def setup_method(self):
         self.staff_user, self.staff_client = make_staff_user()
-        self.readonly_user, self.readonly_client = make_readonly_user(email="ro4@test.com")
+        self.readonly_user, self.readonly_client = make_readonly_user(
+            email="ro4@test.com"
+        )
         self.url = reverse("contract:contract-bulk-delete")
 
     def test_bulk_delete_valid_ids_returns_204(self):
@@ -281,15 +300,21 @@ class TestBulkDeleteContractView:
         assert response.status_code == status.HTTP_400_BAD_REQUEST
 
     def test_bulk_delete_non_list_ids_returns_400(self):
-        response = self.staff_client.delete(self.url, {"ids": "not-a-list"}, format="json")
+        response = self.staff_client.delete(
+            self.url, {"ids": "not-a-list"}, format="json"
+        )
         assert response.status_code == status.HTTP_400_BAD_REQUEST
 
     def test_bulk_delete_invalid_integer_ids_returns_400(self):
-        response = self.staff_client.delete(self.url, {"ids": ["abc", "xyz"]}, format="json")
+        response = self.staff_client.delete(
+            self.url, {"ids": ["abc", "xyz"]}, format="json"
+        )
         assert response.status_code == status.HTTP_400_BAD_REQUEST
 
     def test_bulk_delete_nonexistent_ids_returns_404(self):
-        response = self.staff_client.delete(self.url, {"ids": [99998, 99999]}, format="json")
+        response = self.staff_client.delete(
+            self.url, {"ids": [99998, 99999]}, format="json"
+        )
         assert response.status_code == status.HTTP_404_NOT_FOUND
 
     def test_bulk_delete_without_can_delete_returns_403(self):

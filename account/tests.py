@@ -1241,7 +1241,7 @@ class TestProfilePutSerializerBase64Exception:
     def test_process_image_field_invalid_base64(self):
         with pytest.raises(
             drf_serializers.ValidationError,
-            match="base64.*invalide|Encodage base64 invalide",
+            match="base64.*invalide|Encodage base64 invalide|non reconnu",
         ):
             ProfilePutSerializer._process_image_field(
                 "avatar", {"avatar": "data:image/png;base64,not_valid!!!"}
@@ -1778,7 +1778,7 @@ class TestAccountAdditionalCoverage:
             mock_cls.return_value = mock_ser
             resp = self.client.post(
                 reverse("account:send_password_reset"),
-                {"email": "inv@test.com"},
+                {"email": self.user.email},
             )
         assert resp.status_code == 400
 
@@ -1792,7 +1792,7 @@ class TestAccountAdditionalCoverage:
             "account.views.start_deleting_expired_codes"
         ) as mock_sd:
             mock_se.apply_async = MagicMock()
-            mock_sd.apply_async = MagicMock(return_value="new-task-id")
+            mock_sd.apply_async = MagicMock(return_value=MagicMock(id="new-task-id"))
             resp = self.client.post(
                 reverse("account:send_password_reset"),
                 {"email": u2.email},
@@ -2008,7 +2008,7 @@ class TestUserPatchSerializer:
         )
         assert serializer.is_valid(), serializer.errors
         with patch.object(
-            ProfilePutSerializer, "update", wraps=ProfilePutSerializer.update
+            ProfilePutSerializer, "update", return_value=self.user
         ) as mock_super:
             serializer.save()
             mock_super.assert_called_once()

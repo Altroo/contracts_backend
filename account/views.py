@@ -314,7 +314,7 @@ class SendPasswordResetView(APIView):
                                 (user.pk, "password_reset"), eta=shift
                             )
                         )
-                        user.task_id_password_reset = str(task_id_password_reset)
+                        user.task_id_password_reset = task_id_password_reset.id
                         user.save(
                             update_fields=[
                                 "task_id_password_reset",

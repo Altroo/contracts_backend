@@ -9,6 +9,7 @@ class ContractFilter(django_filters.FilterSet):
 
     search = django_filters.CharFilter(method="global_search", label="Recherche")
     statut = django_filters.CharFilter(method="filter_statut", label="Statut")
+    company = django_filters.CharFilter(method="filter_company", label="Société")
     type_contrat = django_filters.CharFilter(
         field_name="type_contrat", lookup_expr="exact"
     )
@@ -54,6 +55,13 @@ class ContractFilter(django_filters.FilterSet):
         return queryset
 
     @staticmethod
+    def filter_company(queryset, name, value):  # noqa: ARG002
+        companies = [c.strip() for c in value.split(",") if c.strip()]
+        if companies:
+            return queryset.filter(company__in=companies)
+        return queryset
+
+    @staticmethod
     def filter_date_after(queryset, name, value):  # noqa: ARG002
         return queryset.filter(date_contrat__gte=value)
 
@@ -65,6 +73,7 @@ class ContractFilter(django_filters.FilterSet):
         model = Contract
         fields = [
             "statut",
+            "company",
             "type_contrat",
             "devise",
             "date_after",

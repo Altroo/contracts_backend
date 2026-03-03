@@ -41,7 +41,7 @@ class ImageProcessor:
         return bytes_io
 
     @staticmethod
-    def convert_to_webp(image_data) -> ContentFile:
+    def convert_to_webp(image_data) -> ContentFile | None:
         """
         Convert image data to WebP format and return as ContentFile.
         Args:
@@ -67,18 +67,14 @@ class ImageProcessor:
                 try:
                     image = Image.open(image_data)
                 except UnidentifiedImageError:
-                    raise ValueError(
-                        "Unrecognized image format. Please upload a valid image file (PNG, JPG, GIF)."
-                    )
+                    return None
                 except Exception as e:
                     raise ValueError(f"Failed to read image: {str(e)}")
             else:
                 try:
                     image = Image.open(BytesIO(image_data))
                 except UnidentifiedImageError:
-                    raise ValueError(
-                        "Unrecognized image format. Please upload a valid image file (PNG, JPG, GIF)."
-                    )
+                    return None
                 except Exception as e:
                     raise ValueError(f"Failed to read image: {str(e)}")
 

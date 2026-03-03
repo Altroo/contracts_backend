@@ -7,6 +7,7 @@ from .models import Contract
 class ContractAdmin(SimpleHistoryAdmin):
     list_display = (
         "numero_contrat",
+        "company",
         "client_nom",
         "date_contrat",
         "type_contrat",
@@ -17,7 +18,7 @@ class ContractAdmin(SimpleHistoryAdmin):
         "created_by_user",
         "date_created",
     )
-    list_filter = ("statut", "type_contrat", "devise", "confidentialite")
+    list_filter = ("company", "statut", "type_contrat", "devise", "confidentialite")
     search_fields = ("numero_contrat", "client_nom", "client_email", "adresse_travaux")
     ordering = ("-date_created",)
     readonly_fields = ("date_created", "date_updated", "created_by_user")
@@ -26,6 +27,7 @@ class ContractAdmin(SimpleHistoryAdmin):
             "Référence & Statut",
             {
                 "fields": (
+                    "company",
                     "numero_contrat",
                     "date_contrat",
                     "statut",
@@ -101,6 +103,30 @@ class ContractAdmin(SimpleHistoryAdmin):
                     "architecte",
                     "annexes",
                 )
+            },
+        ),
+        (
+            "Blueline Works",
+            {
+                "classes": ("collapse",),
+                "fields": (
+                    "client_ville",
+                    "client_cp",
+                    "chantier_ville",
+                    "chantier_etage",
+                    "prestations",
+                    "fournitures",
+                    "materiaux_detail",
+                    "eau_electricite",
+                    "garantie_nb",
+                    "garantie_unite",
+                    "garantie_type",
+                    "exclusions_garantie",
+                    "acompte",
+                    "tranche2",
+                    "clause_resiliation",
+                    "notes",
+                ),
             },
         ),
         (
