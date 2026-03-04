@@ -199,6 +199,9 @@ BL_TX = {
         "art10_title": "Article 10 — Protection des données personnelles",
         "art11_title": "Article 11 — Règlement des litiges & Juridiction",
         "notes_title": "Notes & Observations Particulières",
+        # Client info extra
+        "qualite": "Qualité",
+        "description_travaux_label": "Détail des travaux :",
         # Prestation units
         "aucune_prestation": "Aucune prestation",
     },
@@ -277,6 +280,9 @@ BL_TX = {
         "art10_title": "Article 10 — Personal data protection",
         "art11_title": "Article 11 — Dispute resolution & Jurisdiction",
         "notes_title": "Notes & Special Observations",
+        # Client info extra
+        "qualite": "Status",
+        "description_travaux_label": "Works details:",
         # Prestation units
         "aucune_prestation": "No services",
     },

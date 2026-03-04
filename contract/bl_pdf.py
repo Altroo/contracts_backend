@@ -3,6 +3,7 @@ from datetime import timedelta
 from django.http import HttpResponse
 
 from .pdf import _fmt_date, _fmt_amt, _esc
+from .i18n import QUALITE_LABELS
 from .bl_i18n import (
     BL_COMPANY,
     FOURNITURES_LABELS,
@@ -259,7 +260,8 @@ class BluelinePDFGenerator:
             {"<strong>" + self._t('adresse') + " :</strong> " + _esc(c.client_adresse or '') + (" — " + _esc(c.client_ville or '') if c.client_ville else '') + (" " + _esc(c.client_cp or '') if c.client_cp else '') + "<br>" if c.client_adresse else ''}
             {"<strong>" + self._t('tel') + " :</strong> " + _esc(c.client_tel or '') + "<br>" if c.client_tel else ''}
             {"<strong>" + self._t('email') + " :</strong> " + _esc(c.client_email or '') + "<br>" if c.client_email else ''}
-            {"<strong>" + self._t('cin_ice') + " :</strong> " + _esc(c.client_cin or '') if c.client_cin else ''}
+            {"<strong>" + self._t('cin_ice') + " :</strong> " + _esc(c.client_cin or '') + "<br>" if c.client_cin else ''}
+            <strong>{self._t('qualite')} :</strong> {_esc(QUALITE_LABELS[self.lang].get(c.client_qualite or '', c.client_qualite or ('Personne Physique' if self.fr else 'Individual')))}
           </div>
         </div>"""
 
@@ -315,11 +317,23 @@ class BluelinePDFGenerator:
             row = "".join(active_cells[i : i + 3])
             rows_html += f'<div class="bl-info-row">{row}</div>\n          '
 
+        desc_html = ""
+        if c.description_travaux:
+            desc_html = (
+                f'<div style="margin-top:6pt;padding:6pt 10pt;background:rgba(42,127,255,0.04);'
+                f'border:0.5pt solid rgba(42,127,255,0.15);border-radius:4pt;font-size:8.5pt;'
+                f'line-height:1.75;color:#3a4e6e;">'
+                f'<strong style="color:#0a1628">{self._t("description_travaux_label")}</strong><br>'
+                + _esc(c.description_travaux).replace("\n", "<br>")
+                + "</div>"
+            )
+
         return f"""
         <div class="bl-section">{self._t('chantier_title')}</div>
         <div class="bl-info-grid">
           {rows_html}
-        </div>"""
+        </div>
+        {desc_html}"""
 
     def _build_prestations(self) -> str:
         c = self.c
@@ -763,10 +777,11 @@ class BluelinePDFGenerator:
     def _build_signatures(self) -> str:
         c = self.c
         date_str = _fmt_date(c.date_contrat)
+        ville = _esc(c.ville_signature) if c.ville_signature else "Tanger"
         return f"""
         <div class="bl-sig-box">
           <div class="bl-sig-info">
-            <strong>{self._t('fait_a')} _______________</strong>, {self._t('le')} {date_str},
+            <strong>{self._t('fait_a')} {ville}</strong>, {self._t('le')} {date_str},
             {self._t('en_deux_ex')}
           </div>
           <div class="bl-sigs">

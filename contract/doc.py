@@ -706,7 +706,7 @@ class ContractDOCGenerator:
                 (
                     "Ci-apr\u00e8s d\u00e9nomm\u00e9e \u00ab Le Prestataire \u00bb"
                     if self.fr
-                    else "Hereinafter referred to as \u00abThe Provider\u00bb"
+                    else "Hereinafter referred to as \u00abThe Service Provider\u00bb"
                 ),
                 False,
             ),
@@ -719,7 +719,7 @@ class ContractDOCGenerator:
             rr.font.size = Pt(8.5)
             rr.font.color.rgb = WHITE if bold else RGBColor(0xCC, 0xCC, 0xCC)
             rr.bold = bold
-            if text.startswith("Ci-apr\u00e8s"):
+            if text.startswith("Ci-apr\u00e8s") or text.startswith("Hereinafter"):
                 rr.italic = True
                 rr.font.color.rgb = RGBColor(0xAA, 0xAA, 0xAA)
 
@@ -770,7 +770,7 @@ class ContractDOCGenerator:
             cr.font.size = Pt(8.5)
             cr.font.color.rgb = DARK if bold else INK
             cr.bold = bold
-            if text.startswith("Ci-apr\u00e8s"):
+            if text.startswith("Ci-apr\u00e8s") or text.startswith("Hereinafter"):
                 cr.italic = True
                 cr.font.color.rgb = RGBColor(0xAA, 0xAA, 0xAA)
 
@@ -949,14 +949,14 @@ class ContractDOCGenerator:
             (
                 "Le pr\u00e9sent contrat a pour objet la r\u00e9alisation par "
                 if fr
-                else "This agreement covers the execution by "
+                else "This contract covers the execution by "
             ),
             ("CASA DI LUSSO SARL", True),
             (
                 " (ci-apr\u00e8s \u00ab\u202fLe Prestataire\u202f\u00bb) de travaux "
                 "et prestations de type "
                 if fr
-                else " (hereinafter \u00abThe Provider\u00bb) of works "
+                else " (hereinafter \u00abThe Service Provider\u00bb) of works "
                 "and services of the type "
             ),
             (type_label, True),
@@ -995,7 +995,7 @@ class ContractDOCGenerator:
                 " du pr\u00e9sent contrat et ne pourra \u00eatre r\u00e9clam\u00e9(e) "
                 "sans nouvel accord contractuel \u00e9crit."
                 if fr
-                else " from this agreement and cannot be claimed "
+                else " from this contract and cannot be claimed "
                 "without a new written contractual agreement."
             ),
         )
@@ -1053,11 +1053,11 @@ class ContractDOCGenerator:
                     "possibilit\u00e9 d\u2019invoquer une quelconque p\u00e9nalit\u00e9 "
                     "\u00e0 l\u2019encontre du Prestataire."
                     if fr
-                    else " and not contractually binding. The Provider will make every effort "
+                    else " and not contractually binding. The Service Provider will make every effort "
                     "to meet agreed deadlines, subject to the Client\u2019s proper fulfilment "
                     "of obligations (payments, approvals, site access). Any delay attributable "
                     "to the Client automatically shifts the schedule without the possibility "
-                    "of invoking any penalty against the Provider."
+                    "of invoking any penalty against the Service Provider."
                 ),
             )
 
@@ -1070,7 +1070,7 @@ class ContractDOCGenerator:
                 "plans et visuels approuv\u00e9s par \u00e9crit, ainsi que toutes les "
                 "confirmations officielles \u00e9crites, constituent "
                 if fr
-                else "This agreement, the quotation signed by both parties, the plans "
+                else "This contract, the quotation signed by both parties, the plans "
                 "and visuals approved in writing, and all official written "
                 "confirmations constitute "
             ),
@@ -1085,7 +1085,7 @@ class ContractDOCGenerator:
             (
                 " des engagements r\u00e9ciproques des parties."
                 if fr
-                else " of the parties\u2019 reciprocal commitments."
+                else " of the parties\u2019 mutual commitments."
             ),
         )
         self._bullet(
@@ -1127,10 +1127,10 @@ class ContractDOCGenerator:
                 "Toute modification au pr\u00e9sent contrat doit faire l\u2019objet "
                 "d\u2019un "
                 if fr
-                else "Any modification to this agreement must be the subject of a "
+                else "Any amendment to this contract must be the subject of a "
             ),
             (
-                "avenant \u00e9crit sign\u00e9" if fr else "signed written amendment",
+                "avenant \u00e9crit sign\u00e9" if fr else "signed written addendum",
                 True,
             ),
             (
@@ -1144,16 +1144,16 @@ class ContractDOCGenerator:
                 "En cas de contradiction entre le pr\u00e9sent contrat et tout autre "
                 "document, "
                 if fr
-                else "In the event of a contradiction between this agreement and any other document, "
+                else "In case of conflict between this contract and any other document, "
             ),
             (
-                "le pr\u00e9sent contrat prime" if fr else "this agreement prevails",
+                "le pr\u00e9sent contrat prime" if fr else "this contract prevails",
                 True,
             ),
             (
                 ", sauf avenant sign\u00e9 post\u00e9rieurement."
                 if fr
-                else ", except for a subsequently signed amendment."
+                else ", except for addenda signed subsequently."
             ),
         )
 
@@ -1163,7 +1163,7 @@ class ContractDOCGenerator:
         self._p(
             "Le Prestataire s\u2019engage \u00e0\u202f:"
             if fr
-            else "The Provider undertakes to:"
+            else "The Service Provider undertakes to:"
         )
         self._bullet(
             (
@@ -1175,7 +1175,7 @@ class ContractDOCGenerator:
             (
                 " et aux normes techniques marocaines en vigueur."
                 if fr
-                else " and applicable Moroccan technical standards."
+                else " and applicable Moroccan technical regulations."
             ),
         )
         self._bullet(
@@ -1257,7 +1257,7 @@ class ContractDOCGenerator:
             (
                 "Le Prestataire est tenu \u00e0 une "
                 if fr
-                else "The Provider is bound by an "
+                else "The Service Provider is bound by an "
             ),
             ("obligation de moyen" if fr else "obligation of means", True),
             (
@@ -1290,7 +1290,7 @@ class ContractDOCGenerator:
                 " l\u2019ensemble des membres de l\u2019\u00e9quipe du Prestataire et "
                 "leurs d\u00e9cisions techniques professionnelles."
                 if fr
-                else " all members of the Provider\u2019s team and their professional technical decisions."
+                else " all members of the Service Provider\u2019s team and their professional technical decisions."
             ),
         )
         self._bullet(
@@ -1300,20 +1300,20 @@ class ContractDOCGenerator:
                 " (plans, choix de mat\u00e9riaux, modifications) dans des d\u00e9lais "
                 "raisonnables n\u2019exc\u00e9dant pas 72h, sauf accord contraire."
                 if fr
-                else " (plans, material choices, modifications) within reasonable deadlines "
-                "not exceeding 72h, unless otherwise agreed."
+                else " (plans, material choices, modifications) within reasonable timeframes "
+                "not exceeding 72 hours, unless otherwise agreed."
             ),
         )
         self._bullet(
             ("R\u00e9gler les " if fr else "Make "),
             (
-                "paiements aux dates convenues" if fr else "payments on agreed dates",
+                "paiements aux dates convenues" if fr else "payments on the agreed dates",
                 True,
             ),
             (
                 " dans l\u2019\u00e9ch\u00e9ancier contractuel."
                 if fr
-                else " in the contractual payment schedule."
+                else " per the contractual schedule."
             ),
         )
         self._bullet(
@@ -1322,8 +1322,8 @@ class ContractDOCGenerator:
                 "sur les \u00e9quipes, les sous-traitants ou les fournisseurs du "
                 "Prestataire."
                 if fr
-                else "Exercise no pressure, threats, intimidation or coercion "
-                "on the Provider\u2019s teams, subcontractors or suppliers."
+                else "Not exert any pressure, threats, intimidation, or constraint "
+                "on the teams, subcontractors, or suppliers."
             ),
         )
         self._bullet(
@@ -1332,14 +1332,14 @@ class ContractDOCGenerator:
                 (
                     "acc\u00e8s libre, s\u00e9curis\u00e9 et continu"
                     if fr
-                    else "free, secure and continuous access"
+                    else "free, secure, and continuous site access"
                 ),
                 True,
             ),
             (
                 f" au chantier selon les conditions convenues.{acces_extra}"
                 if fr
-                else f" to the site according to agreed conditions.{acces_extra}"
+                else f" under the agreed conditions.{acces_extra}"
             ),
         )
         self._bullet(
@@ -1347,7 +1347,7 @@ class ContractDOCGenerator:
                 (
                     "Assumer l\u2019enti\u00e8re responsabilit\u00e9"
                     if fr
-                    else "Assume full responsibility"
+                    else "Take full responsibility"
                 ),
                 True,
             ),
@@ -1371,20 +1371,20 @@ class ContractDOCGenerator:
             (
                 " sur le chantier sans accord pr\u00e9alable \u00e9crit du Prestataire."
                 if fr
-                else " intervene on the site without the Provider\u2019s prior written agreement."
+                else " on site without prior written consent from the Service Provider."
             ),
         )
         self._bullet(
             (
                 "Assurer la pr\u00e9sence d\u2019un repr\u00e9sentant habilit\u00e9 \u00e0 "
                 if fr
-                else "Ensure the presence of a representative authorised to "
+                else "Ensure the presence of an authorized representative empowered to "
             ),
             ("prendre des d\u00e9cisions" if fr else "make decisions", True),
             (
                 " lors des r\u00e9unions de chantier planifi\u00e9es."
                 if fr
-                else " at planned site meetings."
+                else " at scheduled site meetings."
             ),
         )
         self._warning(
@@ -1392,8 +1392,8 @@ class ContractDOCGenerator:
                 "\u26a0\ufe0f En cas de non-respect de l\u2019une de ces obligations, le "
                 "Prestataire se r\u00e9serve le droit de "
                 if fr
-                else "\u26a0\ufe0f In case of non-compliance with any of these obligations, the "
-                "Provider reserves the right to "
+                else "\u26a0\ufe0f In case of non-compliance, the "
+                "Service Provider reserves the right to "
             ),
             (
                 (
@@ -1407,8 +1407,8 @@ class ContractDOCGenerator:
                 " sans pr\u00e9avis ni indemnit\u00e9, et de facturer les frais de "
                 "red\u00e9marrage pr\u00e9vus au pr\u00e9sent contrat."
                 if fr
-                else " without notice or compensation, and to invoice the restart costs "
-                "provided for in this agreement."
+                else " without notice or compensation, and to invoice the restart fees "
+                "provided in this contract."
             ),
         )
 
@@ -1992,7 +1992,7 @@ class ContractDOCGenerator:
             "GARANTIE ET APR\u00c8S-LIVRAISON" if fr else "WARRANTY AND POST-DELIVERY"
         )
         self._p(
-            ("Le Prestataire accorde une " if fr else "The Provider grants a "),
+            ("Le Prestataire accorde une " if fr else "The Service Provider grants a "),
             (
                 ("garantie contractuelle de " if fr else "contractual warranty of ")
                 + f"{garantie}",
@@ -2002,7 +2002,7 @@ class ContractDOCGenerator:
                 " sur les travaux r\u00e9alis\u00e9s dans le cadre du pr\u00e9sent "
                 "contrat, \u00e0 compter de la date de r\u00e9ception d\u00e9finitive."
                 if fr
-                else " on all works performed under this agreement, starting from the date "
+                else " on all works performed under this contract, starting from the date "
                 "of final acceptance."
             ),
         )
@@ -2013,7 +2013,7 @@ class ContractDOCGenerator:
                 " directement imputables aux travaux du Prestataire, \u00e0 "
                 "l\u2019exclusion de\u202f:"
                 if fr
-                else " directly attributable to the Provider\u2019s works, excluding:"
+                else " directly attributable to the Service Provider\u2019s works, excluding:"
             ),
         )
         self._bullet(
@@ -2068,7 +2068,7 @@ class ContractDOCGenerator:
                 " d\u00e9taill\u00e9e adress\u00e9e au Prestataire avec photos "
                 "\u00e0 l\u2019appui."
                 if fr
-                else " sent to the Provider with supporting photographs."
+                else " sent to the Service Provider with supporting photographs."
             ),
         )
 
@@ -2097,7 +2097,7 @@ class ContractDOCGenerator:
                     " avec l\u2019ensemble du personnel, des sous-traitants et des "
                     "fournisseurs du Prestataire."
                     if fr
-                    else " relations with all staff, subcontractors and suppliers of the Provider."
+                    else " relations with all staff, subcontractors and suppliers of the Service Provider."
                 ),
             )
             self._p(
@@ -2141,7 +2141,7 @@ class ContractDOCGenerator:
                     "Toute ing\u00e9rence non autoris\u00e9e dans les d\u00e9cisions "
                     "techniques du Prestataire\u202f;"
                     if fr
-                    else "Any unauthorised interference in the Provider\u2019s technical decisions;"
+                    else "Any unauthorised interference in the Service Provider\u2019s technical decisions;"
                 ),
             )
             self._bullet(
@@ -2149,7 +2149,7 @@ class ContractDOCGenerator:
                     "Tout d\u00e9nigrement public du Prestataire ou de ses "
                     "\u00e9quipes."
                     if fr
-                    else "Any public denigration of the Provider or their teams."
+                    else "Any public denigration of the Service Provider or their teams."
                 ),
             )
             self._warning(
@@ -2171,7 +2171,7 @@ class ContractDOCGenerator:
                     " au Prestataire, et les travaux en cours seront factur\u00e9s "
                     "au prorata."
                     if fr
-                    else " by the Provider, and ongoing works will be invoiced pro rata."
+                    else " by the Service Provider, and ongoing works will be invoiced pro rata."
                 ),
             )
 
@@ -2184,7 +2184,7 @@ class ContractDOCGenerator:
                     "L\u2019ensemble des cr\u00e9ations r\u00e9alis\u00e9es dans le "
                     "cadre du pr\u00e9sent contrat \u2014 incluant sans limitation les "
                     if fr
-                    else "All creations produced under this agreement \u2014 including but not limited to "
+                    else "All creations produced under this contract \u2014 including but not limited to "
                 ),
                 (
                     (
@@ -2227,7 +2227,7 @@ class ContractDOCGenerator:
                     " pour le bien objet du contrat uniquement. Il lui est "
                     "formellement interdit de\u202f:"
                     if fr
-                    else " for the property covered by this agreement only. The Client is "
+                    else " for the property covered by this contract only. The Client is "
                     "strictly prohibited from:"
                 ),
             )
@@ -2253,7 +2253,7 @@ class ContractDOCGenerator:
                     "diff\u00e9rent de celui vis\u00e9 au contrat\u202f;"
                     if fr
                     else "Using these creations for any property other than the one covered "
-                    "by this agreement;"
+                    "by this contract;"
                 ),
             )
             self._bullet(
@@ -2302,7 +2302,7 @@ class ContractDOCGenerator:
                     " notifi\u00e9 dans les 8 jours suivant la signature du "
                     "pr\u00e9sent contrat, le Client autorise CASA DI LUSSO \u00e0\u202f:"
                     if fr
-                    else " within 8 days of signing this agreement, the Client authorises "
+                    else " within 8 days of signing this contract, the Client authorises "
                     "CASA DI LUSSO to:"
                 ),
             )
@@ -2359,7 +2359,7 @@ class ContractDOCGenerator:
                     ". Le Prestataire s\u2019engage \u00e0 ne jamais mentionner les "
                     "informations personnelles du Client sans accord expr\u00e8s."
                     if fr
-                    else ". The Provider undertakes never to disclose the Client\u2019s "
+                    else ". The Service Provider undertakes never to disclose the Client\u2019s "
                     "personal information without express consent."
                 ),
             )
@@ -2381,7 +2381,7 @@ class ContractDOCGenerator:
                     " toutes les informations \u00e9chang\u00e9es dans le cadre du "
                     "pr\u00e9sent contrat, incluant notamment\u202f:"
                     if fr
-                    else " all information exchanged under this agreement, including in particular:"
+                    else " all information exchanged under this contract, including in particular:"
                 ),
             )
             self._bullet(
@@ -2404,7 +2404,7 @@ class ContractDOCGenerator:
                     "Toute information relative aux m\u00e9thodes de travail du "
                     "Prestataire."
                     if fr
-                    else "Any information relating to the Provider\u2019s working methods."
+                    else "Any information relating to the Service Provider\u2019s working methods."
                 ),
             )
             self._p(
@@ -2436,7 +2436,7 @@ class ContractDOCGenerator:
                 (
                     "Le Prestataire se r\u00e9serve le droit de "
                     if fr
-                    else "The Provider reserves the right to "
+                    else "The Service Provider reserves the right to "
                 ),
                 (
                     (
@@ -2451,12 +2451,12 @@ class ContractDOCGenerator:
                     "travaux pr\u00e9vus au pr\u00e9sent contrat, notamment pour les "
                     "corps de m\u00e9tier sp\u00e9cialis\u00e9s."
                     if fr
-                    else " for the execution of all or part of the works under this agreement, "
+                    else " for the execution of all or part of the works under this contract, "
                     "particularly for specialised trades."
                 ),
             )
             self._p(
-                ("Le Prestataire demeure " if fr else "The Provider remains "),
+                ("Le Prestataire demeure " if fr else "The Service Provider remains "),
                 ("seul responsable" if fr else "solely responsible", True),
                 (
                     " vis-\u00e0-vis du Client de la bonne ex\u00e9cution des travaux "
@@ -2467,7 +2467,7 @@ class ContractDOCGenerator:
                     if fr
                     else " to the Client for the proper execution of subcontracted works. "
                     "The Client expressly waives the right to invoke subcontracting as "
-                    "grounds for dispute, provided the works comply with this agreement."
+                    "grounds for dispute, provided the works comply with this contract."
                 ),
             )
 
@@ -2502,7 +2502,7 @@ class ContractDOCGenerator:
                     if fr
                     else " compared to reference prices at the date of signing, attributable "
                     "to external causes (inflation, supply disruption, government "
-                    "decision), the Provider reserves the right to:"
+                    "decision), the Service Provider reserves the right to:"
                 ),
             )
             self._bullet(
@@ -2639,7 +2639,7 @@ class ContractDOCGenerator:
                 (
                     " sans justification valable et accept\u00e9e par le Prestataire."
                     if fr
-                    else " without valid justification accepted by the Provider."
+                    else " without valid justification accepted by the Service Provider."
                 ),
             )
             self._p(
@@ -2647,7 +2647,7 @@ class ContractDOCGenerator:
                     "En cas d\u2019abandon de chantier, le Prestataire est en droit "
                     "de\u202f:"
                     if fr
-                    else "In the event of site abandonment, the Provider is entitled to:"
+                    else "In the event of site abandonment, the Service Provider is entitled to:"
                 ),
             )
             self._bullet(
@@ -2671,7 +2671,7 @@ class ContractDOCGenerator:
                     "R\u00e9cup\u00e9rer tout mat\u00e9riel et outil lui "
                     "appartenant\u202f;"
                     if fr
-                    else "Recover all equipment and tools belonging to the Provider;"
+                    else "Recover all equipment and tools belonging to the Service Provider;"
                 ),
             )
             self._bullet(
@@ -2702,7 +2702,7 @@ class ContractDOCGenerator:
                     "Le Client s\u2019engage, pendant la dur\u00e9e du pr\u00e9sent "
                     "contrat et pendant une p\u00e9riode de "
                     if fr
-                    else "The Client undertakes, for the duration of this agreement and "
+                    else "The Client undertakes, for the duration of this contract and "
                     "for a period of "
                 ),
                 ("24 mois" if fr else "24 months", True),
@@ -2718,7 +2718,7 @@ class ContractDOCGenerator:
                     "Recruter, solliciter ou engager tout membre du personnel ou "
                     "sous-traitant du Prestataire\u202f;"
                     if fr
-                    else "Recruit, solicit or engage any member of the Provider\u2019s staff "
+                    else "Recruit, solicit or engage any member of the Service Provider\u2019s staff "
                     "or subcontractors;"
                 ),
             )
@@ -2726,7 +2726,7 @@ class ContractDOCGenerator:
                 (
                     "Inciter tout membre du personnel \u00e0 quitter le Prestataire."
                     if fr
-                    else "Entice any staff member to leave the Provider."
+                    else "Entice any staff member to leave the Service Provider."
                 ),
             )
             self._p(
@@ -2734,7 +2734,7 @@ class ContractDOCGenerator:
                     "En cas de violation, le Client s\u2019engage \u00e0 verser au "
                     "Prestataire une "
                     if fr
-                    else "In the event of a breach, the Client agrees to pay the Provider a "
+                    else "In the event of a breach, the Client agrees to pay the Service Provider a "
                 ),
                 ("indemnit\u00e9 forfaitaire" if fr else "lump-sum indemnity", True),
                 (" \u00e9quivalente \u00e0 " if fr else " equivalent to "),
@@ -2760,7 +2760,7 @@ class ContractDOCGenerator:
             (
                 "Le Client peut mettre fin au pr\u00e9sent contrat par "
                 if fr
-                else "The Client may terminate this agreement by "
+                else "The Client may terminate this contract by "
             ),
             (
                 (
@@ -2826,19 +2826,19 @@ class ContractDOCGenerator:
                 ),
                 True,
             ),
-            (" au Prestataire." if fr else " by the Provider."),
+            (" au Prestataire." if fr else " by the Service Provider."),
         )
         self._sub_title(
             f"{_rn}.2 \u2013 R\u00e9siliation \u00e0 l\u2019initiative du Prestataire"
             if fr
-            else f"{_rn}.2 \u2013 Termination by the Provider"
+            else f"{_rn}.2 \u2013 Termination by the Service Provider"
         )
         self._p(
             (
                 "Le Prestataire peut r\u00e9silier le pr\u00e9sent contrat sans "
                 "indemnit\u00e9 en cas de\u202f:"
                 if fr
-                else "The Provider may terminate this agreement without compensation in "
+                else "The Service Provider may terminate this contract without compensation in "
                 "the event of:"
             ),
         )
@@ -2971,7 +2971,7 @@ class ContractDOCGenerator:
                     " pour conna\u00eetre de tout litige relatif au pr\u00e9sent "
                     "contrat."
                     if fr
-                    else " for any dispute relating to this agreement."
+                    else " for any dispute relating to this contract."
                 ),
             )
             self._p(
@@ -2979,7 +2979,7 @@ class ContractDOCGenerator:
                     "Le pr\u00e9sent contrat est r\u00e9gi et interpr\u00e9t\u00e9 "
                     "conform\u00e9ment au "
                     if fr
-                    else "This agreement is governed and interpreted in accordance with "
+                    else "This contract is governed and interpreted in accordance with "
                 ),
                 ("droit marocain" if fr else "Moroccan law", True),
                 (
@@ -2999,7 +2999,7 @@ class ContractDOCGenerator:
                 "Le pr\u00e9sent contrat est r\u00e9gi et interpr\u00e9t\u00e9 "
                 "conform\u00e9ment au "
                 if fr
-                else "This agreement is governed and interpreted in accordance with the "
+                else "This contract is governed and interpreted in accordance with the "
             ),
             (
                 "droit du Royaume du Maroc" if fr else "law of the Kingdom of Morocco",
@@ -3011,7 +3011,7 @@ class ContractDOCGenerator:
                 "applicables, notamment le Dahir du 12 ao\u00fbt 1913 formant Code "
                 "des Obligations et des Contrats (DOC)."
                 if fr
-                else ". Any matter not expressly covered by this agreement shall be "
+                else ". Any matter not expressly covered by this contract shall be "
                 "governed by applicable Moroccan law, in particular the Dahir of "
                 "12 August 1913 forming the Code of Obligations and Contracts (DOC)."
             ),
@@ -3023,7 +3023,7 @@ class ContractDOCGenerator:
                 "accords, n\u00e9gociations et propositions ant\u00e9rieurs relatifs "
                 "\u00e0 son objet."
                 if fr
-                else "This agreement constitutes the entire agreement between the parties "
+                else "This contract constitutes the entire agreement between the parties "
                 "and supersedes all prior agreements, negotiations and proposals "
                 "relating to its subject matter."
             ),
@@ -3034,7 +3034,7 @@ class ContractDOCGenerator:
                 "d\u00e9clar\u00e9e nulle ou inapplicable, les autres clauses "
                 "demeurent "
                 if fr
-                else "If any clause of this agreement is declared null or unenforceable, "
+                else "If any clause of this contract is declared null or unenforceable, "
                 "the remaining clauses shall remain "
             ),
             ("pleinement en vigueur" if fr else "in full force and effect", True),
@@ -3072,7 +3072,7 @@ class ContractDOCGenerator:
                     (
                         "Annexes jointes au pr\u00e9sent contrat\u202f:\n"
                         if fr
-                        else "Annexes attached to this agreement:\n"
+                        else "Annexes attached to this contract:\n"
                     ),
                     True,
                 ),

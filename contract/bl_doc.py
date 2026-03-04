@@ -10,6 +10,7 @@ from docx.oxml import OxmlElement
 from docx.shared import Pt, RGBColor, Cm
 
 from .pdf import _fmt_date, _fmt_amt
+from .i18n import QUALITE_LABELS
 from .bl_i18n import (
     BL_COMPANY,
     FOURNITURES_LABELS,
@@ -478,6 +479,11 @@ class BluelineDOCGenerator:
             lines.append(f"{self._t('email')} : {c.client_email}")
         if c.client_cin:
             lines.append(f"{self._t('cin_ice')} : {c.client_cin}")
+        qualite_display = QUALITE_LABELS[self.lang].get(
+            c.client_qualite or "",
+            c.client_qualite or ("Personne Physique" if self.fr else "Individual"),
+        )
+        lines.append(f"{self._t('qualite')} : {qualite_display}")
         cir = ci.add_run("\n".join(lines))
         cir.font.size = Pt(8)
         cir.font.color.rgb = TEXT
@@ -504,7 +510,7 @@ class BluelineDOCGenerator:
                 (
                     (
                         _date_fin_val
-                        + (f" ({c.duree_estimee} j.)" if c.duree_estimee else "")
+                        + (f" ({c.duree_estimee} {self._t('jours_ouvrables')})" if c.duree_estimee else "")
                     )
                     if _date_fin_val != "—"
                     else ""
@@ -546,6 +552,20 @@ class BluelineDOCGenerator:
             vr.font.size = Pt(8.5)
             vr.bold = True
             vr.font.color.rgb = NAVY
+
+        # Description des travaux
+        if c.description_travaux:
+            p_desc = self.doc.add_paragraph()
+            p_desc.paragraph_format.space_before = Pt(4)
+            p_desc.paragraph_format.space_after = Pt(2)
+            _para_bg(p_desc, "F0F6FF")
+            lbl_run = p_desc.add_run(self._t("description_travaux_label") + "\n")
+            lbl_run.font.size = Pt(8.5)
+            lbl_run.bold = True
+            lbl_run.font.color.rgb = NAVY
+            val_run = p_desc.add_run(c.description_travaux)
+            val_run.font.size = Pt(8.5)
+            val_run.font.color.rgb = RGBColor(0x3A, 0x4E, 0x6E)
 
         self._add_empty(4)
 
@@ -835,9 +855,9 @@ class BluelineDOCGenerator:
                     ),
                     (client, True),
                     (
-                        ", at the site located at the specified address. The Service Provider "
-                        "commits to executing these works according to professional standards, "
-                        "with all due care and professionalism.",
+                        ' (hereinafter "The Client"), at the site located at the specified '
+                        "address. The Service Provider commits to executing these works "
+                        "according to professional standards, with all due care and professionalism.",
                         False,
                     ),
                 ]
@@ -917,7 +937,9 @@ class BluelineDOCGenerator:
                         "may be extended in the event of: (i) force majeure, (ii) material delivery "
                         "delays not attributable to the Service Provider, (iii) adverse weather "
                         "conditions, (iv) modifications requested by the Client during works, or "
-                        "(v) site shutdown caused by the Client.",
+                        "(v) site shutdown caused by the Client. Any unjustified shutdown "
+                        "attributable to the Client will be subject to additional charges covering "
+                        "mobilization and immobilization costs.",
                         False,
                     ),
                 ]
@@ -936,7 +958,9 @@ class BluelineDOCGenerator:
                         (g_text, True),
                         (
                             ". Le Client reconnaît avoir été expressément informé de cette absence "
-                            "de garantie contractuelle et l'accepte.\n\n",
+                            "de garantie contractuelle et l'accepte. Cette disposition ne remet pas "
+                            "en cause les obligations légales du Prestataire telles que définies par "
+                            "la législation marocaine en vigueur.\n\n",
                             False,
                         ),
                         ("Exclusions de garantie : ", True),
@@ -968,7 +992,9 @@ class BluelineDOCGenerator:
                         (g_text, True),
                         (
                             ". The Client acknowledges having been expressly informed of this "
-                            "absence of contractual guarantee and accepts it.\n\n",
+                            "absence of contractual guarantee and accepts it. This provision does "
+                            "not affect the Service Provider's legal obligations as defined by "
+                            "current Moroccan legislation.\n\n",
                             False,
                         ),
                         ("Warranty exclusions: ", True),
@@ -1014,7 +1040,8 @@ class BluelineDOCGenerator:
                     ("48 heures", True),
                     (
                         " suivant la fin des travaux ; l'absence de réserve dans ce délai vaut "
-                        "acceptation définitive.",
+                        "acceptation définitive. Les travaux réservés feront l'objet d'une reprise "
+                        "dans un délai convenu entre les parties.",
                         False,
                     ),
                 ]
@@ -1099,7 +1126,9 @@ class BluelineDOCGenerator:
                 f"{resil_text} En cas de résiliation anticipée à l'initiative du Client, "
                 f"les travaux déjà réalisés seront facturés au prorata de leur avancement "
                 f"constaté contradictoirement, et l'acompte versé restera acquis au "
-                f"Prestataire à titre d'indemnité forfaitaire de dédit."
+                f"Prestataire à titre d'indemnité forfaitaire de dédit couvrant les préjudices "
+                f"subis (mobilisation du matériel, main-d'œuvre réservée, sous-traitants "
+                f"engagés, etc.)."
             )
         else:
             resil_en = CLAUSE_RESILIATION_LABELS.get("en", {}).get(resil_val, "")
@@ -1108,7 +1137,8 @@ class BluelineDOCGenerator:
                 f"{resil_en_clean} In case of early termination at the Client's initiative, "
                 f"the works already completed will be invoiced pro rata based on jointly "
                 f"verified progress, and the deposit paid will remain acquired by the "
-                f"Service Provider as a fixed penalty covering damages suffered."
+                f"Service Provider as a fixed penalty covering damages suffered (equipment "
+                f"mobilization, reserved workforce, engaged subcontractors, etc.)."
             )
 
         # Art 8
@@ -1130,7 +1160,8 @@ class BluelineDOCGenerator:
                 "adjacent areas unaffected by the works. The Client commits to: (i) facilitate "
                 "access to the site during agreed hours (generally 8:00 AM - 6:00 PM, Monday "
                 "to Saturday), (ii) remove furniture and obstructing items before works begin, "
-                "(iii) inform the Service Provider of any particular constraints."
+                "(iii) inform the Service Provider of any particular constraints "
+                "(condominium, neighbours, etc.)."
             )
 
         # Art 9
@@ -1157,18 +1188,19 @@ class BluelineDOCGenerator:
         self._add_article_title(self._t("art10_title"))
         if self.fr:
             self._add_article_body(
-                f"Les données personnelles collectées dans le cadre de ce contrat sont utilisées "
-                f"exclusivement pour la gestion de la relation contractuelle entre {co_name} "
-                f"et le Client. Elles ne seront en aucun cas cédées à des tiers. Le Client "
-                f"dispose d'un droit d'accès, de rectification et de suppression de ses données "
-                f"conformément à la législation en vigueur."
+                f"Les données personnelles collectées dans le cadre de ce contrat (nom, adresse, "
+                f"coordonnées) sont utilisées exclusivement pour la gestion de la relation "
+                f"contractuelle entre {co_name} et le Client. Elles ne seront en aucun cas "
+                f"cédées à des tiers. Le Client dispose d'un droit d'accès, de rectification "
+                f"et de suppression de ses données conformément à la législation en vigueur."
             )
         else:
             self._add_article_body(
-                f"Personal data collected under this contract is used exclusively for managing "
-                f"the contractual relationship between {co_name} and the Client. It will under "
-                f"no circumstances be transferred to third parties. The Client has the right to "
-                f"access, rectify and delete their data in accordance with current legislation."
+                f"Personal data collected under this contract (name, address, contact details) "
+                f"is used exclusively for managing the contractual relationship between "
+                f"{co_name} and the Client. It will under no circumstances be transferred to "
+                f"third parties. The Client has the right to access, rectify and delete their "
+                f"data in accordance with current legislation."
             )
 
         # Art 11
@@ -1183,8 +1215,8 @@ class BluelineDOCGenerator:
                     ),
                     ("solution amiable", True),
                     (
-                        " dans un délai de 30 jours. À défaut d'accord amiable, le litige sera "
-                        "porté exclusivement devant le ",
+                        " dans un délai de 30 jours à compter de la notification du différend. "
+                        "À défaut d'accord amiable, le litige sera porté exclusivement devant le ",
                         False,
                     ),
                     (tribunal, True),
@@ -1199,18 +1231,20 @@ class BluelineDOCGenerator:
             self._add_article_body_multi(
                 [
                     (
-                        "In the event of a dispute, the parties commit to seeking an ",
+                        "In the event of a dispute relating to the execution or interpretation of "
+                        "this contract, the parties commit to seeking an ",
                         False,
                     ),
                     ("amicable solution", True),
                     (
-                        " within 30 days. Failing agreement, the dispute will be brought "
-                        "exclusively before the ",
+                        " within 30 days of notification of the dispute. Failing amicable "
+                        "agreement, the dispute will be brought exclusively before the ",
                         False,
                     ),
                     (tribunal, True),
                     (
-                        ", notwithstanding plurality of defendants or warranty appeals.",
+                        ", notwithstanding plurality of defendants or warranty appeals, including "
+                        "for emergency or conservatory proceedings.",
                         False,
                     ),
                 ]
@@ -1231,9 +1265,10 @@ class BluelineDOCGenerator:
 
         # "Fait à" info
         date_str = _fmt_date(self.c.date_contrat)
+        ville = self.c.ville_signature if self.c.ville_signature else "Tanger"
         self._add_article_body_multi(
             [
-                (f"{self._t('fait_a')} _______________", True),
+                (f"{self._t('fait_a')} {ville}", True),
                 (f", {self._t('le')} {date_str}, {self._t('en_deux_ex')}", False),
             ]
         )
