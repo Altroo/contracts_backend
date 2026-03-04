@@ -369,6 +369,33 @@ class TestAccountAPIExtras:
         )
         assert resp.status_code == 400
 
+    def test_password_reset_put_missing_email(self):
+        """PUT with no email field should return 400."""
+        url = reverse("account:password_reset")
+        resp = self.client.put(
+            url,
+            {"code": "1234", "new_password": "pw1", "new_password2": "pw1"},
+        )
+        assert resp.status_code == 400
+
+    def test_password_reset_put_blank_email(self):
+        """PUT with empty email string should return 400."""
+        url = reverse("account:password_reset")
+        resp = self.client.put(
+            url,
+            {"email": "", "code": "1234", "new_password": "pw1", "new_password2": "pw1"},
+        )
+        assert resp.status_code == 400
+
+    def test_password_reset_put_invalid_email_format(self):
+        """PUT with invalid email format should return 400."""
+        url = reverse("account:password_reset")
+        resp = self.client.put(
+            url,
+            {"email": "not-an-email", "code": "1234", "new_password": "pw1", "new_password2": "pw1"},
+        )
+        assert resp.status_code == 400
+
     def test_patch_profile_avatar_base64_sets_url(self):
         url = reverse("account:profil")
         resp = self.auth_client.patch(url, {"avatar": IMG_B64})

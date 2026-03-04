@@ -15,6 +15,7 @@ from .i18n import (
     MODE_NAMES,
     CONFID_LABELS,
     QUALITE_LABELS,
+    GARANTIE_LABELS,
 )
 
 
@@ -608,7 +609,7 @@ def _build_articles(c, lang="fr") -> list:
             f"will be invoiced before any resumption of works;</li>"
         )
         if c.frais_redemarrage
-        else "<li></li>"
+        else ""
     )
     ht_label = "Montant total HT\u202f:" if fr else "Total amount (excl. tax):"
     desc_th = "Description"
@@ -749,7 +750,12 @@ def _build_articles(c, lang="fr") -> list:
     )
 
     # ART GARANTIE
-    garantie = _esc(c.garantie) if c.garantie else ("1 an" if fr else "1 year")
+    lang_key = "fr" if fr else "en"
+    garantie = (
+        GARANTIE_LABELS.get(lang_key, {}).get(c.garantie, _esc(c.garantie))
+        if c.garantie
+        else ("1 an" if fr else "1 year")
+    )
     _add(
         "GARANTIE ET APR\u00c8S-LIVRAISON" if fr else "WARRANTY AND POST-DELIVERY",
         (
@@ -1439,7 +1445,7 @@ class ContractPDFGenerator:
         pdf_bytes = weasyprint.HTML(string=html_content).write_pdf()
 
         safe_ref = self.contract.numero_contrat.replace("/", "-")
-        filename = f"contrat_{safe_ref}.pdf"
+        filename = f"contrat_{self.contract.id}_{safe_ref}.pdf"
         response = HttpResponse(pdf_bytes, content_type="application/pdf")
         response["Content-Disposition"] = f'inline; filename="{filename}"'
         return response

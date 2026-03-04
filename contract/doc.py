@@ -16,6 +16,7 @@ from .i18n import (
     CTYPES_DISPLAY,
     CONFID_LABELS,
     QUALITE_LABELS,
+    GARANTIE_LABELS,
 )
 
 DARK = RGBColor(0x0F, 0x0F, 0x1A)
@@ -1981,7 +1982,12 @@ class ContractDOCGenerator:
             (" des travaux sans r\u00e9serve." if fr else " without reservation."),
         )
 
-        garantie = c.garantie if c.garantie else ("1 an" if fr else "1 year")
+        lang_key = "fr" if fr else "en"
+        garantie = (
+            GARANTIE_LABELS.get(lang_key, {}).get(c.garantie, c.garantie)
+            if c.garantie
+            else ("1 an" if fr else "1 year")
+        )
         self._next_art(
             "GARANTIE ET APR\u00c8S-LIVRAISON" if fr else "WARRANTY AND POST-DELIVERY"
         )
@@ -3151,7 +3157,7 @@ class ContractDOCGenerator:
         buffer = BytesIO()
         self.doc.save(buffer)
         buffer.seek(0)
-        filename = f"contrat_{self.contract.numero_contrat.replace('/', '-')}.docx"
+        filename = f"contrat_{self.contract.id}_{self.contract.numero_contrat.replace('/', '-')}.docx"
         response = HttpResponse(
             buffer.read(),
             content_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document",

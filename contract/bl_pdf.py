@@ -171,7 +171,7 @@ class BluelinePDFGenerator:
     @property
     def _tva_pct(self) -> float:
         try:
-            return float(self.c.tva or 20)
+            return float(self.c.tva if self.c.tva is not None else 20)
         except (TypeError, ValueError):
             return 20.0
 
@@ -185,7 +185,7 @@ class BluelinePDFGenerator:
 
     @property
     def _acompte_pct(self) -> float:
-        return float(self.c.acompte or 30)
+        return float(self.c.acompte if self.c.acompte is not None else 30)
 
     @property
     def _tranche2_pct(self) -> float:
@@ -362,7 +362,7 @@ class BluelinePDFGenerator:
         </table>
         <div class="bl-totaux"><div class="bl-totaux-box">
           <div class="bl-total-row"><span class="lbl">{self._t('subtotal_ht')}</span><span class="val">{self._amt(self._ht)}</span></div>
-          <div class="bl-total-row"><span class="lbl">{self._t('tva_label')}</span><span class="val">{self._amt(self._tva_amt)}</span></div>
+          <div class="bl-total-row"><span class="lbl">{'TVA' if self.fr else 'VAT'} ({self._tva_pct:g}%)</span><span class="val">{self._amt(self._tva_amt)}</span></div>
           <div class="bl-total-row grand"><span class="lbl">{self._t('total_ttc')}</span><span class="val">{self._amt(self._ttc)}</span></div>
         </div></div>"""
 
@@ -821,7 +821,7 @@ class BluelinePDFGenerator:
         html_str = self._build_html()
         pdf_bytes = HTML(string=html_str).write_pdf()
         ref = (self.c.numero_contrat or "contract").replace("/", "-")
-        filename = f"BLW_{ref}.pdf"
+        filename = f"contrat_{self.c.id}_{ref}.pdf"
         response = HttpResponse(pdf_bytes, content_type="application/pdf")
         response["Content-Disposition"] = f'inline; filename="{filename}"'
         return response

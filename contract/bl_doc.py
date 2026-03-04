@@ -254,7 +254,7 @@ class BluelineDOCGenerator:
     @property
     def _tva_pct(self) -> float:
         try:
-            return float(self.c.tva or 20)
+            return float(self.c.tva if self.c.tva is not None else 20)
         except (TypeError, ValueError):
             return 20.0
 
@@ -268,7 +268,7 @@ class BluelineDOCGenerator:
 
     @property
     def _acompte_pct(self) -> float:
-        return float(self.c.acompte or 30)
+        return float(self.c.acompte if self.c.acompte is not None else 30)
 
     @property
     def _tranche2_pct(self) -> float:
@@ -650,7 +650,7 @@ class BluelineDOCGenerator:
         self._add_empty(4)
         for label, value, is_grand in [
             (self._t("subtotal_ht"), self._amt(self._ht), False),
-            (self._t("tva_label"), self._amt(self._tva_amt), False),
+            (f"{'TVA' if self.fr else 'VAT'} ({self._tva_pct:g}%)", self._amt(self._tva_amt), False),
             (self._t("total_ttc"), self._amt(self._ttc), True),
         ]:
             p = self.doc.add_paragraph()
@@ -1331,7 +1331,7 @@ class BluelineDOCGenerator:
         self.doc.save(buf)
         buf.seek(0)
         ref = (self.c.numero_contrat or "contract").replace("/", "-")
-        filename = f"BLW_{ref}.docx"
+        filename = f"contrat_{self.c.id}_{ref}.docx"
         response = HttpResponse(
             buf.getvalue(),
             content_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document",

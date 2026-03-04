@@ -132,6 +132,23 @@ QUALITE_LABELS = {
     },
 }
 
+GARANTIE_LABELS = {
+    "fr": {
+        "6 mois": "6 mois",
+        "1 an": "1 an",
+        "2 ans": "2 ans",
+        "3 ans": "3 ans",
+        "sans_garantie": "Sans garantie",
+    },
+    "en": {
+        "6 mois": "6 months",
+        "1 an": "1 year",
+        "2 ans": "2 years",
+        "3 ans": "3 years",
+        "sans_garantie": "No warranty",
+    },
+}
+
 TX = {
     "fr": {
         "contrat_title": "CONTRAT DE PRESTATIONS DE SERVICES",
