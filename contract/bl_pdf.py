@@ -8,6 +8,7 @@ from .bl_i18n import (
     FOURNITURES_LABELS,
     EAU_ELEC_LABELS,
     GARANTIE_UNITE_LABELS,
+    GARANTIE_TYPE_LABELS,
     CLAUSE_RESILIATION_LABELS,
     bl_t,
 )
@@ -218,7 +219,7 @@ class BluelinePDFGenerator:
             <div class="bl-logo">{_esc(co['name'])}</div>
             <div class="bl-logo-tag">{_esc(tagline)}</div>
             <div class="bl-logo-info">
-              📞&nbsp;{_esc(self.c.client_tel or '')}&nbsp;&nbsp;{_esc(co['email'])}<br>
+              📞&nbsp;{_esc(co['phone'])}&nbsp;&nbsp;✉&nbsp;{_esc(co['email'])}<br>
               📍&nbsp;{_esc(co['address'])}<br>
               🏛&nbsp;{self._t('ice')} : {_esc(co['ice'])}
             </div>
@@ -247,7 +248,7 @@ class BluelinePDFGenerator:
             <div class="bl-party-label">{self._t('prestataire_label')}</div>
             <strong>{_esc(co['name'])}</strong><br>
             {_esc(self._t('prestataire_desc'))}<br>
-            <strong>{self._t('tel')} :</strong> {_esc(c.client_tel or '')}<br>
+            <strong>{self._t('tel')} :</strong> {_esc(co['phone'])}<br>
             <strong>{self._t('email')} :</strong> {_esc(co['email'])}<br>
             <strong>{self._t('ice')} :</strong> {_esc(co['ice'])}<br>
             <strong>{self._t('adresse')} :</strong> {_esc(co['address'])}
@@ -426,6 +427,10 @@ class BluelinePDFGenerator:
             if g_nb == 0
             else f'<span class="bl-garantie-badge">{g_text}</span>'
         )
+        g_type_val = c.garantie_type or "defauts"
+        g_type_label = GARANTIE_TYPE_LABELS.get(lang, GARANTIE_TYPE_LABELS["fr"]).get(
+            g_type_val, GARANTIE_TYPE_LABELS["fr"].get("defauts", g_type_val)
+        )
 
         # Fournitures
         fournitures_val = c.fournitures or "non_incluses"
@@ -577,7 +582,8 @@ class BluelinePDFGenerator:
                 )
             else:
                 art4 = (
-                    f"Les travaux sont couverts par une garantie {g_badge} à compter de la date "
+                    f"Les travaux sont couverts par une garantie {g_badge} "
+                    f"de type <strong>{g_type_label}</strong> à compter de la date "
                     f"de réception et de signature du procès-verbal de réception, contre tout "
                     f"défaut d'exécution directement imputable au Prestataire."
                 )
@@ -592,7 +598,8 @@ class BluelinePDFGenerator:
                 )
             else:
                 art4 = (
-                    f"The works are covered by a {g_badge} guarantee from the date of reception "
+                    f"The works are covered by a {g_badge} guarantee "
+                    f"(<strong>{g_type_label}</strong>) from the date of reception "
                     f"and signing of the acceptance report, against any execution defect directly "
                     f"attributable to the Service Provider."
                 )

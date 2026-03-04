@@ -107,8 +107,13 @@ class ContractSerializer(serializers.ModelSerializer):
         return obj.solde
 
     def validate_numero_contrat(self, value: str) -> str:
-        """Ensure numero_contrat is globally unique (excluding current instance on update)."""
+        """Ensure numero_contrat is unique within the same company."""
+        company = self.initial_data.get("company") or (
+            self.instance.company if self.instance else None
+        )
         qs = Contract.objects.filter(numero_contrat=value)
+        if company:
+            qs = qs.filter(company=company)
         if self.instance:
             qs = qs.exclude(pk=self.instance.pk)
         if qs.exists():

@@ -2744,10 +2744,11 @@ class ContractDOCGenerator:
             )
 
         self._next_art("R\u00c9SILIATION DU CONTRAT" if fr else "CONTRACT TERMINATION")
+        _rn = self._n  # capture dynamic article number for sub-sections
         self._sub_title(
-            "12.1 \u2013 R\u00e9siliation \u00e0 l\u2019initiative du Client"
+            f"{_rn}.1 \u2013 R\u00e9siliation \u00e0 l\u2019initiative du Client"
             if fr
-            else "12.1 \u2013 Termination by the Client"
+            else f"{_rn}.1 \u2013 Termination by the Client"
         )
         self._p(
             (
@@ -2822,9 +2823,9 @@ class ContractDOCGenerator:
             (" au Prestataire." if fr else " by the Provider."),
         )
         self._sub_title(
-            "12.2 \u2013 R\u00e9siliation \u00e0 l\u2019initiative du Prestataire"
+            f"{_rn}.2 \u2013 R\u00e9siliation \u00e0 l\u2019initiative du Prestataire"
             if fr
-            else "12.2 \u2013 Termination by the Provider"
+            else f"{_rn}.2 \u2013 Termination by the Provider"
         )
         self._p(
             (

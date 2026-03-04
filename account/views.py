@@ -491,7 +491,10 @@ class BulkDeleteUsersView(APIView):
         if not ids or not isinstance(ids, list):
             raise ValidationError({"ids": _("Une liste d'identifiants est requise.")})
 
-        ids = [int(i) for i in ids]
+        try:
+            ids = [int(i) for i in ids]
+        except (ValueError, TypeError):
+            raise ValidationError({"ids": _("Les identifiants doivent être des entiers.")})
 
         if request.user.pk in ids:
             raise ValidationError(

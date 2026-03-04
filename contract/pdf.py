@@ -286,7 +286,7 @@ def _build_articles(c, lang="fr") -> list:
     desc_label = "D\u00e9tail des travaux\u202f:" if fr else "Works details:"
     desc_html = (
         f'<div class="highlight"><strong>{desc_label}</strong><br>'
-        + c.description_travaux.replace("\n", "<br>")
+        + _esc(c.description_travaux).replace("\n", "<br>")
         + "</div>"
         if c.description_travaux
         else ""
@@ -1050,11 +1050,12 @@ def _build_articles(c, lang="fr") -> list:
         )
 
     # ART RÉSILIATION
+    _resil_n = _n[0] + 1  # predict the article number before _add increments
     _add(
         "R\u00c9SILIATION DU CONTRAT" if fr else "CONTRACT TERMINATION",
         (
-            """
-        <div class="sub-title">12.1 \u2013 R\u00e9siliation \u00e0 l\u2019initiative du Client</div>
+            f"""
+        <div class="sub-title">{_resil_n}.1 \u2013 R\u00e9siliation \u00e0 l\u2019initiative du Client</div>
         <p>Le Client peut mettre fin au pr\u00e9sent contrat par <strong>lettre recommand\u00e9e avec accus\u00e9 de
         r\u00e9ception</strong>. En pareil cas, le Client s\u2019engage \u00e0 r\u00e9gler\u202f:</p>
         <ul>
@@ -1065,7 +1066,7 @@ def _build_articles(c, lang="fr") -> list:
         </ul>
         <p>L\u2019acompte initial vers\u00e9 \u00e0 l\u2019ouverture du chantier reste
         <strong>d\u00e9finitivement et irr\u00e9vocablement acquis</strong> au Prestataire.</p>
-        <div class="sub-title">12.2 \u2013 R\u00e9siliation \u00e0 l\u2019initiative du Prestataire</div>
+        <div class="sub-title">{_resil_n}.2 \u2013 R\u00e9siliation \u00e0 l\u2019initiative du Prestataire</div>
         <p>Le Prestataire peut r\u00e9silier le pr\u00e9sent contrat sans indemnit\u00e9 en cas de\u202f:</p>
         <ul>
           <li>Non-paiement d\u2019une ou plusieurs tranches au-del\u00e0 du d\u00e9lai tol\u00e9r\u00e9\u202f;</li>
@@ -1075,8 +1076,8 @@ def _build_articles(c, lang="fr") -> list:
           <li>Insolvabilit\u00e9 ou redressement judiciaire du Client.</li>
         </ul>"""
             if fr
-            else """
-        <div class="sub-title">12.1 \u2013 Termination by the Client</div>
+            else f"""
+        <div class="sub-title">{_resil_n}.1 \u2013 Termination by the Client</div>
         <p>The Client may terminate this agreement by <strong>registered letter with acknowledgement of receipt</strong>. In such case, the Client undertakes to pay:</p>
         <ul>
           <li>The full value of works completed at the date of termination, pro rata;</li>
@@ -1085,7 +1086,7 @@ def _build_articles(c, lang="fr") -> list:
           <li>A <strong>termination indemnity</strong> of 15% of the remaining amount due.</li>
         </ul>
         <p>The initial deposit paid at the start of works remains <strong>definitively and irrevocably acquired</strong> by the Provider.</p>
-        <div class="sub-title">12.2 \u2013 Termination by the Provider</div>
+        <div class="sub-title">{_resil_n}.2 \u2013 Termination by the Provider</div>
         <p>The Provider may terminate this agreement without compensation in the event of:</p>
         <ul>
           <li>Non-payment of one or more instalments beyond the tolerated deadline;</li>
@@ -1144,7 +1145,7 @@ def _build_articles(c, lang="fr") -> list:
             else "Expressly agreed contractual exclusions:"
         )
         + "</strong><br>"
-        + c.exclusions.replace("\n", "<br>")
+        + _esc(c.exclusions).replace("\n", "<br>")
         + "</p>"
         if c.exclusions
         else ""
@@ -1157,7 +1158,7 @@ def _build_articles(c, lang="fr") -> list:
             else "Additional specific clauses:"
         )
         + "</strong><br>"
-        + c.clause_spec.replace("\n", "<br>")
+        + _esc(c.clause_spec).replace("\n", "<br>")
         + "</p>"
         if c.clause_spec
         else ""
@@ -1170,7 +1171,7 @@ def _build_articles(c, lang="fr") -> list:
             else "Annexes attached to this agreement:"
         )
         + "</strong><br>"
-        + c.annexes.replace("\n", "<br>")
+        + _esc(c.annexes).replace("\n", "<br>")
         + "</div>"
         if c.annexes
         else ""

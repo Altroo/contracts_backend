@@ -2,6 +2,7 @@ BL_COMPANY = {
     "name": "BlueLine Works",
     "tagline_fr": "Céramique · Marbre · Finitions · Plans de travail",
     "tagline_en": "Ceramics · Marble · Finishing · Countertops",
+    "phone": "+212 5XX XXX XXX",
     "ice": "003852374000069",
     "address": "148 AV MOHAMED V, RESIDENCE NECTAR, ETAGE 1 N°013 – TANGER",
     "email": "worksblueline@gmail.com",
@@ -26,7 +27,7 @@ EAU_ELEC_LABELS = {
             "Le Client s'engage à mettre à disposition, à ses frais, "
             "l'eau et l'électricité nécessaires à la réalisation des travaux."
         ),
-        "blueline": (
+        "entreprise": (
             "BlueLine Works prendra en charge la fourniture de l'eau et de "
             "l'électricité nécessaires à la réalisation des travaux, incluse "
             "dans le prix contractuel."
@@ -46,7 +47,7 @@ EAU_ELEC_LABELS = {
             "The Client commits to providing, at their own expense, "
             "the water and electricity necessary for the works."
         ),
-        "blueline": (
+        "entreprise": (
             "BlueLine Works will provide the water and electricity "
             "necessary for the works, included in the contractual price."
         ),

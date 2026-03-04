@@ -2,8 +2,8 @@ TYPELABEL = {
     "fr": {
         "travaux_finition": "TRAVAUX DE FINITION",
         "travaux_gros_oeuvre": "TRAVAUX GROS \u0152UVRE & R\u00c9NOVATION",
-        "design_interior": "DESIGN D\u2019INT\u00c9RIEUR",
-        "cle_main": "CONTRAT CL\u00c9 EN MAIN",
+        "design_interieur": "DESIGN D\u2019INT\u00c9RIEUR",
+        "cle_en_main": "CONTRAT CL\u00c9 EN MAIN",
         "ameublement": "VENTE & INSTALLATION AMEUBLEMENT",
         "maintenance": "CONTRAT DE MAINTENANCE",
         "suivi_chantier": "SUIVI & COORDINATION",
@@ -11,8 +11,8 @@ TYPELABEL = {
     "en": {
         "travaux_finition": "FINISHING WORKS",
         "travaux_gros_oeuvre": "CONSTRUCTION & RENOVATION",
-        "design_interior": "INTERIOR DESIGN",
-        "cle_main": "TURNKEY CONTRACT",
+        "design_interieur": "INTERIOR DESIGN",
+        "cle_en_main": "TURNKEY CONTRACT",
         "ameublement": "FURNITURE SUPPLY & INSTALLATION",
         "maintenance": "MAINTENANCE AGREEMENT",
         "suivi_chantier": "SITE MANAGEMENT",
@@ -23,8 +23,8 @@ CTYPES_DISPLAY = {
     "fr": {
         "travaux_finition": "TRAVAUX DE FINITION",
         "travaux_gros_oeuvre": "GROS \u0152UVRE & R\u00c9NOVATION",
-        "design_interior": "DESIGN D\u2019INT\u00c9RIEUR",
-        "cle_main": "CONTRAT CL\u00c9 EN MAIN",
+        "design_interieur": "DESIGN D\u2019INT\u00c9RIEUR",
+        "cle_en_main": "CONTRAT CL\u00c9 EN MAIN",
         "ameublement": "AMEUBLEMENT",
         "maintenance": "MAINTENANCE",
         "suivi_chantier": "COORDINATION DE CHANTIER",
@@ -32,8 +32,8 @@ CTYPES_DISPLAY = {
     "en": {
         "travaux_finition": "FINISHING WORKS",
         "travaux_gros_oeuvre": "CONSTRUCTION & RENOVATION",
-        "design_interior": "INTERIOR DESIGN",
-        "cle_main": "TURNKEY CONTRACT",
+        "design_interieur": "INTERIOR DESIGN",
+        "cle_en_main": "TURNKEY CONTRACT",
         "ameublement": "FURNITURE",
         "maintenance": "MAINTENANCE",
         "suivi_chantier": "SITE MANAGEMENT",
@@ -44,21 +44,23 @@ TYPE_BIEN_LABELS = {
     "fr": {
         "appartement": "Appartement",
         "villa": "Villa",
-        "bureau": "Bureau / Local Commercial",
-        "riad": "Riad",
-        "maison": "Maison",
-        "duplex": "Duplex/Triplex",
-        "local": "Local Industriel",
+        "duplex": "Duplex",
+        "riad_maison_traditionnelle": "Riad / Maison Traditionnelle",
+        "bureau_local_commercial": "Bureau / Local Commercial",
+        "commerce_local": "Commerce / Local",
+        "hotel_riad_hotelier": "H\u00f4tel / Riad H\u00f4telier",
+        "immeuble": "Immeuble",
         "autre": "Autre",
     },
     "en": {
         "appartement": "Apartment",
         "villa": "Villa",
-        "bureau": "Office / Commercial Space",
-        "riad": "Riad",
-        "maison": "House",
-        "duplex": "Duplex/Triplex",
-        "local": "Industrial Space",
+        "duplex": "Duplex",
+        "riad_maison_traditionnelle": "Riad / Traditional House",
+        "bureau_local_commercial": "Office / Commercial Space",
+        "commerce_local": "Shop / Store",
+        "hotel_riad_hotelier": "Hotel / Boutique Riad",
+        "immeuble": "Building",
         "autre": "Other",
     },
 }
@@ -73,6 +75,8 @@ MODE_NAMES = {
         "Ch\u00e8que Certifi\u00e9": "Ch\u00e8que Certifi\u00e9",
         "Esp\u00e8ces": "Esp\u00e8ces",
         "Paiement Mixte": "Paiement Mixte",
+        "Mobile Money": "Mobile Money",
+        "Virement ou Ch\u00e8que": "Virement ou Ch\u00e8que",
     },
     "en": {
         "virement": "Bank Transfer",
@@ -83,6 +87,8 @@ MODE_NAMES = {
         "Ch\u00e8que Certifi\u00e9": "Certified Cheque",
         "Esp\u00e8ces": "Cash",
         "Paiement Mixte": "Mixed Payment",
+        "Mobile Money": "Mobile Money",
+        "Virement ou Ch\u00e8que": "Transfer or Cheque",
     },
 }
 
@@ -97,6 +103,10 @@ CONFID_LABELS = {
 
 QUALITE_LABELS = {
     "fr": {
+        "particulier": "Personne Physique",
+        "entreprise_societe": "Personne Morale",
+        "investisseur_immobilier": "Investisseur Immobilier",
+        "administration_institution": "Administration / Institution",
         "particulier_fr": "Personne Physique",
         "societe_fr": "Personne Morale",
         "particulier_en": "Personne Physique",
@@ -107,6 +117,10 @@ QUALITE_LABELS = {
         "Soci\u00e9t\u00e9": "Personne Morale",
     },
     "en": {
+        "particulier": "Natural Person",
+        "entreprise_societe": "Legal Entity",
+        "investisseur_immobilier": "Real Estate Investor",
+        "administration_institution": "Administration / Institution",
         "particulier_fr": "Natural Person",
         "societe_fr": "Legal Entity",
         "particulier_en": "Natural Person",
