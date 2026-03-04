@@ -269,7 +269,7 @@ class BluelinePDFGenerator:
         surface = f"{c.surface} m²" if c.surface else ""
         duree_str = ""
         if c.duree_estimee:
-            duree_str = f" ({c.duree_estimee} {self._t('jours_ouvrables')})"
+            duree_str = f" ({_esc(c.duree_estimee)} {self._t('jours_ouvrables')})"
         date_fin_val = self._date_fin()
 
         _EMPTY = {"—", "…… / …… / ………", ""}
@@ -460,9 +460,9 @@ class BluelinePDFGenerator:
         duree_str = ""
         if c.duree_estimee:
             duree_str = (
-                f" (durée estimée : <strong>{c.duree_estimee} {self._t('jours_ouvrables')}</strong>)"
+                f" (durée estimée : <strong>{_esc(c.duree_estimee)} {self._t('jours_ouvrables')}</strong>)"
                 if self.fr
-                else f" (estimated duration: <strong>{c.duree_estimee} {self._t('jours_ouvrables')}</strong>)"
+                else f" (estimated duration: <strong>{_esc(c.duree_estimee)} {self._t('jours_ouvrables')}</strong>)"
             )
 
         # Solde

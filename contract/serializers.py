@@ -120,6 +120,29 @@ class ContractSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Un contrat avec ce numéro existe déjà.")
         return value
 
+    def validate(self, attrs):
+        """Cross-field validation."""
+        acompte = attrs.get(
+            "acompte", getattr(self.instance, "acompte", None)
+        )
+        tranche2 = attrs.get(
+            "tranche2", getattr(self.instance, "tranche2", None)
+        )
+        a = acompte or 0
+        t = tranche2 or 0
+        if a + t > 100:
+            raise serializers.ValidationError(
+                {
+                    "acompte": [
+                        "La somme de l'acompte et de la tranche 2 ne peut pas dépasser 100%."
+                    ],
+                    "tranche2": [
+                        "La somme de l'acompte et de la tranche 2 ne peut pas dépasser 100%."
+                    ],
+                }
+            )
+        return attrs
+
     class Meta:
         model = Contract
         fields = [
@@ -202,11 +225,13 @@ class ContractSerializer(serializers.ModelSerializer):
             "id",
             "client_name",
             "company_display",
+            "created_by_user",
             "created_by_user_name",
             "created_by_user_id",
             "montant_tva",
             "montant_ttc",
             "solde",
+            "statut",
             "type_contrat_display",
             "date_created",
             "date_updated",

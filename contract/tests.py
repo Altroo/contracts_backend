@@ -213,19 +213,18 @@ class TestContractDetailEditDeleteView:
         payload = {
             "numero_contrat": "DET/01",
             "date_contrat": "2026-06-01",
-            "statut": "Envoyé",
             "montant_ht": "60000.00",
             "tva": "20.00",
         }
         response = self.staff_client.put(self.url, payload, format="json")
         assert response.status_code == status.HTTP_200_OK
-        assert response.data["statut"] == "Envoyé"
+        # statut is read-only via PUT; should remain unchanged
+        assert response.data["statut"] == "Brouillon"
 
     def test_put_contract_without_can_update_returns_403(self):
         payload = {
             "numero_contrat": "DET/01",
             "date_contrat": "2026-06-01",
-            "statut": "Envoyé",
         }
         response = self.readonly_client.put(self.url, payload, format="json")
         assert response.status_code == status.HTTP_403_FORBIDDEN
