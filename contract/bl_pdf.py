@@ -1,6 +1,8 @@
-from datetime import timedelta
+from datetime import datetime, timedelta
 
 from django.http import HttpResponse
+
+from weasyprint import HTML
 
 from .pdf import _fmt_date, _fmt_amt, _esc
 from .i18n import QUALITE_LABELS
@@ -248,7 +250,7 @@ class BluelinePDFGenerator:
           <div class="bl-party prestataire">
             <div class="bl-party-label">{self._t('prestataire_label')}</div>
             <strong>{_esc(co['name'])}</strong><br>
-            {_esc(self._t('prestataire_desc'))}<br>
+            {_esc(self._t('prestataire_desc')).replace(chr(10), '<br>')}<br>
             <strong>{self._t('tel')} :</strong> {_esc(co['phone'])}<br>
             <strong>{self._t('email')} :</strong> {_esc(co['email'])}<br>
             <strong>{self._t('ice')} :</strong> {_esc(co['ice'])}<br>
@@ -804,11 +806,14 @@ class BluelinePDFGenerator:
 
     def _build_footer(self) -> str:
         co = BL_COMPANY
+        now = datetime.now()
+        gen_date = now.strftime("%d/%m/%Y")
+        gen_time = now.strftime("%H:%M")
         return f"""
         <div class="bl-footer">
           <strong>{co['name']}</strong> — {self._t('footer_specialist')}<br>
-          {_esc(co['email'])} | {self._t('ice')} : {co['ice']}<br>
-          <em>{self._t('valeur_juridique')}</em>
+          {_esc(co['phone'])} | {_esc(co['email'])} | {self._t('ice')} : {co['ice']}<br>
+          <em>{self._t('doc_genere')} {gen_date} {self._t('a')} {gen_time} — {self._t('valeur_juridique')}</em>
         </div>"""
 
     def _build_html(self) -> str:
@@ -831,8 +836,6 @@ class BluelinePDFGenerator:
 
     def generate_response(self) -> HttpResponse:
         """Return an HttpResponse with the generated PDF."""
-        from weasyprint import HTML
-
         html_str = self._build_html()
         pdf_bytes = HTML(string=html_str).write_pdf()
         ref = (self.c.numero_contrat or "contract").replace("/", "-")

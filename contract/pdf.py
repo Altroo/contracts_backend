@@ -1296,7 +1296,7 @@ def _gen_contract_html(c, lang: str = "fr") -> str:
     ci_prest = (
         "Ci-apr\u00e8s d\u00e9nomm\u00e9e \u00ab Le Prestataire \u00bb"
         if fr
-        else "Hereinafter referred to as \u00abThe Provider\u00bb"
+        else "Hereinafter referred to as \u00abThe Service Provider\u00bb"
     )
     ci_client = (
         "Ci-apr\u00e8s d\u00e9nomm\u00e9(e) \u00ab Le Client \u00bb"

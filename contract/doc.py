@@ -977,7 +977,7 @@ class ContractDOCGenerator:
         if c.description_travaux:
             self._highlight(
                 (
-                    ("D\u00e9tail des travaux\u202f:\n" if fr else "Works detail:\n"),
+                    ("D\u00e9tail des travaux\u202f:\n" if fr else "Works details:\n"),
                     True,
                 ),
                 c.description_travaux,

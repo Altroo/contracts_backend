@@ -177,7 +177,7 @@ BL_TX = {
         "en_deux_ex": "en deux (2) exemplaires originaux, dont un remis à chacune des parties.",
         "sig_cachet": "Signature & Cachet",
         "lu_approuve": '"Lu et approuvé"',
-        "date_sig": "Date",
+        "date_sig": "Date de signature",
         # Footer
         "footer_specialist": "Spécialiste Pose Céramique, Marbre & Finitions — Plans de travail cuisine",
         "doc_genere": "Document généré le",
@@ -258,7 +258,7 @@ BL_TX = {
         "en_deux_ex": "in two (2) original copies, one provided to each party.",
         "sig_cachet": "Signature & Stamp",
         "lu_approuve": '"Read and approved"',
-        "date_sig": "Date",
+        "date_sig": "Signature date",
         # Footer
         "footer_specialist": "Specialist in Ceramic, Marble & Finishing — Kitchen countertops",
         "doc_genere": "Document generated on",

@@ -198,7 +198,7 @@ TX = {
         "le": "on",
         "lu_approuve": "Read and approved \u2013 Agreed",
         "sig_cachet": "Signature & Stamp",
-        "confid_mark": "CONFIDENTIAL DOCUMENT \u2013 FOR AUTHORIZED PARTIES ONLY",
+        "confid_mark": "CONFIDENTIAL DOCUMENT \u2013 FOR AUTHORISED SIGNATORIES ONLY",
         "paraphes": "Initials of both parties (each page)",
         "signatures": "\u270d SIGNATURES",
         "client_lbl": "Client",
