@@ -816,7 +816,7 @@ class BluelineDOCGenerator:
         excl_garantie = c.exclusions_garantie or (
             "Usure normale, mauvaise utilisation, modifications par des tiers."
             if self.fr
-            else "Normal wear and tear, misuse, modifications by third parties."
+            else "Normal wear, misuse, modifications by third parties."
         )
         date_debut_str = _fmt_date(c.date_debut)
         date_fin_str = self._date_fin()
@@ -869,8 +869,8 @@ class BluelineDOCGenerator:
                     (client, True),
                     (
                         ' (hereinafter "The Client"), at the site located at the specified '
-                        "address. The Service Provider commits to executing these works "
-                        "according to professional standards, with all due care and professionalism.",
+                        "address. The Service Provider undertakes to execute these works "
+                        "in compliance with professional standards, with all due care and professionalism.",
                         False,
                     ),
                 ]
@@ -898,7 +898,14 @@ class BluelineDOCGenerator:
             parts2.append(
                 (
                     "Les matériaux fournis par le Client doivent être disponibles sur chantier au "
-                    "minimum 24 heures avant le début des travaux concernés. Tout retard de "
+                    "minimum ",
+                    False,
+                )
+            )
+            parts2.append(("24 heures avant", True))
+            parts2.append(
+                (
+                    " le début des travaux concernés. Tout retard de "
                     "livraison des matériaux imputable au Client pourra entraîner un décalage du "
                     "planning et/ou une facturation complémentaire.",
                     False,
@@ -907,8 +914,14 @@ class BluelineDOCGenerator:
         else:
             parts2.append(
                 (
-                    "Materials supplied by the Client must be available on site at least 24 hours "
-                    "before the start of the relevant works. Any delay in material delivery "
+                    "Materials supplied by the Client must be available on site at least ",
+                    False,
+                )
+            )
+            parts2.append(("24 hours before", True))
+            parts2.append(
+                (
+                    " the start of the relevant works. Any delay in material delivery "
                     "attributable to the Client may result in schedule adjustments and/or "
                     "additional charges.",
                     False,
@@ -1047,7 +1060,9 @@ class BluelineDOCGenerator:
                         " sera établi et signé par les deux parties. Le solde du contrat (",
                         False,
                     ),
-                    (f"{sp:.0f}% soit {self._amt(mont_solde)}", True),
+                    (f"{sp:.0f}%", True),
+                    (" soit ", False),
+                    (self._amt(mont_solde), True),
                     (
                         ") est exigible immédiatement "
                         "à la signature de ce procès-verbal. Toute réserve devra être notifiée "
@@ -1075,7 +1090,9 @@ class BluelineDOCGenerator:
                         " will be drawn up and signed by both parties. The contract balance (",
                         False,
                     ),
-                    (f"{sp:.0f}%, i.e. {self._amt(mont_solde)}", True),
+                    (f"{sp:.0f}%", True),
+                    (", i.e. ", False),
+                    (self._amt(mont_solde), True),
                     (
                         ") is payable immediately "
                         "upon signing this report. Any reservations must be notified in writing "
@@ -1085,7 +1102,8 @@ class BluelineDOCGenerator:
                     ("48 hours", True),
                     (
                         " of the end of works; absence of reservations within this period "
-                        "constitutes final acceptance.",
+                        "constitutes final acceptance. Reserved works will be subject to "
+                        "rework within a timeframe agreed between the parties.",
                         False,
                     ),
                 ]
@@ -1160,7 +1178,7 @@ class BluelineDOCGenerator:
             resil_en_parts.append((
                 " In case of early termination at the Client's initiative, "
                 "the works already completed will be invoiced pro rata based on jointly "
-                "verified progress, and the deposit paid will remain acquired by the "
+                "verified progress, and the deposit paid will remain retained by the "
                 "Service Provider as a fixed penalty covering damages suffered (equipment "
                 "mobilization, reserved workforce, engaged subcontractors, etc.).",
                 False,
@@ -1181,13 +1199,13 @@ class BluelineDOCGenerator:
             )
         else:
             self._add_article_body(
-                "The Service Provider commits to: (i) respect safety regulations in force, "
+                "The Service Provider undertakes to: (i) respect safety regulations in force, "
                 "(ii) maintain the site in an acceptable state of cleanliness, (iii) protect "
-                "adjacent areas unaffected by the works. The Client commits to: (i) facilitate "
+                "adjacent areas unaffected by the works. The Client undertakes to: (i) facilitate "
                 "access to the site during agreed hours (generally 8:00 AM - 6:00 PM, Monday "
                 "to Saturday), (ii) remove furniture and obstructing items before works begin, "
                 "(iii) inform the Service Provider of any particular constraints "
-                "(condominium, neighbours, etc.)."
+                "(condominium, neighbors, etc.)."
             )
 
         # Art 9
@@ -1226,7 +1244,7 @@ class BluelineDOCGenerator:
                 f"is used exclusively for managing the contractual relationship between "
                 f"{co_name} and the Client. It will under no circumstances be transferred to "
                 f"third parties. The Client has the right to access, rectify and delete their "
-                f"data in accordance with current legislation."
+                f"data in compliance with current legislation."
             )
 
         # Art 11
@@ -1258,7 +1276,7 @@ class BluelineDOCGenerator:
                 [
                     (
                         "In the event of a dispute relating to the execution or interpretation of "
-                        "this contract, the parties commit to seeking an ",
+                        "this contract, the parties undertake to seek an ",
                         False,
                     ),
                     ("amicable solution", True),

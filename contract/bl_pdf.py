@@ -77,7 +77,7 @@ body {
 .bl-subtitle { font-size: 8pt; color: #8a99b3; letter-spacing: 1.5px; }
 
 /* ── parties ── */
-.bl-parties { display: table; width: 100%; margin-bottom: 14pt; }
+.bl-parties { display: table; width: 100%; margin-bottom: 14pt; border-spacing: 10pt 0; }
 .bl-party { display: table-cell; width: 50%; padding: 10pt 12pt; vertical-align: top; font-size: 8.5pt; line-height: 1.85; }
 .bl-party.prestataire { background: #0a1628; color: rgba(255,255,255,0.85); border-radius: 4pt; }
 .bl-party.client { background: rgba(42,127,255,0.04); border: 1pt solid #2a7fff; border-radius: 4pt; }
@@ -91,7 +91,7 @@ body {
 .bl-section { font-family: 'Playfair Display', Georgia, serif; font-size: 9pt; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: #0a1628; background: rgba(10,22,40,0.04); border-left: 4pt solid #2a7fff; padding: 6pt 10pt 6pt 12pt; margin: 14pt 0 8pt; border-radius: 0 4pt 4pt 0; }
 
 /* ── chantier info grid ── */
-.bl-info-grid { display: table; width: 100%; background: #f8fafe; border: 0.5pt solid #dce4f0; border-radius: 6pt; padding: 0; margin-bottom: 6pt; }
+.bl-info-grid { display: table; width: 100%; background: #f8fafe; border: 0.5pt solid #dce4f0; border-radius: 6pt; padding: 0; margin-bottom: 6pt; border-spacing: 6pt 0; }
 .bl-info-row { display: table-row; }
 .bl-info-cell { display: table-cell; padding: 6pt 10pt; width: 33.33%; vertical-align: top; }
 .bl-info-label { font-size: 7pt; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #8a99b3; margin-bottom: 2pt; display: block; }
@@ -117,7 +117,7 @@ body {
 .bl-total-row.grand .val { color: #2a7fff; }
 
 /* ── payment schedule ── */
-.bl-ech-grid { display: table; width: 100%; margin: 8pt 0; }
+.bl-ech-grid { display: table; width: 100%; margin: 8pt 0; border-spacing: 6pt 0; }
 .bl-ech { display: table-cell; padding: 10pt; border: 1pt solid #dce4f0; border-radius: 6pt; vertical-align: top; }
 .bl-ech.acompte  { border-color: rgba(200,169,110,0.5); background: rgba(200,169,110,0.06); }
 .bl-ech.tranche2 { border-color: rgba(42,127,255,0.3); background: rgba(42,127,255,0.04); }
@@ -128,7 +128,7 @@ body {
 
 /* ── articles ── */
 .bl-art { margin-bottom: 10pt; page-break-inside: avoid; }
-.bl-art-title { font-size: 8pt; font-weight: 700; color: #0a1628; background: rgba(10,22,40,0.04); padding: 5pt 10pt; border-bottom: 1pt solid #dce4f0; border-radius: 4pt 4pt 0 0; }
+.bl-art-title { font-size: 8pt; font-weight: 700; color: #0a1628; background: rgba(10,22,40,0.04); padding: 5pt 10pt; border: 0.5pt solid #dce4f0; border-bottom: 1pt solid #dce4f0; border-radius: 4pt 4pt 0 0; }
 .bl-art-body { font-size: 8.5pt; color: #3a4e6e; padding: 8pt 10pt; line-height: 1.75; border: 0.5pt solid #dce4f0; border-top: none; border-radius: 0 0 4pt 4pt; }
 .bl-art-body p { margin-bottom: 4pt; }
 .bl-art-body strong { color: #0a1628; }
@@ -138,9 +138,8 @@ body {
 /* ── signatures ── */
 .bl-sig-box { margin-top: 18pt; border-top: 1.5pt solid #dce4f0; padding-top: 14pt; page-break-inside: avoid; }
 .bl-sig-info { font-size: 8.5pt; padding: 8pt 12pt; background: rgba(42,127,255,0.04); border: 0.5pt solid rgba(42,127,255,0.15); border-radius: 4pt; margin-bottom: 12pt; }
-.bl-sigs { display: table; width: 100%; }
+.bl-sigs { display: table; width: 100%; border-spacing: 12pt 0; }
 .bl-sig { display: table-cell; width: 50%; border: 1pt solid #dce4f0; padding: 10pt; vertical-align: top; border-radius: 4pt; }
-.bl-sig + .bl-sig { border-left: none; }
 .bl-sig-label { font-size: 7pt; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #2a7fff; margin-bottom: 3pt; }
 .bl-sig-note { font-size: 8pt; color: #8a99b3; margin-bottom: 6pt; font-style: italic; }
 .bl-sig-line { border-bottom: 0.5pt dashed #ccc; height: 40pt; margin-bottom: 6pt; }
@@ -509,7 +508,7 @@ class BluelinePDFGenerator:
             or (
                 "Usure normale, mauvaise utilisation, modifications par des tiers."
                 if self.fr
-                else "Normal wear and tear, misuse, modifications by third parties."
+                else "Normal wear, misuse, modifications by third parties."
             )
         )
 
@@ -533,8 +532,8 @@ class BluelinePDFGenerator:
                 f'(hereinafter "The Service Provider") of tiling, marble, finishing and related '
                 f"works described in the services table, for the benefit of "
                 f'<strong>{client}</strong> (hereinafter "The Client"), at the site located '
-                f"at the specified address. The Service Provider commits to executing these works "
-                f"according to professional standards, with all due care and professionalism."
+                f"at the specified address. The Service Provider undertakes to execute these works "
+                f"in compliance with professional standards, with all due care and professionalism."
             )
         articles_html += self._art("art1_title", art1)
 
@@ -642,7 +641,8 @@ class BluelinePDFGenerator:
                 f"<strong>{self._amt(mont_solde)}</strong>) is payable immediately upon signing "
                 f"this report. Any reservations must be notified in writing within "
                 f"<strong>48 hours</strong> of the end of works; absence of reservations within "
-                f"this period constitutes final acceptance."
+                f"this period constitutes final acceptance. Reserved works will be subject to "
+                f"rework within a timeframe agreed between the parties."
             )
         articles_html += self._art("art5_title", art5)
 
@@ -681,7 +681,7 @@ class BluelinePDFGenerator:
             art7 = (
                 f"{resil_en} In case of early termination at the Client's initiative, the "
                 f"works already completed will be invoiced pro rata based on jointly verified "
-                f"progress, and the deposit paid will remain acquired by the Service Provider "
+                f"progress, and the deposit paid will remain retained by the Service Provider "
                 f"as a fixed penalty covering damages suffered (equipment mobilization, "
                 f"reserved workforce, engaged subcontractors, etc.)."
             )
@@ -700,13 +700,13 @@ class BluelinePDFGenerator:
             )
         else:
             art8 = (
-                "The Service Provider commits to: (i) respect safety regulations in force, "
+                "The Service Provider undertakes to: (i) respect safety regulations in force, "
                 "(ii) maintain the site in an acceptable state of cleanliness, (iii) protect "
-                "adjacent areas unaffected by the works. The Client commits to: (i) facilitate "
+                "adjacent areas unaffected by the works. The Client undertakes to: (i) facilitate "
                 "access to the site during agreed hours (generally 8:00 AM - 6:00 PM, Monday "
                 "to Saturday), (ii) remove furniture and obstructing items before works begin, "
                 "(iii) inform the Service Provider of any particular constraints (condominium, "
-                "neighbours, etc.)."
+                "neighbors, etc.)."
             )
         articles_html += self._art("art8_title", art8)
 
@@ -745,7 +745,7 @@ class BluelinePDFGenerator:
                 f"is used exclusively for managing the contractual relationship between "
                 f"{co_name} and the Client. It will under no circumstances be transferred to "
                 f"third parties. The Client has the right to access, rectify and delete their "
-                f"data in accordance with current legislation."
+                f"data in compliance with current legislation."
             )
         articles_html += self._art("art10_title", art10)
 
@@ -762,7 +762,7 @@ class BluelinePDFGenerator:
         else:
             art11 = (
                 f"In the event of a dispute relating to the execution or interpretation of this "
-                f"contract, the parties commit to seeking an <strong>amicable solution</strong> "
+                f"contract, the parties undertake to seek an <strong>amicable solution</strong> "
                 f"within 30 days of notification of the dispute. Failing amicable agreement, the "
                 f"dispute will be brought exclusively before the <strong>{tribunal}</strong>, "
                 f"notwithstanding plurality of defendants or warranty appeals, including for "

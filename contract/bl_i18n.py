@@ -44,7 +44,7 @@ EAU_ELEC_LABELS = {
     },
     "en": {
         "client": (
-            "The Client commits to providing, at their own expense, "
+            "The Client undertakes to provide, at their own expense, "
             "the water and electricity necessary for the works."
         ),
         "entreprise": (
@@ -107,12 +107,12 @@ CLAUSE_RESILIATION_LABELS = {
         "30j": (
             "This contract may be terminated by either party with "
             "<strong>30 days</strong> notice sent by registered mail "
-            "with acknowledgement of receipt."
+            "with acknowledgment of receipt."
         ),
         "15j": (
             "This contract may be terminated by either party with "
             "<strong>15 days</strong> notice sent by registered mail "
-            "with acknowledgement of receipt."
+            "with acknowledgment of receipt."
         ),
         "mutuel": (
             "This contract may only be terminated by "
@@ -232,7 +232,7 @@ BL_TX = {
         "total_ttc": "TOTAL (incl. VAT)",
         # Payment schedule
         "acompte_label": "Deposit on order",
-        "tranche2_label": "2nd instalment",
+        "tranche2_label": "2nd installment",
         "solde_label": "Balance on delivery",
         "acompte_detail": "Due upon signing the contract",
         "tranche2_detail": "During works",
@@ -282,7 +282,7 @@ BL_TX = {
         "notes_title": "Notes & Special Observations",
         # Client info extra
         "qualite": "Status",
-        "description_travaux_label": "Works details:",
+        "description_travaux_label": "Works description:",
         # Prestation units
         "aucune_prestation": "No services",
     },

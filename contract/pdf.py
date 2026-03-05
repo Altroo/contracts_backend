@@ -63,7 +63,7 @@ def _is_societe(qualite: str) -> bool:
     return "societe" in q or "morale" in q or "soci\u00e9t\u00e9" in q
 
 
-_PDF_CSS = """
+_PDF_CSS_TMPL = """
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
 
 @page {
@@ -73,7 +73,7 @@ _PDF_CSS = """
     font-family: 'JetBrains Mono', 'Courier New', monospace;
     font-size: 7pt;
     color: #ccc;
-    content: "Page " counter(page) " sur " counter(pages);
+    content: "Page " counter(page) " __PAGE_SEP__ " counter(pages);
   }
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -157,7 +157,7 @@ body {
 
 /* ── parties ── */
 .c-between { font-size: 9pt; font-weight: 600; color: #666; margin-bottom: 8pt; font-style: italic; }
-.c-parties { display: table; width: 100%; margin-bottom: 16pt; }
+.c-parties { display: table; width: 100%; margin-bottom: 16pt; border-spacing: 8pt 0; }
 .c-party {
   display: table-cell; width: 50%; padding: 10pt 12pt;
   vertical-align: top; font-size: 8.5pt; line-height: 1.85;
@@ -207,7 +207,7 @@ body {
 .art-divider { height: 1pt; background: #EDE8DA; margin: 7pt 0; }
 
 /* ── planning grid ── */
-.plan-grid { display: table; width: 100%; margin: 7pt 0; }
+.plan-grid { display: table; width: 100%; margin: 7pt 0; border-spacing: 6pt 0; }
 .plan-card { display: table-cell; width: 33%; background: #F9F5EC; border: 0.5pt solid #EDE8DA; padding: 6pt 9pt; border-radius: 4pt; }
 .plan-card-label { font-size: 7pt; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #6B6B80; margin-bottom: 2pt; }
 .plan-card-val { font-weight: 600; color: #0F0F1A; font-size: 8.5pt; }
@@ -228,9 +228,8 @@ body {
 .sigs-top-right { display: table-cell; vertical-align: middle; text-align: right; }
 .sigs-title { font-size: 8pt; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #0F0F1A; }
 .sigs-date  { font-size: 8pt; color: #888; }
-.sigs-grid  { display: table; width: 100%; }
+.sigs-grid  { display: table; width: 100%; border-spacing: 10pt 0; }
 .sig-box { display: table-cell; width: 50%; border: 1pt solid #E2D9C8; padding: 11pt; min-height: 80pt; vertical-align: top; border-radius: 4pt; }
-.sig-box + .sig-box { border-left: none; }
 .sig-label { font-size: 7pt; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #B8973A; margin-bottom: 3pt; }
 .sig-note  { font-size: 8pt; color: #aaa; margin-bottom: 9pt; font-style: italic; }
 .sig-line  { border-bottom: 0.5pt dashed #ccc; height: 42pt; margin-bottom: 7pt; }
@@ -240,7 +239,7 @@ body {
 /* ── initials ── */
 .initials-row { margin-top: 9pt; border: 1pt solid #EDE8DA; padding: 7pt 11pt; background: #F9F5EC; display: table; width: 100%; font-size: 8pt; color: #888; text-align: center; border-radius: 4pt; }
 .init-box    { display: table-cell; width: 22%; text-align: center; vertical-align: middle; }
-.init-center { display: table-cell; vertical-align: middle; text-align: center; font-size: 8pt; color: #bbb; }
+.init-center { display: table-cell; vertical-align: middle; text-align: center; font-size: 8pt; color: #bbb; padding: 0 8pt; }
 .init-line   { width: 65pt; height: 20pt; border-bottom: 0.5pt dashed #ccc; display: inline-block; margin-bottom: 3pt; }
 .init-label  { font-size: 7pt; color: #bbb; letter-spacing: 0.5px; }
 
@@ -284,7 +283,7 @@ def _build_articles(c, lang="fr") -> list:
         if services
         else ""
     )
-    desc_label = "D\u00e9tail des travaux\u202f:" if fr else "Works details:"
+    desc_label = "D\u00e9tail des travaux\u202f:" if fr else "Works description:"
     desc_html = (
         f'<div class="highlight"><strong>{desc_label}</strong><br>'
         + _esc(c.description_travaux).replace("\n", "<br>")
@@ -320,8 +319,8 @@ def _build_articles(c, lang="fr") -> list:
         {services_box}
         {desc_html}
         <p>Any work or service not expressly mentioned in this article is
-        <strong>formally excluded</strong> from this contract and may not be claimed
-        without a new written contractual agreement.</p>"""
+        <strong>excluded</strong> and may not be claimed
+        without a new written agreement.</p>"""
         ),
     )
 
@@ -358,10 +357,10 @@ def _build_articles(c, lang="fr") -> list:
                 else f"""
             <div class="plan-grid">{cards}</div>
             <p>The communicated schedule is <strong>indicative</strong> and not contractually binding.
-            The Service Provider will make every effort to meet agreed timelines, subject to proper
-            performance of Client obligations (payments, approvals, site access).
-            Any delay attributable to the Client automatically extends the timeline with no right
-            for the Client to invoke penalties against the Service Provider.</p>"""
+            The Service Provider will make every effort to meet agreed timelines, subject to the Client’s timely
+            fulfillment of obligations (payments, approvals, site access).
+            Any delay attributable to the Client automatically pushes the schedule back with no right
+            to invoke penalties against the Service Provider.</p>"""
             ),
         )
 
@@ -385,19 +384,18 @@ def _build_articles(c, lang="fr") -> list:
         <strong>le pr\u00e9sent contrat prime</strong>, sauf avenant sign\u00e9 post\u00e9rieurement.</div>"""
             if fr
             else """
-        <p>This contract, the quotation signed by both parties, the plans and visuals
-        approved in writing, and all official written confirmations constitute
-        <strong>the exclusive and exhaustive legal basis</strong> of the parties\u2019 mutual commitments.</p>
+        <p>This contract, the quotation signed by both parties, written and approved plans,
+        and all official written confirmations, constitutes
+        <strong>the sole and exhaustive legal basis</strong> of the parties\u2019 mutual commitments.</p>
         <ul>
-          <li>Any oral exchange, informal meeting, phone call, or message not officially
-          validated in writing or electronically <strong>has no contractual value</strong>.</li>
+          <li>Any oral exchange, informal meeting, telephone discussion, or unvalidated message <strong>has no contractual value</strong>.</li>
           <li>WhatsApp messages, SMS, emails, and any document signed or validated by the Client
-          <strong>constitute evidence</strong> and may be produced as proof in case of dispute.</li>
-          <li>Any amendment to this contract must be the subject of a
-          <strong>signed written addendum</strong> by both parties to be valid.</li>
+          <strong>shall serve as evidence</strong> and may be produced in any dispute.</li>
+          <li>Any modification to this contract must be formalized by a
+          <strong>written amendment signed</strong> by both parties.</li>
         </ul>
-        <div class="highlight">In case of conflict between this contract and any other document,
-        <strong>this contract prevails</strong>, except for addenda signed subsequently.</div>"""
+        <div class="highlight">In case of contradiction between this contract and any other document,
+        <strong>this contract prevails</strong>, unless a later signed amendment exists.</div>"""
         ),
     )
 
@@ -433,16 +431,16 @@ def _build_articles(c, lang="fr") -> list:
             else f"""
         <p>The Service Provider undertakes to:</p>
         <ul>
-          <li>Execute works in accordance with <strong>professional standards</strong> and applicable Moroccan technical regulations.</li>
+          <li>Execute works in compliance with <strong>professional standards</strong> and applicable Moroccan technical regulations.</li>
           <li>Provide a <strong>qualified and experienced team</strong>, under the supervision of a designated site manager.</li>
           <li>Respect aesthetic and technical choices <strong>validated in writing</strong> by the Client.</li>
-          <li>Inform the Client of any issue or difficulty likely to affect the schedule or budget.</li>
-          <li>Maintain a <strong>clean and safe site</strong> throughout execution.</li>
+          <li>Inform the Client of any hazard or difficulty likely to affect the schedule or budget.</li>
+          <li>Maintain a <strong>clean and safe worksite</strong> throughout execution.</li>
           <li>Coordinate between the various trades involved.</li>
         </ul>
         {resp_str}{arch_str}
-        <div class="highlight">The Service Provider is held to an <strong>obligation of means</strong> and not
-        of result for works where materials, aesthetic choices, and specific constraints are
+        <div class="highlight">The Service Provider is bound by a <strong>best-efforts obligation</strong>
+        (not a results obligation) for works where materials, aesthetic choices, and specific constraints are
         imposed by the Client.</div>"""
         ),
     )
@@ -476,8 +474,8 @@ def _build_articles(c, lang="fr") -> list:
         <p>The Client contractually and irrevocably undertakes to:</p>
         <ul>
           <li><strong>Respect</strong> all members of the Service Provider\u2019s team and their professional technical decisions.</li>
-          <li>Provide all <strong>written approvals</strong> (plans, material choices, modifications) within reasonable timeframes not exceeding 72 hours, unless otherwise agreed.</li>
-          <li>Make <strong>payments on the agreed dates</strong> per the contractual schedule.</li>
+          <li>Provide all <strong>written validations</strong> (plans, material choices, modifications) within reasonable timeframes not exceeding 72 hours, unless otherwise agreed.</li>
+          <li>Make <strong>payments on the agreed dates</strong> in the contractual schedule.</li>
           <li>Not exert any pressure, threats, intimidation, or constraint on the teams, subcontractors, or suppliers.</li>
           <li>Guarantee <strong>free, secure, and continuous site access</strong> under the agreed conditions.{acces_extra}</li>
           <li>Take <strong>full responsibility</strong> for all aesthetic and technical decisions validated in writing.</li>
@@ -776,16 +774,16 @@ def _build_articles(c, lang="fr") -> list:
         adress\u00e9e au Prestataire avec photos \u00e0 l\u2019appui.</p>"""
             if fr
             else f"""
-        <p>The Provider grants a <strong>contractual warranty of {garantie}</strong> on all works performed under this agreement, starting from the date of final acceptance.</p>
-        <p>This warranty covers <strong>execution defects</strong> directly attributable to the Provider's works, excluding:</p>
+        <p>The Service Provider grants a <strong>contractual warranty of {garantie}</strong> on works performed under this contract, from the definitive acceptance date.</p>
+        <p>This warranty covers <strong>execution defects</strong> directly attributable to the Service Provider's works, excluding:</p>
         <ul>
-          <li>Normal wear and tear from use;</li>
+          <li>Normal wear from use;</li>
           <li>Damage caused by the Client, tenants or third parties;</li>
           <li>Third-party interventions on warranted works;</li>
-          <li>Lack of maintenance or use inconsistent with the purpose of the works;</li>
+          <li>Lack of maintenance or improper use;</li>
           <li>Structural issues unrelated to the works performed.</li>
         </ul>
-        <p>Invoking the warranty requires a <strong>detailed written notification</strong> sent to the Provider with supporting photographs.</p>"""
+        <p>Invoking the warranty requires a <strong>detailed written notification</strong> sent to the Service Provider with supporting photos.</p>"""
         ),
     )
 
@@ -814,15 +812,15 @@ def _build_articles(c, lang="fr") -> list:
             au Prestataire, et les travaux en cours seront factur\u00e9s au prorata.</div>"""
                 if fr
                 else """
-            <p>The Client formally agrees to maintain <strong>respectful and professional</strong> relations with all staff, subcontractors and suppliers of the Provider.</p>
-            <p>The following constitute grounds for <strong>immediate termination</strong> without compensation to the Client:</p>
+            <p>The Client formally undertakes to maintain <strong>respectful and professional</strong> relations with all staff, subcontractors and suppliers of the Service Provider.</p>
+            <p>The following constitute grounds for <strong>immediate termination</strong> without compensation for the Service Provider:</p>
             <ul>
-              <li>Any abusive, humiliating, discriminatory or threatening behaviour towards teams;</li>
+              <li>Any abusive, humiliating, discriminatory, or threatening behavior toward teams;</li>
               <li>Any pressure or intimidation to obtain non-contractual services;</li>
-              <li>Any unauthorised interference in the Provider's technical decisions;</li>
-              <li>Any public denigration of the Provider or their teams.</li>
+              <li>Any unauthorized interference in the Service Provider's technical decisions;</li>
+              <li>Any public disparagement of the Service Provider or its teams.</li>
             </ul>
-            <div class="warning-box">In case of termination for abusive behaviour, <strong>all sums already paid remain definitively acquired</strong> by the Provider, and ongoing works will be invoiced pro rata.</div>"""
+            <div class="warning-box">In case of termination for abusive behavior, <strong>all amounts already paid remain definitively retained</strong> by the Service Provider, and works in progress will be invoiced pro-rata.</div>"""
             ),
         )
 
@@ -847,15 +845,15 @@ def _build_articles(c, lang="fr") -> list:
             du Client au titre du droit marocain de la propri\u00e9t\u00e9 intellectuelle.</p>"""
                 if fr
                 else """
-            <p>All creations produced under this agreement \u2014 including but not limited to <strong>plans, drawings, moodboards, visuals, layout concepts, creative ideas, prototypes and studies</strong> \u2014 remain the <strong>exclusive and inalienable intellectual property</strong> of CASA DI LUSSO SARL.</p>
-            <p>The Client is granted a <strong>personal use licence</strong> for the property covered by this agreement only. The Client is strictly prohibited from:</p>
+            <p>All creations produced under this contract \u2014 including without limitation <strong>plans, drawings, moodboards, visuals, layout concepts, creative ideas, prototypes and studies</strong> \u2014 remain the <strong>exclusive and inalienable intellectual property</strong> of CASA DI LUSSO SARL.</p>
+            <p>The Client is granted a <strong>personal use license</strong> for the property subject to this contract only. The Client is strictly prohibited from:</p>
             <ul>
-              <li>Reproducing, adapting or distributing these creations for commercial or advertising purposes;</li>
-              <li>Transmitting or assigning these documents to third parties;</li>
-              <li>Using these creations for any property other than the one covered by this agreement;</li>
-              <li>Registering these creations as trademarks, patents or industrial designs.</li>
+              <li>Reproducing, adapting, or distributing these creations for commercial or advertising purposes;</li>
+              <li>Transferring or assigning these documents to third parties;</li>
+              <li>Using these creations for a property other than that specified in the contract;</li>
+              <li>Registering these creations as a trademark, patent, or industrial design.</li>
             </ul>
-            <p>Any violation may give rise to <strong>civil and criminal liability</strong> under Moroccan intellectual property law.</p>"""
+            <p>Any violation may engage the Client’s <strong>civil and criminal liability</strong> under Moroccan intellectual property law.</p>"""
             ),
         )
 
@@ -881,13 +879,13 @@ def _build_articles(c, lang="fr") -> list:
             du Client sans accord expr\u00e8s.</p>"""
                 if fr
                 else """
-            <p>Unless the Client provides <strong>express written refusal</strong> within 8 days of signing this agreement, the Client authorises CASA DI LUSSO to:</p>
+            <p>Unless <strong>express written objection</strong> is notified within 8 days of signing, the Client authorizes CASA DI LUSSO to:</p>
             <ul>
-              <li>Photograph and film the project site and completed works;</li>
-              <li>Publish these visuals on their <strong>website, social media, portfolio</strong> and marketing materials;</li>
-              <li>Reference the project for commercial purposes.</li>
+              <li>Photograph and film the worksite and completed project;</li>
+              <li>Publish these visuals on its <strong>website, social media, portfolio</strong> and marketing materials;</li>
+              <li>Reference the project as a commercial reference.</li>
             </ul>
-            <p>This authorisation is granted <strong>free of charge, non-exclusively and for an unlimited duration</strong>. The Provider undertakes never to disclose the Client\u2019s personal information without express consent.</p>"""
+            <p>This authorization is granted <strong>free of charge, non-exclusively and for an unlimited duration</strong>. The Service Provider undertakes never to mention the Client\u2019s personal information without express consent.</p>"""
             ),
         )
 
@@ -908,13 +906,13 @@ def _build_articles(c, lang="fr") -> list:
             contrat</strong> pour une dur\u00e9e de <strong>5 ans</strong>.</p>"""
                 if fr
                 else """
-            <p>Both parties mutually commit to treating as <strong>strictly confidential</strong> all information exchanged under this agreement, including in particular:</p>
+            <p>Both parties mutually undertake to treat as <strong>strictly confidential</strong> all information exchanged under this contract, including:</p>
             <ul>
               <li>Financial amounts and pricing conditions;</li>
               <li>Plans, technical documents and project specifications;</li>
-              <li>Any information relating to the Provider\u2019s working methods.</li>
+              <li>Any information relating to the Service Provider\u2019s working methods.</li>
             </ul>
-            <p>This confidentiality obligation survives <strong>termination or expiry</strong> of the agreement for a period of <strong>5 years</strong>.</p>"""
+            <p>This confidentiality obligation survives <strong>termination or expiry</strong> of the contract for a period of <strong>5 years</strong>.</p>"""
             ),
         )
 
@@ -932,8 +930,8 @@ def _build_articles(c, lang="fr") -> list:
             pr\u00e9sent contrat.</p>"""
                 if fr
                 else """
-            <p>The Provider reserves the right to <strong>engage qualified subcontractors</strong> for the execution of all or part of the works under this agreement, particularly for specialised trades.</p>
-            <p>The Provider remains <strong>solely responsible</strong> to the Client for the proper execution of subcontracted works. The Client expressly waives the right to invoke subcontracting as grounds for dispute, provided the works comply with this agreement.</p>"""
+            <p>The Service Provider reserves the right to <strong>engage qualified subcontractors</strong> for the execution of all or part of the works under this contract, particularly for specialized trades.</p>
+            <p>The Service Provider remains <strong>solely responsible</strong> to the Client for the proper execution of subcontracted works. The Client expressly waives the right to invoke subcontracting as grounds for dispute, provided the works conform to this contract.</p>"""
             ),
         )
 
@@ -957,12 +955,12 @@ def _build_articles(c, lang="fr") -> list:
             une solution dans un d\u00e9lai de 15 jours.</p>"""
                 if fr
                 else """
-            <p>In the event of a <strong>material price increase exceeding 10%</strong> compared to reference prices at the date of signing, attributable to external causes (inflation, supply disruption, government decision), the Provider reserves the right to:</p>
+            <p>In the event of a <strong>material price increase exceeding 10%</strong> versus reference prices at signing, due to external causes (inflation, supply shortage, government decision), the Service Provider reserves the right to:</p>
             <ul>
               <li>Notify the Client in writing of the new pricing conditions;</li>
-              <li>Adjust the contract amount in line with the observed increase, subject to the Client\u2019s written agreement.</li>
+              <li>Adjust the contract amount proportionally to the increase, subject to the Client\u2019s written agreement.</li>
             </ul>
-            <p>In the event of disagreement, the parties commit to <strong>negotiating in good faith</strong> a solution within 15 days.</p>"""
+            <p>In case of disagreement, parties undertake to <strong>negotiate in good faith</strong> within 15 days.</p>"""
             ),
         )
 
@@ -986,14 +984,14 @@ def _build_articles(c, lang="fr") -> list:
             indemnit\u00e9, sous r\u00e9serve de r\u00e8glement des prestations d\u00e9j\u00e0 effectu\u00e9es.</p>"""
                 if fr
                 else """
-            <p>Neither party shall be held liable for failure to perform its obligations when such failure results from a <strong>force majeure event</strong>, being an unforeseeable, irresistible event beyond the parties\u2019 control, including but not limited to:</p>
+            <p>Neither party shall be held liable for non-performance of obligations resulting from a <strong>force majeure event</strong>, being an unforeseeable, irresistible event beyond the parties\u2019 control, including without limitation:</p>
             <ul>
               <li>Natural disasters, epidemics, pandemics;</li>
-              <li>Armed conflicts, riots, acts of terrorism;</li>
-              <li>Government or administrative decisions;</li>
-              <li>General strikes affecting supply sectors.</li>
+              <li>Armed conflicts, riots, terrorist acts;</li>
+              <li>Government or administrative orders;</li>
+              <li>General strikes affecting supply chains.</li>
             </ul>
-            <p>The party invoking force majeure must notify the other <strong>in writing within 48 hours</strong>. If force majeure persists for more than <strong>60 consecutive days</strong>, either party may terminate the agreement without compensation, subject to payment for services already rendered.</p>"""
+            <p>The invoking party must notify the other <strong>in writing within 48 hours</strong>. If force majeure lasts more than <strong>60 consecutive days</strong>, either party may terminate without compensation, subject to payment for works already performed.</p>"""
             ),
         )
 
@@ -1014,13 +1012,13 @@ def _build_articles(c, lang="fr") -> list:
             </ul>"""
                 if fr
                 else """
-            <p><strong>Site abandonment</strong> is defined as the Client refusing or preventing access to the site for more than <strong>15 consecutive days</strong> without valid justification accepted by the Provider.</p>
-            <p>In the event of site abandonment, the Provider is entitled to:</p>
+            <p><strong>Site abandonment</strong> occurs when the Client refuses or prevents site access for more than <strong>15 consecutive days</strong> without valid justification accepted by the Service Provider.</p>
+            <p>In case of site abandonment, the Service Provider is entitled to:</p>
             <ul>
-              <li>Invoice the entirety of works completed and materials ordered;</li>
-              <li>Definitively retain all sums already paid;</li>
-              <li>Recover all equipment and tools belonging to the Provider;</li>
-              <li>Invoice <strong>immobilisation penalties</strong> for mobilised teams.</li>
+              <li>Invoice all completed works and ordered materials;</li>
+              <li>Definitively retain all amounts already paid;</li>
+              <li>Recover all equipment and tools belonging to it;</li>
+              <li>Invoice <strong>immobilization indemnities</strong> for mobilized teams.</li>
             </ul>"""
             ),
         )
@@ -1046,12 +1044,12 @@ def _build_articles(c, lang="fr") -> list:
             de la personne concern\u00e9e.</p>"""
                 if fr
                 else """
-            <p>The Client undertakes, for the duration of this agreement and for a period of <strong>24 months</strong> following its termination or expiry, not to directly or indirectly:</p>
+            <p>The Client undertakes, for the duration of this contract and for a period of <strong>24 months</strong> following its end or termination, not to directly or indirectly:</p>
             <ul>
-              <li>Recruit, solicit or engage any member of the Provider\u2019s staff or subcontractors;</li>
-              <li>Entice any staff member to leave the Provider.</li>
+              <li>Recruit, solicit, or hire any member of the Service Provider\u2019s staff or subcontractors;</li>
+              <li>Encourage any staff member to leave the Service Provider.</li>
             </ul>
-            <p>In the event of a breach, the Client agrees to pay the Provider a <strong>lump-sum indemnity</strong> equivalent to <strong>12 months\u2019 gross salary</strong> of the person concerned.</p>"""
+            <p>In case of violation, the Client agrees to pay the Service Provider a <strong>lump-sum indemnity</strong> equivalent to <strong>12 months\u2019 gross salary</strong> of the person concerned.</p>"""
             ),
         )
 
@@ -1084,22 +1082,22 @@ def _build_articles(c, lang="fr") -> list:
             if fr
             else f"""
         <div class="sub-title">{_resil_n}.1 \u2013 Termination by the Client</div>
-        <p>The Client may terminate this agreement by <strong>registered letter with acknowledgement of receipt</strong>. In such case, the Client undertakes to pay:</p>
+        <p>The Client may terminate this contract by <strong>registered mail with acknowledgment of receipt</strong>. In such case, the Client undertakes to pay:</p>
         <ul>
-          <li>The full value of works completed at the date of termination, pro rata;</li>
-          <li>The cost of all materials ordered, delivered or in the process of being ordered;</li>
-          <li>Team demobilisation costs;</li>
+          <li>All works completed at the termination date, on a pro-rata basis;</li>
+          <li>The cost of all materials ordered, delivered, or on order;</li>
+          <li>Team demobilization costs;</li>
           <li>A <strong>termination indemnity</strong> of 15% of the remaining amount due.</li>
         </ul>
-        <p>The initial deposit paid at the start of works remains <strong>definitively and irrevocably acquired</strong> by the Provider.</p>
-        <div class="sub-title">{_resil_n}.2 \u2013 Termination by the Provider</div>
-        <p>The Provider may terminate this agreement without compensation in the event of:</p>
+        <p>The initial deposit paid at project start is <strong>definitively and irrevocably retained</strong> by the Service Provider.</p>
+        <div class="sub-title">{_resil_n}.2 \u2013 Termination by the Service Provider</div>
+        <p>The Service Provider may terminate without compensation in case of:</p>
         <ul>
-          <li>Non-payment of one or more instalments beyond the tolerated deadline;</li>
-          <li>Abusive, threatening or disrespectful behaviour towards teams;</li>
-          <li>Repeated and unjustified blocking of the site;</li>
-          <li>Repeated refusal to provide the validations necessary for works to progress;</li>
-          <li>Insolvency or judicial reorganisation of the Client.</li>
+          <li>Non-payment of one or more installments beyond the tolerated delay;</li>
+          <li>Abusive, threatening, or disrespectful behavior toward teams;</li>
+          <li>Repeated and unjustified site blockage;</li>
+          <li>Repeated refusal to provide validations needed for works to progress;</li>
+          <li>Client insolvency or receivership.</li>
         </ul>"""
         ),
     )
@@ -1130,15 +1128,15 @@ def _build_articles(c, lang="fr") -> list:
             notamment le Dahir des obligations et contrats (DOC).</p>"""
                 if fr
                 else f"""
-            <p>Before any legal proceedings, the parties expressly agree to seek an <strong>amicable solution</strong> according to the following procedure:</p>
+            <p>Before any legal action, parties expressly undertake to seek an <strong>amicable solution</strong> through the following procedure:</p>
             <ol>
-              <li>The complaining party sends a <strong>formal written notice</strong> to the other party by registered letter;</li>
+              <li>The complaining party sends a <strong>formal written notice</strong> to the other party by registered mail;</li>
               <li>The other party has <strong>15 working days</strong> to respond and propose a solution;</li>
-              <li>In the absence of agreement within <strong>30 days</strong> of the formal notice, the parties may appoint a mutually agreed mediator;</li>
-              <li>Failing successful mediation, the parties may refer the matter to the competent courts.</li>
+              <li>Failing agreement within <strong>30 days</strong> of the formal notice, parties may jointly appoint an accredited mediator;</li>
+              <li>Failing successful mediation, parties may refer to the competent courts.</li>
             </ol>
-            <p>The parties agree to grant <strong>exclusive jurisdiction</strong> to the commercial courts of the <strong>Tribunal of {tribunal}</strong> for any dispute relating to this agreement.</p>
-            <p>This agreement is governed and interpreted in accordance with <strong>Moroccan law</strong>, in particular the Dahir of Obligations and Contracts (DOC).</p>"""
+            <p>The parties agree to grant <strong>exclusive jurisdiction</strong> to the commercial courts of the <strong>Court of {tribunal}</strong> for any dispute arising from this contract.</p>
+            <p>This contract is governed and interpreted in accordance with <strong>Moroccan law</strong>, in particular the Dahir of Obligations and Contracts (DOC).</p>"""
             ),
         )
 
@@ -1148,7 +1146,7 @@ def _build_articles(c, lang="fr") -> list:
         + (
             "Exclusions contractuelles express\u00e9ment convenues\u202f:"
             if fr
-            else "Expressly agreed contractual exclusions:"
+            else "Expressly agreed exclusions:"
         )
         + "</strong><br>"
         + _esc(c.exclusions).replace("\n", "<br>")
@@ -1174,7 +1172,7 @@ def _build_articles(c, lang="fr") -> list:
         + (
             "Annexes jointes au pr\u00e9sent contrat\u202f:"
             if fr
-            else "Annexes attached to this agreement:"
+            else "Annexes attached to this contract:"
         )
         + "</strong><br>"
         + _esc(c.annexes).replace("\n", "<br>")
@@ -1201,9 +1199,9 @@ def _build_articles(c, lang="fr") -> list:
         {excl_extra}{spec_extra}{annex_extra}"""
             if fr
             else f"""
-        <p>This agreement is governed and interpreted in accordance with the <strong>law of the Kingdom of Morocco</strong>. Any matter not expressly covered by this agreement shall be governed by applicable Moroccan law, in particular the Dahir of 12 August 1913 forming the Code of Obligations and Contracts (DOC).</p>
-        <p>This agreement constitutes the <strong>entire agreement</strong> between the parties and supersedes all prior agreements, negotiations and proposals relating to its subject matter.</p>
-        <p>If any clause of this agreement is declared null or unenforceable, the remaining clauses shall remain <strong>in full force and effect</strong>.</p>
+        <p>This contract is governed and interpreted in accordance with the <strong>laws of the Kingdom of Morocco</strong>. Any matter not expressly subject to this contract shall be governed by applicable Moroccan legal provisions, notably the Dahir of 12 August 1913 forming the Code of Obligations and Contracts (DOC).</p>
+        <p>This contract constitutes the <strong>entire agreement</strong> between the parties and supersedes all prior agreements, negotiations and proposals relating to its subject matter.</p>
+        <p>If any clause is declared void or unenforceable, the remaining clauses remain <strong>fully in force</strong>.</p>
         {excl_extra}{spec_extra}{annex_extra}"""
         ),
     )
@@ -1287,7 +1285,7 @@ def _gen_contract_html(c, lang: str = "fr") -> str:
     confid_ribbon = (
         "DOCUMENT CONFIDENTIEL \u2013 USAGE EXCLUSIF DES PARTIES SIGNATAIRES"
         if fr
-        else "CONFIDENTIAL DOCUMENT \u2013 FOR AUTHORISED SIGNATORIES ONLY"
+        else "CONFIDENTIAL DOCUMENT \u2013 FOR SIGNATORY PARTIES ONLY"
     )
     title_h1 = "CONTRAT DE PRESTATIONS DE SERVICES" if fr else "SERVICE AGREEMENT"
     between_txt = "ENTRE LES SOUSSIGN\u00c9S :" if fr else "BETWEEN THE UNDERSIGNED:"
@@ -1314,16 +1312,16 @@ def _gen_contract_html(c, lang: str = "fr") -> str:
     sig_note_client = (
         "Lu et approuv\u00e9 \u2013 Bon pour accord"
         if fr
-        else "Read and approved \u2013 Good for agreement"
+        else "Read and approved \u2013 Agreement"
     )
     sig_note_prest = "Signature &amp; Cachet" if fr else "Signature &amp; Stamp"
     sig_direction = "Direction G\u00e9n\u00e9rale" if fr else "General Management"
     initials_txt = (
         "Paraphes des parties (chaque page)"
         if fr
-        else "Initials of the parties (each page)"
+        else "Initials of parties (each page)"
     )
-    lbl_provider_init = "Prestataire" if fr else "Provider"
+    lbl_provider_init = "Prestataire" if fr else "Service Provider"
 
     return f"""<!DOCTYPE html>
 <html lang="{lang}">
@@ -1331,7 +1329,7 @@ def _gen_contract_html(c, lang: str = "fr") -> str:
   <meta charset="UTF-8">
   <title>{"Contrat" if fr else "Contract"} {ref} \u2013 CASA DI LUSSO</title>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-  <style>{_PDF_CSS}</style>
+  <style>{_PDF_CSS_TMPL.replace("__PAGE_SEP__", "sur" if fr else "of")}</style>
 </head>
 <body>
 
