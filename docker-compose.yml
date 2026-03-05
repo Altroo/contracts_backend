@@ -69,7 +69,7 @@ services:
     env_file:
       - .env
     volumes:
-      - contracts_db_data:/var/lib/postgresql/data
+      - contracts_db_data:/var/lib/postgresql
     networks:
       - backend
     healthcheck:
