@@ -1,0 +1,1623 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Casa Di Lusso — Générateur de Contrats de Sous-Traitance BTP</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  --gold: #C9A84C;
+  --gold-light: #E8D48B;
+  --gold-dark: #8B6914;
+  --navy: #0A1628;
+  --navy-mid: #152238;
+  --navy-light: #1E3050;
+  --slate: #2A3F5F;
+  --text: #E8EDF5;
+  --text-dim: #8A9BBF;
+  --text-muted: #556B8D;
+  --surface: #0F1D33;
+  --surface-hover: #162642;
+  --danger: #E74C3C;
+  --success: #27AE60;
+  --warning: #F39C12;
+  --radius: 10px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--navy);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+.app { position: relative; z-index: 1; }
+
+/* HEADER */
+header {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+  border-bottom: 1px solid rgba(201, 168, 76, 0.2);
+  padding: 18px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo { display: flex; align-items: center; gap: 16px; }
+
+.logo-icon {
+  width: 48px; height: 48px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Playfair Display', serif;
+  font-size: 22px; font-weight: 700; color: var(--navy);
+}
+
+.logo-text h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px; font-weight: 600;
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+.logo-text p { font-size: 11px; color: var(--text-dim); letter-spacing: 2px; text-transform: uppercase; }
+
+.header-actions { display: flex; gap: 12px; align-items: center; }
+
+.header-badge {
+  background: rgba(201, 168, 76, 0.1);
+  border: 1px solid rgba(201, 168, 76, 0.3);
+  padding: 8px 20px; border-radius: 50px;
+  font-size: 12px; color: var(--gold);
+  letter-spacing: 1px;
+}
+
+/* LAYOUT */
+.main { display: flex; min-height: calc(100vh - 85px); }
+
+.sidebar {
+  width: 420px; min-width: 420px;
+  background: var(--surface);
+  border-right: 1px solid rgba(255,255,255,0.06);
+  overflow-y: auto;
+  padding: 24px 28px;
+}
+
+.preview-area {
+  flex: 1;
+  overflow-y: auto;
+  padding: 40px;
+  background: linear-gradient(180deg, var(--navy) 0%, #060D18 100%);
+}
+
+/* SIDEBAR FORM */
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 15px;
+  color: var(--gold);
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(201,168,76,0.15);
+  display: flex; align-items: center; gap: 10px;
+}
+
+.section-title .num {
+  background: var(--gold);
+  color: var(--navy);
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'DM Sans'; font-size: 12px; font-weight: 700;
+}
+
+.form-group { margin-bottom: 14px; }
+
+.form-group label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-dim);
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.form-group input, .form-group select, .form-group textarea {
+  width: 100%;
+  background: var(--navy-mid);
+  border: 1px solid rgba(255,255,255,0.08);
+  color: var(--text);
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-family: 'DM Sans'; font-size: 13px;
+  transition: all 0.2s;
+  outline: none;
+}
+
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(201,168,76,0.1);
+}
+
+.form-group textarea { resize: vertical; min-height: 60px; }
+
+.form-group select {
+  cursor: pointer; appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238A9BBF' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 12px center;
+}
+
+.form-row { display: flex; gap: 10px; }
+.form-row .form-group { flex: 1; }
+
+/* COLLAPSIBLE SECTIONS */
+.collapsible-header {
+  display: flex; align-items: center; justify-content: space-between;
+  cursor: pointer; user-select: none;
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid rgba(201,168,76,0.15);
+}
+
+.collapsible-header .section-title { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+
+.collapse-arrow {
+  color: var(--gold);
+  font-size: 18px;
+  transition: transform 0.3s;
+}
+
+.collapse-arrow.collapsed { transform: rotate(-90deg); }
+
+.collapsible-body {
+  max-height: 2000px;
+  overflow: hidden;
+  transition: max-height 0.4s ease, opacity 0.3s;
+  opacity: 1;
+}
+
+.collapsible-body.collapsed {
+  max-height: 0;
+  opacity: 0;
+}
+
+/* PROJECT SELECTOR */
+.project-selector { margin-bottom: 16px; }
+
+.project-card {
+  padding: 12px 14px;
+  background: var(--navy-mid);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.25s;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.project-card:hover { border-color: rgba(201,168,76,0.4); background: var(--surface-hover); }
+
+.project-card.active {
+  background: rgba(201,168,76,0.08);
+  border-color: var(--gold);
+  box-shadow: 0 0 20px rgba(201,168,76,0.08);
+}
+
+.project-card .proj-icon {
+  width: 42px; height: 42px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  background: rgba(201,168,76,0.1);
+  flex-shrink: 0;
+}
+
+.project-card.active .proj-icon { background: rgba(201,168,76,0.2); }
+
+.project-card .proj-info { flex: 1; }
+.project-card .proj-info h4 { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+.project-card .proj-info p { font-size: 11px; color: var(--text-muted); line-height: 1.4; }
+.project-card .proj-badge {
+  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: 20px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+.badge-green { background: rgba(39,174,96,0.15); color: #27AE60; }
+.badge-orange { background: rgba(243,156,18,0.15); color: #F39C12; }
+.badge-blue { background: rgba(52,152,219,0.15); color: #3498DB; }
+
+.add-project-btn {
+  width: 100%;
+  padding: 10px;
+  background: transparent;
+  border: 1px dashed rgba(201,168,76,0.3);
+  border-radius: 10px;
+  color: var(--gold);
+  font-family: 'DM Sans'; font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+
+.add-project-btn:hover { border-color: var(--gold); background: rgba(201,168,76,0.05); }
+
+/* CUSTOM PROJECT MODAL */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.7);
+  z-index: 1000;
+  align-items: center; justify-content: center;
+}
+
+.modal-overlay.show { display: flex; }
+
+.modal {
+  background: var(--surface);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 16px;
+  padding: 30px;
+  width: 500px;
+  max-width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+}
+
+.modal h3 {
+  font-family: 'Playfair Display', serif;
+  color: var(--gold);
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.modal-actions { display: flex; gap: 10px; margin-top: 20px; }
+
+.modal-btn {
+  flex: 1; padding: 12px;
+  border-radius: 8px; font-family: 'DM Sans'; font-size: 13px; font-weight: 600;
+  cursor: pointer; border: none; transition: all 0.2s;
+}
+
+.modal-btn.primary { background: var(--gold); color: var(--navy); }
+.modal-btn.secondary { background: transparent; color: var(--text-dim); border: 1px solid rgba(255,255,255,0.1); }
+
+/* TRADE GRID */
+.trade-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px;
+  margin-bottom: 14px;
+}
+
+.trade-btn {
+  padding: 10px 8px;
+  background: var(--navy-mid);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 8px;
+  color: var(--text-dim);
+  font-family: 'DM Sans'; font-size: 11px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+}
+
+.trade-btn:hover { border-color: var(--gold); color: var(--gold); }
+.trade-btn.active {
+  background: rgba(201,168,76,0.12);
+  border-color: var(--gold);
+  color: var(--gold);
+  font-weight: 600;
+}
+
+.trade-btn .icon { font-size: 18px; display: block; margin-bottom: 3px; }
+
+/* ENTREPRENEUR PRINCIPAL SECTION */
+.ep-info {
+  background: rgba(201,168,76,0.05);
+  border: 1px solid rgba(201,168,76,0.12);
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 14px;
+}
+
+.ep-info .ep-row {
+  display: flex; justify-content: space-between;
+  font-size: 12px; padding: 3px 0;
+}
+
+.ep-info .ep-row .label { color: var(--text-muted); }
+.ep-info .ep-row .val { color: var(--text); font-weight: 500; }
+
+/* PAYMENT SCHEDULE */
+.payment-schedule { margin-bottom: 14px; }
+
+.payment-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+.payment-item:last-child { border-bottom: none; }
+
+.payment-pct {
+  width: 42px; height: 42px;
+  border-radius: 8px;
+  background: var(--navy-mid);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700; color: var(--gold);
+  flex-shrink: 0;
+}
+
+.payment-item .pay-info { flex: 1; }
+.payment-item .pay-info .pay-label { font-size: 12px; color: var(--text); font-weight: 500; }
+.payment-item .pay-info .pay-desc { font-size: 11px; color: var(--text-muted); }
+
+.payment-item input {
+  width: 55px;
+  background: var(--navy-mid);
+  border: 1px solid rgba(255,255,255,0.08);
+  color: var(--gold);
+  padding: 6px 8px;
+  border-radius: 6px;
+  font-family: 'JetBrains Mono'; font-size: 12px;
+  text-align: center;
+  outline: none;
+}
+
+.payment-item input:focus { border-color: var(--gold); }
+
+.payment-total {
+  display: flex; justify-content: space-between;
+  padding: 8px 12px;
+  background: rgba(201,168,76,0.06);
+  border-radius: 6px;
+  margin-top: 6px;
+  font-size: 12px; font-weight: 600;
+}
+
+.payment-total .ok { color: var(--success); }
+.payment-total .bad { color: var(--danger); }
+
+/* BUTTONS */
+.btn-generate {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+  color: var(--navy);
+  border: none;
+  border-radius: 10px;
+  font-family: 'DM Sans';
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  transition: all 0.3s;
+  margin-top: 8px;
+}
+
+.btn-generate:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(201,168,76,0.3);
+}
+
+.btn-secondary {
+  width: 100%;
+  padding: 12px;
+  background: transparent;
+  color: var(--gold);
+  border: 1px solid var(--gold);
+  border-radius: 10px;
+  font-family: 'DM Sans';
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: all 0.3s;
+}
+
+.btn-secondary:hover { background: rgba(201,168,76,0.08); }
+
+/* CLAUSE TOGGLES */
+.clause-toggles { margin-bottom: 16px; }
+
+.toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+.toggle-row label { font-size: 12px; color: var(--text); cursor: pointer; text-transform: none; font-weight: 400; }
+
+.toggle {
+  position: relative;
+  width: 40px; height: 20px;
+  background: var(--navy);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.3s;
+  flex-shrink: 0;
+}
+
+.toggle.on { background: var(--gold); }
+
+.toggle::after {
+  content: '';
+  position: absolute;
+  width: 16px; height: 16px;
+  background: white;
+  border-radius: 50%;
+  top: 2px; left: 2px;
+  transition: transform 0.3s;
+}
+
+.toggle.on::after { transform: translateX(20px); }
+
+/* CONTRACT PREVIEW */
+.contract {
+  max-width: 900px;
+  margin: 0 auto;
+  background: #FAFAF7;
+  color: #1a1a1a;
+  padding: 60px 70px;
+  border-radius: 4px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  font-family: 'DM Sans', sans-serif;
+  line-height: 1.7;
+  font-size: 13.5px;
+  position: relative;
+}
+
+.contract::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 6px;
+  background: linear-gradient(90deg, var(--gold-dark), var(--gold), var(--gold-dark));
+}
+
+.contract-header {
+  text-align: center;
+  margin-bottom: 36px;
+  padding-bottom: 26px;
+  border-bottom: 2px solid #C9A84C;
+}
+
+.contract-header h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  color: #0A1628;
+  margin-bottom: 6px;
+}
+
+.contract-header h3 {
+  font-family: 'DM Sans';
+  font-size: 15px;
+  color: #8B6914;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.contract-header .ref {
+  font-family: 'JetBrains Mono'; font-size: 12px;
+  color: #888;
+}
+
+.article {
+  margin-bottom: 22px;
+  page-break-inside: avoid;
+}
+
+.article h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: 15px;
+  color: #0A1628;
+  margin-bottom: 8px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #e0d8c8;
+}
+
+.article p, .article li { font-size: 13.5px; color: #2a2a2a; margin-bottom: 6px; }
+.article ul, .article ol { padding-left: 22px; }
+.article li { margin-bottom: 4px; }
+
+.article .highlight {
+  background: #FFF9E6;
+  border-left: 3px solid #C9A84C;
+  padding: 8px 14px;
+  margin: 10px 0;
+  font-weight: 500;
+}
+
+.article .var {
+  color: #8B6914;
+  font-weight: 600;
+  background: #FFF4D6;
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-family: 'JetBrains Mono';
+  font-size: 12.5px;
+}
+
+.signatures {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 50px;
+  padding-top: 30px;
+  border-top: 2px solid #C9A84C;
+}
+
+.sig-block { width: 45%; }
+.sig-block h5 { font-size: 13px; color: #0A1628; margin-bottom: 4px; }
+.sig-block p { font-size: 12px; color: #666; }
+.sig-line { border-bottom: 1px solid #999; height: 60px; margin-top: 30px; }
+
+.empty-state {
+  text-align: center;
+  padding: 100px 40px;
+  color: var(--text-muted);
+}
+
+.empty-state .icon { font-size: 64px; margin-bottom: 20px; opacity: 0.3; }
+.empty-state h3 { font-family: 'Playfair Display'; font-size: 22px; color: var(--text-dim); margin-bottom: 10px; }
+.empty-state p { font-size: 14px; }
+
+.divider { margin: 16px 0; border: none; border-top: 1px solid rgba(255,255,255,0.06); }
+
+/* ANNEXES TABLE in contract */
+.annexe-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 10px 0;
+  font-size: 12.5px;
+}
+.annexe-table th {
+  background: #F5F0E0;
+  color: #0A1628;
+  font-weight: 600;
+  padding: 8px 10px;
+  text-align: left;
+  border: 1px solid #e0d8c8;
+}
+.annexe-table td {
+  padding: 7px 10px;
+  border: 1px solid #e0d8c8;
+  color: #2a2a2a;
+}
+.annexe-table tr:nth-child(even) td { background: #FAFAF7; }
+
+/* PRINT */
+@media print {
+  body { background: white; }
+  header, .sidebar, .modal-overlay { display: none !important; }
+  .main { display: block; }
+  .preview-area { padding: 0; background: white; }
+  .contract { box-shadow: none; padding: 40px 50px; max-width: 100%; }
+  .article { page-break-inside: avoid; }
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--slate); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+
+@media (max-width: 960px) {
+  .main { flex-direction: column; }
+  .sidebar { width: 100%; min-width: auto; }
+  .contract { padding: 30px 24px; }
+}
+
+/* Animations */
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.contract { animation: fadeIn 0.4s ease; }
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <div class="logo">
+    <div class="logo-icon">CL</div>
+    <div class="logo-text">
+      <h1>Casa Di Lusso</h1>
+      <p>Contrats de sous-traitance BTP</p>
+    </div>
+  </div>
+  <div class="header-actions">
+    <div class="header-badge">⚖️ Conforme au D.O.C. Marocain</div>
+  </div>
+</header>
+
+<div class="main">
+<!-- SIDEBAR -->
+<div class="sidebar">
+
+  <!-- SECTION 1: PROJECT SELECTION -->
+  <div class="collapsible-header" onclick="toggleSection('sec1')">
+    <div class="section-title"><span class="num">1</span> Projet</div>
+    <span class="collapse-arrow" id="arrow1">▼</span>
+  </div>
+  <div class="collapsible-body" id="sec1">
+    <div class="project-selector" id="projectList"></div>
+    <button class="add-project-btn" onclick="openProjectModal()">＋ Nouveau projet personnalisé</button>
+    <hr class="divider">
+  </div>
+
+  <!-- SECTION 2: ENTREPRENEUR PRINCIPAL -->
+  <div class="collapsible-header" onclick="toggleSection('sec2')">
+    <div class="section-title"><span class="num">2</span> Entrepreneur Principal</div>
+    <span class="collapse-arrow" id="arrow2">▼</span>
+  </div>
+  <div class="collapsible-body" id="sec2">
+    <div class="ep-info" id="epInfoDisplay">
+      <div class="ep-row"><span class="label">Raison sociale</span><span class="val" id="epNameDisp">CASA DI LUSSO SARL</span></div>
+      <div class="ep-row"><span class="label">Forme juridique</span><span class="val">SARL</span></div>
+      <div class="ep-row"><span class="label">Capital</span><span class="val" id="epCapitalDisp">100 000 DH</span></div>
+      <div class="ep-row"><span class="label">Ville</span><span class="val" id="epVilleDisp">Tanger</span></div>
+    </div>
+    <div class="form-group"><label>Raison sociale</label><input id="epName" value="CASA DI LUSSO SARL" oninput="updateEPDisplay()"></div>
+    <div class="form-row">
+      <div class="form-group"><label>Forme juridique</label><select id="epForme"><option>SARL</option><option>SA</option><option>SARLAU</option><option>SNC</option></select></div>
+      <div class="form-group"><label>Capital (DH)</label><input id="epCapital" value="100000" type="number" oninput="updateEPDisplay()"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>RC N°</label><input id="epRC" placeholder="N° RC"></div>
+      <div class="form-group"><label>ICE</label><input id="epICE" placeholder="N° ICE"></div>
+    </div>
+    <div class="form-group"><label>IF</label><input id="epIF" placeholder="N° IF"></div>
+    <div class="form-group"><label>Siège social</label><input id="epAddr" value="Tanger" oninput="updateEPDisplay()"></div>
+    <div class="form-group"><label>Représenté par</label><input id="epRep" placeholder="Nom du gérant"></div>
+    <div class="form-group"><label>Qualité</label><input id="epQualite" value="Gérant" placeholder="Gérant, Directeur Général..."></div>
+    <hr class="divider">
+  </div>
+
+  <!-- SECTION 3: TYPE LOT -->
+  <div class="collapsible-header" onclick="toggleSection('sec3')">
+    <div class="section-title"><span class="num">3</span> Type de lot sous-traité</div>
+    <span class="collapse-arrow" id="arrow3">▼</span>
+  </div>
+  <div class="collapsible-body" id="sec3">
+    <div class="trade-grid" id="tradeGrid">
+      <div class="trade-btn" data-trade="gros_oeuvre" onclick="selectTrade(this)"><span class="icon">🏗️</span>Gros Œuvre</div>
+      <div class="trade-btn" data-trade="electricite" onclick="selectTrade(this)"><span class="icon">⚡</span>Électricité</div>
+      <div class="trade-btn" data-trade="plomberie" onclick="selectTrade(this)"><span class="icon">🔧</span>Plomberie</div>
+      <div class="trade-btn" data-trade="menuiserie_alu" onclick="selectTrade(this)"><span class="icon">🪟</span>Menuiserie Alu</div>
+      <div class="trade-btn" data-trade="menuiserie_bois" onclick="selectTrade(this)"><span class="icon">🚪</span>Menuiserie Bois</div>
+      <div class="trade-btn" data-trade="carrelage" onclick="selectTrade(this)"><span class="icon">🔲</span>Carrelage / Faïence</div>
+      <div class="trade-btn" data-trade="peinture" onclick="selectTrade(this)"><span class="icon">🎨</span>Peinture</div>
+      <div class="trade-btn" data-trade="etancheite" onclick="selectTrade(this)"><span class="icon">💧</span>Étanchéité</div>
+      <div class="trade-btn" data-trade="ascenseur" onclick="selectTrade(this)"><span class="icon">🛗</span>Ascenseur</div>
+      <div class="trade-btn" data-trade="platre" onclick="selectTrade(this)"><span class="icon">🧱</span>Plâtre / Faux Plafond</div>
+      <div class="trade-btn" data-trade="ferronnerie" onclick="selectTrade(this)"><span class="icon">⚙️</span>Ferronnerie</div>
+      <div class="trade-btn" data-trade="vrd" onclick="selectTrade(this)"><span class="icon">🛣️</span>VRD / Façade</div>
+      <div class="trade-btn" data-trade="climatisation" onclick="selectTrade(this)"><span class="icon">❄️</span>Climatisation</div>
+      <div class="trade-btn" data-trade="cuisine" onclick="selectTrade(this)"><span class="icon">🍳</span>Cuisines Équipées</div>
+    </div>
+    <div class="form-group"><label>Description complémentaire du lot</label><textarea id="lotDesc" placeholder="Précisions supplémentaires sur les travaux..."></textarea></div>
+    <hr class="divider">
+  </div>
+
+  <!-- SECTION 4: SOUS-TRAITANT -->
+  <div class="collapsible-header" onclick="toggleSection('sec4')">
+    <div class="section-title"><span class="num">4</span> Sous-Traitant</div>
+    <span class="collapse-arrow" id="arrow4">▼</span>
+  </div>
+  <div class="collapsible-body" id="sec4">
+    <div class="form-group"><label>Raison sociale</label><input id="stName" placeholder="Ex: ELEC NORD SARL"></div>
+    <div class="form-row">
+      <div class="form-group"><label>Forme juridique</label><select id="stForme"><option>SARL</option><option>SA</option><option>SARLAU</option><option>Auto-entrepreneur</option><option>Personne physique</option></select></div>
+      <div class="form-group"><label>RC N°</label><input id="stRC" placeholder="N° RC"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>ICE</label><input id="stICE" placeholder="N° ICE"></div>
+      <div class="form-group"><label>IF</label><input id="stIF" placeholder="N° IF"></div>
+    </div>
+    <div class="form-group"><label>CNSS</label><input id="stCNSS" placeholder="N° affiliation CNSS"></div>
+    <div class="form-group"><label>Adresse du siège</label><input id="stAddr" placeholder="Adresse complète"></div>
+    <div class="form-group"><label>Représentant légal</label><input id="stRep" placeholder="Nom et prénom"></div>
+    <div class="form-row">
+      <div class="form-group"><label>CIN / Passeport</label><input id="stCIN" placeholder="N° CIN"></div>
+      <div class="form-group"><label>Qualité</label><input id="stQualite" value="Gérant" placeholder="Gérant, DG..."></div>
+    </div>
+    <div class="form-group"><label>Téléphone</label><input id="stTel" placeholder="+212 6XX XXX XXX"></div>
+    <div class="form-group"><label>Email</label><input id="stEmail" placeholder="contact@exemple.com"></div>
+    <div class="form-group"><label>RIB / Compte bancaire</label><input id="stRIB" placeholder="N° RIB pour virements"></div>
+    <div class="form-group"><label>Banque</label><input id="stBanque" placeholder="Nom de la banque"></div>
+    <hr class="divider">
+  </div>
+
+  <!-- SECTION 5: CONDITIONS FINANCIERES -->
+  <div class="collapsible-header" onclick="toggleSection('sec5')">
+    <div class="section-title"><span class="num">5</span> Conditions financières</div>
+    <span class="collapse-arrow" id="arrow5">▼</span>
+  </div>
+  <div class="collapsible-body" id="sec5">
+    <div class="form-row">
+      <div class="form-group"><label>Montant HT (DH)</label><input id="montantHT" type="number" placeholder="0" oninput="updatePaymentTotal()"></div>
+      <div class="form-group"><label>TVA (%)</label><select id="tva"><option value="20">20%</option><option value="14">14%</option><option value="10">10%</option><option value="0">Exonéré</option></select></div>
+    </div>
+    <div class="form-group"><label>Type de prix</label><select id="typePrix"><option value="forfaitaire">Forfaitaire, ferme et non révisable</option><option value="unitaire">Sur base de prix unitaires</option><option value="regie">En régie (dépenses contrôlées)</option></select></div>
+    <div class="form-row">
+      <div class="form-group"><label>Retenue de garantie (%)</label><select id="retenue"><option value="10">10%</option><option value="7">7%</option><option value="5">5%</option><option value="0">Aucune</option></select></div>
+      <div class="form-group"><label>Avance forfaitaire</label><select id="avance"><option value="0">Aucune</option><option value="10">10%</option><option value="15">15%</option><option value="20">20%</option></select></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Pénalité de retard (‰ / jour)</label><select id="penalite"><option value="1">1‰ par jour</option><option value="2">2‰ par jour</option><option value="3">3‰ par jour</option><option value="5">5‰ par jour</option></select></div>
+      <div class="form-group"><label>Plafond pénalités (%)</label><select id="plafondPen"><option value="10">10%</option><option value="8">8%</option><option value="5">5%</option></select></div>
+    </div>
+    <div class="form-group"><label>Délai de paiement (jours)</label><select id="delaiPaiement"><option value="30">30 jours</option><option value="45">45 jours</option><option value="60">60 jours</option><option value="15">15 jours</option></select></div>
+
+    <label style="display:block;font-size:11px;font-weight:600;color:var(--text-dim);margin:14px 0 8px;text-transform:uppercase;letter-spacing:0.5px;">Échéancier de paiement</label>
+    <div class="payment-schedule">
+      <div class="payment-item">
+        <div class="payment-pct" id="pay1Disp">20%</div>
+        <div class="pay-info"><div class="pay-label">À la signature</div><div class="pay-desc">Sur présentation de la caution</div></div>
+        <input id="pay1" type="number" value="20" min="0" max="100" oninput="updatePaymentTotal()">
+        <span style="font-size:11px;color:var(--text-muted);">%</span>
+      </div>
+      <div class="payment-item">
+        <div class="payment-pct" id="pay2Disp">30%</div>
+        <div class="pay-info"><div class="pay-label">Avancement 50%</div><div class="pay-desc">Attachement contradictoire</div></div>
+        <input id="pay2" type="number" value="30" min="0" max="100" oninput="updatePaymentTotal()">
+        <span style="font-size:11px;color:var(--text-muted);">%</span>
+      </div>
+      <div class="payment-item">
+        <div class="payment-pct" id="pay3Disp">30%</div>
+        <div class="pay-info"><div class="pay-label">Achèvement travaux</div><div class="pay-desc">PV de réception provisoire</div></div>
+        <input id="pay3" type="number" value="30" min="0" max="100" oninput="updatePaymentTotal()">
+        <span style="font-size:11px;color:var(--text-muted);">%</span>
+      </div>
+      <div class="payment-item">
+        <div class="payment-pct" id="pay4Disp">20%</div>
+        <div class="pay-info"><div class="pay-label">Réception définitive</div><div class="pay-desc">Après levée des réserves</div></div>
+        <input id="pay4" type="number" value="20" min="0" max="100" oninput="updatePaymentTotal()">
+        <span style="font-size:11px;color:var(--text-muted);">%</span>
+      </div>
+      <div class="payment-total">
+        <span>Total</span>
+        <span id="payTotalDisp" class="ok">100%</span>
+      </div>
+    </div>
+    <hr class="divider">
+  </div>
+
+  <!-- SECTION 6: DELAIS -->
+  <div class="collapsible-header" onclick="toggleSection('sec6')">
+    <div class="section-title"><span class="num">6</span> Délais et Garanties</div>
+    <span class="collapse-arrow" id="arrow6">▼</span>
+  </div>
+  <div class="collapsible-body" id="sec6">
+    <div class="form-group"><label>Délai d'exécution</label>
+      <div class="form-row"><input id="delaiVal" type="number" placeholder="3" style="width:50%"><select id="delaiUnit" style="width:50%"><option value="mois">Mois</option><option value="semaines">Semaines</option><option value="jours">Jours</option></select></div>
+    </div>
+    <div class="form-group"><label>Date de début prévue</label><input id="dateDebut" type="date"></div>
+    <div class="form-row">
+      <div class="form-group"><label>Délai de garantie (mois)</label><select id="garantie"><option value="12">12 mois</option><option value="6">6 mois</option><option value="24">24 mois</option><option value="36">36 mois</option></select></div>
+      <div class="form-group"><label>Délai levée réserves</label><select id="delaiReserves"><option value="15">15 jours</option><option value="30">30 jours</option><option value="10">10 jours</option></select></div>
+    </div>
+    <div class="form-group"><label>Délai mise en demeure</label><select id="delaiMED"><option value="8">8 jours</option><option value="5">5 jours</option><option value="10">10 jours</option><option value="15">15 jours</option></select></div>
+    <hr class="divider">
+  </div>
+
+  <!-- SECTION 7: CLAUSES OPTIONNELLES -->
+  <div class="collapsible-header" onclick="toggleSection('sec7')">
+    <div class="section-title"><span class="num">7</span> Clauses optionnelles</div>
+    <span class="collapse-arrow" id="arrow7">▼</span>
+  </div>
+  <div class="collapsible-body" id="sec7">
+    <div class="clause-toggles">
+      <div class="toggle-row"><label>Clause de confidentialité</label><div class="toggle on" id="tConfid" onclick="toggleClause(this)"></div></div>
+      <div class="toggle-row"><label>Clause de non-concurrence</label><div class="toggle" id="tNonConc" onclick="toggleClause(this)"></div></div>
+      <div class="toggle-row"><label>Clause de non-débauchage</label><div class="toggle on" id="tNonDeb" onclick="toggleClause(this)"></div></div>
+      <div class="toggle-row"><label>Clause environnementale</label><div class="toggle" id="tEnviro" onclick="toggleClause(this)"></div></div>
+      <div class="toggle-row"><label>Interdiction sous-traitance en cascade</label><div class="toggle on" id="tCascade" onclick="toggleClause(this)"></div></div>
+      <div class="toggle-row"><label>Propriété intellectuelle</label><div class="toggle" id="tPI" onclick="toggleClause(this)"></div></div>
+      <div class="toggle-row"><label>Médiation préalable</label><div class="toggle on" id="tMediat" onclick="toggleClause(this)"></div></div>
+      <div class="toggle-row"><label>Clause d'exclusivité</label><div class="toggle" id="tExclus" onclick="toggleClause(this)"></div></div>
+      <div class="toggle-row"><label>Clause de révision de prix</label><div class="toggle" id="tRevision" onclick="toggleClause(this)"></div></div>
+      <div class="toggle-row"><label>Assurance Tous Risques Chantier</label><div class="toggle" id="tTRC" onclick="toggleClause(this)"></div></div>
+      <div class="toggle-row"><label>Annexe : Liste des pièces jointes</label><div class="toggle on" id="tAnnexe" onclick="toggleClause(this)"></div></div>
+    </div>
+    <div class="form-group"><label>Observations / Clauses spéciales</label><textarea id="observations" placeholder="Ajouter des clauses ou observations particulières..."></textarea></div>
+    <hr class="divider">
+  </div>
+
+  <button class="btn-generate" onclick="generateContract()">⚖️ GÉNÉRER LE CONTRAT</button>
+  <button class="btn-secondary" onclick="window.print()">🖨️ IMPRIMER / PDF</button>
+</div>
+
+<!-- PREVIEW -->
+<div class="preview-area" id="previewArea">
+  <div class="empty-state">
+    <div class="icon">📄</div>
+    <h3>Sélectionnez un projet et un lot</h3>
+    <p>Remplissez le formulaire puis générez votre contrat de sous-traitance avec toutes les clauses juridiques adaptées.</p>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- CUSTOM PROJECT MODAL -->
+<div class="modal-overlay" id="projectModal">
+  <div class="modal">
+    <h3>➕ Ajouter un projet personnalisé</h3>
+    <div class="form-group"><label>Nom du projet</label><input id="modalProjName" placeholder="Ex: Résidence Les Perles"></div>
+    <div class="form-group"><label>Type de projet</label><select id="modalProjType">
+      <option value="immeuble">Immeuble résidentiel</option>
+      <option value="villa">Villa / Maison individuelle</option>
+      <option value="commercial">Bâtiment commercial</option>
+      <option value="industriel">Bâtiment industriel</option>
+      <option value="renovation">Rénovation</option>
+      <option value="autre">Autre</option>
+    </select></div>
+    <div class="form-group"><label>Description / Configuration</label><input id="modalProjDesc" placeholder="Ex: R+5 + 2 Sous-sols + Terrasse"></div>
+    <div class="form-group"><label>Adresse / Localisation</label><input id="modalProjAddr" placeholder="Ex: Route de Rabat, Tanger"></div>
+    <div class="form-group"><label>Maître d'Ouvrage</label><input id="modalProjMO" placeholder="Nom du maître d'ouvrage"></div>
+    <div class="form-group"><label>N° Permis de construire</label><input id="modalProjPermis" placeholder="N° du permis"></div>
+    <div class="modal-actions">
+      <button class="modal-btn secondary" onclick="closeProjectModal()">Annuler</button>
+      <button class="modal-btn primary" onclick="addCustomProject()">Ajouter le projet</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// =========================================================
+// PROJECTS DATABASE
+// =========================================================
+let PROJECTS = [
+  {
+    id: 'purple_pearl',
+    name: 'Résidence Purple Pearl',
+    type: 'immeuble',
+    config: 'R+4 + 2 Retraits + Sous-sol',
+    address: 'Quartier Aouama, Bni Makada, Tanger',
+    mo: 'STE PURPLE PEARL SARL',
+    permis: '',
+    icon: '🏢',
+    status: 'En cours',
+    statusClass: 'badge-green'
+  },
+  {
+    id: 'tanger_bay',
+    name: 'Résidence Tanger Bay',
+    type: 'immeuble',
+    config: 'R+6 + 3 Sous-sols',
+    address: 'Boulevard Mohammed VI, Tanger',
+    mo: 'STE TANGER BAY IMMO SARL',
+    permis: '',
+    icon: '🏙️',
+    status: 'Planifié',
+    statusClass: 'badge-blue'
+  },
+  {
+    id: 'villa_bella',
+    name: 'Villa Bella Vista',
+    type: 'villa',
+    config: 'R+2 + Piscine + Jardin',
+    address: 'Cap Spartel, Tanger',
+    mo: 'M. / Mme [Propriétaire]',
+    permis: '',
+    icon: '🏡',
+    status: 'En cours',
+    statusClass: 'badge-orange'
+  }
+];
+
+let selectedProject = null;
+let selectedTrade = null;
+
+function renderProjects() {
+  const list = document.getElementById('projectList');
+  list.innerHTML = PROJECTS.map(p => `
+    <div class="project-card ${selectedProject === p.id ? 'active' : ''}" onclick="selectProject('${p.id}')">
+      <div class="proj-icon">${p.icon}</div>
+      <div class="proj-info">
+        <h4>${p.name}</h4>
+        <p>${p.config} — ${p.address}</p>
+      </div>
+      <span class="proj-badge ${p.statusClass}">${p.status}</span>
+    </div>
+  `).join('');
+}
+
+function selectProject(id) {
+  selectedProject = id;
+  renderProjects();
+}
+
+function openProjectModal() { document.getElementById('projectModal').classList.add('show'); }
+function closeProjectModal() { document.getElementById('projectModal').classList.remove('show'); }
+
+function addCustomProject() {
+  const name = document.getElementById('modalProjName').value.trim();
+  if (!name) { alert('Veuillez entrer un nom de projet.'); return; }
+  const icons = { immeuble: '🏢', villa: '🏡', commercial: '🏬', industriel: '🏭', renovation: '🔨', autre: '📐' };
+  const type = document.getElementById('modalProjType').value;
+  const proj = {
+    id: 'custom_' + Date.now(),
+    name: name,
+    type: type,
+    config: document.getElementById('modalProjDesc').value.trim() || type,
+    address: document.getElementById('modalProjAddr').value.trim() || '[Adresse]',
+    mo: document.getElementById('modalProjMO').value.trim() || '[Maître d\'Ouvrage]',
+    permis: document.getElementById('modalProjPermis').value.trim(),
+    icon: icons[type] || '📐',
+    status: 'Nouveau',
+    statusClass: 'badge-blue'
+  };
+  PROJECTS.push(proj);
+  selectedProject = proj.id;
+  renderProjects();
+  closeProjectModal();
+  // Clear modal
+  ['modalProjName','modalProjDesc','modalProjAddr','modalProjMO','modalProjPermis'].forEach(id => document.getElementById(id).value = '');
+}
+
+// =========================================================
+// SECTION COLLAPSE
+// =========================================================
+function toggleSection(secId) {
+  const body = document.getElementById(secId);
+  const arrow = document.getElementById('arrow' + secId.replace('sec',''));
+  body.classList.toggle('collapsed');
+  arrow.classList.toggle('collapsed');
+}
+
+// =========================================================
+// TRADES DATA
+// =========================================================
+const TRADES = {
+  gros_oeuvre: {
+    label: "Travaux de Gros Œuvre",
+    normes: "NM 10.1.008 (béton), RPS 2000 (parasismique), DTU 20.1 (maçonnerie), NM 10.1.271 (ciment)",
+    assurances: "Responsabilité Civile Professionnelle, Garantie Décennale (art. 769 D.O.C.), Assurance Accidents du Travail",
+    desc_default: "Travaux de structure béton armé comprenant : terrassement, fondations (semelles et longrines), murs de soutènement, poteaux, poutres, dalles, escaliers, maçonnerie (double cloison extérieure et cloisons intérieures), enduits intérieurs et extérieurs, acrotères, conformément aux plans d'exécution visés par le BET et le BCT.",
+    obligations_specifiques: [
+      "Respecter scrupuleusement les plans d'exécution du Bureau d'Études Techniques (BET) et les notes de calcul béton armé",
+      "Assurer la conformité aux normes parasismiques RPS 2000 en vigueur au Maroc",
+      "Réaliser les essais de résistance du béton (éprouvettes 7j et 28j) auprès d'un laboratoire agréé",
+      "Tenir un carnet de chantier et un journal des bétonnages",
+      "Ne procéder au décoffrage qu'après les délais réglementaires et avec l'accord du BET",
+      "Assurer le ferraillage conformément aux plans avec contrôle avant chaque coulage",
+      "Fournir les bons de livraison du béton prêt à l'emploi (BPE) avec classe de résistance"
+    ],
+    reception: "La réception sera prononcée après vérification de la résistance structurelle, contrôle des aplombs, des niveaux et de la conformité aux plans."
+  },
+  electricite: {
+    label: "Travaux d'Électricité (Courants Forts et Faibles)",
+    normes: "NF C 15-100, NM 06.1.001, Règlement AMENDIS/ONEE, normes UTE",
+    assurances: "Responsabilité Civile Professionnelle, Assurance Décennale",
+    desc_default: "Installation électrique complète comprenant : TGBT, tableaux divisionnaires par logement, câblage courants forts (éclairage et prises), câblage courants faibles (TV, téléphone, interphone, pré-câblage fibre optique), appareillage, éclairage des parties communes, paratonnerre et mise à la terre, vidéosurveillance des parties communes.",
+    obligations_specifiques: [
+      "Obtenir le certificat de conformité CONSUEL / AMENDIS avant raccordement",
+      "Réaliser les essais d'isolement et de continuité selon les normes en vigueur",
+      "Fournir les schémas unifilaires et plans de repérage définitifs",
+      "Dimensionner les protections (disjoncteurs, différentiels) conformément à la norme NF C 15-100",
+      "Assurer la mise à la terre de l'ensemble de l'installation",
+      "Livrer un dossier des ouvrages exécutés (DOE) complet"
+    ],
+    reception: "La réception sera subordonnée à la présentation du certificat de conformité et aux résultats satisfaisants des essais d'isolement et de fonctionnement de l'ensemble des circuits."
+  },
+  plomberie: {
+    label: "Travaux de Plomberie et Sanitaire",
+    normes: "DTU 60.1 (plomberie), DTU 60.11 (évacuation), NM 10.9.001, normes AMENDIS",
+    assurances: "Responsabilité Civile Professionnelle, Garantie Décennale (étanchéité réseaux)",
+    desc_default: "Travaux de plomberie sanitaire comprenant : réseaux d'alimentation eau froide et eau chaude (multicouche/cuivre), réseaux d'évacuation EU/EV (PVC), colonnes montantes et descentes, pose des appareils sanitaires (WC, lavabos, baignoires/douches), robinetterie, chauffe-eau, réseau incendie (colonnes sèches et RIA).",
+    obligations_specifiques: [
+      "Réaliser les épreuves d'étanchéité sous pression (10 bars pendant 30 minutes) avant encastrement",
+      "Respecter les pentes réglementaires d'évacuation (1 à 3 cm/ml)",
+      "Assurer l'isolation acoustique des colonnes d'évacuation en parties communes",
+      "Fournir les fiches techniques de tous les appareils et équipements installés",
+      "Prévoir les vannes d'isolement par appartement et par colonne",
+      "Réaliser les raccordements conformément aux prescriptions d'AMENDIS"
+    ],
+    reception: "La réception sera subordonnée aux épreuves d'étanchéité satisfaisantes, au bon fonctionnement de l'ensemble des appareils et à la conformité des raccordements."
+  },
+  menuiserie_alu: {
+    label: "Travaux de Menuiserie Aluminium",
+    normes: "NF P 24-301, DTU 36.5, NM 06.3.009, label CEKAL (vitrage)",
+    assurances: "Responsabilité Civile Professionnelle, Garantie Décennale (étanchéité à l'air et à l'eau)",
+    desc_default: "Fourniture et pose de menuiseries aluminium comprenant : fenêtres coulissantes avec double vitrage (4/12/4), baies vitrées des séjours, châssis fixes, volets roulants le cas échéant, habillage des tableaux et appuis, joints d'étanchéité EPDM, quincaillerie complète.",
+    obligations_specifiques: [
+      "Fournir des profilés aluminium à rupture de pont thermique certifiés",
+      "Garantir les performances d'étanchéité à l'air et à l'eau (classement AEV)",
+      "Poser des vitrages conformes au label CEKAL avec certificat",
+      "Assurer les calfeutrements et l'étanchéité périphérique",
+      "Fournir les PV d'essais AEV des menuiseries",
+      "Assurer la protection des ouvrages pendant les travaux de finition"
+    ],
+    reception: "La réception sera subordonnée aux essais d'étanchéité et de manœuvrabilité de chaque ouvrant, et à la vérification du classement AEV."
+  },
+  menuiserie_bois: {
+    label: "Travaux de Menuiserie Bois",
+    normes: "DTU 36.1, NM 06.2.001, normes AFNOR bois",
+    assurances: "Responsabilité Civile Professionnelle",
+    desc_default: "Fourniture et pose de menuiseries bois comprenant : portes d'entrée blindées des appartements, portes intérieures isoplane, portes de SDB hydrofuges, placards intégrés avec étagères et penderies, huisseries et chambranles, quincaillerie complète.",
+    obligations_specifiques: [
+      "Utiliser du bois traité contre les insectes xylophages et les champignons",
+      "Assurer l'assemblage des portes avec quincaillerie de qualité (serrures 3 points pour les portes blindées)",
+      "Respecter les jeux de fonctionnement réglementaires",
+      "Appliquer les traitements de finition (vernis, peinture ou lasure) avant livraison",
+      "Fournir les certificats de traitement du bois",
+      "Assurer la pose à niveau et d'aplomb de toutes les huisseries"
+    ],
+    reception: "La réception portera sur le fonctionnement des ouvrants, la qualité des finitions, l'aplomb des huisseries et la solidité des assemblages."
+  },
+  carrelage: {
+    label: "Travaux de Carrelage et Faïence",
+    normes: "DTU 52.1 (sols), DTU 55.2 (murs), NM 10.6.001",
+    assurances: "Responsabilité Civile Professionnelle",
+    desc_default: "Travaux de revêtement comprenant : carrelage sol des appartements (1er choix 40×40 ou 60×60), carrelage sol magasins, carrelage parties communes et escaliers (granito ou marbre local), faïence murale complète des SDB (H=2,20m), crédence cuisines, seuils et appuis en marbre, plinthes assorties.",
+    obligations_specifiques: [
+      "Vérifier la planéité du support avant pose (tolérance 5mm sous règle de 2m)",
+      "Réaliser une pose collée avec mortier-colle adapté au format et au type de carreau",
+      "Respecter les joints de fractionnement tous les 40m² maximum",
+      "Assurer les coupes droites et les découpes soignées autour des équipements",
+      "Réaliser les joints au coulis avec finition propre",
+      "Protéger les ouvrages posés jusqu'à la livraison"
+    ],
+    reception: "La réception portera sur la planéité, l'alignement des joints, l'absence de carreaux sonnant creux, la qualité des coupes et la propreté des joints."
+  },
+  peinture: {
+    label: "Travaux de Peinture",
+    normes: "DTU 59.1 (peinture intérieure), DTU 59.2 (extérieure), NM 10.7.001",
+    assurances: "Responsabilité Civile Professionnelle",
+    desc_default: "Travaux de peinture comprenant : peinture intérieure des murs (vinylique 2 couches sur enduit), peinture des plafonds (blanc mat), peinture extérieure des façades (acrylique 2 couches sur sous-couche), peinture des parties communes (peinture lavable), traitement des boiseries et menuiseries si nécessaire.",
+    obligations_specifiques: [
+      "Préparer les supports : rebouchage, ponçage, application d'un primaire d'accrochage",
+      "Appliquer au minimum deux couches croisées après sous-couche",
+      "Utiliser des peintures certifiées (faible teneur en COV)",
+      "Protéger les menuiseries, vitres, carrelages et tous les ouvrages adjacents",
+      "Assurer une finition uniforme sans coulures, traces de reprise ou différences de teinte",
+      "Fournir les fiches techniques et les références exactes des peintures utilisées"
+    ],
+    reception: "La réception portera sur l'uniformité des teintes, l'absence de traces de reprise, la couverture du support et la propreté des raccords."
+  },
+  etancheite: {
+    label: "Travaux d'Étanchéité",
+    normes: "DTU 43.1 (terrasses), DTU 43.5 (réfection), NM 10.4.001, avis technique CSTB",
+    assurances: "Responsabilité Civile Professionnelle, Garantie Décennale (obligatoire étanchéité)",
+    desc_default: "Travaux d'étanchéité comprenant : étanchéité multicouche de la toiture terrasse (bitume élastomère + protection), étanchéité des terrasses accessibles des retraits (membrane + carrelage sur plots), cuvelage du sous-sol (murs + radier), étanchéité sous carrelage des SDB (membrane liquide).",
+    obligations_specifiques: [
+      "Fournir l'avis technique du système d'étanchéité utilisé",
+      "Respecter les relevés d'étanchéité en périphérie (hauteur minimum 15 cm)",
+      "Réaliser les essais d'étanchéité à l'eau (mise en eau 48h) avant protection",
+      "Assurer les raccords avec les évacuations EP et les traversées de dalle",
+      "Poser une protection mécanique adaptée à l'usage de la terrasse",
+      "Garantir l'étanchéité pendant une durée minimum de 10 ans (garantie décennale)"
+    ],
+    reception: "La réception sera subordonnée aux essais de mise en eau concluants (48h sans infiltration) et à la vérification des relevés et des raccords."
+  },
+  ascenseur: {
+    label: "Fourniture et Installation d'Ascenseur",
+    normes: "NM 10.8.001 (ascenseurs), EN 81-20/50, directive 2014/33/UE",
+    assurances: "Responsabilité Civile Professionnelle, Garantie Décennale, Assurance maintenance",
+    desc_default: "Fourniture, installation et mise en service d'un ascenseur comprenant : 1 cabine de 6 personnes (450 kg), 8 arrêts (sous-sol à 2ème retrait), motorisation à variation de fréquence, portes palières automatiques, boutons d'appel à chaque palier, dispositif de sécurité complet (parachute, limiteur de vitesse, éclairage de secours), finition cabine moyen standing.",
+    obligations_specifiques: [
+      "Fournir les plans d'implantation de la gaine et de la machinerie pour validation par le BET",
+      "Assurer la conformité aux normes EN 81-20/50 et à la réglementation marocaine",
+      "Réaliser les essais de réception par un organisme de contrôle agréé",
+      "Fournir le dossier technique complet (plans, schémas, notices d'entretien)",
+      "Assurer la formation du personnel de maintenance du syndic",
+      "Proposer un contrat de maintenance préventive pour les 2 premières années"
+    ],
+    reception: "La réception sera prononcée après les essais de fonctionnement, la vérification des dispositifs de sécurité et la présentation du PV de conformité par un organisme agréé."
+  },
+  platre: {
+    label: "Travaux de Plâtre et Faux Plafond",
+    normes: "DTU 25.1 (plâtre), DTU 58.1 (faux plafonds), NM 10.5.001",
+    assurances: "Responsabilité Civile Professionnelle",
+    desc_default: "Travaux de plâtrerie comprenant : faux plafond en plaques de plâtre BA13 dans les SDB et cuisines (BA13 hydrofuge), faux plafond décoratif du hall d'entrée, corniches et moulures en plâtre dans les appartements, finition des joues et habillages techniques.",
+    obligations_specifiques: [
+      "Utiliser des plaques BA13 hydrofuges (vertes) dans les pièces humides (SDB, cuisines)",
+      "Assurer la mise en œuvre sur ossature métallique conformément au DTU 25.41",
+      "Respecter les joints de dilatation et les raccords avec les cloisons",
+      "Réaliser les trappe de visite pour accès aux réseaux en faux plafond",
+      "Assurer la planéité du faux plafond (tolérance 2mm sous règle de 2m)",
+      "Fournir un ouvrage prêt à peindre (enduit + ponçage)"
+    ],
+    reception: "La réception portera sur la planéité, la solidité de la fixation, le traitement des joints et la qualité de la surface prête à peindre."
+  },
+  ferronnerie: {
+    label: "Travaux de Ferronnerie et Garde-Corps",
+    normes: "NF P 01-012 (garde-corps), DTU 37.1, NM 10.3.001",
+    assurances: "Responsabilité Civile Professionnelle",
+    desc_default: "Fourniture et pose d'ouvrages métalliques comprenant : garde-corps de balcons et terrasses (hauteur réglementaire 1m), rampes d'escalier, grilles de ventilation, portillon de parking, éléments décoratifs métalliques selon plans de l'architecte.",
+    obligations_specifiques: [
+      "Respecter la hauteur réglementaire des garde-corps (1m minimum, 1,20m si hauteur de chute > 6m)",
+      "Assurer l'espacement des barreaux conforme à la norme (max 11 cm entre axes)",
+      "Appliquer un traitement anticorrosion (galvanisation ou métallisation + peinture)",
+      "Fournir les plans d'atelier pour validation avant fabrication",
+      "Assurer la fixation par scellement chimique ou mécanique selon le support",
+      "Garantir la solidité des ouvrages (résistance à une poussée de 100 daN/ml)"
+    ],
+    reception: "La réception portera sur la solidité des fixations, la conformité dimensionnelle, la qualité du traitement anticorrosion et l'aspect esthétique."
+  },
+  vrd: {
+    label: "Travaux de VRD et Façade",
+    normes: "DTU 64.1, Cahier des prescriptions AMENDIS/ONEP, normes routières marocaines",
+    assurances: "Responsabilité Civile Professionnelle",
+    desc_default: "Travaux de voiries et réseaux divers comprenant : branchements réseaux (eau potable, assainissement, électricité, télécom), aménagement du parking sous-sol (béton lissé + marquage), revêtement et habillage de la façade extérieure, portail motorisé, espaces verts et clôture, signalétique de l'immeuble.",
+    obligations_specifiques: [
+      "Obtenir les autorisations de raccordement auprès d'AMENDIS et de l'ONEE",
+      "Respecter les profondeurs d'enfouissement réglementaires des réseaux",
+      "Assurer les regards de visite et de branchement conformes aux normes",
+      "Réaliser les essais d'étanchéité des réseaux d'assainissement",
+      "Coordonner les travaux avec les concessionnaires (eau, électricité, télécom)",
+      "Assurer la remise en état des voiries après travaux de raccordement"
+    ],
+    reception: "La réception sera subordonnée à la présentation des PV de conformité des concessionnaires et aux essais satisfaisants des réseaux."
+  },
+  climatisation: {
+    label: "Travaux de Climatisation et Ventilation",
+    normes: "DTU 68.3 (ventilation), NF EN 378, réglementation thermique marocaine (RTCM)",
+    assurances: "Responsabilité Civile Professionnelle, Garantie Décennale",
+    desc_default: "Fourniture et installation de systèmes de climatisation comprenant : unités split ou multi-split par appartement, pré-installation des conduites de fluides frigorigènes, réseau de gaines de ventilation, VMC dans les pièces humides, extraction mécanique dans les parkings souterrains.",
+    obligations_specifiques: [
+      "Dimensionner les installations selon le bilan thermique de chaque local",
+      "Utiliser des fluides frigorigènes conformes à la réglementation environnementale en vigueur",
+      "Assurer l'isolation thermique des conduites frigorifiques",
+      "Réaliser les essais de mise en service et les mesures de débit d'air",
+      "Fournir les fiches techniques et certificats de conformité des équipements",
+      "Prévoir les supports antivibratiles pour les groupes extérieurs"
+    ],
+    reception: "La réception sera subordonnée aux essais de fonctionnement, mesures de température et débit, et à la conformité des installations aux normes."
+  },
+  cuisine: {
+    label: "Fourniture et Pose de Cuisines Équipées",
+    normes: "NF D 60-001, normes de sécurité électrique et gaz applicables",
+    assurances: "Responsabilité Civile Professionnelle",
+    desc_default: "Fourniture et pose de cuisines équipées comprenant : meubles bas et hauts en mélaminé ou stratifié, plan de travail en granit ou quartz, évier inox avec mitigeur, raccordements eau et évacuation, installation électrique des équipements encastrables, crédence.",
+    obligations_specifiques: [
+      "Effectuer le relevé de cotes précis avant fabrication",
+      "Utiliser des matériaux résistants à l'humidité et à la chaleur (classement E1 minimum)",
+      "Assurer les raccordements eau, électricité et gaz conformément aux normes",
+      "Fournir les garanties fabricant sur les meubles et équipements",
+      "Assurer la pose à niveau avec ajustement des pieds et fixation murale sécurisée",
+      "Livrer un ouvrage complet avec quincaillerie, charnières et tiroirs fonctionnels"
+    ],
+    reception: "La réception portera sur la conformité dimensionnelle, la solidité des fixations, le bon fonctionnement de la quincaillerie et la qualité des finitions."
+  }
+};
+
+function selectTrade(el) {
+  document.querySelectorAll('.trade-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  selectedTrade = el.dataset.trade;
+}
+
+function toggleClause(el) { el.classList.toggle('on'); }
+
+function v(id) { return document.getElementById(id).value.trim(); }
+function isOn(id) { return document.getElementById(id).classList.contains('on'); }
+
+function formatMoney(n) {
+  return new Intl.NumberFormat('fr-MA', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(n);
+}
+
+function updateEPDisplay() {
+  document.getElementById('epNameDisp').textContent = v('epName') || 'CASA DI LUSSO SARL';
+  document.getElementById('epCapitalDisp').textContent = (parseInt(v('epCapital')) || 100000).toLocaleString('fr-FR') + ' DH';
+  document.getElementById('epVilleDisp').textContent = v('epAddr') || 'Tanger';
+}
+
+function updatePaymentTotal() {
+  const t = [1,2,3,4].reduce((s,i) => s + (parseInt(document.getElementById('pay'+i).value) || 0), 0);
+  [1,2,3,4].forEach(i => {
+    document.getElementById('pay'+i+'Disp').textContent = (document.getElementById('pay'+i).value || 0) + '%';
+  });
+  const el = document.getElementById('payTotalDisp');
+  el.textContent = t + '%';
+  el.className = t === 100 ? 'ok' : 'bad';
+}
+
+function numberToWords(n) {
+  const u = ['','un','deux','trois','quatre','cinq','six','sept','huit','neuf','dix','onze','douze','treize','quatorze','quinze','seize'];
+  const d = ['','dix','vingt','trente','quarante','cinquante','soixante','soixante','quatre-vingt','quatre-vingt'];
+  if (n === 0) return 'zéro';
+  if (n < 17) return u[n];
+  if (n < 100) { const dd = Math.floor(n/10), uu = n%10; if (dd===7||dd===9) return d[dd]+'-'+u[10+uu]; return d[dd]+(uu?'-'+u[uu]:''); }
+  if (n < 1000) { const cc = Math.floor(n/100), rest = n%100; return (cc===1?'cent':u[cc]+' cent')+(rest?' '+numberToWords(rest):''); }
+  if (n < 1000000) { const mm = Math.floor(n/1000), rest = n%1000; return (mm===1?'mille':numberToWords(mm)+' mille')+(rest?' '+numberToWords(rest):''); }
+  const mil = Math.floor(n/1000000), rest = n%1000000;
+  return (mil===1?'un million':numberToWords(mil)+' millions')+(rest?' '+numberToWords(rest):'');
+}
+
+// =========================================================
+// CONTRACT GENERATION
+// =========================================================
+function generateContract() {
+  if (!selectedProject) { alert('Veuillez sélectionner un projet.'); return; }
+  if (!selectedTrade) { alert('Veuillez sélectionner un type de lot.'); return; }
+
+  const P = PROJECTS.find(p => p.id === selectedProject);
+  const T = TRADES[selectedTrade];
+  const today = new Date();
+  const dateStr = today.toLocaleDateString('fr-FR', { day:'2-digit', month:'long', year:'numeric' });
+  const ref = `CDL/ST-${today.getFullYear()}/${String(today.getMonth()+1).padStart(2,'0')}/${String(Math.floor(Math.random()*999)+1).padStart(3,'0')}`;
+
+  const montantHT = parseFloat(v('montantHT')) || 0;
+  const tvaRate = parseFloat(v('tva')) / 100;
+  const montantTVA = montantHT * tvaRate;
+  const montantTTC = montantHT + montantTVA;
+  const retenueRate = parseFloat(v('retenue'));
+  const avanceRate = parseFloat(v('avance'));
+  const penalite = v('penalite');
+  const plafondPen = v('plafondPen');
+  const delai = v('delaiVal') + ' ' + v('delaiUnit');
+  const garantieMois = v('garantie');
+  const delaiPaiement = v('delaiPaiement');
+  const delaiReserves = v('delaiReserves');
+  const delaiMED = v('delaiMED');
+  const typePrix = document.getElementById('typePrix');
+  const typePrixLabel = typePrix.options[typePrix.selectedIndex].text;
+  const dateDebut = v('dateDebut') ? new Date(v('dateDebut')).toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'}) : '';
+
+  const pays = [
+    { pct: v('pay1') || '20', label: 'À la signature du contrat', desc: 'sur présentation de la caution de bonne exécution' },
+    { pct: v('pay2') || '30', label: 'À l\'avancement de 50% des travaux', desc: 'constaté par attachement contradictoire' },
+    { pct: v('pay3') || '30', label: 'À l\'achèvement des travaux', desc: 'constaté par PV de réception provisoire' },
+    { pct: v('pay4') || '20', label: 'À la réception définitive', desc: 'après levée de toutes les réserves' },
+  ];
+
+  const epName = v('epName') || 'CASA DI LUSSO SARL';
+  const epForme = v('epForme') || 'SARL';
+  const epCapital = parseInt(v('epCapital')) || 100000;
+
+  let artNum = 0;
+  const art = () => ++artNum;
+  const lotDesc = v('lotDesc');
+
+  let html = `<div class="contract">
+    <div class="contract-header">
+      <h2>CONTRAT DE SOUS-TRAITANCE</h2>
+      <h3>${T.label}</h3>
+      <p style="font-size:13px;color:#555;margin-top:4px;">Projet : <strong>${P.name}</strong> — ${P.config}</p>
+      <p class="ref">Réf. : <span class="var">${ref}</span> — ${dateStr}</p>
+    </div>
+
+    <div class="article">
+      <p style="text-align:center;font-weight:600;color:#0A1628;">
+        Établi en application des dispositions du Dahir du 12 août 1913 formant<br>
+        Code des Obligations et des Contrats (D.O.C.)<br>
+        et des articles 86 à 91 du Code du Travail marocain
+      </p>
+    </div>
+
+    <div class="article">
+      <h4>ARTICLE ${art()} — PARTIES CONTRACTANTES</h4>
+      <p><strong>1.1. L'ENTREPRENEUR PRINCIPAL (Donneur d'Ordre) :</strong></p>
+      <p>Société <span class="var">${epName}</span>, ${epForme} de droit marocain, au capital de <span class="var">${epCapital.toLocaleString('fr-FR')}</span> DH${v('epRC') ? ', immatriculée au RC sous le n° <span class="var">'+v('epRC')+'</span>' : ''}${v('epICE') ? ', ICE : <span class="var">'+v('epICE')+'</span>' : ''}${v('epIF') ? ', IF : <span class="var">'+v('epIF')+'</span>' : ''}, dont le siège social est situé à <span class="var">${v('epAddr') || 'Tanger'}</span>${v('epRep') ? ', représentée par <span class="var">'+v('epRep')+'</span>, en sa qualité de <span class="var">'+(v('epQualite')||'Gérant')+'</span>' : ', représentée par son gérant dûment habilité'}.</p>
+      <p>Ci-après dénommée <strong>« L'Entrepreneur Principal »</strong> ou <strong>« ${epName.split(' ')[0]} »</strong>.</p>
+
+      <p style="margin-top:14px;"><strong>1.2. LE SOUS-TRAITANT :</strong></p>
+      <p>Société <span class="var">${v('stName') || '[À COMPLÉTER]'}</span>, ${v('stForme')}, immatriculée au Registre de Commerce sous le n° <span class="var">${v('stRC') || '[RC]'}</span>, ICE : <span class="var">${v('stICE') || '[ICE]'}</span>, IF : <span class="var">${v('stIF') || '[IF]'}</span>${v('stCNSS') ? ', CNSS : <span class="var">'+v('stCNSS')+'</span>' : ''}, dont le siège social est situé à <span class="var">${v('stAddr') || '[Adresse]'}</span>, représentée par <span class="var">${v('stRep') || '[Représentant]'}</span>, en sa qualité de <span class="var">${v('stQualite') || 'Gérant'}</span>, titulaire de la CIN n° <span class="var">${v('stCIN') || '[CIN]'}</span>.</p>
+      ${v('stTel') || v('stEmail') ? '<p style="font-size:12px;color:#666;">Contact : '+(v('stTel')?'Tél. '+v('stTel'):'')+' '+(v('stEmail')?'— Email : '+v('stEmail'):'')+'</p>' : ''}
+      <p>Ci-après dénommé(e) <strong>« Le Sous-Traitant »</strong>.</p>
+      <p style="margin-top:10px;font-style:italic;">Ensemble désignées « Les Parties ».</p>
+    </div>
+
+    <div class="article">
+      <h4>ARTICLE ${art()} — OBJET DU CONTRAT</h4>
+      <p>Le présent contrat a pour objet de confier au Sous-Traitant, sous la responsabilité de l'Entrepreneur Principal et conformément à l'article 723 et suivants du D.O.C. relatifs au louage d'ouvrage, l'exécution des travaux de :</p>
+      <div class="highlight">${T.desc_default}${lotDesc ? '<br><br><em>Précisions : '+lotDesc+'</em>' : ''}</div>
+      <p>Les travaux seront exécutés dans le cadre du projet <strong>${P.name}</strong>, de type <span class="var">${P.config}</span>, sis au <span class="var">${P.address}</span>, pour le compte du Maître d'Ouvrage <span class="var">${P.mo}</span>.</p>
+      ${P.permis ? '<p>Permis de construire n° <span class="var">'+P.permis+'</span>.</p>' : ''}
+      <p>Le Sous-Traitant déclare avoir pris connaissance des plans, du cahier des charges, du planning général et de l'ensemble des documents techniques du projet, et les accepte sans réserve.</p>
+    </div>
+
+    <div class="article">
+      <h4>ARTICLE ${art()} — DOCUMENTS CONTRACTUELS</h4>
+      <p>Les documents contractuels suivants font partie intégrante du présent contrat, par ordre de priorité décroissante :</p>
+      <ol>
+        <li>Le présent contrat de sous-traitance et ses annexes</li>
+        <li>Le Cahier des Clauses Techniques Particulières (CCTP) du lot concerné</li>
+        <li>Le Cahier des Clauses Administratives Particulières (CCAP)</li>
+        <li>Les plans d'exécution visés « Bon pour Exécution » (BPE)</li>
+        <li>Le devis descriptif et quantitatif du Sous-Traitant</li>
+        <li>Le planning d'exécution validé</li>
+        <li>Les normes et réglementations applicables : <em>${T.normes}</em></li>
+        <li>Les règles de l'art et les DTU applicables au lot</li>
+      </ol>
+      <p>En cas de contradiction entre les documents, l'ordre de priorité ci-dessus prévaudra.</p>
+    </div>
+
+    <div class="article">
+      <h4>ARTICLE ${art()} — PRIX ET CONDITIONS FINANCIÈRES</h4>
+      <p><strong>4.1. Montant du marché :</strong></p>
+      <p>Le prix convenu pour l'exécution de l'ensemble des travaux est fixé de manière <strong>${typePrixLabel}</strong> conformément à l'article 723 du D.O.C. :</p>
+      <div class="highlight">
+        Montant Hors Taxes : <span class="var">${formatMoney(montantHT)} DH</span><br>
+        TVA (${(tvaRate*100).toFixed(0)}%) : <span class="var">${formatMoney(montantTVA)} DH</span><br>
+        <strong>Montant Toutes Taxes Comprises : <span class="var">${formatMoney(montantTTC)} DH</span></strong><br>
+        <em>Arrêté à la somme de : ${numberToWords(Math.round(montantTTC))} dirhams.</em>
+      </div>
+      <p>Ce prix comprend l'ensemble des fournitures, la main-d'œuvre, le transport, les assurances, les moyens matériels, les frais généraux, les bénéfices et tous frais accessoires nécessaires à la bonne exécution des travaux.</p>
+
+      <p style="margin-top:12px;"><strong>4.2. Modalités de paiement :</strong></p>
+      <p>Le paiement sera effectué par virement bancaire${v('stRIB') ? ' sur le compte n° <span class="var">'+v('stRIB')+'</span>'+(v('stBanque')?' ouvert auprès de <span class="var">'+v('stBanque')+'</span>':'') : ''} selon l'échéancier suivant :</p>
+      <ul>${pays.map(p => `<li><strong>${p.pct}%</strong> ${p.label}, ${p.desc}</li>`).join('')}</ul>
+      <p>Chaque situation de travaux sera présentée en 3 exemplaires, accompagnée des attachements signés. Le délai de paiement est fixé à <strong>${delaiPaiement} jours</strong> à compter de la réception de la facture conforme, conformément aux usages commerciaux et à l'article 78 du Code de Commerce.</p>
+      ${avanceRate > 0 ? `<p style="margin-top:12px;"><strong>4.3. Avance forfaitaire :</strong> Une avance de <span class="var">${avanceRate}%</span> soit <span class="var">${formatMoney(montantHT * avanceRate/100)} DH HT</span> sera versée au Sous-Traitant à la signature du contrat, sur présentation d'une caution de restitution d'avance. Cette avance sera déduite proportionnellement sur chaque situation de travaux.</p>` : ''}
+
+      <p style="margin-top:12px;"><strong>4.${avanceRate > 0 ? '4' : '3'}. Retenue de garantie :</strong></p>
+      ${retenueRate > 0 ? `<p>Une retenue de garantie de <span class="var">${retenueRate}%</span> sera opérée sur chaque situation de travaux. Cette retenue sera restituée à l'expiration du délai de garantie de <span class="var">${garantieMois} mois</span>, sous réserve de la levée de toutes les réserves. Le Sous-Traitant pourra substituer à cette retenue une caution bancaire de même montant émise par un établissement de crédit agréé au Maroc.</p>` : '<p>Il n\'est pas prévu de retenue de garantie dans le cadre du présent contrat.</p>'}
+
+      <p style="margin-top:12px;"><strong>4.${avanceRate > 0 ? '5' : '4'}. Travaux supplémentaires :</strong></p>
+      <p>Aucune prestation supplémentaire ne pourra être facturée sans un ordre de service écrit et signé préalablement par l'Entrepreneur Principal. Tout travail exécuté sans accord écrit préalable ne donnera lieu à aucune rémunération complémentaire.</p>
+    </div>
+
+    <div class="article">
+      <h4>ARTICLE ${art()} — DÉLAIS D'EXÉCUTION</h4>
+      <p><strong>5.1.</strong> Le délai global d'exécution des travaux est fixé à <span class="var">${delai}</span> à compter de la date de notification de l'ordre de service de commencement${dateDebut ? ', prévue au <span class="var">'+dateDebut+'</span>' : ''}.</p>
+      <p><strong>5.2.</strong> Le Sous-Traitant s'engage à respecter le planning détaillé annexé au présent contrat et à coordonner son intervention avec les autres corps d'état.</p>
+      <p><strong>5.3. Pénalités de retard :</strong> En cas de retard non justifié par un cas de force majeure (art. 268 et 269 du D.O.C.), des pénalités de retard seront appliquées d'office, sans mise en demeure préalable, à raison de <span class="var">${penalite}‰</span> (pour mille) du montant HT du marché par jour calendaire de retard, plafonnées à <span class="var">${plafondPen}%</span> du montant total du marché.</p>
+      <p><strong>5.4.</strong> Au-delà du plafond de pénalités, l'Entrepreneur Principal se réserve le droit de résilier le contrat aux torts exclusifs du Sous-Traitant, sans préjudice de son droit à indemnisation du préjudice subi.</p>
+    </div>
+
+    <div class="article">
+      <h4>ARTICLE ${art()} — OBLIGATIONS DU SOUS-TRAITANT</h4>
+      <p><strong>6.1. Obligations générales :</strong></p>
+      <ul>
+        <li>Exécuter les travaux conformément aux règles de l'art, aux normes en vigueur et aux documents contractuels</li>
+        <li>Fournir l'ensemble de la main-d'œuvre qualifiée, des matériaux, outillages et équipements nécessaires</li>
+        <li>Se conformer au règlement intérieur du chantier et aux consignes de sécurité</li>
+        <li>Maintenir en permanence un responsable qualifié sur le chantier</li>
+        <li>Signaler immédiatement toute anomalie, erreur dans les plans ou vice de conception constaté</li>
+        <li>Assurer le nettoyage quotidien de sa zone de travail et l'évacuation de ses gravats</li>
+        <li>Respecter la législation du travail, notamment les articles 86 à 91 du Code du Travail marocain relatifs à la sous-entreprise</li>
+        <li>Être en règle avec les organismes sociaux (CNSS) et fiscaux</li>
+        <li>Fournir mensuellement les copies des bordereaux de déclaration CNSS de son personnel affecté au chantier</li>
+      </ul>
+      <p style="margin-top:12px;"><strong>6.2. Obligations spécifiques au lot :</strong></p>
+      <ul>${T.obligations_specifiques.map(o => `<li>${o}</li>`).join('')}</ul>
+    </div>
+
+    <div class="article">
+      <h4>ARTICLE ${art()} — OBLIGATIONS DE L'ENTREPRENEUR PRINCIPAL</h4>
+      <ul>
+        <li>Mettre à disposition du Sous-Traitant les plans, documents techniques et informations nécessaires</li>
+        <li>Assurer la coordination générale du chantier entre les différents corps d'état</li>
+        <li>Permettre l'accès au chantier selon le planning convenu</li>
+        <li>Procéder au paiement dans les délais contractuels</li>
+        <li>Désigner un interlocuteur unique pour le suivi du lot</li>
+        <li>Informer le Maître d'Ouvrage de l'intervention du Sous-Traitant conformément à la loi</li>
+        <li>Mettre à disposition les locaux de stockage si disponibles et les accès nécessaires</li>
+      </ul>
+    </div>
+
+    <div class="article">
+      <h4>ARTICLE ${art()} — ASSURANCES</h4>
+      <p>Le Sous-Traitant s'engage à souscrire et maintenir en vigueur pendant toute la durée des travaux et pendant la période de garantie les assurances suivantes :</p>
+      <div class="highlight">${T.assurances}</div>
+      <ul>
+        <li>Les attestations d'assurance devront être remises à l'Entrepreneur Principal <strong>avant tout début d'exécution</strong></li>
+        <li>Le montant de la couverture RC Professionnelle ne pourra être inférieur au montant du présent marché</li>
+        <li>Le Sous-Traitant s'engage à informer immédiatement l'Entrepreneur Principal de toute modification, suspension ou résiliation de ses polices d'assurance</li>
+        <li>Le défaut d'assurance constitue un motif de résiliation immédiate du contrat aux torts du Sous-Traitant</li>
+      </ul>
+      ${isOn('tTRC') ? '<p style="margin-top:10px;"><strong>Assurance Tous Risques Chantier (TRC) :</strong> L\'Entrepreneur Principal a souscrit une police TRC couvrant l\'ensemble du chantier. Le Sous-Traitant est tenu de se conformer aux conditions de cette police et de signaler tout sinistre dans les 24 heures.</p>' : ''}
+    </div>
+
+    <div class="article">
+      <h4>ARTICLE ${art()} — RÉCEPTION DES TRAVAUX</h4>
+      <p><strong>9.1. Réception provisoire :</strong> À l'achèvement des travaux, une réception provisoire sera prononcée contradictoirement. ${T.reception} Un procès-verbal sera dressé, avec ou sans réserves.</p>
+      <p><strong>9.2. Levée des réserves :</strong> Le Sous-Traitant dispose d'un délai maximum de <strong>${delaiReserves} jours</strong> pour lever les réserves formulées. Passé ce délai, l'Entrepreneur Principal pourra faire exécuter les travaux par un tiers aux frais du Sous-Traitant.</p>
+      <p><strong>9.3. Réception définitive :</strong> La réception définitive sera prononcée à l'expiration du délai de garantie de <span class="var">${garantieMois} mois</span>, sous réserve de la correction de tous les désordres apparus pendant cette période.</p>
+      <p><strong>9.4. Garantie décennale :</strong> Conformément aux articles 769 et 770 du D.O.C., le Sous-Traitant reste tenu de la garantie décennale pour les ouvrages relevant de sa responsabilité, lorsque celle-ci est applicable au lot concerné.</p>
+    </div>
+
+    <div class="article">
+      <h4>ARTICLE ${art()} — RESPONSABILITÉ ET GARANTIES</h4>
+      <p><strong>10.1.</strong> Le Sous-Traitant est tenu d'une obligation de résultat quant à la conformité des travaux aux documents contractuels et aux règles de l'art (art. 723 et suivants du D.O.C.).</p>
+      <p><strong>10.2.</strong> Le Sous-Traitant garantit l'Entrepreneur Principal contre tout recours de tiers, y compris du Maître d'Ouvrage, résultant de l'exécution défectueuse des travaux.</p>
+      <p><strong>10.3.</strong> Le Sous-Traitant est seul responsable de son personnel, de ses sous-traitants éventuels (si autorisés) et de ses fournisseurs.</p>
+      <p><strong>10.4.</strong> En cas de défaillance du Sous-Traitant, l'Entrepreneur Principal pourra, après mise en demeure restée infructueuse pendant <strong>${delaiMED} jours</strong>, faire exécuter les travaux par un tiers aux frais et risques du Sous-Traitant, sans préjudice de dommages et intérêts.</p>
+    </div>
+
+    <div class="article">
+      <h4>ARTICLE ${art()} — RÉSILIATION</h4>
+      <p><strong>11.1. Résiliation pour faute :</strong> Le contrat pourra être résilié de plein droit par l'Entrepreneur Principal en cas de :</p>
+      <ul>
+        <li>Abandon de chantier ou interruption injustifiée des travaux pendant plus de 5 jours ouvrables</li>
+        <li>Non-respect répété des règles de sécurité sur le chantier</li>
+        <li>Défaut d'assurance ou de couverture CNSS</li>
+        <li>Malfaçons graves constatées et non corrigées après mise en demeure</li>
+        <li>Dépassement du plafond des pénalités de retard</li>
+        <li>Procédure collective (redressement ou liquidation judiciaire) du Sous-Traitant</li>
+        <li>Cession du contrat ou sous-traitance non autorisée</li>
+      </ul>
+      <p>La résiliation prendra effet ${delaiMED} jours après l'envoi d'une mise en demeure par lettre recommandée avec accusé de réception restée sans effet.</p>
+      <p><strong>11.2. Résiliation pour convenance :</strong> L'Entrepreneur Principal se réserve le droit de résilier le contrat pour convenance moyennant un préavis de <strong>15 jours</strong> et le paiement des travaux régulièrement exécutés et réceptionnés.</p>
+      <p><strong>11.3. Conséquences :</strong> En cas de résiliation pour faute, un état contradictoire des travaux sera dressé. Le Sous-Traitant ne pourra prétendre à aucune indemnité et devra supporter les surcoûts de reprise par un tiers.</p>
+    </div>
+
+    <div class="article">
+      <h4>ARTICLE ${art()} — HYGIÈNE, SÉCURITÉ ET ENVIRONNEMENT</h4>
+      <p><strong>12.1.</strong> Le Sous-Traitant s'engage à respecter toutes les dispositions légales et réglementaires en matière d'hygiène et de sécurité du travail, notamment les dispositions du Code du Travail marocain (Titre IV, Livre II).</p>
+      <p><strong>12.2.</strong> Le Sous-Traitant est responsable de la fourniture des équipements de protection individuelle (EPI) à son personnel.</p>
+      <p><strong>12.3.</strong> Le Sous-Traitant s'engage à ne pas employer de mineurs et à respecter les horaires de travail légaux.</p>
+      <p><strong>12.4.</strong> En cas d'accident du travail sur le chantier impliquant le personnel du Sous-Traitant, ce dernier assume l'entière responsabilité et en informe immédiatement l'Entrepreneur Principal.</p>
+      <p><strong>12.5.</strong> Le Sous-Traitant désigne un responsable sécurité parmi son personnel affecté au chantier.</p>
+    </div>`;
+
+  // OPTIONAL CLAUSES
+  if (isOn('tConfid')) {
+    html += `<div class="article">
+      <h4>ARTICLE ${art()} — CONFIDENTIALITÉ</h4>
+      <p><strong>${artNum}.1.</strong> Le Sous-Traitant s'engage à traiter comme strictement confidentielles toutes les informations techniques, commerciales et financières dont il pourrait avoir connaissance dans le cadre de l'exécution du présent contrat.</p>
+      <p><strong>${artNum}.2.</strong> Cette obligation de confidentialité s'étend au personnel du Sous-Traitant et à tout tiers auquel il pourrait faire appel. Elle survit à l'extinction du contrat pour une durée de <strong>3 ans</strong>.</p>
+      <p><strong>${artNum}.3.</strong> Toute violation de cette clause expose le Sous-Traitant au paiement d'une indemnité forfaitaire de <span class="var">${formatMoney(montantHT * 0.2)} DH</span>, sans préjudice du droit de l'Entrepreneur Principal à demander réparation du préjudice réel subi.</p>
+    </div>`;
+  }
+
+  if (isOn('tNonConc')) {
+    html += `<div class="article">
+      <h4>ARTICLE ${art()} — NON-CONCURRENCE</h4>
+      <p>Le Sous-Traitant s'interdit, pendant toute la durée du contrat et pendant une période de <strong>12 mois</strong> suivant son terme, de contracter directement avec le Maître d'Ouvrage <span class="var">${P.mo}</span> ou avec tout acquéreur des lots du projet, pour des prestations similaires à celles objet du présent contrat, dans un rayon de <strong>20 km</strong> autour du projet.</p>
+      <p>Toute violation expose le Sous-Traitant au paiement d'une indemnité forfaitaire de <strong>30%</strong> du montant HT du présent contrat.</p>
+    </div>`;
+  }
+
+  if (isOn('tNonDeb')) {
+    html += `<div class="article">
+      <h4>ARTICLE ${art()} — NON-DÉBAUCHAGE</h4>
+      <p>Chacune des Parties s'interdit de recruter ou de tenter de recruter, directement ou indirectement, tout salarié ou collaborateur de l'autre Partie ayant participé à l'exécution du présent contrat, pendant toute la durée du contrat et pendant une période de <strong>12 mois</strong> suivant son terme.</p>
+      <p>Toute violation entraînera le paiement d'une indemnité forfaitaire équivalente à <strong>12 mois</strong> de rémunération brute du salarié concerné.</p>
+    </div>`;
+  }
+
+  if (isOn('tCascade')) {
+    html += `<div class="article">
+      <h4>ARTICLE ${art()} — INTERDICTION DE SOUS-TRAITANCE EN CASCADE</h4>
+      <p>Le Sous-Traitant s'interdit formellement de sous-traiter tout ou partie des travaux objets du présent contrat à un tiers, sauf accord écrit et préalable de l'Entrepreneur Principal.</p>
+      <p>En cas de violation, l'Entrepreneur Principal pourra résilier immédiatement le contrat aux torts exclusifs du Sous-Traitant, sans mise en demeure préalable, et sans préjudice de dommages et intérêts.</p>
+    </div>`;
+  }
+
+  if (isOn('tEnviro')) {
+    html += `<div class="article">
+      <h4>ARTICLE ${art()} — CLAUSE ENVIRONNEMENTALE</h4>
+      <p>Le Sous-Traitant s'engage à respecter la législation environnementale en vigueur au Maroc, notamment la loi n° 11-03 relative à la protection et à la mise en valeur de l'environnement. Il s'engage à :</p>
+      <ul>
+        <li>Gérer ses déchets de chantier de manière responsable et les évacuer vers les décharges autorisées</li>
+        <li>Limiter les nuisances sonores et les émissions de poussière</li>
+        <li>Utiliser des matériaux respectueux de l'environnement dans la mesure du possible</li>
+        <li>Respecter les horaires de chantier pour limiter les nuisances au voisinage</li>
+      </ul>
+    </div>`;
+  }
+
+  if (isOn('tPI')) {
+    html += `<div class="article">
+      <h4>ARTICLE ${art()} — PROPRIÉTÉ INTELLECTUELLE</h4>
+      <p>Tous les plans, études, documents techniques et méthodes développés ou utilisés par le Sous-Traitant dans le cadre du présent contrat et financés par l'Entrepreneur Principal deviennent la propriété exclusive de ce dernier. Le Sous-Traitant ne pourra les utiliser, les reproduire ou les communiquer à des tiers sans l'accord écrit et préalable de l'Entrepreneur Principal.</p>
+    </div>`;
+  }
+
+  if (isOn('tExclus')) {
+    html += `<div class="article">
+      <h4>ARTICLE ${art()} — EXCLUSIVITÉ</h4>
+      <p>Pendant toute la durée d'exécution du présent contrat, le Sous-Traitant s'engage à accorder la priorité aux travaux objet du présent contrat et à ne pas accepter de chantier concurrent susceptible d'affecter sa capacité d'exécution ou de retarder le planning convenu.</p>
+    </div>`;
+  }
+
+  if (isOn('tRevision')) {
+    html += `<div class="article">
+      <h4>ARTICLE ${art()} — RÉVISION DE PRIX</h4>
+      <p>Par dérogation au caractère ferme du prix, en cas de variation exceptionnelle du coût des matériaux de construction supérieure à <strong>15%</strong> par rapport aux prix en vigueur à la date de signature du contrat, les Parties conviennent de se rencontrer pour négocier de bonne foi un ajustement du prix. Cette révision ne pourra intervenir qu'une seule fois et devra être formalisée par avenant signé des deux Parties.</p>
+    </div>`;
+  }
+
+  if (v('observations')) {
+    html += `<div class="article">
+      <h4>ARTICLE ${art()} — CLAUSES PARTICULIÈRES</h4>
+      <p>${v('observations').replace(/\n/g, '<br>')}</p>
+    </div>`;
+  }
+
+  // LITIGES
+  html += `<div class="article">
+    <h4>ARTICLE ${art()} — RÈGLEMENT DES LITIGES</h4>
+    ${isOn('tMediat') ? `<p><strong>Médiation préalable obligatoire :</strong> En cas de différend relatif à l'interprétation ou à l'exécution du présent contrat, les Parties s'engagent à soumettre leur litige à une procédure de médiation préalable d'une durée maximale de <strong>30 jours</strong>, avant toute saisine des juridictions compétentes.</p>` : ''}
+    <p>À défaut d'accord amiable${isOn('tMediat') ? ' ou de médiation aboutie' : ''}, tout litige sera soumis à la compétence exclusive du <strong>Tribunal de Commerce de Tanger</strong>, conformément aux dispositions du Code de Procédure Civile marocain.</p>
+  </div>`;
+
+  // FORCE MAJEURE
+  html += `<div class="article">
+    <h4>ARTICLE ${art()} — FORCE MAJEURE</h4>
+    <p>Conformément aux articles 268 et 269 du D.O.C., aucune des Parties ne sera tenue responsable d'un manquement à ses obligations contractuelles si ce manquement résulte d'un cas de force majeure, défini comme un événement imprévisible, irrésistible et extérieur à la volonté des Parties.</p>
+    <p>La Partie invoquant la force majeure devra en informer l'autre Partie par écrit dans un délai maximum de <strong>5 jours</strong> suivant la survenance de l'événement, en fournissant les justificatifs nécessaires. Les délais contractuels seront prorogés d'une durée égale à celle de l'empêchement.</p>
+    <p>Si la force majeure persiste au-delà de <strong>90 jours</strong>, chacune des Parties pourra résilier le contrat sans indemnité, sous réserve du paiement des travaux réalisés.</p>
+  </div>`;
+
+  // DISPOSITIONS FINALES
+  html += `<div class="article">
+    <h4>ARTICLE ${art()} — DISPOSITIONS GÉNÉRALES ET FINALES</h4>
+    <p><strong>Droit applicable :</strong> Le présent contrat est régi par le droit marocain, notamment le Dahir formant Code des Obligations et des Contrats (D.O.C.) et le Code de Commerce.</p>
+    <p><strong>Intégralité :</strong> Le présent contrat, ses annexes et les documents contractuels visés à l'Article 3 constituent l'intégralité de l'accord entre les Parties et remplacent tout accord antérieur, écrit ou verbal.</p>
+    <p><strong>Modification :</strong> Toute modification devra faire l'objet d'un avenant écrit signé par les deux Parties.</p>
+    <p><strong>Nullité partielle :</strong> Si l'une des clauses était déclarée nulle ou inapplicable, les autres clauses conserveraient leur pleine validité.</p>
+    <p><strong>Notifications :</strong> Toute notification sera faite par lettre recommandée avec accusé de réception aux adresses des sièges sociaux respectifs. En cas de changement d'adresse, la Partie concernée devra en informer l'autre par écrit dans un délai de 15 jours.</p>
+    <p><strong>Élection de domicile :</strong> Pour l'exécution du présent contrat, les Parties élisent domicile à leurs sièges sociaux respectifs.</p>
+    <p style="margin-top:14px;">Fait à <strong>Tanger</strong>, le <span class="var">${dateStr}</span>, en <strong>deux (2) exemplaires originaux</strong>, un pour chaque Partie.</p>
+  </div>`;
+
+  // ANNEXES
+  if (isOn('tAnnexe')) {
+    html += `<div class="article" style="page-break-before:always;">
+      <h4>ANNEXES — LISTE DES PIÈCES JOINTES</h4>
+      <table class="annexe-table">
+        <thead><tr><th>N°</th><th>Document</th><th>Remis</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Devis descriptif et quantitatif du Sous-Traitant</td><td>☐ Oui ☐ Non</td></tr>
+          <tr><td>2</td><td>Planning d'exécution détaillé</td><td>☐ Oui ☐ Non</td></tr>
+          <tr><td>3</td><td>Attestation d'assurance RC Professionnelle</td><td>☐ Oui ☐ Non</td></tr>
+          <tr><td>4</td><td>Attestation d'affiliation CNSS</td><td>☐ Oui ☐ Non</td></tr>
+          <tr><td>5</td><td>Copie du Registre de Commerce</td><td>☐ Oui ☐ Non</td></tr>
+          <tr><td>6</td><td>Copie de la CIN du représentant légal</td><td>☐ Oui ☐ Non</td></tr>
+          <tr><td>7</td><td>Attestation de régularité fiscale</td><td>☐ Oui ☐ Non</td></tr>
+          <tr><td>8</td><td>RIB du Sous-Traitant</td><td>☐ Oui ☐ Non</td></tr>
+          <tr><td>9</td><td>Plans d'exécution visés BPE (lot concerné)</td><td>☐ Oui ☐ Non</td></tr>
+          <tr><td>10</td><td>CCTP du lot</td><td>☐ Oui ☐ Non</td></tr>
+          <tr><td>11</td><td>Caution de bonne exécution (si applicable)</td><td>☐ Oui ☐ Non</td></tr>
+          <tr><td>12</td><td>Attestation de garantie décennale (si applicable)</td><td>☐ Oui ☐ Non</td></tr>
+        </tbody>
+      </table>
+    </div>`;
+  }
+
+  // SIGNATURES
+  html += `<div class="signatures">
+    <div class="sig-block">
+      <h5>L'ENTREPRENEUR PRINCIPAL</h5>
+      <p>${epName}</p>
+      <p style="font-size:11px;color:#888;">Lu et approuvé — Signature et cachet</p>
+      <div class="sig-line"></div>
+    </div>
+    <div class="sig-block">
+      <h5>LE SOUS-TRAITANT</h5>
+      <p>${v('stName') || '[Raison sociale]'}</p>
+      <p style="font-size:11px;color:#888;">Lu et approuvé — Signature et cachet</p>
+      <div class="sig-line"></div>
+    </div>
+  </div>
+
+  <p style="text-align:center;margin-top:30px;font-size:10px;color:#999;">
+    <em>Chaque page du présent contrat doit être paraphée par les deux Parties.<br>
+    Les annexes font partie intégrante du contrat.</em>
+  </p>
+  </div>`;
+
+  document.getElementById('previewArea').innerHTML = html;
+  document.getElementById('previewArea').scrollTop = 0;
+}
+
+// Init
+renderProjects();
+updatePaymentTotal();
+</script>
+</body>
+</html>
