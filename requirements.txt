@@ -33,3 +33,4 @@ numpy==2.4.2
 django-axes==8.3.1
 python-docx==1.2.0
 weasyprint==68.1
+num2words>=0.5.14

@@ -25,6 +25,20 @@ from .st_i18n import (
     st_t,
 )
 
+# ── helpers ─────────────────────────────────────────────────────────────────
+
+
+def _num_to_words_mad(n: int, lang: str) -> str:
+    """Convert integer n to words for the contract 'arrêté à la somme de' line."""
+    try:
+        from num2words import num2words  # type: ignore[import-untyped]
+
+        locale = "fr" if lang == "fr" else "en"
+        return num2words(n, lang=locale).capitalize()
+    except Exception:  # ImportError or any num2words error
+        return f"{n:,}".replace(",", "\u202f")
+
+
 # ── CSS ──────────────────────────────────────────────────────────────────────
 
 _ST_CSS = """
@@ -83,6 +97,7 @@ body {
 .st-party.ep strong { color: #fff; }
 .st-party.sub strong { color: #0F0F1A; }
 .st-party em { font-size: 8pt; opacity: 0.7; font-style: italic; }
+.st-together { text-align: center; font-style: italic; font-size: 8.5pt; color: #555; margin: 4pt 0 12pt; }
 
 /* ── articles ── */
 .st-art { margin-bottom: 11pt; page-break-inside: avoid; }
@@ -105,6 +120,7 @@ body {
 .st-fin-row .val { display: table-cell; text-align: right; font-weight: 600; }
 .st-fin-row.grand { border-bottom: none; border-top: 2pt solid #0F0F1A; margin-top: 4pt; padding-top: 8pt; font-size: 11pt; font-weight: 700; color: #0F0F1A; }
 .st-fin-row.grand .val { color: #B8973A; }
+.st-fin-row.arrete { border-bottom: none; font-size: 8pt; color: #666; font-style: italic; padding-top: 4pt; }
 
 /* ── payment tranches ── */
 .st-ech-grid { display: table; width: 100%; margin: 8pt 0; border-spacing: 6pt 0; }
@@ -325,7 +341,8 @@ class SousTraitancePDFGenerator:
             {t('banque')} : {st_banque}<br>
             <em>{t('ci_st')}</em>
           </div>
-        </div>"""
+        </div>
+        <p class="st-together">{t('parties_ensemble')}</p>"""
 
     # ── Article builders ─────────────────────────────────────────────────────
 
@@ -369,19 +386,25 @@ class SousTraitancePDFGenerator:
           <tr><td style="font-weight:600;">{t('objet_mo')}</td><td>{proj_mo}</td></tr>
           <tr><td style="font-weight:600;">{t('objet_permis')}</td><td>{proj_permis}</td></tr>
           <tr><td style="font-weight:600;">{t('objet_normes')}</td><td>{_esc(normes)}</td></tr>
-        </table>"""
+        </table>
+        <p>{t('objet_declaration')}</p>"""
         return self._art(t("art_objet"), body)
 
     def _build_art_docs(self) -> str:
         """Article 3 – Documents contractuels."""
         t = self._t
+        lot_key = self.c.st_lot_type or ""
+        normes = LOT_NORMES.get(lot_key, "")
         docs = st_t("docs_list", self.lang)
-        items = (
-            "".join(f"<li>{_esc(d)}</li>" for d in docs)
-            if isinstance(docs, list)
-            else ""
-        )
-        body = f"<p>{t('docs_intro')}</p><ol>{items}</ol>"
+        if isinstance(docs, list):
+            parts = []
+            for idx, d in enumerate(docs):
+                text = f"{d} : {normes}" if idx == 6 and normes else d
+                parts.append(f"<li>{_esc(text)}</li>")
+            items = "".join(parts)
+        else:
+            items = ""
+        body = f"<p>{t('docs_intro')}</p><ol>{items}</ol><p>{t('docs_contradiction')}</p>"
         return self._art(t("art_docs"), body)
 
     def _build_art_prix(self) -> str:
@@ -408,12 +431,21 @@ class SousTraitancePDFGenerator:
           <div class="st-fin-row"><span class="lbl">{t('prix_ht')}</span><span class="val">{ht_str}</span></div>
           <div class="st-fin-row"><span class="lbl">{t('prix_tva').format(tva=f'{tva_pct:g}')}</span><span class="val">{tva_str}</span></div>
           <div class="st-fin-row grand"><span class="lbl">{t('prix_ttc')}</span><span class="val">{ttc_str}</span></div>
-        </div>"""
+          <div class="st-fin-row arrete"><span class="lbl">{t('prix_arrete')}</span><span class="val">{_esc(_num_to_words_mad(round(self._ttc), lang))} {dev}.</span></div>
+        </div>
+        <p>{t('prix_comprend')}</p>"""
 
         # Payment terms
         delai_pay = c.st_delai_paiement or 30
+        rib_info = ""
+        if c.st_rib or c.st_banque:
+            if self.lang == "fr":
+                rib_info = f" sur le compte n\u00b0\u00a0{_esc(c.st_rib or '\u2014')} ouvert aupr\u00e8s de {_esc(c.st_banque or '\u2014')}"
+            else:
+                rib_info = f" on account n\u00b0\u00a0{_esc(c.st_rib or '\u2014')} held at {_esc(c.st_banque or '\u2014')}"
         body += f"""
         <p class="st-art-sub">{t('prix_modalites')}</p>
+        <p>{t('prix_virement_intro').format(rib_info=rib_info)}</p>
         <p>{t('prix_delai_paiement').format(days=delai_pay)}</p>"""
 
         # Tranches
@@ -442,10 +474,11 @@ class SousTraitancePDFGenerator:
 
         # Retenue de garantie
         ret_pct = float(c.st_retenue_garantie or 0)
+        garantie_ret_mois = c.st_garantie_mois or 12
         if ret_pct > 0:
             body += f"""
             <p class="st-art-sub">{t('prix_retenue')}</p>
-            <p>{t('prix_retenue_text').format(pct=f'{ret_pct:g}')}</p>"""
+            <p>{t('prix_retenue_text').format(pct=f'{ret_pct:g}', months=garantie_ret_mois)}</p>"""
 
         # Travaux supplémentaires
         body += f"""
@@ -533,7 +566,9 @@ class SousTraitancePDFGenerator:
         if isinstance(rules, list):
             body += "<ul>" + "".join(f"<li>{_esc(r)}</li>" for r in rules) + "</ul>"
 
-        body += f"<p>{t('assurances_trc')}</p>"
+        actives = self.c.st_clauses_actives or []
+        if "tTRC" in actives:
+            body += f"<p>{t('assurances_trc')}</p>"
         return self._art(t("art_assurances"), body)
 
     def _build_art_reception(self) -> str:
@@ -544,32 +579,37 @@ class SousTraitancePDFGenerator:
         lot_key = c.st_lot_type or ""
         reception_text = LOT_RECEPTION.get(lang, LOT_RECEPTION["fr"]).get(lot_key, "")
         delai_res = c.st_delai_reserves or 30
-        garantie_mois = c.st_garantie_mois or 120
+        garantie_mois = c.st_garantie_mois or 12
 
         body = f"""
         <p class="st-art-sub">{t('reception_provisoire')}</p>
+        <p>{t('reception_provisoire_text')}</p>
         <p>{_esc(reception_text)}</p>
+        <p>{t('reception_pv_text')}</p>
         <p class="st-art-sub">{t('reception_reserves')}</p>
         <p>{t('reception_reserves_text').format(days=delai_res)}</p>
         <p class="st-art-sub">{t('reception_definitive')}</p>
-        <p>{t('reception_definitive_text')}</p>
+        <p>{t('reception_definitive_text').format(months=garantie_mois)}</p>
         <p class="st-art-sub">{t('reception_decennale')}</p>
-        <p>{t('reception_decennale_text').format(months=garantie_mois)}</p>"""
+        <p>{t('reception_decennale_text')}</p>"""
         return self._art(t("art_reception"), body)
 
     def _build_art_responsabilite(self) -> str:
         """Article 10 – Responsabilité et garanties."""
         t = self._t
+        c = self.c
         body = f"""
         <p>{t('resp_resultat')}</p>
         <p>{t('resp_recours')}</p>
         <p>{t('resp_personnel')}</p>
-        <p>{t('resp_defaillance').format(days=15)}</p>"""
+        <p>{t('resp_defaillance').format(days=c.st_delai_med or 8)}</p>"""
         return self._art(t("art_responsabilite"), body)
 
     def _build_art_resiliation(self) -> str:
         """Article 11 – Résiliation."""
         t = self._t
+        c = self.c
+        delai_med = c.st_delai_med or 8
         items = st_t("resil_faute_list", self.lang)
         items_html = (
             "".join(f"<li>{_esc(i)}</li>" for i in items)
@@ -580,6 +620,7 @@ class SousTraitancePDFGenerator:
         <p class="st-art-sub">{t('resil_faute')}</p>
         <p>{t('resil_faute_intro')}</p>
         <ul>{items_html}</ul>
+        <p>{t('resil_faute_effet').format(days=delai_med)}</p>
         <p class="st-art-sub">{t('resil_convenance')}</p>
         <p>{t('resil_convenance_text')}</p>
         <p class="st-art-sub">{t('resil_consequences')}</p>
@@ -621,15 +662,14 @@ class SousTraitancePDFGenerator:
         """Litiges, Force Majeure, Dispositions Générales."""
         t = self._t
         c = self.c
-        delai_med = c.st_delai_med or 30
         html = ""
 
         # Médiation (optional clause toggle)
         actives = c.st_clauses_actives or []
         if "tMediat" in actives:
             med_body = f"""
-            <p>{t('litiges_mediation').format(days=delai_med)}</p>
-            <p>{t('litiges_tribunal')}</p>"""
+            <p>{t('litiges_mediation')}</p>
+            <p>{t('litiges_tribunal_mediation')}</p>"""
         else:
             med_body = f"<p>{t('litiges_tribunal')}</p>"
         html += self._art(t("art_litiges"), med_body)

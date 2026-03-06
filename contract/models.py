@@ -539,7 +539,7 @@ class Contract(models.Model):
     st_delai_med = models.PositiveIntegerField(
         null=True,
         blank=True,
-        verbose_name="Délai médiation (jours)",
+        verbose_name="Délai mise en demeure (jours)",
     )
     # Options
     st_clauses_actives = models.JSONField(

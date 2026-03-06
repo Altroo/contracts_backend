@@ -48,6 +48,17 @@ BORDER_HEX = "E2D9C8"
 # ── OxmlElement helpers ──────────────────────────────────────────────────────
 
 
+def _num_to_words_mad(n: int, lang: str) -> str:
+    """Convert integer n to words for the contract 'arrêté à la somme de' line."""
+    try:
+        from num2words import num2words  # type: ignore[import-untyped]
+
+        locale = "fr" if lang == "fr" else "en"
+        return num2words(n, lang=locale).capitalize()
+    except Exception:  # ImportError or any num2words error
+        return f"{n:,}".replace(",", "\u202f")
+
+
 def _cell_bg(cell, hex_color: str):
     tc = cell._tc
     tcPr = tc.get_or_add_tcPr()
@@ -528,6 +539,16 @@ class SousTraitanceDOCGenerator:
         ci_sr.italic = True
         ci_sr.font.color.rgb = MUTED
 
+        # "Ensemble désignées" closing sentence
+        ens_p = self.doc.add_paragraph()
+        ens_r = ens_p.add_run(t("parties_ensemble"))
+        ens_r.font.size = Pt(8.5)
+        ens_r.italic = True
+        ens_r.font.color.rgb = MUTED
+        ens_p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        ens_p.paragraph_format.space_before = Pt(4)
+        ens_p.paragraph_format.space_after = Pt(8)
+
     # ── articles ─────────────────────────────────────────────────────────────
 
     def _build_art_parties(self):
@@ -580,19 +601,24 @@ class SousTraitanceDOCGenerator:
             vr = table.cell(i, 1).paragraphs[0].add_run(str(val))
             vr.font.size = Pt(8.5)
             vr.font.color.rgb = INK
+        self._add_text(t("objet_declaration"), size=Pt(8.5))
 
     def _build_art_docs(self):
         t = self._t
         self._add_art_title(t("art_docs"))
         self._add_text(t("docs_intro"), size=Pt(8.5))
+        lot_key = self.c.st_lot_type or ""
+        normes = LOT_NORMES.get(lot_key, "")
         docs = st_t("docs_list", self.lang)
         if isinstance(docs, list):
             for i, d in enumerate(docs, 1):
+                text = f"{d} : {normes}" if i == 7 and normes else d
                 p = self.doc.add_paragraph()
                 p.paragraph_format.left_indent = Cm(0.4)
-                r = p.add_run(f"{i}. {d}")
+                r = p.add_run(f"{i}. {text}")
                 r.font.size = Pt(8.5)
                 r.font.color.rgb = INK
+        self._add_text(t("docs_contradiction"), size=Pt(8.5))
 
     def _build_art_prix(self):
         t = self._t
@@ -635,10 +661,26 @@ class SousTraitanceDOCGenerator:
             vr.font.color.rgb = GOLD if is_grand else DARK
             vr.bold = True
             ftable.cell(i, 1).paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.RIGHT
+        # "Arrêté à la somme de" line
+        arrete_p = self.doc.add_paragraph()
+        arrete_r = arrete_p.add_run(
+            f"{t('prix_arrete')} {_num_to_words_mad(round(self._ttc), lang)} {dev}."
+        )
+        arrete_r.font.size = Pt(8)
+        arrete_r.italic = True
+        arrete_r.font.color.rgb = MUTED
+        self._add_text(t("prix_comprend"), size=Pt(8.5))
 
         # 4.2 Modalités
         self._add_sub_title(t("prix_modalites"))
         delai_pay = c.st_delai_paiement or 30
+        rib_info = ""
+        if c.st_rib or c.st_banque:
+            if self.lang == "fr":
+                rib_info = f" sur le compte n\u00b0\u00a0{c.st_rib or '\u2014'} ouvert aupr\u00e8s de {c.st_banque or '\u2014'}"
+            else:
+                rib_info = f" on account n\u00b0\u00a0{c.st_rib or '\u2014'} held at {c.st_banque or '\u2014'}"
+        self._add_text(t("prix_virement_intro").format(rib_info=rib_info), size=Pt(8.5))
         self._add_text(t("prix_delai_paiement").format(days=delai_pay), size=Pt(8.5))
 
         # Tranches
@@ -690,10 +732,11 @@ class SousTraitanceDOCGenerator:
 
         # 4.4 Retenue
         ret_pct = float(c.st_retenue_garantie or 0)
+        garantie_ret_mois = c.st_garantie_mois or 12
         if ret_pct > 0:
             self._add_sub_title(t("prix_retenue"))
             self._add_text(
-                t("prix_retenue_text").format(pct=f"{ret_pct:g}"), size=Pt(8.5)
+                t("prix_retenue_text").format(pct=f"{ret_pct:g}", months=garantie_ret_mois), size=Pt(8.5)
             )
 
         # 4.5 Supplémentaires
@@ -772,7 +815,9 @@ class SousTraitanceDOCGenerator:
             for rule in rules:
                 self._add_bullet(rule)
 
-        self._add_text(t("assurances_trc"), size=Pt(8.5))
+        actives = self.c.st_clauses_actives or []
+        if "tTRC" in actives:
+            self._add_text(t("assurances_trc"), size=Pt(8.5))
 
     def _build_art_reception(self):
         t = self._t
@@ -783,20 +828,22 @@ class SousTraitanceDOCGenerator:
 
         reception_text = LOT_RECEPTION.get(lang, LOT_RECEPTION["fr"]).get(lot_key, "")
         delai_res = c.st_delai_reserves or 30
-        garantie_mois = c.st_garantie_mois or 120
+        garantie_mois = c.st_garantie_mois or 12
 
         self._add_sub_title(t("reception_provisoire"))
+        self._add_text(t("reception_provisoire_text"), size=Pt(8.5))
         if reception_text:
             self._add_text(reception_text, size=Pt(8.5))
+        self._add_text(t("reception_pv_text"), size=Pt(8.5))
         self._add_sub_title(t("reception_reserves"))
         self._add_text(
             t("reception_reserves_text").format(days=delai_res), size=Pt(8.5)
         )
         self._add_sub_title(t("reception_definitive"))
-        self._add_text(t("reception_definitive_text"), size=Pt(8.5))
+        self._add_text(t("reception_definitive_text").format(months=garantie_mois), size=Pt(8.5))
         self._add_sub_title(t("reception_decennale"))
         self._add_text(
-            t("reception_decennale_text").format(months=garantie_mois), size=Pt(8.5)
+            t("reception_decennale_text"), size=Pt(8.5)
         )
 
     def _build_art_responsabilite(self):
@@ -805,10 +852,12 @@ class SousTraitanceDOCGenerator:
         self._add_text(t("resp_resultat"), size=Pt(8.5))
         self._add_text(t("resp_recours"), size=Pt(8.5))
         self._add_text(t("resp_personnel"), size=Pt(8.5))
-        self._add_text(t("resp_defaillance").format(days=15), size=Pt(8.5))
+        self._add_text(t("resp_defaillance").format(days=self.c.st_delai_med or 8), size=Pt(8.5))
 
     def _build_art_resiliation(self):
         t = self._t
+        c = self.c
+        delai_med = c.st_delai_med or 8
         self._add_art_title(t("art_resiliation"))
         self._add_sub_title(t("resil_faute"))
         self._add_text(t("resil_faute_intro"), size=Pt(8.5))
@@ -816,6 +865,7 @@ class SousTraitanceDOCGenerator:
         if isinstance(items, list):
             for item in items:
                 self._add_bullet(item)
+        self._add_text(t("resil_faute_effet").format(days=delai_med), size=Pt(8.5))
         self._add_sub_title(t("resil_convenance"))
         self._add_text(t("resil_convenance_text"), size=Pt(8.5))
         self._add_sub_title(t("resil_consequences"))
@@ -849,14 +899,15 @@ class SousTraitanceDOCGenerator:
     def _build_trailing_articles(self):
         t = self._t
         c = self.c
-        delai_med = c.st_delai_med or 30
         actives = c.st_clauses_actives or []
 
         # Litiges
         self._add_art_title(t("art_litiges"))
         if "tMediat" in actives:
-            self._add_text(t("litiges_mediation").format(days=delai_med), size=Pt(8.5))
-        self._add_text(t("litiges_tribunal"), size=Pt(8.5))
+            self._add_text(t("litiges_mediation"), size=Pt(8.5))
+            self._add_text(t("litiges_tribunal_mediation"), size=Pt(8.5))
+        else:
+            self._add_text(t("litiges_tribunal"), size=Pt(8.5))
 
         # Force Majeure
         self._add_art_title(t("art_force_majeure"))
