@@ -322,7 +322,7 @@ class BluelinePDFGenerator:
         if c.description_travaux:
             desc_html = (
                 f'<div style="margin-top:6pt;padding:6pt 10pt;background:rgba(42,127,255,0.04);'
-                f'border:0.5pt solid rgba(42,127,255,0.15);border-radius:4pt;font-size:8.5pt;'
+                f"border:0.5pt solid rgba(42,127,255,0.15);border-radius:4pt;font-size:8.5pt;"
                 f'line-height:1.75;color:#3a4e6e;">'
                 f'<strong style="color:#0a1628">{self._t("description_travaux_label")}</strong><br>'
                 + _esc(c.description_travaux).replace("\n", "<br>")

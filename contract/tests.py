@@ -10,11 +10,15 @@ from rest_framework.test import APIClient
 from rest_framework_simplejwt.tokens import AccessToken
 
 from account.models import CustomUser
-from contract.models import Contract
+from contract.models import Contract, Project
 from contract.pdf import _fmt_date, _fmt_amt, _esc, _is_societe, ContractPDFGenerator
 from contract.doc import ContractDOCGenerator
 from contract.bl_pdf import BluelinePDFGenerator, _garantie_text, _solde_pct
 from contract.bl_doc import BluelineDOCGenerator
+from contract.st_pdf import SousTraitancePDFGenerator
+from contract.st_doc import SousTraitanceDOCGenerator
+from contract.st_i18n import st_t, LOT_LABELS
+from core.models import CompanyConfig
 
 pytestmark = pytest.mark.django_db
 
@@ -357,6 +361,7 @@ class TestGenerateNumeroContratView:
 # Fixtures
 # ──────────────────────────────────────────────────────────────────────────────
 
+
 @pytest.fixture()
 def staff_user():
     user = CustomUser.objects.create_user(
@@ -445,7 +450,11 @@ def cdl_contract(staff_user):
         garantie="2 ans",
         delai_reserves=7,
         tribunal="Tanger",
-        clauses_actives=["clause_resiliation", "clause_force_majeure", "clause_confidentialite"],
+        clauses_actives=[
+            "clause_resiliation",
+            "clause_force_majeure",
+            "clause_confidentialite",
+        ],
         clause_spec="Clause spécifique personnalisée <b>test</b>",
         exclusions="Plomberie & électricité non incluses <img src=x onerror=alert(1)>",
         # Meta
@@ -489,8 +498,20 @@ def bl_contract(staff_user):
         duree_estimee="45",
         # Prestations
         prestations=[
-            {"nom": "pose_carrelage", "desc": "Sol salon + chambres", "qte": 80, "unite": "m2", "pu": 350},
-            {"nom": "pose_marbre", "desc": "Entrée + escalier", "qte": 25, "unite": "m2", "pu": 650},
+            {
+                "nom": "pose_carrelage",
+                "desc": "Sol salon + chambres",
+                "qte": 80,
+                "unite": "m2",
+                "pu": 350,
+            },
+            {
+                "nom": "pose_marbre",
+                "desc": "Entrée + escalier",
+                "qte": 25,
+                "unite": "m2",
+                "pu": 650,
+            },
         ],
         fournitures="non_incluses",
         materiaux_detail="Carrelage fourni par le client",
@@ -581,7 +602,10 @@ class TestFmtAmt:
 
 class TestEsc:
     def test_escapes_html_tags(self):
-        assert _esc("<script>alert('x')</script>") == "&lt;script&gt;alert('x')&lt;/script&gt;"
+        assert (
+            _esc("<script>alert('x')</script>")
+            == "&lt;script&gt;alert('x')&lt;/script&gt;"
+        )
 
     def test_escapes_ampersand(self):
         assert _esc("A & B") == "A &amp; B"
@@ -846,7 +870,9 @@ class TestCDLDOCGenerator:
         response = gen.generate_response()
         doc = DocxDocument(io.BytesIO(response.content))
         full_text = "\n".join(p.text for p in doc.paragraphs)
-        assert "Client" in full_text or "Agreement" in full_text or "Service" in full_text
+        assert (
+            "Client" in full_text or "Agreement" in full_text or "Service" in full_text
+        )
 
     def test_minimal_contract_generates(self, cdl_minimal_contract):
         gen = ContractDOCGenerator(cdl_minimal_contract, language="fr")
@@ -916,7 +942,11 @@ class TestBLPDFGenerator:
         gen = BluelinePDFGenerator(bl_contract, language="fr")
         html = gen._build_html()
         # fournitures="non_incluses" should appear as its label
-        assert "client" in html.lower() or "non incluse" in html.lower() or "non_incluses" in html.lower()
+        assert (
+            "client" in html.lower()
+            or "non incluse" in html.lower()
+            or "non_incluses" in html.lower()
+        )
 
     def test_html_contains_eau_electricite(self, bl_contract):
         gen = BluelinePDFGenerator(bl_contract, language="fr")
@@ -1031,7 +1061,9 @@ class TestBLDOCGenerator:
         doc = DocxDocument(io.BytesIO(response.content))
         full_text = "\n".join(p.text for p in doc.paragraphs)
         # At least some English text should appear
-        assert "Client" in full_text or "Service" in full_text or "Contract" in full_text
+        assert (
+            "Client" in full_text or "Service" in full_text or "Contract" in full_text
+        )
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -1190,7 +1222,9 @@ class TestEdgeCases:
         assert response.status_code == 200
 
     def test_cdl_pdf_unicode_in_fields(self, cdl_minimal_contract):
-        cdl_minimal_contract.description_travaux = "Rénovation café — été 2026 • «Design»"
+        cdl_minimal_contract.description_travaux = (
+            "Rénovation café — été 2026 • «Design»"
+        )
         cdl_minimal_contract.save()
         gen = ContractPDFGenerator(cdl_minimal_contract, language="fr")
         response = gen.generate_response()
@@ -1212,7 +1246,13 @@ class TestEdgeCases:
 
     def test_bl_pdf_many_prestations(self, bl_minimal_contract):
         bl_minimal_contract.prestations = [
-            {"nom": f"prestation_{i}", "desc": f"Desc {i}", "qte": i, "unite": "m2", "pu": 100 + i}
+            {
+                "nom": f"prestation_{i}",
+                "desc": f"Desc {i}",
+                "qte": i,
+                "unite": "m2",
+                "pu": 100 + i,
+            }
             for i in range(20)
         ]
         bl_minimal_contract.save()
@@ -1446,3 +1486,477 @@ class TestEmptyFraisRedemarrage:
         cdl_contract.save()
         html = _gen_contract_html(cdl_contract, "fr")
         assert "frais de redémarrage" in html.lower() or "5" in html
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+#  FIXTURES — Sous-Traitance
+# ══════════════════════════════════════════════════════════════════════════════
+
+
+@pytest.fixture()
+def cdl_company_config():
+    """CompanyConfig for casa_di_lusso EP identity."""
+    return CompanyConfig.objects.create(
+        company="casa_di_lusso",
+        name="CASA DI LUSSO SARL",
+        forme_juridique="SARL",
+        capital=Decimal("500000.00"),
+        rc="123456",
+        ice="001234567890123",
+        identifiant_fiscal="78901234",
+        adresse="45 Bd Mohammed V, Tanger 90000",
+        representant="Youssef Directeur",
+        qualite_representant="Gérant",
+    )
+
+
+@pytest.fixture()
+def st_project(staff_user):
+    """Project linked to ST contract."""
+    return Project.objects.create(
+        company="casa_di_lusso",
+        name="Villa Palmiers Tanger",
+        type="villa",
+        adresse="Route de Malabata, Tanger",
+        maitre_ouvrage="Ahmed Invest SARL",
+        permis="PC-2026-12345",
+    )
+
+
+@pytest.fixture()
+def st_contract(staff_user, st_project, cdl_company_config):
+    """Full ST contract with all fields populated."""
+    return Contract.objects.create(
+        company="casa_di_lusso",
+        contract_category="sous_traitance",
+        numero_contrat="ST/TEST-001",
+        date_contrat=date(2026, 6, 1),
+        statut="Signé",
+        created_by_user=staff_user,
+        ville_signature="Tanger",
+        montant_ht=Decimal("250000.00"),
+        devise="MAD",
+        tva=Decimal("20.00"),
+        # ST-specific
+        st_projet=st_project,
+        st_name="Entreprise El Mansouri SARL",
+        st_forme="SARL",
+        st_capital=Decimal("100000.00"),
+        st_rc="654321",
+        st_ice="009876543210987",
+        st_if="56789012",
+        st_cnss="CNSS-12345",
+        st_addr="12 Rue Allal Ben Abdallah, Casablanca",
+        st_rep="Mohammed El Mansouri",
+        st_cin="AB654321",
+        st_qualite="Gérant",
+        st_tel="+212600000099",
+        st_email="contact@elmansouri.ma",
+        st_rib="007 600 0987654321098765 42",
+        st_banque="Banque Populaire",
+        st_lot_type="gros_oeuvre",
+        st_lot_description="Gros-œuvre complet de la villa",
+        st_type_prix="forfaitaire",
+        st_retenue_garantie=Decimal("10.00"),
+        st_avance=Decimal("20.00"),
+        st_penalite_taux=Decimal("1.00"),
+        st_plafond_penalite=Decimal("10.00"),
+        st_delai_paiement=30,
+        st_tranches=[
+            {"label": "Acompte", "pourcentage": 20},
+            {"label": "Avancement 50%", "pourcentage": 40},
+            {"label": "Avancement 80%", "pourcentage": 30},
+            {"label": "Réception", "pourcentage": 10},
+        ],
+        st_delai_val=6,
+        st_delai_unit="mois",
+        st_garantie_mois=120,
+        st_delai_reserves=30,
+        st_delai_med=30,
+        st_clauses_actives=["tConfid", "tMediat", "tAnnexe"],
+        st_observations="Début prévu juin 2026 — coordonner avec lot électricité.",
+    )
+
+
+@pytest.fixture()
+def st_minimal_contract(staff_user, cdl_company_config):
+    """Minimal ST contract — only required fields."""
+    return Contract.objects.create(
+        company="casa_di_lusso",
+        contract_category="sous_traitance",
+        numero_contrat="ST/MIN-001",
+        date_contrat=date(2026, 1, 1),
+        statut="Brouillon",
+        created_by_user=staff_user,
+    )
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+#  UNIT TESTS — st_i18n helpers
+# ══════════════════════════════════════════════════════════════════════════════
+
+
+class TestStI18n:
+    """Test translations and lookup functions from st_i18n.py."""
+
+    def test_st_t_returns_fr_text(self):
+        val = st_t("contrat_title", "fr")
+        assert isinstance(val, str)
+        assert "SOUS-TRAITANCE" in val.upper() or "CONTRAT" in val.upper()
+
+    def test_st_t_returns_en_text(self):
+        val = st_t("contrat_title", "en")
+        assert isinstance(val, str)
+        assert "SUBCONTRACT" in val.upper() or "CONTRACT" in val.upper()
+
+    def test_st_t_missing_key_returns_key(self):
+        val = st_t("nonexistent_key_xyz", "fr")
+        assert val == "nonexistent_key_xyz"
+
+    def test_lot_labels_contain_gros_oeuvre(self):
+        assert "gros_oeuvre" in LOT_LABELS["fr"]
+        assert "gros_oeuvre" in LOT_LABELS["en"]
+
+    def test_st_t_list_type(self):
+        val = st_t("docs_list", "fr")
+        assert isinstance(val, list)
+        assert len(val) > 0
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+#  INTEGRATION TESTS — ST PDF Generator
+# ══════════════════════════════════════════════════════════════════════════════
+
+
+class TestSTPDFGenerator:
+    """Test SousTraitancePDFGenerator (Casa Di Lusso ST — WeasyPrint PDF)."""
+
+    def test_generate_response_returns_pdf(self, st_contract):
+        gen = SousTraitancePDFGenerator(st_contract, language="fr")
+        response = gen.generate_response()
+        assert response.status_code == 200
+        assert response["Content-Type"] == "application/pdf"
+        assert b"%PDF" in response.content[:20]
+
+    def test_generate_response_en(self, st_contract):
+        gen = SousTraitancePDFGenerator(st_contract, language="en")
+        response = gen.generate_response()
+        assert response.status_code == 200
+        assert b"%PDF" in response.content[:20]
+
+    def test_filename_contains_st_ref(self, st_contract):
+        gen = SousTraitancePDFGenerator(st_contract, language="fr")
+        response = gen.generate_response()
+        disp = response["Content-Disposition"]
+        assert "ST" in disp or "contrat_st" in disp
+
+    def test_html_contains_ep_name(self, st_contract):
+        gen = SousTraitancePDFGenerator(st_contract, language="fr")
+        html = gen._build_html()
+        assert "CASA DI LUSSO" in html
+
+    def test_html_contains_st_name(self, st_contract):
+        gen = SousTraitancePDFGenerator(st_contract, language="fr")
+        html = gen._build_html()
+        assert "El Mansouri" in html
+
+    def test_html_contains_lot_label(self, st_contract):
+        gen = SousTraitancePDFGenerator(st_contract, language="fr")
+        html = gen._build_html()
+        lot_label = LOT_LABELS["fr"]["gros_oeuvre"]
+        assert lot_label in html
+
+    def test_html_contains_financial_box(self, st_contract):
+        gen = SousTraitancePDFGenerator(st_contract, language="fr")
+        html = gen._build_html()
+        assert "250" in html  # montant HT
+        assert "300" in html  # TTC (250000 + 50000)
+
+    def test_html_contains_tranches(self, st_contract):
+        gen = SousTraitancePDFGenerator(st_contract, language="fr")
+        html = gen._build_html()
+        assert "Acompte" in html
+        assert "20" in html
+
+    def test_html_contains_optional_clause(self, st_contract):
+        gen = SousTraitancePDFGenerator(st_contract, language="fr")
+        html = gen._build_html()
+        # tConfid is active
+        confid_title = st_t("clause_confid", "fr")
+        assert confid_title in html
+
+    def test_html_contains_observations(self, st_contract):
+        gen = SousTraitancePDFGenerator(st_contract, language="fr")
+        html = gen._build_html()
+        assert "coordonner avec lot" in html
+
+    def test_html_contains_project_info(self, st_contract):
+        gen = SousTraitancePDFGenerator(st_contract, language="fr")
+        html = gen._build_html()
+        assert "Villa Palmiers" in html
+
+    def test_html_contains_signatures(self, st_contract):
+        gen = SousTraitancePDFGenerator(st_contract, language="fr")
+        html = gen._build_html()
+        assert "Tanger" in html  # ville_signature
+
+    def test_minimal_contract_generates(self, st_minimal_contract):
+        gen = SousTraitancePDFGenerator(st_minimal_contract, language="fr")
+        response = gen.generate_response()
+        assert response.status_code == 200
+        assert b"%PDF" in response.content[:20]
+
+    def test_en_contains_english_labels(self, st_contract):
+        gen = SousTraitancePDFGenerator(st_contract, language="en")
+        html = gen._build_html()
+        lot_label = LOT_LABELS["en"]["gros_oeuvre"]
+        assert lot_label in html
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+#  INTEGRATION TESTS — ST DOC Generator
+# ══════════════════════════════════════════════════════════════════════════════
+
+
+class TestSTDOCGenerator:
+    """Test SousTraitanceDOCGenerator (Casa Di Lusso ST — python-docx DOCX)."""
+
+    def test_generate_response_returns_docx(self, st_contract):
+        gen = SousTraitanceDOCGenerator(st_contract, language="fr")
+        response = gen.generate_response()
+        assert response.status_code == 200
+        ct = response["Content-Type"]
+        assert "officedocument" in ct or "msword" in ct
+
+    def test_generate_response_en(self, st_contract):
+        gen = SousTraitanceDOCGenerator(st_contract, language="en")
+        response = gen.generate_response()
+        assert response.status_code == 200
+
+    def test_filename_contains_st(self, st_contract):
+        gen = SousTraitanceDOCGenerator(st_contract, language="fr")
+        response = gen.generate_response()
+        disp = response["Content-Disposition"]
+        assert "contrat_st" in disp
+
+    def test_docx_is_valid_zip(self, st_contract):
+        import zipfile
+
+        gen = SousTraitanceDOCGenerator(st_contract, language="fr")
+        response = gen.generate_response()
+        buf = io.BytesIO(response.content)
+        assert zipfile.is_zipfile(buf)
+
+    def test_docx_contains_st_name(self, st_contract):
+        from docx import Document as DocxDocument
+
+        gen = SousTraitanceDOCGenerator(st_contract, language="fr")
+        response = gen.generate_response()
+        doc = DocxDocument(io.BytesIO(response.content))
+        all_text = [p.text for p in doc.paragraphs]
+        for table in doc.tables:
+            for row in table.rows:
+                for cell in row.cells:
+                    all_text.append(cell.text)
+        full_text = "\n".join(all_text)
+        assert "El Mansouri" in full_text
+
+    def test_docx_contains_ep_name(self, st_contract):
+        from docx import Document as DocxDocument
+
+        gen = SousTraitanceDOCGenerator(st_contract, language="fr")
+        response = gen.generate_response()
+        doc = DocxDocument(io.BytesIO(response.content))
+        all_text = [p.text for p in doc.paragraphs]
+        for table in doc.tables:
+            for row in table.rows:
+                for cell in row.cells:
+                    all_text.append(cell.text)
+        full_text = "\n".join(all_text)
+        assert "CASA DI LUSSO" in full_text
+
+    def test_docx_contains_project(self, st_contract):
+        from docx import Document as DocxDocument
+
+        gen = SousTraitanceDOCGenerator(st_contract, language="fr")
+        response = gen.generate_response()
+        doc = DocxDocument(io.BytesIO(response.content))
+        all_text = [p.text for p in doc.paragraphs]
+        for table in doc.tables:
+            for row in table.rows:
+                for cell in row.cells:
+                    all_text.append(cell.text)
+        full_text = "\n".join(all_text)
+        assert "Villa Palmiers" in full_text
+
+    def test_docx_en_contains_english(self, st_contract):
+        from docx import Document as DocxDocument
+
+        gen = SousTraitanceDOCGenerator(st_contract, language="en")
+        response = gen.generate_response()
+        doc = DocxDocument(io.BytesIO(response.content))
+        full_text = "\n".join(p.text for p in doc.paragraphs)
+        # English labels should be present
+        assert len(full_text) > 100
+
+    def test_minimal_contract_generates(self, st_minimal_contract):
+        gen = SousTraitanceDOCGenerator(st_minimal_contract, language="fr")
+        response = gen.generate_response()
+        assert response.status_code == 200
+
+    def test_docx_annexe_present(self, st_contract):
+        """tAnnexe is active, so the annexe checklist should be present."""
+        from docx import Document as DocxDocument
+
+        gen = SousTraitanceDOCGenerator(st_contract, language="fr")
+        response = gen.generate_response()
+        doc = DocxDocument(io.BytesIO(response.content))
+        all_text = []
+        for table in doc.tables:
+            for row in table.rows:
+                for cell in row.cells:
+                    all_text.append(cell.text)
+        full_text = "\n".join(all_text)
+        assert "☐" in full_text  # checkbox character
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+#  INTEGRATION TESTS — ST PDF / DOC View endpoints
+# ══════════════════════════════════════════════════════════════════════════════
+
+
+class TestContractPDFViewST:
+    """Test the /pdf/fr|en/<pk>/ endpoint for ST contracts."""
+
+    def test_pdf_view_returns_pdf(self, staff_client, st_contract):
+        url = reverse("contract:contract-pdf-fr", args=[st_contract.pk])
+        response = staff_client.get(url)
+        assert response.status_code == 200
+        assert response["Content-Type"] == "application/pdf"
+
+    def test_pdf_view_en(self, staff_client, st_contract):
+        url = reverse("contract:contract-pdf-en", args=[st_contract.pk])
+        response = staff_client.get(url)
+        assert response.status_code == 200
+
+    def test_pdf_view_no_permission(self, noprint_client, st_contract):
+        url = reverse("contract:contract-pdf-fr", args=[st_contract.pk])
+        response = noprint_client.get(url)
+        assert response.status_code == 403
+
+
+class TestContractDOCViewST:
+    """Test the /doc/fr|en/<pk>/ endpoint for ST contracts."""
+
+    def test_doc_view_returns_docx(self, staff_client, st_contract):
+        url = reverse("contract:contract-doc-fr", args=[st_contract.pk])
+        response = staff_client.get(url)
+        assert response.status_code == 200
+        ct = response["Content-Type"]
+        assert "officedocument" in ct
+
+    def test_doc_view_en(self, staff_client, st_contract):
+        url = reverse("contract:contract-doc-en", args=[st_contract.pk])
+        response = staff_client.get(url)
+        assert response.status_code == 200
+
+    def test_doc_view_no_permission(self, noprint_client, st_contract):
+        url = reverse("contract:contract-doc-fr", args=[st_contract.pk])
+        response = noprint_client.get(url)
+        assert response.status_code == 403
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+#  TESTS — CompanyConfig + Project API
+# ══════════════════════════════════════════════════════════════════════════════
+
+
+class TestCompanyConfigAPI:
+    def test_list_requires_auth(self):
+        client = APIClient()
+        url = "/api/company-config/"
+        response = client.get(url)
+        assert response.status_code == 401
+
+    def test_list_returns_configs(self, staff_client, cdl_company_config):
+        url = "/api/company-config/"
+        response = staff_client.get(url)
+        assert response.status_code == 200
+        data = response.json()
+        assert any(c["company"] == "casa_di_lusso" for c in data)
+
+
+class TestProjectAPI:
+    def test_create_project(self, staff_client):
+        url = reverse("contract:project-list-create")
+        data = {
+            "company": "casa_di_lusso",
+            "name": "Test Project",
+            "type": "villa",
+            "adresse": "123 Test St",
+        }
+        response = staff_client.post(url, data, format="json")
+        assert response.status_code == 201
+        assert response.json()["name"] == "Test Project"
+
+    def test_list_projects(self, staff_client, st_project):
+        url = reverse("contract:project-list-create")
+        response = staff_client.get(url)
+        assert response.status_code == 200
+        data = response.json()
+        assert any(p["name"] == "Villa Palmiers Tanger" for p in data)
+
+    def test_project_detail(self, staff_client, st_project):
+        url = reverse("contract:project-detail", args=[st_project.pk])
+        response = staff_client.get(url)
+        assert response.status_code == 200
+        assert response.json()["name"] == "Villa Palmiers Tanger"
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+#  TESTS — Unique-together (company, contract_category, numero_contrat)
+# ══════════════════════════════════════════════════════════════════════════════
+
+
+class TestUniqueTogetherContractCategory:
+    def test_same_numero_different_category_ok(self, staff_user, cdl_company_config):
+        """Two contracts with same numero but different categories should work."""
+        Contract.objects.create(
+            company="casa_di_lusso",
+            contract_category="",
+            numero_contrat="001/26",
+            date_contrat=date(2026, 1, 1),
+            statut="Brouillon",
+            created_by_user=staff_user,
+        )
+        Contract.objects.create(
+            company="casa_di_lusso",
+            contract_category="sous_traitance",
+            numero_contrat="001/26",
+            date_contrat=date(2026, 1, 1),
+            statut="Brouillon",
+            created_by_user=staff_user,
+        )
+        assert Contract.objects.filter(numero_contrat="001/26").count() == 2
+
+    def test_same_numero_same_category_fails(self, staff_user, cdl_company_config):
+        """Two contracts with same (company, category, numero) should fail."""
+        from django.db import IntegrityError
+
+        Contract.objects.create(
+            company="casa_di_lusso",
+            contract_category="sous_traitance",
+            numero_contrat="DUP/01",
+            date_contrat=date(2026, 1, 1),
+            statut="Brouillon",
+            created_by_user=staff_user,
+        )
+        with pytest.raises(IntegrityError):
+            Contract.objects.create(
+                company="casa_di_lusso",
+                contract_category="sous_traitance",
+                numero_contrat="DUP/01",
+                date_contrat=date(2026, 1, 1),
+                statut="Brouillon",
+                created_by_user=staff_user,
+            )

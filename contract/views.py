@@ -11,13 +11,15 @@ from rest_framework.views import APIView
 from contracts_backend.utils import CustomPagination
 from core.permissions import can_create, can_update, can_delete, can_print
 from .filters import ContractFilter
-from .models import Contract
-from .serializers import ContractListSerializer, ContractSerializer
+from .models import Contract, Project
+from .serializers import ContractListSerializer, ContractSerializer, ProjectSerializer
 from .utils import get_next_numero_contrat
 from .pdf import ContractPDFGenerator
 from .doc import ContractDOCGenerator
 from .bl_pdf import BluelinePDFGenerator
 from .bl_doc import BluelineDOCGenerator
+from .st_pdf import SousTraitancePDFGenerator
+from .st_doc import SousTraitanceDOCGenerator
 
 logger = logging.getLogger(__name__)
 
@@ -105,7 +107,11 @@ class GenerateNumeroContratView(APIView):
 
     @staticmethod
     def get(request, *args, **kwargs):
-        numero = get_next_numero_contrat()
+        company = request.query_params.get("company", "")
+        contract_category = request.query_params.get("contract_category", "")
+        numero = get_next_numero_contrat(
+            company=company, contract_category=contract_category
+        )
         return Response({"numero_contrat": numero}, status=status.HTTP_200_OK)
 
 
@@ -189,6 +195,8 @@ class ContractPDFView(APIView):
         contract = self._get_contract(pk)
         if contract.company == "blueline_works":
             generator = BluelinePDFGenerator(contract, language=language)
+        elif contract.contract_category == "sous_traitance":
+            generator = SousTraitancePDFGenerator(contract, language=language)
         else:
             generator = ContractPDFGenerator(contract, language=language)
         return generator.generate_response()
@@ -214,6 +222,79 @@ class ContractDOCView(APIView):
         contract = self._get_contract(pk)
         if contract.company == "blueline_works":
             generator = BluelineDOCGenerator(contract, language=language)
+        elif contract.contract_category == "sous_traitance":
+            generator = SousTraitanceDOCGenerator(contract, language=language)
         else:
             generator = ContractDOCGenerator(contract, language=language)
         return generator.generate_response()
+
+
+# ── Project views ────────────────────────────────────────────────────────────
+
+
+class ProjectListCreateView(APIView):
+    """GET list all projects, POST create a new project."""
+
+    permission_classes = (permissions.IsAuthenticated,)
+
+    @staticmethod
+    def get(request, *args, **kwargs):
+        company = request.query_params.get("company", "")
+        qs = Project.objects.all().order_by("name")
+        if company:
+            qs = qs.filter(company=company)
+        serializer = ProjectSerializer(qs, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @staticmethod
+    def post(request, *args, **kwargs):
+        if not can_create(request.user):
+            raise PermissionDenied(
+                _("Vous n'avez pas les droits pour créer un projet.")
+            )
+        serializer = ProjectSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(created_by_user=request.user)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+class ProjectDetailView(APIView):
+    """GET, PUT, DELETE a single project."""
+
+    permission_classes = (permissions.IsAuthenticated,)
+
+    @staticmethod
+    def _get_project(pk: int) -> Project:
+        try:
+            return Project.objects.get(pk=pk)
+        except Project.DoesNotExist:
+            raise Http404(_("Aucun projet ne correspond à la requête."))
+
+    def get(self, request, pk: int, *args, **kwargs):
+        project = self._get_project(pk)
+        serializer = ProjectSerializer(project)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def put(self, request, pk: int, *args, **kwargs):
+        if not can_update(request.user):
+            raise PermissionDenied(
+                _("Vous n'avez pas les droits pour modifier ce projet.")
+            )
+        project = self._get_project(pk)
+        serializer = ProjectSerializer(project, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def delete(self, request, pk: int, *args, **kwargs):
+        if not can_delete(request.user):
+            raise PermissionDenied(
+                _("Vous n'avez pas les droits pour supprimer ce projet.")
+            )
+        project = self._get_project(pk)
+        if project.is_predefined:
+            raise PermissionDenied(
+                _("Les projets prédéfinis ne peuvent pas être supprimés.")
+            )
+        project.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

@@ -10,6 +10,9 @@ class ContractFilter(django_filters.FilterSet):
     search = django_filters.CharFilter(method="global_search", label="Recherche")
     statut = django_filters.CharFilter(method="filter_statut", label="Statut")
     company = django_filters.CharFilter(method="filter_company", label="Société")
+    contract_category = django_filters.CharFilter(
+        field_name="contract_category", lookup_expr="exact"
+    )
     type_contrat = django_filters.CharFilter(
         field_name="type_contrat", lookup_expr="exact"
     )
@@ -45,6 +48,8 @@ class ContractFilter(django_filters.FilterSet):
             | Q(client_email__icontains=value)
             | Q(adresse_travaux__icontains=value)
             | Q(responsable_projet__icontains=value)
+            | Q(st_name__icontains=value)
+            | Q(st_rep__icontains=value)
         )
 
     @staticmethod
@@ -74,6 +79,7 @@ class ContractFilter(django_filters.FilterSet):
         fields = [
             "statut",
             "company",
+            "contract_category",
             "type_contrat",
             "devise",
             "date_after",

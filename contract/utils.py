@@ -7,22 +7,25 @@ from core.utils import format_number_with_dynamic_digits
 from .models import Contract
 
 
-def get_next_numero_contrat() -> str:
+def get_next_numero_contrat(company: str = "", contract_category: str = "") -> str:
     """
     Return the next available numero_contrat string like '0001/26'.
+    Scoped by company and contract_category for uniqueness.
     Automatically increases digit count when 9999 is reached.
     """
     year_suffix = f"{timezone.localtime(timezone.now()).year % 100:02d}"
 
     with transaction.atomic():
-        existing = (
-            Contract.objects.filter(
-                numero_contrat__isnull=False,
-                numero_contrat__endswith=f"/{year_suffix}",
-            )
-            .select_for_update()
-            .values_list("numero_contrat", flat=True)
+        qs = Contract.objects.filter(
+            numero_contrat__isnull=False,
+            numero_contrat__endswith=f"/{year_suffix}",
         )
+        if company:
+            qs = qs.filter(company=company)
+        if contract_category:
+            qs = qs.filter(contract_category=contract_category)
+
+        existing = qs.select_for_update().values_list("numero_contrat", flat=True)
 
         used_numbers = []
         for raw in existing:

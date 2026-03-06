@@ -501,7 +501,9 @@ class BulkDeleteUsersView(APIView):
         try:
             ids = [int(i) for i in ids]
         except (ValueError, TypeError):
-            raise ValidationError({"ids": _("Les identifiants doivent être des entiers.")})
+            raise ValidationError(
+                {"ids": _("Les identifiants doivent être des entiers.")}
+            )
 
         if request.user.pk in ids:
             raise ValidationError(

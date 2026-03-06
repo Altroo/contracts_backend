@@ -956,8 +956,7 @@ class ContractDOCGenerator:
                 " (ci-apr\u00e8s \u00ab\u202fLe Prestataire\u202f\u00bb) de travaux "
                 "et prestations de type "
                 if fr
-                else " (hereinafter \u00abThe Service Provider\u00bb) of works "
-                ""
+                else " (hereinafter \u00abThe Service Provider\u00bb) of works " ""
             ),
             (type_label, True),
             (
@@ -977,7 +976,11 @@ class ContractDOCGenerator:
         if c.description_travaux:
             self._highlight(
                 (
-                    ("D\u00e9tail des travaux\u202f:\n" if fr else "Works description:\n"),
+                    (
+                        "D\u00e9tail des travaux\u202f:\n"
+                        if fr
+                        else "Works description:\n"
+                    ),
                     True,
                 ),
                 c.description_travaux,
@@ -1307,7 +1310,11 @@ class ContractDOCGenerator:
         self._bullet(
             ("R\u00e9gler les " if fr else "Make "),
             (
-                "paiements aux dates convenues" if fr else "payments on the agreed dates",
+                (
+                    "paiements aux dates convenues"
+                    if fr
+                    else "payments on the agreed dates"
+                ),
                 True,
             ),
             (

@@ -521,7 +521,11 @@ class BluelineDOCGenerator:
                 (
                     (
                         _date_fin_val
-                        + (f" ({c.duree_estimee} {self._t('jours_ouvrables')})" if c.duree_estimee else "")
+                        + (
+                            f" ({c.duree_estimee} {self._t('jours_ouvrables')})"
+                            if c.duree_estimee
+                            else ""
+                        )
                     )
                     if _date_fin_val != "—"
                     else ""
@@ -681,7 +685,11 @@ class BluelineDOCGenerator:
         self._add_empty(4)
         for label, value, is_grand in [
             (self._t("subtotal_ht"), self._amt(self._ht), False),
-            (f"{'TVA' if self.fr else 'VAT'} ({self._tva_pct:g}%)", self._amt(self._tva_amt), False),
+            (
+                f"{'TVA' if self.fr else 'VAT'} ({self._tva_pct:g}%)",
+                self._amt(self._tva_amt),
+                False,
+            ),
             (self._t("total_ttc"), self._amt(self._ttc), True),
         ]:
             p = self.doc.add_paragraph()
@@ -787,9 +795,9 @@ class BluelineDOCGenerator:
         g_nb = int(c.garantie_nb or 0)
         g_text = _garantie_text(c, self.lang)
         g_type_val = c.garantie_type or "defauts"
-        g_type_label = GARANTIE_TYPE_LABELS.get(self.lang, GARANTIE_TYPE_LABELS["fr"]).get(
-            g_type_val, GARANTIE_TYPE_LABELS["fr"].get("defauts", g_type_val)
-        )
+        g_type_label = GARANTIE_TYPE_LABELS.get(
+            self.lang, GARANTIE_TYPE_LABELS["fr"]
+        ).get(g_type_val, GARANTIE_TYPE_LABELS["fr"].get("defauts", g_type_val))
         sp = self._solde_pct_val
         mont_solde = self._ttc * sp / 100
 
@@ -932,43 +940,51 @@ class BluelineDOCGenerator:
         # Art 3
         self._add_article_title(self._t("art3_title"))
         if self.fr:
-            art3_parts = [
-                ("Les travaux débuteront le ", False),
-                (date_debut_str, True),
-                (" et se termineront le ", False),
-                (date_fin_str, True),
-            ] + duree_parts_fr + [
-                (
-                    ". Ces délais sont donnés de bonne foi à titre indicatif et "
-                    "peuvent être prolongés en cas de : (i) force majeure, (ii) retard de "
-                    "livraison des matériaux non imputable au Prestataire, (iii) mauvaises "
-                    "conditions climatiques, (iv) modifications demandées par le Client en "
-                    "cours de chantier, ou (v) arrêt de chantier causé par le Client. Tout "
-                    "arrêt injustifié imputé au Client fera l'objet d'une facturation "
-                    "complémentaire couvrant les frais de mobilisation et d'immobilisation "
-                    "des équipes.",
-                    False,
-                ),
-            ]
+            art3_parts = (
+                [
+                    ("Les travaux débuteront le ", False),
+                    (date_debut_str, True),
+                    (" et se termineront le ", False),
+                    (date_fin_str, True),
+                ]
+                + duree_parts_fr
+                + [
+                    (
+                        ". Ces délais sont donnés de bonne foi à titre indicatif et "
+                        "peuvent être prolongés en cas de : (i) force majeure, (ii) retard de "
+                        "livraison des matériaux non imputable au Prestataire, (iii) mauvaises "
+                        "conditions climatiques, (iv) modifications demandées par le Client en "
+                        "cours de chantier, ou (v) arrêt de chantier causé par le Client. Tout "
+                        "arrêt injustifié imputé au Client fera l'objet d'une facturation "
+                        "complémentaire couvrant les frais de mobilisation et d'immobilisation "
+                        "des équipes.",
+                        False,
+                    ),
+                ]
+            )
             self._add_article_body_multi(art3_parts)
         else:
-            art3_parts = [
-                ("Works will begin on ", False),
-                (date_debut_str, True),
-                (" and end on ", False),
-                (date_fin_str, True),
-            ] + duree_parts_en + [
-                (
-                    ". These deadlines are given in good faith as estimates and "
-                    "may be extended in the event of: (i) force majeure, (ii) material delivery "
-                    "delays not attributable to the Service Provider, (iii) adverse weather "
-                    "conditions, (iv) modifications requested by the Client during works, or "
-                    "(v) site shutdown caused by the Client. Any unjustified shutdown "
-                    "attributable to the Client will be subject to additional charges covering "
-                    "mobilization and immobilization costs.",
-                    False,
-                ),
-            ]
+            art3_parts = (
+                [
+                    ("Works will begin on ", False),
+                    (date_debut_str, True),
+                    (" and end on ", False),
+                    (date_fin_str, True),
+                ]
+                + duree_parts_en
+                + [
+                    (
+                        ". These deadlines are given in good faith as estimates and "
+                        "may be extended in the event of: (i) force majeure, (ii) material delivery "
+                        "delays not attributable to the Service Provider, (iii) adverse weather "
+                        "conditions, (iv) modifications requested by the Client during works, or "
+                        "(v) site shutdown caused by the Client. Any unjustified shutdown "
+                        "attributable to the Client will be subject to additional charges covering "
+                        "mobilization and immobilization costs.",
+                        False,
+                    ),
+                ]
+            )
             self._add_article_body_multi(art3_parts)
 
         # Art 4
@@ -1162,27 +1178,31 @@ class BluelineDOCGenerator:
         self._add_article_title(self._t("art7_title"))
         if self.fr:
             resil_parts = _parse_strong(resil_text_raw)
-            resil_parts.append((
-                " En cas de résiliation anticipée à l'initiative du Client, "
-                "les travaux déjà réalisés seront facturés au prorata de leur avancement "
-                "constaté contradictoirement, et l'acompte versé restera acquis au "
-                "Prestataire à titre d'indemnité forfaitaire de dédit couvrant les préjudices "
-                "subis (mobilisation du matériel, main-d'œuvre réservée, sous-traitants "
-                "engagés, etc.).",
-                False,
-            ))
+            resil_parts.append(
+                (
+                    " En cas de résiliation anticipée à l'initiative du Client, "
+                    "les travaux déjà réalisés seront facturés au prorata de leur avancement "
+                    "constaté contradictoirement, et l'acompte versé restera acquis au "
+                    "Prestataire à titre d'indemnité forfaitaire de dédit couvrant les préjudices "
+                    "subis (mobilisation du matériel, main-d'œuvre réservée, sous-traitants "
+                    "engagés, etc.).",
+                    False,
+                )
+            )
             self._add_article_body_multi(resil_parts)
         else:
             resil_en = CLAUSE_RESILIATION_LABELS.get("en", {}).get(resil_val, "")
             resil_en_parts = _parse_strong(resil_en)
-            resil_en_parts.append((
-                " In case of early termination at the Client's initiative, "
-                "the works already completed will be invoiced pro rata based on jointly "
-                "verified progress, and the deposit paid will remain retained by the "
-                "Service Provider as a fixed penalty covering damages suffered (equipment "
-                "mobilization, reserved workforce, engaged subcontractors, etc.).",
-                False,
-            ))
+            resil_en_parts.append(
+                (
+                    " In case of early termination at the Client's initiative, "
+                    "the works already completed will be invoiced pro rata based on jointly "
+                    "verified progress, and the deposit paid will remain retained by the "
+                    "Service Provider as a fixed penalty covering damages suffered (equipment "
+                    "mobilization, reserved workforce, engaged subcontractors, etc.).",
+                    False,
+                )
+            )
             self._add_article_body_multi(resil_en_parts)
 
         # Art 8

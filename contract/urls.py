@@ -8,6 +8,8 @@ from .views import (
     BulkDeleteContractView,
     ContractPDFView,
     ContractDOCView,
+    ProjectListCreateView,
+    ProjectDetailView,
 )
 
 app_name = "contract"
@@ -31,6 +33,9 @@ urlpatterns = [
         ContractStatusUpdateView.as_view(),
         name="contract-statut-update",
     ),
+    # ── Projects ─────────────────────────────────────────────────────────────
+    path("projects/", ProjectListCreateView.as_view(), name="project-list-create"),
+    path("projects/<int:pk>/", ProjectDetailView.as_view(), name="project-detail"),
     # GET PDF (French)
     path(
         "pdf/fr/<int:pk>/",

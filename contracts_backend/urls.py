@@ -54,6 +54,8 @@ urlpatterns = [
     path("api/account/", include("account.urls")),
     # Contract
     path("api/contract/", include("contract.urls")),
+    # Company config
+    path("api/company-config/", include("core.urls")),
     # Admin panel (obscured path for security)
     path("gestion-interne-gf62/", admin.site.urls),
 ]

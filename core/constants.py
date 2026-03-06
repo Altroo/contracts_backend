@@ -149,3 +149,57 @@ PRESTATION_UNITE_CHOICES = [
     ("jour", "jour"),
     ("kg", "kg"),
 ]
+
+# ── Sous-Traitance (Casa di Lusso) specific choices ───────────────────────
+
+CONTRACT_CATEGORY_CHOICES = [
+    ("standard", "Standard"),
+    ("sous_traitance", "Sous-Traitance"),
+]
+
+ST_LOT_TYPE_CHOICES = [
+    ("gros_oeuvre", "Travaux de Gros Œuvre"),
+    ("electricite", "Travaux d'Électricité"),
+    ("plomberie", "Travaux de Plomberie et Sanitaire"),
+    ("menuiserie_alu", "Travaux de Menuiserie Aluminium"),
+    ("menuiserie_bois", "Travaux de Menuiserie Bois"),
+    ("carrelage", "Travaux de Carrelage et Faïence"),
+    ("peinture", "Travaux de Peinture"),
+    ("etancheite", "Travaux d'Étanchéité"),
+    ("ascenseur", "Fourniture et Installation d'Ascenseur"),
+    ("platre", "Travaux de Plâtre et Faux Plafond"),
+    ("ferronnerie", "Travaux de Ferronnerie et Garde-Corps"),
+    ("vrd", "Travaux de VRD et Façade"),
+    ("climatisation", "Travaux de Climatisation et Ventilation"),
+    ("cuisine", "Fourniture et Pose de Cuisines Équipées"),
+]
+
+ST_PROJET_TYPE_CHOICES = [
+    ("immeuble", "Immeuble"),
+    ("villa", "Villa"),
+    ("commercial", "Commercial"),
+    ("industriel", "Industriel"),
+    ("renovation", "Rénovation"),
+    ("autre", "Autre"),
+]
+
+ST_FORME_JURIDIQUE_CHOICES = [
+    ("SARL", "SARL"),
+    ("SA", "SA"),
+    ("SARLAU", "SARLAU"),
+    ("SNC", "SNC"),
+    ("auto_entrepreneur", "Auto-entrepreneur"),
+    ("personne_physique", "Personne physique"),
+]
+
+ST_TYPE_PRIX_CHOICES = [
+    ("forfaitaire", "Forfaitaire ferme"),
+    ("unitaire", "Prix unitaires"),
+    ("regie", "Régie"),
+]
+
+ST_DELAI_UNIT_CHOICES = [
+    ("mois", "Mois"),
+    ("semaines", "Semaines"),
+    ("jours", "Jours"),
+]

@@ -1,6 +1,42 @@
 from rest_framework import serializers
 
-from .models import Contract
+from .models import Contract, Project
+
+
+class ProjectSerializer(serializers.ModelSerializer):
+    """Full serializer for Project CRUD."""
+
+    type_display = serializers.CharField(source="get_type_display", read_only=True)
+    company_display = serializers.CharField(
+        source="get_company_display", read_only=True
+    )
+
+    class Meta:
+        model = Project
+        fields = [
+            "id",
+            "company",
+            "company_display",
+            "name",
+            "type",
+            "type_display",
+            "description",
+            "adresse",
+            "maitre_ouvrage",
+            "permis",
+            "is_predefined",
+            "created_by_user",
+            "date_created",
+            "date_updated",
+        ]
+        read_only_fields = [
+            "id",
+            "company_display",
+            "type_display",
+            "created_by_user",
+            "date_created",
+            "date_updated",
+        ]
 
 
 class ContractListSerializer(serializers.ModelSerializer):
@@ -16,6 +52,9 @@ class ContractListSerializer(serializers.ModelSerializer):
     statut_display = serializers.CharField(source="get_statut_display", read_only=True)
     company_display = serializers.CharField(
         source="get_company_display", read_only=True
+    )
+    contract_category_display = serializers.CharField(
+        source="get_contract_category_display", read_only=True
     )
 
     @staticmethod
@@ -44,6 +83,8 @@ class ContractListSerializer(serializers.ModelSerializer):
             "numero_contrat",
             "company",
             "company_display",
+            "contract_category",
+            "contract_category_display",
             "client_name",
             "client_nom",
             "date_contrat",
@@ -81,7 +122,11 @@ class ContractSerializer(serializers.ModelSerializer):
     company_display = serializers.CharField(
         source="get_company_display", read_only=True
     )
+    contract_category_display = serializers.CharField(
+        source="get_contract_category_display", read_only=True
+    )
     solde = serializers.SerializerMethodField(read_only=True)
+    st_projet_detail = ProjectSerializer(source="st_projet", read_only=True)
 
     @staticmethod
     def get_client_name(obj: Contract) -> str | None:
@@ -107,13 +152,18 @@ class ContractSerializer(serializers.ModelSerializer):
         return obj.solde
 
     def validate_numero_contrat(self, value: str) -> str:
-        """Ensure numero_contrat is unique within the same company."""
+        """Ensure numero_contrat is unique within the same company + contract_category."""
         company = self.initial_data.get("company") or (
             self.instance.company if self.instance else None
+        )
+        contract_category = self.initial_data.get("contract_category") or (
+            self.instance.contract_category if self.instance else None
         )
         qs = Contract.objects.filter(numero_contrat=value)
         if company:
             qs = qs.filter(company=company)
+        if contract_category:
+            qs = qs.filter(contract_category=contract_category)
         if self.instance:
             qs = qs.exclude(pk=self.instance.pk)
         if qs.exists():
@@ -122,12 +172,8 @@ class ContractSerializer(serializers.ModelSerializer):
 
     def validate(self, attrs):
         """Cross-field validation."""
-        acompte = attrs.get(
-            "acompte", getattr(self.instance, "acompte", None)
-        )
-        tranche2 = attrs.get(
-            "tranche2", getattr(self.instance, "tranche2", None)
-        )
+        acompte = attrs.get("acompte", getattr(self.instance, "acompte", None))
+        tranche2 = attrs.get("tranche2", getattr(self.instance, "tranche2", None))
         a = acompte or 0
         t = tranche2 or 0
         if a + t > 100:
@@ -150,6 +196,8 @@ class ContractSerializer(serializers.ModelSerializer):
             "numero_contrat",
             "company",
             "company_display",
+            "contract_category",
+            "contract_category_display",
             "client_name",
             "client_nom",
             "client_cin",
@@ -214,6 +262,40 @@ class ContractSerializer(serializers.ModelSerializer):
             "solde",
             "clause_resiliation",
             "notes",
+            # Sous-Traitance specific
+            "st_projet",
+            "st_projet_detail",
+            "st_name",
+            "st_forme",
+            "st_capital",
+            "st_rc",
+            "st_ice",
+            "st_if",
+            "st_cnss",
+            "st_addr",
+            "st_rep",
+            "st_cin",
+            "st_qualite",
+            "st_tel",
+            "st_email",
+            "st_rib",
+            "st_banque",
+            "st_lot_type",
+            "st_lot_description",
+            "st_type_prix",
+            "st_retenue_garantie",
+            "st_avance",
+            "st_penalite_taux",
+            "st_plafond_penalite",
+            "st_delai_paiement",
+            "st_tranches",
+            "st_delai_val",
+            "st_delai_unit",
+            "st_garantie_mois",
+            "st_delai_reserves",
+            "st_delai_med",
+            "st_clauses_actives",
+            "st_observations",
             # Meta
             "created_by_user",
             "created_by_user_id",
@@ -225,6 +307,7 @@ class ContractSerializer(serializers.ModelSerializer):
             "id",
             "client_name",
             "company_display",
+            "contract_category_display",
             "created_by_user",
             "created_by_user_name",
             "created_by_user_id",
@@ -233,6 +316,7 @@ class ContractSerializer(serializers.ModelSerializer):
             "solde",
             "statut",
             "type_contrat_display",
+            "st_projet_detail",
             "date_created",
             "date_updated",
         ]

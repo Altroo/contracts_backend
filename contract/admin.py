@@ -1,13 +1,29 @@
 from django.contrib import admin
 from simple_history.admin import SimpleHistoryAdmin
 
-from .models import Contract
+from .models import Contract, Project
+
+
+class ProjectAdmin(admin.ModelAdmin):
+    list_display = (
+        "name",
+        "company",
+        "type",
+        "maitre_ouvrage",
+        "is_predefined",
+        "date_created",
+    )
+    list_filter = ("company", "type", "is_predefined")
+    search_fields = ("name", "maitre_ouvrage", "adresse", "permis")
+    ordering = ("name",)
+    readonly_fields = ("date_created", "date_updated", "created_by_user")
 
 
 class ContractAdmin(SimpleHistoryAdmin):
     list_display = (
         "numero_contrat",
         "company",
+        "contract_category",
         "client_nom",
         "date_contrat",
         "type_contrat",
@@ -18,8 +34,22 @@ class ContractAdmin(SimpleHistoryAdmin):
         "created_by_user",
         "date_created",
     )
-    list_filter = ("company", "statut", "type_contrat", "devise", "confidentialite")
-    search_fields = ("numero_contrat", "client_nom", "client_email", "adresse_travaux")
+    list_filter = (
+        "company",
+        "contract_category",
+        "statut",
+        "type_contrat",
+        "devise",
+        "confidentialite",
+    )
+    search_fields = (
+        "numero_contrat",
+        "client_nom",
+        "client_email",
+        "adresse_travaux",
+        "st_name",
+        "st_rep",
+    )
     ordering = ("-date_created",)
     readonly_fields = ("date_created", "date_updated", "created_by_user")
     fieldsets = (
@@ -28,6 +58,7 @@ class ContractAdmin(SimpleHistoryAdmin):
             {
                 "fields": (
                     "company",
+                    "contract_category",
                     "numero_contrat",
                     "date_contrat",
                     "statut",
@@ -130,6 +161,46 @@ class ContractAdmin(SimpleHistoryAdmin):
             },
         ),
         (
+            "Sous-Traitance",
+            {
+                "classes": ("collapse",),
+                "fields": (
+                    "st_projet",
+                    "st_name",
+                    "st_forme",
+                    "st_capital",
+                    "st_rc",
+                    "st_ice",
+                    "st_if",
+                    "st_cnss",
+                    "st_addr",
+                    "st_rep",
+                    "st_cin",
+                    "st_qualite",
+                    "st_tel",
+                    "st_email",
+                    "st_rib",
+                    "st_banque",
+                    "st_lot_type",
+                    "st_lot_description",
+                    "st_type_prix",
+                    "st_retenue_garantie",
+                    "st_avance",
+                    "st_penalite_taux",
+                    "st_plafond_penalite",
+                    "st_delai_paiement",
+                    "st_tranches",
+                    "st_delai_val",
+                    "st_delai_unit",
+                    "st_garantie_mois",
+                    "st_delai_reserves",
+                    "st_delai_med",
+                    "st_clauses_actives",
+                    "st_observations",
+                ),
+            },
+        ),
+        (
             "Métadonnées",
             {
                 "fields": ("created_by_user", "date_created", "date_updated"),
@@ -138,4 +209,5 @@ class ContractAdmin(SimpleHistoryAdmin):
     )
 
 
+admin.site.register(Project, ProjectAdmin)
 admin.site.register(Contract, ContractAdmin)

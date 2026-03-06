@@ -383,7 +383,12 @@ class TestAccountAPIExtras:
         url = reverse("account:password_reset")
         resp = self.client.put(
             url,
-            {"email": "", "code": "1234", "new_password": "pw1", "new_password2": "pw1"},
+            {
+                "email": "",
+                "code": "1234",
+                "new_password": "pw1",
+                "new_password2": "pw1",
+            },
         )
         assert resp.status_code == 400
 
@@ -392,7 +397,12 @@ class TestAccountAPIExtras:
         url = reverse("account:password_reset")
         resp = self.client.put(
             url,
-            {"email": "not-an-email", "code": "1234", "new_password": "pw1", "new_password2": "pw1"},
+            {
+                "email": "not-an-email",
+                "code": "1234",
+                "new_password": "pw1",
+                "new_password2": "pw1",
+            },
         )
         assert resp.status_code == 400
 
