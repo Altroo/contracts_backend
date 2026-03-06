@@ -876,7 +876,7 @@ class ContractDOCGenerator:
         init_p.paragraph_format.space_after = Pt(6)
         _para_bg(init_p, CREAM2_HEX)
         _para_box_borders(init_p, "EDE8DA", "4")
-        lbl_provider = "Prestataire" if self.fr else "Provider"
+        lbl_provider = "Prestataire" if self.fr else "Service Provider"
         initials_txt = (
             "Paraphes des parties (chaque page)"
             if self.fr
@@ -956,7 +956,7 @@ class ContractDOCGenerator:
                 " (ci-apr\u00e8s \u00ab\u202fLe Prestataire\u202f\u00bb) de travaux "
                 "et prestations de type "
                 if fr
-                else " (hereinafter \u00abThe Service Provider\u00bb) of works " ""
+                else " (hereinafter \u00abThe Service Provider\u00bb) of works and services of type "
             ),
             (type_label, True),
             (
