@@ -3,6 +3,7 @@
 services:
   redis:
     image: redis:latest
+    container_name: contracts_redis
     restart: always
     expose:
       - "6379"
@@ -42,24 +43,6 @@ services:
       retries: 3
       start_period: 60s
 
-  celery:
-    build: .
-    container_name: contracts_celery
-    restart: always
-    command: celery -A contracts_backend worker --loglevel=info --concurrency=4 -E -P gevent
-    env_file:
-      - .env
-    volumes:
-      - ./media:/app/media
-      - ./static:/app/static
-    depends_on:
-      db:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-    networks:
-      - backend
-
   db:
     image: postgres:18
     container_name: contracts_db
@@ -74,11 +57,32 @@ services:
     networks:
       - backend
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER:-postgres} -d $${POSTGRES_DB:-postgres}"]
+      test: [ "CMD-SHELL", "pg_isready -U $${POSTGRES_USER:-postgres} -d $${POSTGRES_DB:-postgres}" ]
       interval: 10s
       timeout: 5s
       retries: 5
       start_period: 30s
+
+  celery:
+    build: .
+    container_name: contracts_celery
+    restart: always
+    command: celery -A contracts_backend worker --loglevel=info --concurrency=4 -E -P gevent
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    env_file:
+      - .env
+    networks:
+      - backend
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/1
+      - CELERY_RESULT_BACKEND=redis://redis:6379/1
+    volumes:
+      - ./media:/app/media
+      - ./static:/app/static
 
 volumes:
   contracts_db_data:
