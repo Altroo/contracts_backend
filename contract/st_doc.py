@@ -7,6 +7,7 @@ Generates a Sous-Traitance DOCX using python-docx with CDL branding
 
 from datetime import datetime
 from io import BytesIO
+from typing import Any, cast
 
 from django.http import HttpResponse
 from docx import Document
@@ -189,7 +190,7 @@ class SousTraitanceDOCGenerator:
         section.bottom_margin = Cm(2.2)
         section.left_margin = Cm(1.8)
         section.right_margin = Cm(1.8)
-        normal = self.doc.styles["Normal"]
+        normal = cast(Any, self.doc.styles["Normal"])
         normal.font.name = "Inter"
         normal.font.size = Pt(9)
         normal.font.color.rgb = INK
@@ -736,7 +737,10 @@ class SousTraitanceDOCGenerator:
         if ret_pct > 0:
             self._add_sub_title(t("prix_retenue"))
             self._add_text(
-                t("prix_retenue_text").format(pct=f"{ret_pct:g}", months=garantie_ret_mois), size=Pt(8.5)
+                t("prix_retenue_text").format(
+                    pct=f"{ret_pct:g}", months=garantie_ret_mois
+                ),
+                size=Pt(8.5),
             )
 
         # 4.5 Supplémentaires
@@ -840,11 +844,11 @@ class SousTraitanceDOCGenerator:
             t("reception_reserves_text").format(days=delai_res), size=Pt(8.5)
         )
         self._add_sub_title(t("reception_definitive"))
-        self._add_text(t("reception_definitive_text").format(months=garantie_mois), size=Pt(8.5))
-        self._add_sub_title(t("reception_decennale"))
         self._add_text(
-            t("reception_decennale_text"), size=Pt(8.5)
+            t("reception_definitive_text").format(months=garantie_mois), size=Pt(8.5)
         )
+        self._add_sub_title(t("reception_decennale"))
+        self._add_text(t("reception_decennale_text"), size=Pt(8.5))
 
     def _build_art_responsabilite(self):
         t = self._t
@@ -852,7 +856,9 @@ class SousTraitanceDOCGenerator:
         self._add_text(t("resp_resultat"), size=Pt(8.5))
         self._add_text(t("resp_recours"), size=Pt(8.5))
         self._add_text(t("resp_personnel"), size=Pt(8.5))
-        self._add_text(t("resp_defaillance").format(days=self.c.st_delai_med or 8), size=Pt(8.5))
+        self._add_text(
+            t("resp_defaillance").format(days=self.c.st_delai_med or 8), size=Pt(8.5)
+        )
 
     def _build_art_resiliation(self):
         t = self._t
@@ -881,17 +887,139 @@ class SousTraitanceDOCGenerator:
 
     def _build_optional_clauses(self):
         actives = self.c.st_clauses_actives or []
-        clause_map = [
-            ("tConfid", "clause_confid", "clause_confid_text"),
-            ("tNonConc", "clause_non_conc", "clause_non_conc_text"),
-            ("tNonDeb", "clause_non_deb", "clause_non_deb_text"),
-            ("tCascade", "clause_cascade", "clause_cascade_text"),
-            ("tEnviro", "clause_enviro", "clause_enviro_text"),
+        projet = self.c.st_projet
+        mo = (
+            projet.maitre_ouvrage
+            if projet and projet.maitre_ouvrage
+            else ("le Maître d'Ouvrage" if self.fr else "the Employer")
+        )
+        clause_confid_amount = _fmt_amt(self._ht * 0.2, self._dev())
+
+        if "tConfid" in actives:
+            self._add_art_title(self._t("clause_confid"))
+            n = self._art_num
+            if self.fr:
+                self._add_text(
+                    f"{n}.1. Le Sous-Traitant s'engage à traiter comme strictement confidentielles toutes les informations techniques, commerciales et financières dont il pourrait avoir connaissance dans le cadre de l'exécution du présent contrat.",
+                    size=Pt(8.5),
+                )
+                self._add_text(
+                    f"{n}.2. Cette obligation de confidentialité s'étend au personnel du Sous-Traitant et à tout tiers auquel il pourrait faire appel. Elle survit à l'extinction du contrat pour une durée de 3 ans.",
+                    size=Pt(8.5),
+                )
+                self._add_text(
+                    f"{n}.3. Toute violation de cette clause expose le Sous-Traitant au paiement d'une indemnité forfaitaire de {clause_confid_amount}, sans préjudice du droit de l'Entrepreneur Principal à demander réparation du préjudice réel subi.",
+                    size=Pt(8.5),
+                )
+            else:
+                self._add_text(
+                    f"{n}.1. The Subcontractor undertakes to treat as strictly confidential all technical, commercial and financial information that may come to its knowledge in the performance of this contract.",
+                    size=Pt(8.5),
+                )
+                self._add_text(
+                    f"{n}.2. This confidentiality obligation extends to the Subcontractor's personnel and to any third party it may engage. It survives termination of the contract for a period of 3 years.",
+                    size=Pt(8.5),
+                )
+                self._add_text(
+                    f"{n}.3. Any breach of this clause exposes the Subcontractor to a lump-sum indemnity of {clause_confid_amount}, without prejudice to the Principal Contractor's right to claim compensation for the actual loss suffered.",
+                    size=Pt(8.5),
+                )
+
+        if "tNonConc" in actives:
+            self._add_art_title(self._t("clause_non_conc"))
+            if self.fr:
+                self._add_text(
+                    f"Le Sous-Traitant s'interdit, pendant toute la durée du contrat et pendant une période de 12 mois suivant son terme, de contracter directement avec le Maître d'Ouvrage {mo} ou avec tout acquéreur des lots du projet, pour des prestations similaires à celles objet du présent contrat, dans un rayon de 20 km autour du projet.",
+                    size=Pt(8.5),
+                )
+                self._add_text(
+                    "Toute violation expose le Sous-Traitant au paiement d'une indemnité forfaitaire de 30% du montant HT du présent contrat.",
+                    size=Pt(8.5),
+                )
+            else:
+                self._add_text(
+                    f"The Subcontractor undertakes, throughout the term of the contract and for a period of 12 months after its expiry, not to contract directly with the Employer {mo} or with any purchaser of lots in the project for services similar to those covered by this contract, within a radius of 20 km around the project.",
+                    size=Pt(8.5),
+                )
+                self._add_text(
+                    "Any breach exposes the Subcontractor to a lump-sum indemnity equal to 30% of the pre-tax amount of this contract.",
+                    size=Pt(8.5),
+                )
+
+        if "tNonDeb" in actives:
+            self._add_art_title(self._t("clause_non_deb"))
+            if self.fr:
+                self._add_text(
+                    "Chacune des Parties s'interdit de recruter ou de tenter de recruter, directement ou indirectement, tout salarié ou collaborateur de l'autre Partie ayant participé à l'exécution du présent contrat, pendant toute la durée du contrat et pendant une période de 12 mois suivant son terme.",
+                    size=Pt(8.5),
+                )
+                self._add_text(
+                    "Toute violation entraînera le paiement d'une indemnité forfaitaire équivalente à 12 mois de rémunération brute du salarié concerné.",
+                    size=Pt(8.5),
+                )
+            else:
+                self._add_text(
+                    "Each Party undertakes not to recruit or attempt to recruit, directly or indirectly, any employee or collaborator of the other Party who has participated in the performance of this contract, throughout the term of the contract and for a period of 12 months after its expiry.",
+                    size=Pt(8.5),
+                )
+                self._add_text(
+                    "Any breach shall result in a lump-sum indemnity equal to 12 months of the gross remuneration of the employee concerned.",
+                    size=Pt(8.5),
+                )
+
+        if "tCascade" in actives:
+            self._add_art_title(self._t("clause_cascade"))
+            if self.fr:
+                self._add_text(
+                    "Le Sous-Traitant s'interdit formellement de sous-traiter tout ou partie des travaux objets du présent contrat à un tiers, sauf accord écrit et préalable de l'Entrepreneur Principal.",
+                    size=Pt(8.5),
+                )
+                self._add_text(
+                    "En cas de violation, l'Entrepreneur Principal pourra résilier immédiatement le contrat aux torts exclusifs du Sous-Traitant, sans mise en demeure préalable, et sans préjudice de dommages et intérêts.",
+                    size=Pt(8.5),
+                )
+            else:
+                self._add_text(
+                    "The Subcontractor is formally prohibited from subcontracting all or part of the works covered by this contract to a third party unless it has obtained the Principal Contractor's prior written consent.",
+                    size=Pt(8.5),
+                )
+                self._add_text(
+                    "In the event of breach, the Principal Contractor may terminate the contract immediately at the Subcontractor's sole fault, without prior notice and without prejudice to damages.",
+                    size=Pt(8.5),
+                )
+
+        if "tEnviro" in actives:
+            self._add_art_title(self._t("clause_enviro"))
+            if self.fr:
+                self._add_text(
+                    "Le Sous-Traitant s'engage à respecter la législation environnementale en vigueur au Maroc, notamment la loi n° 11-03 relative à la protection et à la mise en valeur de l'environnement. Il s'engage à :",
+                    size=Pt(8.5),
+                )
+                for item in [
+                    "Gérer ses déchets de chantier de manière responsable et les évacuer vers les décharges autorisées",
+                    "Limiter les nuisances sonores et les émissions de poussière",
+                    "Utiliser des matériaux respectueux de l'environnement dans la mesure du possible",
+                    "Respecter les horaires de chantier pour limiter les nuisances au voisinage",
+                ]:
+                    self._add_bullet(item)
+            else:
+                self._add_text(
+                    "The Subcontractor undertakes to comply with environmental legislation in force in Morocco, in particular Law No. 11-03 on environmental protection and enhancement. It undertakes to:",
+                    size=Pt(8.5),
+                )
+                for item in [
+                    "Manage site waste responsibly and remove it to authorised dumps",
+                    "Limit noise nuisance and dust emissions",
+                    "Use environmentally friendly materials wherever possible",
+                    "Respect site working hours in order to limit disturbance to neighbouring properties",
+                ]:
+                    self._add_bullet(item)
+
+        for toggle_key, title_key, text_key in [
             ("tPI", "clause_pi", "clause_pi_text"),
             ("tExclus", "clause_exclus", "clause_exclus_text"),
             ("tRevision", "clause_revision", "clause_revision_text"),
-        ]
-        for toggle_key, title_key, text_key in clause_map:
+        ]:
             if toggle_key in actives:
                 self._add_art_title(self._t(title_key))
                 self._add_text(self._t(text_key), size=Pt(8.5))
@@ -924,7 +1052,7 @@ class SousTraitanceDOCGenerator:
         obs = self.c.st_observations
         if not obs:
             return
-        self._add_art_title("OBSERVATIONS")
+        self._add_art_title(self._t("special_clauses_title"))
         self._add_text(obs, size=Pt(8.5))
 
     def _build_signatures(self):
@@ -1013,13 +1141,22 @@ class SousTraitanceDOCGenerator:
         if not isinstance(items, list):
             return
 
-        self._add_art_title(t("annexe_title"))
+        p = self.doc.add_paragraph()
+        p.paragraph_format.space_before = Pt(10)
+        p.paragraph_format.space_after = Pt(4)
+        _para_bg(p, GOLD_PALE_HEX)
+        _para_border_left(p, GOLD_HEX, "12")
+        tr = p.add_run(f"  {t('annexe_title')}")
+        tr.font.size = Pt(8)
+        tr.font.color.rgb = DARK
+        tr.bold = True
+
         table = self.doc.add_table(rows=len(items) + 1, cols=3)
         table.alignment = WD_TABLE_ALIGNMENT.CENTER
 
         # Header
         for j, hdr in enumerate(
-            [t("annexe_col_doc"), t("annexe_col_oui"), t("annexe_col_non")]
+            [t("annexe_col_no"), t("annexe_col_doc"), t("annexe_col_status")]
         ):
             cell = table.cell(0, j)
             _cell_bg(cell, DARK_HEX)
@@ -1027,18 +1164,20 @@ class SousTraitanceDOCGenerator:
             r.font.size = Pt(7)
             r.font.color.rgb = GOLD
             r.bold = True
-            if j > 0:
+            if j != 1:
                 cell.paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.CENTER
                 _set_cell_width(cell, 2)
 
-        for i, item in enumerate(items):
-            row_idx = i + 1
-            table.cell(row_idx, 0).paragraphs[0].add_run(item).font.size = Pt(8.5)
-            for j in (1, 2):
-                c_ = table.cell(row_idx, j)
-                c_.paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.CENTER
-                r = c_.paragraphs[0].add_run("☐")
-                r.font.size = Pt(10)
+        for i, item in enumerate(items, start=1):
+            row_idx = i
+            no_cell = table.cell(row_idx, 0)
+            no_cell.paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.CENTER
+            no_cell.paragraphs[0].add_run(str(i)).font.size = Pt(8.5)
+            table.cell(row_idx, 1).paragraphs[0].add_run(item).font.size = Pt(8.5)
+            status_cell = table.cell(row_idx, 2)
+            status_cell.paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.CENTER
+            r = status_cell.paragraphs[0].add_run(t("annexe_status_blank"))
+            r.font.size = Pt(8.5)
             if row_idx % 2 == 0:
                 for j in range(3):
                     _cell_bg(table.cell(row_idx, j), CREAM_HEX)

@@ -11,7 +11,6 @@ from .bl_i18n import (
     FOURNITURES_LABELS,
     EAU_ELEC_LABELS,
     GARANTIE_UNITE_LABELS,
-    GARANTIE_TYPE_LABELS,
     CLAUSE_RESILIATION_LABELS,
     bl_t,
 )
@@ -442,11 +441,6 @@ class BluelinePDFGenerator:
             if g_nb == 0
             else f'<span class="bl-garantie-badge">{g_text}</span>'
         )
-        g_type_val = c.garantie_type or "defauts"
-        g_type_label = GARANTIE_TYPE_LABELS.get(lang, GARANTIE_TYPE_LABELS["fr"]).get(
-            g_type_val, GARANTIE_TYPE_LABELS["fr"].get("defauts", g_type_val)
-        )
-
         # Fournitures
         fournitures_val = c.fournitures or "non_incluses"
         fournitures_text = FOURNITURES_LABELS.get(lang, FOURNITURES_LABELS["fr"]).get(
@@ -598,8 +592,7 @@ class BluelinePDFGenerator:
             else:
                 art4 = (
                     f"Les travaux sont couverts par une garantie {g_badge} "
-                    f"de type <strong>{g_type_label}</strong> à compter de la date "
-                    f"de réception et de signature du procès-verbal de réception, contre tout "
+                    f"à compter de la date de réception et de signature du procès-verbal de réception, contre tout "
                     f"défaut d'exécution directement imputable au Prestataire."
                 )
             art4 += f"<br><br><strong>Exclusions de garantie :</strong> {excl_garantie}"
@@ -614,8 +607,7 @@ class BluelinePDFGenerator:
             else:
                 art4 = (
                     f"The works are covered by a {g_badge} guarantee "
-                    f"(<strong>{g_type_label}</strong>) from the date of reception "
-                    f"and signing of the acceptance report, against any execution defect directly "
+                    f"from the date of reception and signing of the acceptance report, against any execution defect directly "
                     f"attributable to the Service Provider."
                 )
             art4 += f"<br><br><strong>Warranty exclusions:</strong> {excl_garantie}"

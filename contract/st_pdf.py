@@ -404,7 +404,9 @@ class SousTraitancePDFGenerator:
             items = "".join(parts)
         else:
             items = ""
-        body = f"<p>{t('docs_intro')}</p><ol>{items}</ol><p>{t('docs_contradiction')}</p>"
+        body = (
+            f"<p>{t('docs_intro')}</p><ol>{items}</ol><p>{t('docs_contradiction')}</p>"
+        )
         return self._art(t("art_docs"), body)
 
     def _build_art_prix(self) -> str:
@@ -642,18 +644,79 @@ class SousTraitancePDFGenerator:
         """Build articles for each active optional clause."""
         actives = self.c.st_clauses_actives or []
         html = ""
-        # Mapping: clause key → (title_key, text_key)
-        clause_map = [
-            ("tConfid", "clause_confid", "clause_confid_text"),
-            ("tNonConc", "clause_non_conc", "clause_non_conc_text"),
-            ("tNonDeb", "clause_non_deb", "clause_non_deb_text"),
-            ("tCascade", "clause_cascade", "clause_cascade_text"),
-            ("tEnviro", "clause_enviro", "clause_enviro_text"),
+        projet = self.c.st_projet
+        mo = _esc(
+            projet.maitre_ouvrage
+            if projet and projet.maitre_ouvrage
+            else ("le Maître d'Ouvrage" if self.fr else "the Employer")
+        )
+        clause_confid_amount = _fmt_amt(self._ht * 0.2, self._dev())
+
+        if "tConfid" in actives:
+            n = self._art_num + 1
+            if self.fr:
+                body = (
+                    f"<p><strong>{n}.1.</strong> Le Sous-Traitant s'engage à traiter comme strictement confidentielles toutes les informations techniques, commerciales et financières dont il pourrait avoir connaissance dans le cadre de l'exécution du présent contrat.</p>"
+                    f"<p><strong>{n}.2.</strong> Cette obligation de confidentialité s'étend au personnel du Sous-Traitant et à tout tiers auquel il pourrait faire appel. Elle survit à l'extinction du contrat pour une durée de <strong>3 ans</strong>.</p>"
+                    f"<p><strong>{n}.3.</strong> Toute violation de cette clause expose le Sous-Traitant au paiement d'une indemnité forfaitaire de <strong>{clause_confid_amount}</strong>, sans préjudice du droit de l'Entrepreneur Principal à demander réparation du préjudice réel subi.</p>"
+                )
+            else:
+                body = (
+                    f"<p><strong>{n}.1.</strong> The Subcontractor undertakes to treat as strictly confidential all technical, commercial and financial information that may come to its knowledge in the performance of this contract.</p>"
+                    f"<p><strong>{n}.2.</strong> This confidentiality obligation extends to the Subcontractor's personnel and to any third party it may engage. It survives termination of the contract for a period of <strong>3 years</strong>.</p>"
+                    f"<p><strong>{n}.3.</strong> Any breach of this clause exposes the Subcontractor to a lump-sum indemnity of <strong>{clause_confid_amount}</strong>, without prejudice to the Principal Contractor's right to claim compensation for the actual loss suffered.</p>"
+                )
+            html += self._art(self._t("clause_confid"), body)
+
+        if "tNonConc" in actives:
+            if self.fr:
+                body = (
+                    f"<p>Le Sous-Traitant s'interdit, pendant toute la durée du contrat et pendant une période de <strong>12 mois</strong> suivant son terme, de contracter directement avec le Maître d'Ouvrage <strong>{mo}</strong> ou avec tout acquéreur des lots du projet, pour des prestations similaires à celles objet du présent contrat, dans un rayon de <strong>20 km</strong> autour du projet.</p>"
+                    "<p>Toute violation expose le Sous-Traitant au paiement d'une indemnité forfaitaire de <strong>30%</strong> du montant HT du présent contrat.</p>"
+                )
+            else:
+                body = (
+                    f"<p>The Subcontractor undertakes, throughout the term of the contract and for a period of <strong>12 months</strong> after its expiry, not to contract directly with the Employer <strong>{mo}</strong> or with any purchaser of lots in the project for services similar to those covered by this contract, within a radius of <strong>20 km</strong> around the project.</p>"
+                    "<p>Any breach exposes the Subcontractor to a lump-sum indemnity equal to <strong>30%</strong> of the pre-tax amount of this contract.</p>"
+                )
+            html += self._art(self._t("clause_non_conc"), body)
+
+        if "tNonDeb" in actives:
+            html += self._art(
+                self._t("clause_non_deb"),
+                (
+                    "<p>Chacune des Parties s'interdit de recruter ou de tenter de recruter, directement ou indirectement, tout salarié ou collaborateur de l'autre Partie ayant participé à l'exécution du présent contrat, pendant toute la durée du contrat et pendant une période de <strong>12 mois</strong> suivant son terme.</p>"
+                    "<p>Toute violation entraînera le paiement d'une indemnité forfaitaire équivalente à <strong>12 mois</strong> de rémunération brute du salarié concerné.</p>"
+                    if self.fr
+                    else "<p>Each Party undertakes not to recruit or attempt to recruit, directly or indirectly, any employee or collaborator of the other Party who has participated in the performance of this contract, throughout the term of the contract and for a period of <strong>12 months</strong> after its expiry.</p><p>Any breach shall result in a lump-sum indemnity equal to <strong>12 months</strong> of the gross remuneration of the employee concerned.</p>"
+                ),
+            )
+
+        if "tCascade" in actives:
+            html += self._art(
+                self._t("clause_cascade"),
+                (
+                    "<p>Le Sous-Traitant s'interdit formellement de sous-traiter tout ou partie des travaux objets du présent contrat à un tiers, sauf accord écrit et préalable de l'Entrepreneur Principal.</p><p>En cas de violation, l'Entrepreneur Principal pourra résilier immédiatement le contrat aux torts exclusifs du Sous-Traitant, sans mise en demeure préalable, et sans préjudice de dommages et intérêts.</p>"
+                    if self.fr
+                    else "<p>The Subcontractor is formally prohibited from subcontracting all or part of the works covered by this contract to a third party unless it has obtained the Principal Contractor's prior written consent.</p><p>In the event of breach, the Principal Contractor may terminate the contract immediately at the Subcontractor's sole fault, without prior notice and without prejudice to damages.</p>"
+                ),
+            )
+
+        if "tEnviro" in actives:
+            html += self._art(
+                self._t("clause_enviro"),
+                (
+                    "<p>Le Sous-Traitant s'engage à respecter la législation environnementale en vigueur au Maroc, notamment la loi n° 11-03 relative à la protection et à la mise en valeur de l'environnement. Il s'engage à :</p><ul><li>Gérer ses déchets de chantier de manière responsable et les évacuer vers les décharges autorisées</li><li>Limiter les nuisances sonores et les émissions de poussière</li><li>Utiliser des matériaux respectueux de l'environnement dans la mesure du possible</li><li>Respecter les horaires de chantier pour limiter les nuisances au voisinage</li></ul>"
+                    if self.fr
+                    else "<p>The Subcontractor undertakes to comply with environmental legislation in force in Morocco, in particular Law No. 11-03 on environmental protection and enhancement. It undertakes to:</p><ul><li>Manage site waste responsibly and remove it to authorised dumps</li><li>Limit noise nuisance and dust emissions</li><li>Use environmentally friendly materials wherever possible</li><li>Respect site working hours in order to limit disturbance to neighbouring properties</li></ul>"
+                ),
+            )
+
+        for toggle_key, title_key, text_key in [
             ("tPI", "clause_pi", "clause_pi_text"),
             ("tExclus", "clause_exclus", "clause_exclus_text"),
             ("tRevision", "clause_revision", "clause_revision_text"),
-        ]
-        for toggle_key, title_key, text_key in clause_map:
+        ]:
             if toggle_key in actives:
                 html += self._art(self._t(title_key), f"<p>{self._t(text_key)}</p>")
         return html
@@ -693,7 +756,7 @@ class SousTraitancePDFGenerator:
         obs = self.c.st_observations
         if not obs:
             return ""
-        return self._art("OBSERVATIONS", f"<p>{_esc(obs)}</p>")
+        return self._art(self._t("special_clauses_title"), f"<p>{_esc(obs)}</p>")
 
     def _build_signatures(self) -> str:
         t = self._t
@@ -735,32 +798,36 @@ class SousTraitancePDFGenerator:
         items = st_t("annexe_items", self.lang)
         if not isinstance(items, list):
             return ""
+
         rows = ""
-        for item in items:
+        for index, item in enumerate(items, start=1):
             rows += f"""
-            <tr>
-              <td>{_esc(item)}</td>
-              <td class="chk">☐</td>
-              <td class="chk">☐</td>
-            </tr>"""
+                    <tr>
+                        <td class="chk">{index}</td>
+                        <td>{_esc(item)}</td>
+                        <td class="chk">{_esc(t('annexe_status_blank'))}</td>
+                    </tr>"""
+
         actives = self.c.st_clauses_actives or []
-        show = "tAnnexe" in actives
-        if not show:
+        if "tAnnexe" not in actives:
             return ""
-        return self._art(
-            t("annexe_title"),
-            f"""
-        <table class="st-annex-table">
-          <thead>
-            <tr>
-              <th>{t('annexe_col_doc')}</th>
-              <th class="chk">{t('annexe_col_oui')}</th>
-              <th class="chk">{t('annexe_col_non')}</th>
-            </tr>
-          </thead>
-          <tbody>{rows}</tbody>
-        </table>""",
-        )
+
+        return f"""
+            <div class="st-art">
+                <div class="st-art-title">{_esc(t('annexe_title'))}</div>
+                <div class="st-art-body">
+                    <table class="st-annex-table">
+                        <thead>
+                            <tr>
+                                <th class="chk">{t('annexe_col_no')}</th>
+                                <th>{t('annexe_col_doc')}</th>
+                                <th class="chk">{t('annexe_col_status')}</th>
+                            </tr>
+                        </thead>
+                        <tbody>{rows}</tbody>
+                    </table>
+                </div>
+            </div>"""
 
     def _build_footer(self) -> str:
         ep = self.ep

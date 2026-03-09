@@ -27,6 +27,11 @@ EAU_ELEC_LABELS = {
             "Le Client s'engage à mettre à disposition, à ses frais, "
             "l'eau et l'électricité nécessaires à la réalisation des travaux."
         ),
+        "blueline": (
+            "BlueLine Works prendra en charge la fourniture de l'eau et de "
+            "l'électricité nécessaires à la réalisation des travaux, incluse "
+            "dans le prix contractuel."
+        ),
         "entreprise": (
             "BlueLine Works prendra en charge la fourniture de l'eau et de "
             "l'électricité nécessaires à la réalisation des travaux, incluse "
@@ -46,6 +51,10 @@ EAU_ELEC_LABELS = {
         "client": (
             "The Client undertakes to provide, at their own expense, "
             "the water and electricity necessary for the works."
+        ),
+        "blueline": (
+            "BlueLine Works will provide the water and electricity "
+            "necessary for the works, included in the contractual price."
         ),
         "entreprise": (
             "BlueLine Works will provide the water and electricity "
