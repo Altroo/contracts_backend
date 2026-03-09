@@ -9,7 +9,7 @@ djangorestframework-simplejwt==5.5.1
 PyJWT==2.11.0
 django-cors-headers==4.9.0
 dj-rest-auth==7.1.1
-redis==7.2.1
+redis==7.3.0
 channels==4.3.2
 channels-redis==4.3.0
 daphne==4.2.1
@@ -29,8 +29,8 @@ celery==5.6.2
 reportlab==4.4.10
 django-simple-history==3.11.0
 openpyxl==3.1.5
-numpy==2.4.2
+numpy==2.4.3
 django-axes==8.3.1
 python-docx==1.2.0
 weasyprint==68.1
-num2words>=0.5.14
+num2words==0.5.14
