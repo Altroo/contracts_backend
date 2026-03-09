@@ -81,7 +81,7 @@ class CustomUserAdmin(UserAdmin):
                 send_email.delay(
                     user_pk=user.pk,
                     email_=user.email,
-                    mail_subject="Changement de mot de passe - Contrats",
+                    mail_subject="Changement de mot de passe - E.B.H Contrats",
                     message=message,
                 )
                 return super().user_change_password(request, id, form_url)
