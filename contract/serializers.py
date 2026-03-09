@@ -1,6 +1,30 @@
+from decimal import Decimal, InvalidOperation
+
 from rest_framework import serializers
 
 from .models import Contract, Project
+
+
+ECHEANCIER_TOTAL_ERROR = (
+    "Le total des pourcentages de l'échéancier doit être égal à 100%."
+)
+
+
+def _has_valid_echeancier_total(tranches) -> bool:
+    if not isinstance(tranches, list):
+        return False
+
+    total = Decimal("0")
+    for tranche in tranches:
+        if not isinstance(tranche, dict):
+            return False
+
+        try:
+            total += Decimal(str(tranche.get("pourcentage", 0) or 0))
+        except (InvalidOperation, TypeError, ValueError):
+            return False
+
+    return total == Decimal("100")
 
 
 class ProjectSerializer(serializers.ModelSerializer):
@@ -172,21 +196,47 @@ class ContractSerializer(serializers.ModelSerializer):
 
     def validate(self, attrs):
         """Cross-field validation."""
+        company = attrs.get(
+            "company",
+            getattr(self.instance, "company", Contract._meta.get_field("company").default),
+        )
+        contract_category = attrs.get(
+            "contract_category",
+            getattr(
+                self.instance,
+                "contract_category",
+                Contract._meta.get_field("contract_category").default,
+            ),
+        )
+        errors = {}
+
+        if company == "casa_di_lusso" and contract_category != "sous_traitance":
+            tranches = attrs.get("tranches", getattr(self.instance, "tranches", []))
+            if not _has_valid_echeancier_total(tranches):
+                errors["tranches"] = [ECHEANCIER_TOTAL_ERROR]
+
+        if company == "casa_di_lusso" and contract_category == "sous_traitance":
+            st_tranches = attrs.get(
+                "st_tranches", getattr(self.instance, "st_tranches", [])
+            )
+            if not _has_valid_echeancier_total(st_tranches):
+                errors["st_tranches"] = [ECHEANCIER_TOTAL_ERROR]
+
         acompte = attrs.get("acompte", getattr(self.instance, "acompte", None))
         tranche2 = attrs.get("tranche2", getattr(self.instance, "tranche2", None))
         a = acompte or 0
         t = tranche2 or 0
         if a + t > 100:
-            raise serializers.ValidationError(
-                {
-                    "acompte": [
-                        "La somme de l'acompte et de la tranche 2 ne peut pas dépasser 100%."
-                    ],
-                    "tranche2": [
-                        "La somme de l'acompte et de la tranche 2 ne peut pas dépasser 100%."
-                    ],
-                }
-            )
+            errors["acompte"] = [
+                "La somme de l'acompte et de la tranche 2 ne peut pas dépasser 100%."
+            ]
+            errors["tranche2"] = [
+                "La somme de l'acompte et de la tranche 2 ne peut pas dépasser 100%."
+            ]
+
+        if errors:
+            raise serializers.ValidationError(errors)
+
         return attrs
 
     class Meta:

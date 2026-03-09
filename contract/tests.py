@@ -147,15 +147,63 @@ class TestContractListCreateView:
 
     def test_create_contract_as_staff_returns_201(self):
         payload = {
+            "company": "casa_di_lusso",
+            "contract_category": "standard",
             "numero_contrat": "NEW/01",
             "date_contrat": "2026-03-01",
             "statut": "Brouillon",
+            "type_contrat": "travaux_finition",
             "montant_ht": "20000.00",
             "tva": "20.00",
+            "tranches": [
+                {"label": "Acompte", "pourcentage": 40},
+                {"label": "Solde", "pourcentage": 60},
+            ],
         }
         response = self.staff_client.post(self.url, payload, format="json")
         assert response.status_code == status.HTTP_201_CREATED
         assert response.data["numero_contrat"] == "NEW/01"
+
+    def test_create_contract_rejects_invalid_cdl_tranche_total(self):
+        payload = {
+            "company": "casa_di_lusso",
+            "contract_category": "standard",
+            "numero_contrat": "NEW/02",
+            "date_contrat": "2026-03-01",
+            "statut": "Brouillon",
+            "type_contrat": "travaux_finition",
+            "montant_ht": "20000.00",
+            "tva": "20.00",
+            "tranches": [
+                {"label": "Acompte", "pourcentage": 30},
+                {"label": "Solde", "pourcentage": 60},
+            ],
+        }
+        response = self.staff_client.post(self.url, payload, format="json")
+        assert response.status_code == status.HTTP_400_BAD_REQUEST
+        assert "tranches" in response.data["details"]
+
+    def test_create_contract_rejects_invalid_st_tranche_total(self):
+        payload = {
+            "company": "casa_di_lusso",
+            "contract_category": "sous_traitance",
+            "numero_contrat": "NEW/ST/01",
+            "date_contrat": "2026-03-01",
+            "statut": "Brouillon",
+            "montant_ht": "30000.00",
+            "tva": "20.00",
+            "client_nom": None,
+            "st_name": "Sous-traitant Test",
+            "st_lot_type": "gros_oeuvre",
+            "st_type_prix": "forfaitaire",
+            "st_tranches": [
+                {"label": "Acompte", "pourcentage": 20},
+                {"label": "Solde", "pourcentage": 50},
+            ],
+        }
+        response = self.staff_client.post(self.url, payload, format="json")
+        assert response.status_code == status.HTTP_400_BAD_REQUEST
+        assert "st_tranches" in response.data["details"]
 
     def test_create_contract_without_can_create_returns_403(self):
         payload = {
@@ -215,10 +263,17 @@ class TestContractDetailEditDeleteView:
 
     def test_put_contract_as_staff_returns_200(self):
         payload = {
+            "company": "casa_di_lusso",
+            "contract_category": "standard",
             "numero_contrat": "DET/01",
             "date_contrat": "2026-06-01",
             "montant_ht": "60000.00",
             "tva": "20.00",
+            "type_contrat": "travaux_finition",
+            "tranches": [
+                {"label": "Acompte", "pourcentage": 50},
+                {"label": "Solde", "pourcentage": 50},
+            ],
         }
         response = self.staff_client.put(self.url, payload, format="json")
         assert response.status_code == status.HTTP_200_OK
