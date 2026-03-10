@@ -9,6 +9,7 @@ from .i18n import QUALITE_LABELS
 from .bl_i18n import (
     BL_COMPANY,
     FOURNITURES_LABELS,
+    GARANTIE_TYPE_LABELS,
     EAU_ELEC_LABELS,
     GARANTIE_UNITE_LABELS,
     CLAUSE_RESILIATION_LABELS,
@@ -436,10 +437,16 @@ class BluelinePDFGenerator:
         # Garantie
         g_nb = int(c.garantie_nb or 0)
         g_text = _garantie_text(c, lang)
+        garantie_type = (c.garantie_type or "").strip()
+        garantie_type_labels = GARANTIE_TYPE_LABELS.get(lang, GARANTIE_TYPE_LABELS["fr"])
+        garantie_type_text = garantie_type_labels.get(garantie_type, garantie_type)
+        garantie_full_text = g_text
+        if g_nb > 0 and garantie_type_text and garantie_type != "aucune":
+            garantie_full_text = f"{g_text} ({_esc(garantie_type_text)})"
         g_badge = (
             f'<span class="bl-no-garantie-badge">{g_text}</span>'
             if g_nb == 0
-            else f'<span class="bl-garantie-badge">{g_text}</span>'
+            else f'<span class="bl-garantie-badge">{garantie_full_text}</span>'
         )
         # Fournitures
         fournitures_val = c.fournitures or "non_incluses"

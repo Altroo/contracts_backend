@@ -15,6 +15,7 @@ from .i18n import QUALITE_LABELS
 from .bl_i18n import (
     BL_COMPANY,
     FOURNITURES_LABELS,
+    GARANTIE_TYPE_LABELS,
     EAU_ELEC_LABELS,
     GARANTIE_UNITE_LABELS,
     CLAUSE_RESILIATION_LABELS,
@@ -793,6 +794,14 @@ class BluelineDOCGenerator:
 
         g_nb = int(c.garantie_nb or 0)
         g_text = _garantie_text(c, self.lang)
+        garantie_type = (c.garantie_type or "").strip()
+        garantie_type_labels = GARANTIE_TYPE_LABELS.get(
+            self.lang, GARANTIE_TYPE_LABELS["fr"]
+        )
+        garantie_type_text = garantie_type_labels.get(garantie_type, garantie_type)
+        garantie_full_text = g_text
+        if g_nb > 0 and garantie_type_text and garantie_type != "aucune":
+            garantie_full_text = f"{g_text} ({garantie_type_text})"
         sp = self._solde_pct_val
         mont_solde = self._ttc * sp / 100
 
@@ -1008,7 +1017,7 @@ class BluelineDOCGenerator:
                 self._add_article_body_multi(
                     [
                         ("Les travaux sont couverts par une garantie ", False),
-                        (g_text, True),
+                        (garantie_full_text, True),
                         (
                             " à compter de la date de réception et de signature du procès-verbal "
                             "de réception, contre tout défaut d'exécution directement imputable "
@@ -1040,7 +1049,7 @@ class BluelineDOCGenerator:
                 self._add_article_body_multi(
                     [
                         ("The works are covered by a ", False),
-                        (g_text, True),
+                        (garantie_full_text, True),
                         (
                             " guarantee from the date of reception and signing of the acceptance "
                             "report, against any execution defect directly attributable to the "
