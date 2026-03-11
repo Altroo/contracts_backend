@@ -27,6 +27,8 @@ TYPE_BIEN_CHOICES = [
     ("appartement", "Appartement"),
     ("villa", "Villa"),
     ("duplex", "Duplex"),
+    ("residence", "Résidence"),
+    ("hotel", "Hôtel"),
     ("riad_maison_traditionnelle", "Riad / Maison Traditionnelle"),
     ("bureau_local_commercial", "Bureau / Local Commercial"),
     ("commerce_local", "Commerce / Local"),
@@ -44,6 +46,8 @@ CLIENT_QUALITE_CHOICES = [
 
 
 GARANTIE_CHOICES = [
+    ("1 mois", "1 mois"),
+    ("3 mois", "3 mois"),
     ("6 mois", "6 mois"),
     ("1 an", "1 an"),
     ("2 ans", "2 ans"),

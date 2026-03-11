@@ -222,10 +222,10 @@ class Contract(models.Model):
         default=5, verbose_name="Délai retard toléré (jours)"
     )
     penalite_retard = models.DecimalField(
-        max_digits=5,
+        max_digits=10,
         decimal_places=2,
-        default=1.5,
-        verbose_name="Pénalité retard (%/j)",
+        default=500,
+        verbose_name="Pénalité retard (MAD/j)",
     )
     frais_redemarrage = models.DecimalField(
         max_digits=12,
