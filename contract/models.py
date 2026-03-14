@@ -86,7 +86,6 @@ class Contract(models.Model):
 
     STATUT_CHOICES = STATUT_CHOICES
 
-    # ── Company ──────────────────────────────────────────────────────────────
     company = models.CharField(
         max_length=50,
         choices=COMPANY_CHOICES,
@@ -224,7 +223,7 @@ class Contract(models.Model):
     penalite_retard = models.DecimalField(
         max_digits=10,
         decimal_places=2,
-        default=500,
+        default=0,
         verbose_name="Pénalité retard (MAD/j)",
     )
     frais_redemarrage = models.DecimalField(
