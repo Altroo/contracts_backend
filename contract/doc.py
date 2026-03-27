@@ -3097,11 +3097,7 @@ class ContractDOCGenerator:
             c.type_contrat or "travaux_finition", c.type_contrat or ""
         )
         date_str = _fmt_date(c.date_contrat)
-        version_str = (
-            c.version_document
-            if c.version_document
-            else ("v1.0 \u2013 D\u00e9finitif" if fr else "v1.0 \u2013 Final")
-        )
+        version_str = "v1.0 \u2013 D\u00e9finitif" if fr else "v1.0 \u2013 Final"
         ville = c.ville_signature if c.ville_signature else "Tanger"
         ref = c.numero_contrat or ""
 

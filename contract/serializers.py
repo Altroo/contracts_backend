@@ -319,7 +319,6 @@ class ContractSerializer(serializers.ModelSerializer):
             "responsable_projet",
             "architecte",
             "confidentialite",
-            "version_document",
             "annexes",
             # Blueline Works specific
             "client_ville",

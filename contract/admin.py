@@ -63,7 +63,6 @@ class ContractAdmin(SimpleHistoryAdmin):
                     "date_contrat",
                     "statut",
                     "confidentialite",
-                    "version_document",
                 )
             },
         ),

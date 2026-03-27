@@ -1218,11 +1218,7 @@ def _gen_contract_html(c, lang: str = "fr") -> str:
         c.type_contrat or "travaux_finition", c.type_contrat or ""
     )
     date_str = _fmt_date(c.date_contrat)
-    version_str = (
-        _esc(c.version_document)
-        if c.version_document
-        else ("v1.0 \u2013 D\u00e9finitif" if fr else "v1.0 \u2013 Final")
-    )
+    version_str = "v1.0 \u2013 D\u00e9finitif" if fr else "v1.0 \u2013 Final"
     ville = _esc(c.ville_signature) if c.ville_signature else "Tanger"
     ref = _esc(c.numero_contrat)
 

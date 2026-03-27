@@ -283,11 +283,6 @@ class Contract(models.Model):
         default="CONFIDENTIEL",
         verbose_name="Note de confidentialité",
     )
-    version_document = models.CharField(
-        max_length=50,
-        default="v1.0 – Définitif",
-        verbose_name="Version du document",
-    )
     annexes = models.TextField(blank=True, null=True, verbose_name="Annexes jointes")
 
     # ── Blueline Works specific fields ───────────────────────────────────────

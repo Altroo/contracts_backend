@@ -517,7 +517,6 @@ def cdl_contract(staff_user):
         responsable_projet="Karim Directeur",
         architecte="Sofia Architecte",
         confidentialite="CONFIDENTIEL",
-        version_document="v1.0 – Définitif",
         annexes="Plans architecturaux\nDevis détaillé\nCalendrier d'exécution",
     )
 
