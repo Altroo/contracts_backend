@@ -19,10 +19,8 @@ from core.constants import (
     GARANTIE_UNITE_CHOICES,
     GARANTIE_TYPE_CHOICES,
     CLAUSE_RESILIATION_CHOICES,
-    ST_LOT_TYPE_CHOICES,
     ST_PROJET_TYPE_CHOICES,
     ST_FORME_JURIDIQUE_CHOICES,
-    ST_TYPE_PRIX_CHOICES,
     ST_DELAI_UNIT_CHOICES,
 )
 
@@ -455,22 +453,20 @@ class Contract(models.Model):
         max_length=200, blank=True, null=True, verbose_name="Banque ST"
     )
     # Lot / Travaux
-    st_lot_type = models.CharField(
-        max_length=50,
-        choices=ST_LOT_TYPE_CHOICES,
+    st_lot_type = models.JSONField(
+        default=list,
         blank=True,
         null=True,
-        verbose_name="Type de lot",
+        verbose_name="Type(s) de lot",
     )
     st_lot_description = models.TextField(
         blank=True, null=True, verbose_name="Description du lot"
     )
-    st_type_prix = models.CharField(
-        max_length=30,
-        choices=ST_TYPE_PRIX_CHOICES,
+    st_type_prix = models.JSONField(
+        default=list,
         blank=True,
         null=True,
-        verbose_name="Type de prix",
+        verbose_name="Type(s) de prix",
     )
     # Financial
     st_retenue_garantie = models.DecimalField(
@@ -488,11 +484,11 @@ class Contract(models.Model):
         verbose_name="Avance forfaitaire (%)",
     )
     st_penalite_taux = models.DecimalField(
-        max_digits=5,
+        max_digits=10,
         decimal_places=2,
         null=True,
         blank=True,
-        verbose_name="Pénalité retard (‰/jour)",
+        verbose_name="Pénalité retard (MAD/jour)",
     )
     st_plafond_penalite = models.DecimalField(
         max_digits=5,

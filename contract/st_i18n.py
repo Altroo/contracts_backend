@@ -669,7 +669,7 @@ ST_TX = {
         "delais_planning": "5.2 — Planning",
         "delais_planning_text": "Le Sous-Traitant s'engage à respecter le planning détaillé annexé au présent contrat et à coordonner son intervention avec les autres corps d'état.",
         "delais_penalites": "5.3 — Pénalités de retard",
-        "delais_penalites_text": "En cas de retard non justifié par un cas de force majeure (art. 268 et 269 du D.O.C.), des pénalités de retard seront appliquées d'office, sans mise en demeure préalable, à raison de {taux}‰ (pour mille) du montant HT du marché par jour calendaire de retard, plafonnées à {plafond}% du montant total du marché.",
+        "delais_penalites_text": "En cas de retard non justifié par un cas de force majeure (art. 268 et 269 du D.O.C.), des pénalités de retard seront appliquées d'office, sans mise en demeure préalable, à raison de {taux} MAD par jour calendaire de retard, plafonnées à {plafond}% du montant total du marché.",
         "delais_resiliation": "5.4 — Résiliation pour dépassement",
         "delais_resiliation_text": "Au-delà du plafond de pénalités, l'Entrepreneur Principal se réserve le droit de résilier le contrat aux torts exclusifs du Sous-Traitant, sans préjudice de son droit à indemnisation du préjudice subi.",
         # Article 6 – Obligations ST
@@ -909,7 +909,7 @@ ST_TX = {
         "delais_planning": "5.2 — Schedule",
         "delais_planning_text": "The Subcontractor undertakes to comply with the detailed schedule annexed to this contract and to coordinate its works with the other trades on site.",
         "delais_penalites": "5.3 — Delay penalties",
-        "delais_penalites_text": "In the event of delay not justified by a force majeure event (Articles 268 and 269 of the D.O.C.), delay penalties shall apply automatically, without prior formal notice, at a rate of {taux}‰ (per mille) of the HT contract amount per calendar day of delay, capped at {plafond}% of the total contract amount.",
+        "delais_penalites_text": "In the event of delay not justified by a force majeure event (Articles 268 and 269 of the D.O.C.), delay penalties shall apply automatically, without prior formal notice, at a fixed rate of {taux} MAD per calendar day of delay, capped at {plafond}% of the total contract amount.",
         "delais_resiliation": "5.4 — Termination for exceeding cap",
         "delais_resiliation_text": "Beyond the penalty cap, the Principal Contractor reserves the right to terminate the contract at the sole fault of the Subcontractor, without prejudice to its right to claim compensation for actual loss suffered.",
         # Article 6

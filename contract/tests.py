@@ -194,8 +194,8 @@ class TestContractListCreateView:
             "tva": "20.00",
             "client_nom": None,
             "st_name": "Sous-traitant Test",
-            "st_lot_type": "gros_oeuvre",
-            "st_type_prix": "forfaitaire",
+            "st_lot_type": ["gros_oeuvre"],
+            "st_type_prix": ["forfaitaire"],
             "st_tranches": [
                 {"label": "Acompte", "pourcentage": 20},
                 {"label": "Solde", "pourcentage": 50},

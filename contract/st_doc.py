@@ -32,6 +32,24 @@ from .st_i18n import (
     st_t,
 )
 
+# ── helpers ──────────────────────────────────────────────────────────────────
+
+
+def _resolve_lot_keys(lot_type) -> list:
+    """Handle JSONField (list) or legacy string for st_lot_type."""
+    if isinstance(lot_type, list):
+        return [k for k in lot_type if k]
+    return [lot_type] if lot_type else []
+
+
+def _resolve_type_prix_keys(type_prix) -> list:
+    """Handle JSONField (list) or legacy string for st_type_prix. Defaults to forfaitaire."""
+    if isinstance(type_prix, list):
+        keys = [k for k in type_prix if k]
+        return keys if keys else ["forfaitaire"]
+    return [type_prix] if type_prix else ["forfaitaire"]
+
+
 # ── colour palette ───────────────────────────────────────────────────────────
 
 DARK = RGBColor(0x0F, 0x0F, 0x1A)
@@ -237,8 +255,11 @@ class SousTraitanceDOCGenerator:
         return self.c.devise or "MAD"
 
     def _lot(self) -> str:
-        lot = self.c.st_lot_type or ""
-        return LOT_LABELS.get(self.lang, LOT_LABELS["fr"]).get(lot, lot)
+        labels = LOT_LABELS.get(self.lang, LOT_LABELS["fr"])
+        lot_keys = _resolve_lot_keys(self.c.st_lot_type)
+        if not lot_keys:
+            return ""
+        return " / ".join(labels.get(k, k) for k in lot_keys)
 
     def _next_art(self) -> int:
         self._art_num += 1
@@ -568,8 +589,10 @@ class SousTraitanceDOCGenerator:
 
         self._add_text(t("objet_intro"), size=Pt(8.5))
 
-        lot_key = c.st_lot_type or ""
-        lot_label = LOT_LABELS.get(lang, LOT_LABELS["fr"]).get(lot_key, lot_key)
+        lot_keys = _resolve_lot_keys(c.st_lot_type)
+        lot_key = lot_keys[0] if lot_keys else ""
+        labels_map = LOT_LABELS.get(lang, LOT_LABELS["fr"])
+        lot_label = " / ".join(labels_map.get(k, k) for k in lot_keys) if lot_keys else ""
         lot_desc = c.st_lot_description or LOT_DESC_DEFAULT.get(
             lang, LOT_DESC_DEFAULT["fr"]
         ).get(lot_key, "")
@@ -608,7 +631,8 @@ class SousTraitanceDOCGenerator:
         t = self._t
         self._add_art_title(t("art_docs"))
         self._add_text(t("docs_intro"), size=Pt(8.5))
-        lot_key = self.c.st_lot_type or ""
+        lot_keys = _resolve_lot_keys(self.c.st_lot_type)
+        lot_key = lot_keys[0] if lot_keys else ""
         normes = LOT_NORMES.get(lot_key, "")
         docs = st_t("docs_list", self.lang)
         if isinstance(docs, list):
@@ -631,9 +655,10 @@ class SousTraitanceDOCGenerator:
         # 4.1 Montant
         self._add_sub_title(t("prix_montant"))
 
-        type_prix_key = c.st_type_prix or "forfaitaire"
-        type_prix_lbl = TYPE_PRIX_LABELS.get(lang, TYPE_PRIX_LABELS["fr"]).get(
-            type_prix_key, type_prix_key
+        type_prix_keys = _resolve_type_prix_keys(c.st_type_prix)
+        type_prix_lbl = " / ".join(
+            TYPE_PRIX_LABELS.get(lang, TYPE_PRIX_LABELS["fr"]).get(k, k)
+            for k in type_prix_keys
         )
         self._add_text(f"{t('prix_type')} {type_prix_lbl}", size=Pt(8.5), bold=True)
 
@@ -780,7 +805,8 @@ class SousTraitanceDOCGenerator:
     def _build_art_obligations_st(self):
         t = self._t
         lang = self.lang
-        lot_key = self.c.st_lot_type or ""
+        lot_keys = _resolve_lot_keys(self.c.st_lot_type)
+        lot_key = lot_keys[0] if lot_keys else ""
         self._add_art_title(t("art_obligations_st"))
 
         self._add_sub_title(t("oblig_generales"))
@@ -806,7 +832,8 @@ class SousTraitanceDOCGenerator:
     def _build_art_assurances(self):
         t = self._t
         lang = self.lang
-        lot_key = self.c.st_lot_type or ""
+        lot_keys = _resolve_lot_keys(self.c.st_lot_type)
+        lot_key = lot_keys[0] if lot_keys else ""
         self._add_art_title(t("art_assurances"))
 
         self._add_text(t("assurances_intro"), size=Pt(8.5))
@@ -827,7 +854,8 @@ class SousTraitanceDOCGenerator:
         t = self._t
         lang = self.lang
         c = self.c
-        lot_key = c.st_lot_type or ""
+        lot_keys = _resolve_lot_keys(c.st_lot_type)
+        lot_key = lot_keys[0] if lot_keys else ""
         self._add_art_title(t("art_reception"))
 
         reception_text = LOT_RECEPTION.get(lang, LOT_RECEPTION["fr"]).get(lot_key, "")

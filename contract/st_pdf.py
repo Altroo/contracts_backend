@@ -28,6 +28,24 @@ from .st_i18n import (
 # ── helpers ─────────────────────────────────────────────────────────────────
 
 
+def _resolve_lot_keys(lot_type) -> list:
+    """Accept a str key, a list of str keys, or None; always return a list."""
+    if not lot_type:
+        return []
+    if isinstance(lot_type, list):
+        return [k for k in lot_type if k]
+    return [lot_type]
+
+
+def _resolve_type_prix_keys(type_prix) -> list:
+    """Accept a str key, a list of str keys, or None; return a list (default forfaitaire)."""
+    if not type_prix:
+        return ["forfaitaire"]
+    if isinstance(type_prix, list):
+        return [k for k in type_prix if k] or ["forfaitaire"]
+    return [type_prix]
+
+
 def _num_to_words_mad(n: int, lang: str) -> str:
     """Convert integer n to words for the contract 'arrêté à la somme de' line."""
     try:
@@ -226,8 +244,9 @@ class SousTraitancePDFGenerator:
         return self.c.devise or "MAD"
 
     def _lot(self) -> str:
-        lot = self.c.st_lot_type or ""
-        return LOT_LABELS.get(self.lang, LOT_LABELS["fr"]).get(lot, lot)
+        lot_keys = _resolve_lot_keys(self.c.st_lot_type)
+        labels = LOT_LABELS.get(self.lang, LOT_LABELS["fr"])
+        return " / ".join(labels.get(k, k) for k in lot_keys)
 
     # ── section builders ─────────────────────────────────────────────────────
 
@@ -361,8 +380,11 @@ class SousTraitancePDFGenerator:
         t = self._t
         c = self.c
         lang = self.lang
-        lot_key = c.st_lot_type or ""
-        lot_label = LOT_LABELS.get(lang, LOT_LABELS["fr"]).get(lot_key, lot_key)
+        lot_keys = _resolve_lot_keys(c.st_lot_type)
+        lot_key = lot_keys[0] if lot_keys else ""
+        lot_label = " / ".join(
+            LOT_LABELS.get(lang, LOT_LABELS["fr"]).get(k, k) for k in lot_keys
+        )
         lot_desc = c.st_lot_description or LOT_DESC_DEFAULT.get(
             lang, LOT_DESC_DEFAULT["fr"]
         ).get(lot_key, "")
@@ -393,7 +415,8 @@ class SousTraitancePDFGenerator:
     def _build_art_docs(self) -> str:
         """Article 3 – Documents contractuels."""
         t = self._t
-        lot_key = self.c.st_lot_type or ""
+        lot_keys = _resolve_lot_keys(self.c.st_lot_type)
+        lot_key = lot_keys[0] if lot_keys else ""
         normes = LOT_NORMES.get(lot_key, "")
         docs = st_t("docs_list", self.lang)
         if isinstance(docs, list):
@@ -416,9 +439,10 @@ class SousTraitancePDFGenerator:
         lang = self.lang
         dev = self._dev()
 
-        type_prix_key = c.st_type_prix or "forfaitaire"
-        type_prix_lbl = TYPE_PRIX_LABELS.get(lang, TYPE_PRIX_LABELS["fr"]).get(
-            type_prix_key, type_prix_key
+        type_prix_keys = _resolve_type_prix_keys(c.st_type_prix)
+        type_prix_lbl = " / ".join(
+            TYPE_PRIX_LABELS.get(lang, TYPE_PRIX_LABELS["fr"]).get(k, k)
+            for k in type_prix_keys
         )
 
         tva_pct = self._tva_pct
@@ -517,7 +541,8 @@ class SousTraitancePDFGenerator:
         """Article 6 – Obligations du ST."""
         t = self._t
         lang = self.lang
-        lot_key = self.c.st_lot_type or ""
+        lot_keys = _resolve_lot_keys(self.c.st_lot_type)
+        lot_key = lot_keys[0] if lot_keys else ""
 
         # General
         gen_items = st_t("oblig_generales_list", lang)
@@ -557,7 +582,8 @@ class SousTraitancePDFGenerator:
         """Article 8 – Assurances."""
         t = self._t
         lang = self.lang
-        lot_key = self.c.st_lot_type or ""
+        lot_keys = _resolve_lot_keys(self.c.st_lot_type)
+        lot_key = lot_keys[0] if lot_keys else ""
         lot_assur = LOT_ASSURANCES.get(lang, LOT_ASSURANCES["fr"]).get(lot_key, "")
 
         body = f"<p>{t('assurances_intro')}</p>"
@@ -578,7 +604,8 @@ class SousTraitancePDFGenerator:
         t = self._t
         lang = self.lang
         c = self.c
-        lot_key = c.st_lot_type or ""
+        lot_keys = _resolve_lot_keys(c.st_lot_type)
+        lot_key = lot_keys[0] if lot_keys else ""
         reception_text = LOT_RECEPTION.get(lang, LOT_RECEPTION["fr"]).get(lot_key, "")
         delai_res = c.st_delai_reserves or 30
         garantie_mois = c.st_garantie_mois or 12

@@ -3,7 +3,10 @@ from decimal import Decimal, InvalidOperation
 from rest_framework import serializers
 
 from .models import Contract, Project
+from core.constants import ST_LOT_TYPE_CHOICES, ST_TYPE_PRIX_CHOICES
 
+_VALID_LOT_TYPES = {code for code, _ in ST_LOT_TYPE_CHOICES}
+_VALID_TYPE_PRIX = {code for code, _ in ST_TYPE_PRIX_CHOICES}
 
 ECHEANCIER_TOTAL_ERROR = (
     "Le total des pourcentages de l'échéancier doit être égal à 100%."
@@ -174,6 +177,30 @@ class ContractSerializer(serializers.ModelSerializer):
     @staticmethod
     def get_solde(obj: Contract) -> float:
         return obj.solde
+
+    def validate_st_lot_type(self, value):
+        if value is None:
+            return value
+        if not isinstance(value, list):
+            raise serializers.ValidationError("La valeur doit être une liste.")
+        invalid = [v for v in value if v not in _VALID_LOT_TYPES]
+        if invalid:
+            raise serializers.ValidationError(
+                f"Valeur(s) invalide(s) : {', '.join(invalid)}"
+            )
+        return value
+
+    def validate_st_type_prix(self, value):
+        if value is None:
+            return value
+        if not isinstance(value, list):
+            raise serializers.ValidationError("La valeur doit être une liste.")
+        invalid = [v for v in value if v not in _VALID_TYPE_PRIX]
+        if invalid:
+            raise serializers.ValidationError(
+                f"Valeur(s) invalide(s) : {', '.join(invalid)}"
+            )
+        return value
 
     def validate_numero_contrat(self, value: str) -> str:
         """Ensure numero_contrat is unique within the same company + contract_category."""
