@@ -1,3 +1,4 @@
+# i18n: skip-file — internal WebSocket middleware; attribute errors are for debugging only
 import asyncio
 from typing import Any
 from urllib.parse import parse_qs

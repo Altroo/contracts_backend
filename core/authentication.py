@@ -1,3 +1,4 @@
+# i18n: skip-file — internal infrastructure; exceptions are for logging only
 import logging
 
 from rest_framework_simplejwt.authentication import JWTAuthentication

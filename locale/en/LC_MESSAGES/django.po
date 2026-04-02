@@ -1,0 +1,1593 @@
+# English translations for contracts_backend
+# This file is distributed under the same license as the contracts_backend package.
+msgid ""
+msgstr ""
+"Project-Id-Version: contracts_backend\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-04-02 11:51+0100\n"
+"PO-Revision-Date: 2026-04-01 00:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: English\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: .\account\admin.py:31 .\account\admin.py:51
+msgid "Profile"
+msgstr "Profile"
+
+#: .\account\admin.py:46 .\account\admin.py:63
+msgid "Permissions"
+msgstr "Permissions"
+
+#: .\account\admin.py:47
+msgid "Date d'activité"
+msgstr "Activity date"
+
+#: .\account\admin.py:89 .\account\templates\new_password.html:11
+msgid "Changement de mot de passe - E.B.H Contrats"
+msgstr "Password Change - E.B.H Contracts"
+
+#: .\account\apps.py:8
+msgid "Comptes"
+msgstr "Accounts"
+
+#: .\account\filters.py:12
+msgid "Search"
+msgstr "Search"
+
+#: .\account\filters.py:14
+msgid "Date Joined After"
+msgstr "Date Joined After"
+
+#: .\account\filters.py:17
+msgid "Date Joined Before"
+msgstr "Date Joined Before"
+
+#: .\account\filters.py:20
+msgid "Last Login After"
+msgstr "Last Login After"
+
+#: .\account\filters.py:23
+msgid "Last Login Before"
+msgstr "Last Login Before"
+
+#: .\account\filters.py:63
+msgid "Gender"
+msgstr "Gender"
+
+#: .\account\filters.py:66
+msgid "Is Staff"
+msgstr "Is Staff"
+
+#: .\account\filters.py:67
+msgid "Is Active"
+msgstr "Is Active"
+
+#: .\account\managers.py:11
+msgid "The Email must be set"
+msgstr "The Email must be set"
+
+#: .\account\managers.py:27
+msgid "Superuser must have is_staff=True."
+msgstr "Superuser must have is_staff=True."
+
+#: .\account\managers.py:29
+msgid "Superuser must have is_superuser=True."
+msgstr "Superuser must have is_superuser=True."
+
+#: .\account\models.py:24
+msgid "Adresse e‑mail"
+msgstr "Email address"
+
+#: .\account\models.py:24
+msgid "Adresse e‑mail de l'utilisateur"
+msgstr "User's email address"
+
+#: .\account\models.py:27
+msgid "Prénom"
+msgstr "First name"
+
+#: .\account\models.py:27
+msgid "Prénom de l'utilisateur"
+msgstr "User's first name"
+
+#: .\account\models.py:30
+msgid "Nom"
+msgstr "Last name"
+
+#: .\account\models.py:30
+msgid "Nom de famille de l'utilisateur"
+msgstr "User's last name"
+
+#: .\account\models.py:32
+msgid "Unset"
+msgstr "Unset"
+
+#: .\account\models.py:32
+msgid "Homme"
+msgstr "Male"
+
+#: .\account\models.py:32
+msgid "Femme"
+msgstr "Female"
+
+#: .\account\models.py:34
+msgid "Sexe"
+msgstr "Gender"
+
+#: .\account\models.py:38
+msgid "Sexe de l'utilisateur"
+msgstr "User's gender"
+
+#: .\account\models.py:41
+msgid "Photo de profil"
+msgstr "Profile picture"
+
+#: .\account\models.py:46
+msgid "Image de profil de l'utilisateur"
+msgstr "User's profile picture"
+
+#: .\account\models.py:53
+msgid "Photo de profil recadrée"
+msgstr "Cropped profile picture"
+
+#: .\account\models.py:55
+msgid "Version recadrée de la photo de profil"
+msgstr "Cropped version of the profile picture"
+
+#: .\account\models.py:58
+msgid "Statut personnel"
+msgstr "Staff status"
+
+#: .\account\models.py:61
+msgid "Indique si l'utilisateur peut se connecter au panneau d'administration."
+msgstr "Designates whether the user can log into the admin panel."
+
+#: .\account\models.py:64
+msgid "Actif"
+msgstr "Active"
+
+#: .\account\models.py:67
+msgid "Indique si ce compte doit être considéré comme actif."
+msgstr "Designates whether this account should be treated as active."
+
+#: .\account\models.py:70
+msgid "Date d'inscription"
+msgstr "Date joined"
+
+#: .\account\models.py:73
+msgid "Horodatage de l'inscription de l'utilisateur."
+msgstr "Timestamp when the user registered."
+
+#: .\account\models.py:77
+msgid "Date de modification"
+msgstr "Date modified"
+
+#: .\account\models.py:79
+msgid "Horodatage de la dernière modification du profil."
+msgstr "Timestamp of the last profile modification."
+
+#: .\account\models.py:82
+msgid "Mot de passe - Code de réinitialisation"
+msgstr "Password – Reset code"
+
+#: .\account\models.py:86
+msgid "Code de réinitialisation du mot de passe (généré automatiquement)."
+msgstr "Password reset code (auto-generated)."
+
+#: .\account\models.py:89
+msgid "Mot de passe - Date de création du code"
+msgstr "Password – Code creation date"
+
+#: .\account\models.py:93
+msgid "Date à laquelle le code de réinitialisation a été créé."
+msgstr "Date when the reset code was created."
+
+#: .\account\models.py:96
+msgid "Mot de passe - Task ID de réinitialisation"
+msgstr "Password – Reset task ID"
+
+#: .\account\models.py:102
+msgid "Identifiant de la tâche Celery de réinitialisation du mot de passe."
+msgstr "Celery task identifier for the password reset."
+
+#: .\account\models.py:105
+msgid "Mot de passe par défaut défini"
+msgstr "Default password set"
+
+#: .\account\models.py:108
+msgid "Indique si le mot de passe par défaut a été défini."
+msgstr "Indicates whether the default password has been set."
+
+#: .\account\models.py:111
+msgid "Peut consulter"
+msgstr "Can view"
+
+#: .\account\models.py:112
+msgid "Peut imprimer"
+msgstr "Can print"
+
+#: .\account\models.py:113
+msgid "Peut créer"
+msgstr "Can create"
+
+#: .\account\models.py:114
+msgid "Peut modifier"
+msgstr "Can edit"
+
+#: .\account\models.py:115
+msgid "Peut supprimer"
+msgstr "Can delete"
+
+#: .\account\models.py:121
+msgid "Historique Utilisateur"
+msgstr "User history"
+
+#: .\account\models.py:122
+msgid "Historiques Utilisateurs"
+msgstr "User histories"
+
+#: .\account\models.py:142
+msgid "Utilisateur"
+msgstr "User"
+
+#: .\account\models.py:143
+msgid "Utilisateurs"
+msgstr "Users"
+
+# account/serializers.py
+#: .\account\serializers.py:31 .\account\serializers.py:249
+#, python-format
+msgid "Valeur du sexe invalide : %(value)s. Doit être 'Homme' ou 'Femme'."
+msgstr "Invalid gender value: %(value)s. Must be 'Male' or 'Female'."
+
+#: .\account\serializers.py:46 .\account\serializers.py:85
+#: .\account\serializers.py:267 .\account\serializers.py:306
+#, python-format
+msgid "Format d'image non reconnu pour %(field_name)s"
+msgstr "Unrecognized image format for %(field_name)s"
+
+#: .\account\serializers.py:51 .\account\serializers.py:272
+#, python-format
+msgid "Téléchargement de fichier invalide pour %(field_name)s: %(error)s"
+msgstr "Invalid file upload for %(field_name)s: %(error)s"
+
+#: .\account\serializers.py:57 .\account\serializers.py:278
+#, python-format
+msgid "Format d'image base64 invalide pour %(field_name)s"
+msgstr "Invalid base64 image format for %(field_name)s"
+
+#: .\account\serializers.py:62 .\account\serializers.py:283
+#, python-format
+msgid "Données base64 mal formées pour %(field_name)s"
+msgstr "Malformed base64 data for %(field_name)s"
+
+#: .\account\serializers.py:67 .\account\serializers.py:288
+#, python-format
+msgid "Type MIME d'image invalide pour %(field_name)s"
+msgstr "Invalid image MIME type for %(field_name)s"
+
+#: .\account\serializers.py:74 .\account\serializers.py:295
+msgid "Veuillez télécharger une image plus petite."
+msgstr "Please upload a smaller image."
+
+#: .\account\serializers.py:80 .\account\serializers.py:301
+#, python-format
+msgid "Encodage base64 invalide pour %(field_name)s: %(error)s"
+msgstr "Invalid base64 encoding for %(field_name)s: %(error)s"
+
+#: .\account\serializers.py:92 .\account\serializers.py:313
+#, python-format
+msgid "Données d'image base64 invalides pour %(field_name)s: %(error)s"
+msgstr "Invalid base64 image data for %(field_name)s: %(error)s"
+
+#: .\account\serializers.py:94 .\account\serializers.py:315
+#, python-format
+msgid "Format d'image invalide pour %(field_name)s"
+msgstr "Invalid image format for %(field_name)s"
+
+#: .\account\serializers.py:185 .\account\views.py:165
+msgid "Les mots de passe ne correspondent pas."
+msgstr "Passwords do not match."
+
+#: .\account\templates\new_account.html:11 .\account\views.py:484
+msgid "Invitation - Application de E.B.H Contrats"
+msgstr "Invitation - E.B.H Contracts Application"
+
+# Email templates
+#: .\account\templates\new_account.html:144
+msgid "Invitation (Application de E.B.H Contrats)"
+msgstr "Invitation (E.B.H Contracts Application)"
+
+#: .\account\templates\new_account.html:167
+#, python-format
+msgid ""
+"Bonjour %(first_name)s,<br>Voici le mot de passe de votre compte récement "
+"créé sur L'application de E.B.H Contrats :"
+msgstr ""
+"Hello %(first_name)s,<br>Here is the password for your recently created "
+"account on the E.B.H Contracts application:"
+
+#: .\account\templates\new_account.html:194
+msgid "Vous pouvez utiliser cette adresse Email, Merci,"
+msgstr "You can use this email address. Thank you,"
+
+#: .\account\templates\new_account.html:207
+#: .\account\templates\new_password.html:207
+#: .\account\templates\password_reset.html:207
+msgid "Accéder à l'application"
+msgstr "Access the application"
+
+#: .\account\templates\new_account.html:215
+#: .\account\templates\new_password.html:215
+#: .\account\templates\password_reset.html:215
+msgid "Cordialement,"
+msgstr "Regards,"
+
+#: .\account\templates\new_account.html:215
+#: .\account\templates\new_password.html:215
+#: .\account\templates\password_reset.html:215
+msgid "L’équipe Application de E.B.H Contrats"
+msgstr "The E.B.H Contrats Application Team"
+
+#: .\account\templates\new_account.html:248
+#: .\account\templates\new_password.html:248
+#: .\account\templates\password_reset.html:248
+msgid ""
+"Cet email vous a été envoyé car vous avez un compte sur L'application de "
+"E.B.H Contrats."
+msgstr ""
+"This email was sent to you because you have an account on the E.B.H "
+"Contracts application."
+
+#: .\account\templates\new_password.html:167
+#, python-format
+msgid ""
+"Bonjour %(first_name)s,<br>Un administrateur a modifié le mot de passe de "
+"votre compte E.B.H Contrats. Voici votre nouveau mot de passe :"
+msgstr ""
+"Hello %(first_name)s,<br>An administrator has changed your E.B.H Contrats "
+"account password. Here is your new password:"
+
+#: .\account\templates\new_password.html:194
+msgid ""
+"Vous pouvez utiliser ce nouveau mot de passe pour vous connecter avec votre "
+"adresse Email, Merci,"
+msgstr ""
+"You can use this new password to log in with your email address. Thank you,"
+
+# email templates (remaining strings)
+#: .\account\templates\password_reset.html:11
+msgid "Renouvelez votre mot de passe - E.B.H Contrats"
+msgstr "Reset your password - E.B.H Contrats"
+
+#: .\account\templates\password_reset.html:167
+#, python-format
+msgid ""
+"Bonjour %(first_name)s,<br>Pour modifier votre mot de passe, entrer ce code "
+"de sécurité :"
+msgstr ""
+"Hello %(first_name)s,<br>To reset your password, enter this security code:"
+
+#: .\account\templates\password_reset.html:194
+msgid "Merci,"
+msgstr "Thank you,"
+
+# account/views.py
+#: .\account\views.py:56
+msgid "Un utilisateur avec ce champ adresse électronique existe déjà."
+msgstr "A user with this email address already exists."
+
+#: .\account\views.py:62 .\account\views.py:188 .\account\views.py:229
+#: .\account\views.py:316
+msgid "L'adresse électronique est requise."
+msgstr "Email address is required."
+
+#: .\account\views.py:70 .\account\views.py:196 .\account\views.py:234
+#: .\account\views.py:324
+msgid "Entrez une adresse électronique valide."
+msgstr "Enter a valid email address."
+
+#: .\account\views.py:162
+msgid "Votre mot de passe est invalide."
+msgstr "Your password is incorrect."
+
+#: .\account\views.py:170
+msgid "Le mot de passe doit contenir au moins 8 caractères."
+msgstr "The password must contain at least 8 characters."
+
+#: .\account\views.py:183
+msgid "Utilisateur ou code verification invalide."
+msgstr "Invalid user or verification code."
+
+#: .\account\views.py:217 .\account\views.py:253
+msgid ""
+"Le code de réinitialisation a expiré. Veuillez demander un nouveau code."
+msgstr "The reset code has expired. Please request a new code."
+
+#: .\account\views.py:354
+msgid "Renouvellement du mot de passe - E.B.H Contrats"
+msgstr "Password Reset - E.B.H Contracts"
+
+#: .\account\views.py:400
+msgid "Utilisateur n'éxiste pas!"
+msgstr "User does not exist!"
+
+#: .\account\views.py:504 .\account\views.py:510
+msgid "Aucune utilisateur ne correspond à la requête."
+msgstr "No user matches the request."
+
+#: .\account\views.py:519
+msgid "Vous ne pouvez pas modifier votre utilisateur dans cette page."
+msgstr "You cannot edit your own user on this page."
+
+#: .\account\views.py:533
+msgid "Vous ne pouvez pas supprimer votre utilisateur."
+msgstr "You cannot delete your own user."
+
+#: .\account\views.py:558 .\contract\views.py:159
+msgid "Une liste d'identifiants est requise."
+msgstr "A list of identifiers is required."
+
+#: .\account\views.py:564 .\contract\views.py:165
+msgid "Les identifiants doivent être des entiers."
+msgstr "Identifiers must be integers."
+
+#: .\account\views.py:569
+msgid "Vous ne pouvez pas supprimer votre propre utilisateur."
+msgstr "You cannot delete your own user account."
+
+#: .\account\views.py:574
+msgid "Certains utilisateurs sont introuvables."
+msgstr "Some users could not be found."
+
+#: .\contract\admin.py:58
+msgid "Référence & Statut"
+msgstr "Reference & Status"
+
+#: .\contract\admin.py:71
+msgid "Client"
+msgstr "Client"
+
+#: .\contract\admin.py:85
+msgid "Projet & Services"
+msgstr "Project & Services"
+
+#: .\contract\admin.py:100
+msgid "Conditions Financières"
+msgstr "Financial Terms"
+
+#: .\contract\admin.py:116
+msgid "Clauses Juridiques"
+msgstr "Legal Clauses"
+
+#: .\contract\admin.py:129
+msgid "Options"
+msgstr "Options"
+
+#: .\contract\admin.py:140 .\core\constants.py:9
+msgid "Blueline Works"
+msgstr "Blueline Works"
+
+#: .\contract\admin.py:164 .\core\constants.py:163
+msgid "Sous-Traitance"
+msgstr "Subcontracting"
+
+#: .\contract\admin.py:204
+msgid "Métadonnées"
+msgstr "Metadata"
+
+#: .\contract\apps.py:8 .\contract\models.py:559
+msgid "Contrats"
+msgstr "Contracts"
+
+#: .\contract\filters.py:11
+msgid "Recherche"
+msgstr "Search"
+
+#: .\contract\filters.py:12 .\contract\models.py:116
+msgid "Statut"
+msgstr "Status"
+
+#: .\contract\filters.py:13 .\contract\models.py:36 .\contract\models.py:92
+#: .\core\models.py:14
+msgid "Société"
+msgstr "Company"
+
+#: .\contract\filters.py:22
+msgid "Date après"
+msgstr "Date after"
+
+#: .\contract\filters.py:25
+msgid "Date avant"
+msgstr "Date before"
+
+#: .\contract\models.py:39
+msgid "Nom du projet"
+msgstr "Project name"
+
+#: .\contract\models.py:45
+msgid "Type de projet"
+msgstr "Project type"
+
+#: .\contract\models.py:47
+msgid "Description"
+msgstr "Description"
+
+#: .\contract\models.py:48
+msgid "Adresse du projet"
+msgstr "Project address"
+
+#: .\contract\models.py:50
+msgid "Maître d'ouvrage"
+msgstr "Project owner"
+
+#: .\contract\models.py:56
+msgid "N° permis de construire"
+msgstr "Building permit number"
+
+#: .\contract\models.py:60
+msgid "Prédéfini"
+msgstr "Predefined"
+
+#: .\contract\models.py:61
+msgid "Prédéfini par l'admin, non supprimable par les utilisateurs."
+msgstr "Predefined by admin, cannot be deleted by users."
+
+#: .\contract\models.py:69 .\contract\models.py:553
+msgid "Créé par"
+msgstr "Created by"
+
+#: .\contract\models.py:75 .\contract\models.py:393
+msgid "Projet"
+msgstr "Project"
+
+#: .\contract\models.py:76
+msgid "Projets"
+msgstr "Projects"
+
+#: .\contract\models.py:99
+msgid "Catégorie de contrat"
+msgstr "Contract category"
+
+#: .\contract\models.py:105
+msgid "Référence contrat"
+msgstr "Contract reference"
+
+#: .\contract\models.py:106
+msgid "Format ex: 0001/26"
+msgstr "Format e.g.: 0001/26"
+
+#: .\contract\models.py:109
+msgid "Date du contrat"
+msgstr "Contract date"
+
+#: .\contract\models.py:121
+msgid "Nom & Prénom"
+msgstr "Full name"
+
+#: .\contract\models.py:124
+msgid "CIN / ICE / Passeport"
+msgstr "CIN / ICE / Passport"
+
+#: .\contract\models.py:131
+msgid "Qualité du client"
+msgstr "Client type"
+
+#: .\contract\models.py:134
+msgid "Adresse complète"
+msgstr "Full address"
+
+#: .\contract\models.py:137
+msgid "Téléphone"
+msgstr "Phone"
+
+#: .\contract\models.py:139
+msgid "Email"
+msgstr "Email"
+
+#: .\contract\models.py:143
+msgid "Ville de signature"
+msgstr "City of signature"
+
+#: .\contract\models.py:147
+msgid "Adresse des travaux"
+msgstr "Works address"
+
+#: .\contract\models.py:154
+msgid "Type de bien"
+msgstr "Property type"
+
+#: .\contract\models.py:161
+msgid "Surface (m²)"
+msgstr "Surface area (m²)"
+
+#: .\contract\models.py:164
+msgid "Services sélectionnés"
+msgstr "Selected services"
+
+#: .\contract\models.py:167
+msgid "Description des travaux"
+msgstr "Works description"
+
+#: .\contract\models.py:170
+msgid "Date de début prévue"
+msgstr "Planned start date"
+
+#: .\contract\models.py:176
+msgid "Durée estimée"
+msgstr "Estimated duration"
+
+#: .\contract\models.py:179
+msgid "Conditions d'accès"
+msgstr "Access conditions"
+
+#: .\contract\models.py:186
+msgid "Montant total HT"
+msgstr "Total amount excl. tax"
+
+#: .\contract\models.py:192
+msgid "Devise"
+msgstr "Currency"
+
+#: .\contract\models.py:198
+msgid "TVA (%)"
+msgstr "VAT (%)"
+
+#: .\contract\models.py:203
+msgid "Echéancier de paiement"
+msgstr "Payment schedule"
+
+#: .\contract\models.py:204
+msgid "Liste de {label, pourcentage}"
+msgstr "List of {label, percentage}"
+
+#: .\contract\models.py:211
+msgid "Mode de paiement"
+msgstr "Payment method"
+
+#: .\contract\models.py:217
+msgid "RIB / Coordonnées bancaires"
+msgstr "Bank account / Banking details"
+
+#: .\contract\models.py:220
+msgid "Délai retard toléré (jours)"
+msgstr "Tolerated delay (days)"
+
+#: .\contract\models.py:226
+msgid "Pénalité retard (MAD/j)"
+msgstr "Late penalty (MAD/day)"
+
+#: .\contract\models.py:233
+msgid "Frais de redémarrage (MAD)"
+msgstr "Restart fees (MAD)"
+
+#: .\contract\models.py:240
+msgid "Durée de garantie"
+msgstr "Warranty duration"
+
+#: .\contract\models.py:243
+msgid "Délai réserves (j ouvrés)"
+msgstr "Reservation period (working days)"
+
+#: .\contract\models.py:249
+msgid "Tribunal compétent"
+msgstr "Competent court"
+
+#: .\contract\models.py:254
+msgid "Clauses actives"
+msgstr "Active clauses"
+
+#: .\contract\models.py:257
+msgid "Clauses spécifiques additionnelles"
+msgstr "Additional specific clauses"
+
+#: .\contract\models.py:260
+msgid "Exclusions explicites"
+msgstr "Explicit exclusions"
+
+#: .\contract\models.py:267
+msgid "Type de contrat"
+msgstr "Contract type"
+
+#: .\contract\models.py:273
+msgid "Responsable de projet CASA DI LUSSO"
+msgstr "CASA DI LUSSO project manager"
+
+#: .\contract\models.py:279
+msgid "Architecte / Designer associé"
+msgstr "Associated architect / Designer"
+
+#: .\contract\models.py:285
+msgid "Note de confidentialité"
+msgstr "Confidentiality note"
+
+#: .\contract\models.py:287
+msgid "Annexes jointes"
+msgstr "Attached annexes"
+
+#: .\contract\models.py:294
+msgid "Ville du client"
+msgstr "Client city"
+
+#: .\contract\models.py:300
+msgid "Code postal client"
+msgstr "Client postal code"
+
+#: .\contract\models.py:306
+msgid "Ville du chantier"
+msgstr "Construction site city"
+
+#: .\contract\models.py:312
+msgid "Étage / Appartement"
+msgstr "Floor / Apartment"
+
+#: .\contract\models.py:317
+msgid "Prestations"
+msgstr "Services"
+
+#: .\contract\models.py:318
+msgid "Liste de {nom, desc, qte, unite, pu}"
+msgstr "List of {name, desc, qty, unit, price}"
+
+#: .\contract\models.py:325
+msgid "Fournitures incluses"
+msgstr "Supplies included"
+
+#: .\contract\models.py:330
+msgid "Matériaux à fournir par le client"
+msgstr "Materials to be provided by the client"
+
+#: .\contract\models.py:337
+msgid "Eau & Électricité sur chantier"
+msgstr "Water & Electricity on site"
+
+#: .\contract\models.py:342
+msgid "Durée de garantie (valeur)"
+msgstr "Warranty duration (value)"
+
+#: .\contract\models.py:349
+msgid "Unité de garantie"
+msgstr "Warranty unit"
+
+#: .\contract\models.py:356
+msgid "Type de garantie"
+msgstr "Warranty type"
+
+#: .\contract\models.py:361
+msgid "Exclusions de garantie"
+msgstr "Warranty exclusions"
+
+#: .\contract\models.py:368
+msgid "Acompte (%)"
+msgstr "Deposit (%)"
+
+#: .\contract\models.py:375
+msgid "2ème tranche (%)"
+msgstr "2nd installment (%)"
+
+#: .\contract\models.py:382
+msgid "Clause de résiliation"
+msgstr "Termination clause"
+
+#: .\contract\models.py:384
+msgid "Notes & Observations"
+msgstr "Notes & Observations"
+
+#: .\contract\models.py:397
+msgid "Raison sociale ST"
+msgstr "Subcontractor company name"
+
+#: .\contract\models.py:404
+msgid "Forme juridique ST"
+msgstr "Subcontractor legal form"
+
+#: .\contract\models.py:411
+msgid "Capital social ST"
+msgstr "Subcontractor share capital"
+
+#: .\contract\models.py:414
+msgid "RC ST"
+msgstr "Subcontractor trade register"
+
+#: .\contract\models.py:417
+msgid "ICE ST"
+msgstr "Subcontractor ICE"
+
+#: .\contract\models.py:423
+msgid "Identifiant fiscal ST"
+msgstr "Subcontractor tax ID"
+
+#: .\contract\models.py:426
+msgid "CNSS ST"
+msgstr "Subcontractor CNSS"
+
+#: .\contract\models.py:428
+msgid "Adresse siège ST"
+msgstr "Subcontractor headquarters address"
+
+#: .\contract\models.py:430
+msgid "Représentant ST"
+msgstr "Subcontractor representative"
+
+#: .\contract\models.py:433
+msgid "CIN représentant ST"
+msgstr "Subcontractor representative CIN"
+
+#: .\contract\models.py:439
+msgid "Qualité représentant ST"
+msgstr "Subcontractor representative title"
+
+#: .\contract\models.py:442
+msgid "Téléphone ST"
+msgstr "Subcontractor phone"
+
+#: .\contract\models.py:444
+msgid "Email ST"
+msgstr "Subcontractor email"
+
+#: .\contract\models.py:446
+msgid "RIB ST"
+msgstr "Subcontractor bank account"
+
+#: .\contract\models.py:449
+msgid "Banque ST"
+msgstr "Subcontractor bank"
+
+#: .\contract\models.py:456
+msgid "Type(s) de lot"
+msgstr "Lot type(s)"
+
+#: .\contract\models.py:459
+msgid "Description du lot"
+msgstr "Lot description"
+
+#: .\contract\models.py:465
+msgid "Type(s) de prix"
+msgstr "Price type(s)"
+
+#: .\contract\models.py:473
+msgid "Retenue de garantie (%)"
+msgstr "Warranty retention (%)"
+
+#: .\contract\models.py:480
+msgid "Avance forfaitaire (%)"
+msgstr "Lump-sum advance (%)"
+
+#: .\contract\models.py:487
+msgid "Pénalité retard (MAD/jour)"
+msgstr "Late penalty (MAD/day)"
+
+#: .\contract\models.py:494
+msgid "Plafond pénalité (%)"
+msgstr "Penalty cap (%)"
+
+#: .\contract\models.py:499
+msgid "Délai de paiement (jours)"
+msgstr "Payment deadline (days)"
+
+#: .\contract\models.py:504
+msgid "Tranches paiement ST"
+msgstr "Subcontractor payment installments"
+
+#: .\contract\models.py:505
+msgid "{label, pourcentage}"
+msgstr "{label, percentage}"
+
+#: .\contract\models.py:511
+msgid "Délai d'exécution (valeur)"
+msgstr "Execution period (value)"
+
+#: .\contract\models.py:518
+msgid "Unité délai d'exécution"
+msgstr "Execution period unit"
+
+#: .\contract\models.py:523
+msgid "Garantie décennale (mois)"
+msgstr "Ten-year warranty (months)"
+
+#: .\contract\models.py:528
+msgid "Délai levée réserves (jours)"
+msgstr "Reservation lifting period (days)"
+
+#: .\contract\models.py:533
+msgid "Délai mise en demeure (jours)"
+msgstr "Formal notice period (days)"
+
+#: .\contract\models.py:539
+msgid "Clauses actives ST"
+msgstr "Subcontractor active clauses"
+
+#: .\contract\models.py:542
+msgid "Observations ST"
+msgstr "Subcontractor observations"
+
+#: .\contract\models.py:555
+msgid "Historique Contrat"
+msgstr "Contract history"
+
+#: .\contract\models.py:558
+msgid "Contrat"
+msgstr "Contract"
+
+# contract/serializers.py
+#: .\contract\serializers.py:13
+msgid "Le total des pourcentages de l'échéancier doit être égal à 100%."
+msgstr "The total of echeancier percentages must equal 100%."
+
+#: .\contract\serializers.py:186 .\contract\serializers.py:198
+msgid "La valeur doit être une liste."
+msgstr "The value must be a list."
+
+#: .\contract\serializers.py:190 .\contract\serializers.py:202
+#, python-format
+msgid "Valeur(s) invalide(s) : %(values)s"
+msgstr "Invalid value(s): %(values)s"
+
+#: .\contract\serializers.py:222
+msgid "Un contrat avec ce numéro existe déjà."
+msgstr "A contract with this number already exists."
+
+#: .\contract\serializers.py:259 .\contract\serializers.py:262
+msgid "La somme de l'acompte et de la tranche 2 ne peut pas dépasser 100%."
+msgstr "The sum of the deposit and tranche 2 cannot exceed 100%."
+
+# contract/views.py
+#: .\contract\views.py:55
+msgid "Vous n'avez pas les droits pour créer un contrat."
+msgstr "You do not have permission to create a contract."
+
+#: .\contract\views.py:75 .\contract\views.py:128 .\contract\views.py:188
+#: .\contract\views.py:215
+msgid "Aucun contrat ne correspond à la requête."
+msgstr "No contract matches the request."
+
+#: .\contract\views.py:85 .\contract\views.py:133
+msgid "Vous n'avez pas les droits pour modifier ce contrat."
+msgstr "You do not have permission to edit this contract."
+
+#: .\contract\views.py:96
+msgid "Vous n'avez pas les droits pour supprimer ce contrat."
+msgstr "You do not have permission to delete this contract."
+
+#: .\contract\views.py:139
+msgid "Statut invalide."
+msgstr "Invalid status."
+
+#: .\contract\views.py:154
+msgid "Vous n'avez pas les droits pour supprimer des contrats."
+msgstr "You do not have permission to delete contracts."
+
+#: .\contract\views.py:170
+msgid "Certains contrats sont introuvables."
+msgstr "Some contracts could not be found."
+
+#: .\contract\views.py:193
+msgid "Vous n'avez pas les droits pour imprimer ce contrat."
+msgstr "You do not have permission to print this contract."
+
+#: .\contract\views.py:220
+msgid "Vous n'avez pas les droits pour télécharger ce contrat."
+msgstr "You do not have permission to download this contract."
+
+#: .\contract\views.py:253
+msgid "Vous n'avez pas les droits pour créer un projet."
+msgstr "You do not have permission to create a project."
+
+#: .\contract\views.py:271
+msgid "Aucun projet ne correspond à la requête."
+msgstr "No project matches the request."
+
+#: .\contract\views.py:281
+msgid "Vous n'avez pas les droits pour modifier ce projet."
+msgstr "You do not have permission to edit this project."
+
+#: .\contract\views.py:292
+msgid "Vous n'avez pas les droits pour supprimer ce projet."
+msgstr "You do not have permission to delete this project."
+
+#: .\contract\views.py:297
+msgid "Les projets prédéfinis ne peuvent pas être supprimés."
+msgstr "Predefined projects cannot be deleted."
+
+#: .\contracts_backend\utils.py:241
+#, python-format
+msgid "Requête ralentie. Réessayez dans %(wait)d seconde."
+msgid_plural "Requête ralentie. Réessayez dans %(wait)d secondes."
+msgstr[0] "Request throttled. Please retry in %(wait)d second."
+msgstr[1] "Request throttled. Please retry in %(wait)d seconds."
+
+#: .\core\constants.py:8
+msgid "Casa di Lusso"
+msgstr "Casa di Lusso"
+
+#: .\core\constants.py:13
+msgid "MAD – Dirham Marocain"
+msgstr "MAD – Moroccan Dirham"
+
+#: .\core\constants.py:14
+msgid "EUR – Euro"
+msgstr "EUR – Euro"
+
+#: .\core\constants.py:15
+msgid "USD – Dollar Américain"
+msgstr "USD – US Dollar"
+
+#: .\core\constants.py:19
+msgid "Travaux de Finition"
+msgstr "Finishing works"
+
+#: .\core\constants.py:20
+msgid "Travaux Gros Œuvre"
+msgstr "Structural works"
+
+#: .\core\constants.py:21
+msgid "Design Intérieur"
+msgstr "Interior design"
+
+#: .\core\constants.py:22
+msgid "Clé en Main"
+msgstr "Turnkey"
+
+#: .\core\constants.py:23
+msgid "Ameublement"
+msgstr "Furnishing"
+
+#: .\core\constants.py:24 .\ws\models.py:12 .\ws\models.py:16 .\ws\models.py:17
+msgid "Maintenance"
+msgstr "Maintenance"
+
+#: .\core\constants.py:25
+msgid "Suivi Chantier"
+msgstr "Site monitoring"
+
+#: .\core\constants.py:29
+msgid "Appartement"
+msgstr "Apartment"
+
+#: .\core\constants.py:30 .\core\constants.py:185
+msgid "Villa"
+msgstr "Villa"
+
+#: .\core\constants.py:31
+msgid "Duplex"
+msgstr "Duplex"
+
+#: .\core\constants.py:32
+msgid "Résidence"
+msgstr "Residence"
+
+#: .\core\constants.py:33
+msgid "Hôtel"
+msgstr "Hotel"
+
+#: .\core\constants.py:34
+msgid "Riad / Maison Traditionnelle"
+msgstr "Riad / Traditional house"
+
+#: .\core\constants.py:35
+msgid "Bureau / Local Commercial"
+msgstr "Office / Commercial space"
+
+#: .\core\constants.py:36
+msgid "Commerce / Local"
+msgstr "Shop / Premises"
+
+#: .\core\constants.py:37
+msgid "Hôtel / Riad Hôtelier"
+msgstr "Hotel / Hospitality Riad"
+
+#: .\core\constants.py:38 .\core\constants.py:184
+msgid "Immeuble"
+msgstr "Building"
+
+#: .\core\constants.py:39 .\core\constants.py:145 .\core\constants.py:189
+msgid "Autre"
+msgstr "Other"
+
+#: .\core\constants.py:43
+msgid "Particulier"
+msgstr "Individual"
+
+#: .\core\constants.py:44
+msgid "Entreprise / Société"
+msgstr "Company / Corporation"
+
+#: .\core\constants.py:45
+msgid "Investisseur Immobilier"
+msgstr "Real estate investor"
+
+#: .\core\constants.py:46
+msgid "Administration / Institution"
+msgstr "Government / Institution"
+
+#: .\core\constants.py:51
+msgid "1 mois"
+msgstr "1 month"
+
+#: .\core\constants.py:52
+msgid "3 mois"
+msgstr "3 months"
+
+#: .\core\constants.py:53
+msgid "6 mois"
+msgstr "6 months"
+
+#: .\core\constants.py:54
+msgid "1 an"
+msgstr "1 year"
+
+#: .\core\constants.py:55
+msgid "2 ans"
+msgstr "2 years"
+
+#: .\core\constants.py:56
+msgid "3 ans"
+msgstr "3 years"
+
+#: .\core\constants.py:57
+msgid "Sans garantie contractuelle"
+msgstr "No contractual warranty"
+
+#: .\core\constants.py:61
+msgid "Tanger"
+msgstr "Tangier"
+
+#: .\core\constants.py:62
+msgid "Casablanca"
+msgstr "Casablanca"
+
+#: .\core\constants.py:63
+msgid "Rabat"
+msgstr "Rabat"
+
+#: .\core\constants.py:64
+msgid "Marrakech"
+msgstr "Marrakech"
+
+#: .\core\constants.py:65
+msgid "Fès"
+msgstr "Fez"
+
+#: .\core\constants.py:66
+msgid "Agadir"
+msgstr "Agadir"
+
+#: .\core\constants.py:70
+msgid "CONFIDENTIEL"
+msgstr "CONFIDENTIAL"
+
+#: .\core\constants.py:71
+msgid "USAGE INTERNE"
+msgstr "INTERNAL USE"
+
+#: .\core\constants.py:72
+msgid "STANDARD"
+msgstr "STANDARD"
+
+#: .\core\constants.py:76
+msgid "Brouillon"
+msgstr "Draft"
+
+#: .\core\constants.py:77
+msgid "Envoyé"
+msgstr "Sent"
+
+#: .\core\constants.py:78
+msgid "Signé"
+msgstr "Signed"
+
+#: .\core\constants.py:79
+msgid "En cours"
+msgstr "In progress"
+
+#: .\core\constants.py:80
+msgid "Terminé"
+msgstr "Completed"
+
+#: .\core\constants.py:81
+msgid "Annulé"
+msgstr "Cancelled"
+
+#: .\core\constants.py:82
+msgid "Expiré"
+msgstr "Expired"
+
+#: .\core\constants.py:86
+msgid "Virement Bancaire"
+msgstr "Bank transfer"
+
+#: .\core\constants.py:87
+msgid "Chèque Certifié"
+msgstr "Certified cheque"
+
+#: .\core\constants.py:88
+msgid "Espèces"
+msgstr "Cash"
+
+#: .\core\constants.py:89
+msgid "Paiement Mixte"
+msgstr "Mixed payment"
+
+#: .\core\constants.py:90
+msgid "Mobile Money"
+msgstr "Mobile Money"
+
+#: .\core\constants.py:91
+msgid "Virement ou Chèque"
+msgstr "Transfer or Cheque"
+
+#: .\core\constants.py:97
+msgid "Non incluses (fournies par le client)"
+msgstr "Not included (provided by client)"
+
+#: .\core\constants.py:98
+msgid "Incluses dans le contrat"
+msgstr "Included in the contract"
+
+#: .\core\constants.py:99
+msgid "Partiellement incluses"
+msgstr "Partially included"
+
+#: .\core\constants.py:103
+msgid "À la charge du client"
+msgstr "Client's responsibility"
+
+#: .\core\constants.py:104
+msgid "À la charge de l'entreprise"
+msgstr "Company's responsibility"
+
+#: .\core\constants.py:105
+msgid "Partagé"
+msgstr "Shared"
+
+#: .\core\constants.py:106
+msgid "Selon le cas"
+msgstr "Case by case"
+
+#: .\core\constants.py:110 .\core\constants.py:208
+msgid "Mois"
+msgstr "Months"
+
+#: .\core\constants.py:111
+msgid "Ans"
+msgstr "Years"
+
+#: .\core\constants.py:115
+msgid "Garantie des défauts"
+msgstr "Defects warranty"
+
+#: .\core\constants.py:116
+msgid "Garantie de bonne fin"
+msgstr "Completion warranty"
+
+#: .\core\constants.py:117
+msgid "Garantie décennale"
+msgstr "Ten-year warranty"
+
+#: .\core\constants.py:118
+msgid "Aucune garantie"
+msgstr "No warranty"
+
+#: .\core\constants.py:122
+msgid "Préavis de 30 jours"
+msgstr "30-day notice"
+
+#: .\core\constants.py:123
+msgid "Préavis de 15 jours"
+msgstr "15-day notice"
+
+#: .\core\constants.py:124
+msgid "D'un commun accord"
+msgstr "By mutual agreement"
+
+#: .\core\constants.py:125
+msgid "Aucune clause"
+msgstr "No clause"
+
+#: .\core\constants.py:129
+msgid "Pose de carrelage"
+msgstr "Tile laying"
+
+#: .\core\constants.py:130
+msgid "Pose de marbre"
+msgstr "Marble laying"
+
+#: .\core\constants.py:131
+msgid "Plan de travail cuisine"
+msgstr "Kitchen countertop"
+
+#: .\core\constants.py:132
+msgid "Revêtement mural faïence"
+msgstr "Wall tiling"
+
+#: .\core\constants.py:133
+msgid "Finitions peinture"
+msgstr "Paint finishing"
+
+#: .\core\constants.py:134
+msgid "Pose de parquet"
+msgstr "Parquet flooring"
+
+#: .\core\constants.py:135
+msgid "Enduit & crépi"
+msgstr "Plaster & rendering"
+
+#: .\core\constants.py:136
+msgid "Joints & silicone"
+msgstr "Joints & silicone"
+
+#: .\core\constants.py:137
+msgid "Dépose & démolition"
+msgstr "Removal & demolition"
+
+#: .\core\constants.py:138
+msgid "Préparation des surfaces"
+msgstr "Surface preparation"
+
+#: .\core\constants.py:139
+msgid "Seuils & plinthes"
+msgstr "Thresholds & baseboards"
+
+#: .\core\constants.py:140
+msgid "Douche à l'italienne"
+msgstr "Walk-in shower"
+
+#: .\core\constants.py:141
+msgid "Escalier marbre"
+msgstr "Marble staircase"
+
+#: .\core\constants.py:142
+msgid "Terrasse extérieure"
+msgstr "Outdoor terrace"
+
+#: .\core\constants.py:143
+msgid "Main d'œuvre qualifiée"
+msgstr "Skilled labour"
+
+#: .\core\constants.py:144
+msgid "Transport & déplacement"
+msgstr "Transport & travel"
+
+#: .\core\constants.py:149
+msgid "m²"
+msgstr "m²"
+
+#: .\core\constants.py:150
+msgid "ml"
+msgstr "ml"
+
+#: .\core\constants.py:151
+msgid "m³"
+msgstr "m³"
+
+#: .\core\constants.py:152
+msgid "unité"
+msgstr "unit"
+
+#: .\core\constants.py:153
+msgid "forfait"
+msgstr "lump sum"
+
+#: .\core\constants.py:154
+msgid "heure"
+msgstr "hour"
+
+#: .\core\constants.py:155
+msgid "jour"
+msgstr "day"
+
+#: .\core\constants.py:156
+msgid "kg"
+msgstr "kg"
+
+#: .\core\constants.py:162
+msgid "Standard"
+msgstr "Standard"
+
+#: .\core\constants.py:167
+msgid "Travaux de Gros Œuvre"
+msgstr "Structural works"
+
+#: .\core\constants.py:168
+msgid "Travaux d'Électricité"
+msgstr "Electrical works"
+
+#: .\core\constants.py:169
+msgid "Travaux de Plomberie et Sanitaire"
+msgstr "Plumbing & Sanitary works"
+
+#: .\core\constants.py:170
+msgid "Travaux de Menuiserie Aluminium"
+msgstr "Aluminium joinery works"
+
+#: .\core\constants.py:171
+msgid "Travaux de Menuiserie Bois"
+msgstr "Wood joinery works"
+
+#: .\core\constants.py:172
+msgid "Travaux de Carrelage et Faïence"
+msgstr "Tiling & Ceramic works"
+
+#: .\core\constants.py:173
+msgid "Travaux de Peinture"
+msgstr "Painting works"
+
+#: .\core\constants.py:174
+msgid "Travaux d'Étanchéité"
+msgstr "Waterproofing works"
+
+#: .\core\constants.py:175
+msgid "Fourniture et Installation d'Ascenseur"
+msgstr "Elevator supply & installation"
+
+#: .\core\constants.py:176
+msgid "Travaux de Plâtre et Faux Plafond"
+msgstr "Plasterwork & False ceiling"
+
+#: .\core\constants.py:177
+msgid "Travaux de Ferronnerie et Garde-Corps"
+msgstr "Ironworks & Railings"
+
+#: .\core\constants.py:178
+msgid "Travaux de VRD et Façade"
+msgstr "Roads, utilities & Facade works"
+
+#: .\core\constants.py:179
+msgid "Travaux de Climatisation et Ventilation"
+msgstr "HVAC works"
+
+#: .\core\constants.py:180
+msgid "Fourniture et Pose de Cuisines Équipées"
+msgstr "Fitted kitchen supply & installation"
+
+#: .\core\constants.py:186
+msgid "Commercial"
+msgstr "Commercial"
+
+#: .\core\constants.py:187
+msgid "Industriel"
+msgstr "Industrial"
+
+#: .\core\constants.py:188
+msgid "Rénovation"
+msgstr "Renovation"
+
+#: .\core\constants.py:193
+msgid "SARL"
+msgstr "SARL (LLC)"
+
+#: .\core\constants.py:194
+msgid "SA"
+msgstr "SA (Corp.)"
+
+#: .\core\constants.py:195
+msgid "SARLAU"
+msgstr "SARLAU (Single-member LLC)"
+
+#: .\core\constants.py:196
+msgid "SNC"
+msgstr "SNC (General partnership)"
+
+#: .\core\constants.py:197
+msgid "Auto-entrepreneur"
+msgstr "Self-employed"
+
+#: .\core\constants.py:198
+msgid "Personne physique"
+msgstr "Natural person"
+
+#: .\core\constants.py:202
+msgid "Forfaitaire ferme"
+msgstr "Fixed lump sum"
+
+#: .\core\constants.py:203
+msgid "Prix unitaires"
+msgstr "Unit prices"
+
+#: .\core\constants.py:204
+msgid "Régie"
+msgstr "Cost-plus"
+
+#: .\core\constants.py:209
+msgid "Semaines"
+msgstr "Weeks"
+
+#: .\core\constants.py:210
+msgid "Jours"
+msgstr "Days"
+
+#: .\core\models.py:16
+msgid "Raison sociale"
+msgstr "Company name"
+
+#: .\core\models.py:18
+msgid "Forme juridique"
+msgstr "Legal form"
+
+#: .\core\models.py:25
+msgid "Capital (DH)"
+msgstr "Capital (MAD)"
+
+#: .\core\models.py:28
+msgid "Registre de Commerce"
+msgstr "Trade register"
+
+#: .\core\models.py:30
+msgid "ICE"
+msgstr "ICE"
+
+#: .\core\models.py:32
+msgid "Identifiant Fiscal (IF)"
+msgstr "Tax ID (IF)"
+
+#: .\core\models.py:35
+msgid "Adresse du siège social"
+msgstr "Registered office address"
+
+#: .\core\models.py:38
+msgid "Représentant légal"
+msgstr "Legal representative"
+
+#: .\core\models.py:41
+msgid "Gérant"
+msgstr "Manager"
+
+#: .\core\models.py:41
+msgid "Qualité du représentant"
+msgstr "Representative title"
+
+#: .\core\models.py:45
+msgid "Configuration Société"
+msgstr "Company configuration"
+
+#: .\core\models.py:46
+msgid "Configurations Sociétés"
+msgstr "Company configurations"
+
+#: .\templates\admin\base_site.html:5
+msgid "View site"
+msgstr "View site"
+
+#: .\templates\admin\base_site.html:9
+msgid "Documentation"
+msgstr "Documentation"
+
+#: .\templates\admin\base_site.html:13
+msgid "Change password"
+msgstr "Change password"
+
+#: .\templates\admin\base_site.html:17
+msgid "Log out"
+msgstr "Log out"
+
+#~ msgid "Bonjour %(first_name)s,"
+#~ msgstr "Hello %(first_name)s,"
+
+#~ msgid ""
+#~ "Voici le mot de passe de votre compte récemment créé sur L'application de "
+#~ "E.B.H Contrats :"
+#~ msgstr ""
+#~ "Here is the password for your newly created account on E.B.H Contracts:"
+
+#~ msgid "L'équipe Application de E.B.H Contrats"
+#~ msgstr "The E.B.H Contracts Application Team"
+
+#~ msgid "Renouvelez votre mot de passe"
+#~ msgstr "Reset your password"
+
+#~ msgid "Pour modifier votre mot de passe, entrer ce code de sécurité :"
+#~ msgstr "To reset your password, enter this security code:"
+
+#~ msgid "Changement de mot de passe (E.B.H Contrats)"
+#~ msgstr "Password Change (E.B.H Contracts)"
+
+#~ msgid ""
+#~ "Un administrateur a modifié le mot de passe de votre compte E.B.H "
+#~ "Contrats. Voici votre nouveau mot de passe :"
+#~ msgstr ""
+#~ "An administrator has changed your E.B.H Contracts account password. Here "
+#~ "is your new password:"

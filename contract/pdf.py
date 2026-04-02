@@ -5,6 +5,7 @@ Generates a full legal contract PDF using WeasyPrint + inline HTML/CSS,
 replicating the output of casa_di_lusso_contracts_v2.html.
 Supports both French (fr) and English (en) via the *lang* parameter.
 """
+# i18n: skip-file — bilingual document generator; FR+EN content is intentional
 
 from django.http import HttpResponse
 

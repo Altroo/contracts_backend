@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 from simple_history.models import HistoricalRecords
 
 from account.models import CustomUser
@@ -32,32 +33,32 @@ class Project(models.Model):
         max_length=50,
         choices=COMPANY_CHOICES,
         default="casa_di_lusso",
-        verbose_name="Société",
+        verbose_name=_("Société"),
         db_index=True,
     )
-    name = models.CharField(max_length=300, verbose_name="Nom du projet")
+    name = models.CharField(max_length=300, verbose_name=_("Nom du projet"))
     type = models.CharField(
         max_length=50,
         choices=ST_PROJET_TYPE_CHOICES,
         blank=True,
         null=True,
-        verbose_name="Type de projet",
+        verbose_name=_("Type de projet"),
     )
-    description = models.TextField(blank=True, null=True, verbose_name="Description")
-    adresse = models.TextField(blank=True, null=True, verbose_name="Adresse du projet")
+    description = models.TextField(blank=True, null=True, verbose_name=_("Description"))
+    adresse = models.TextField(blank=True, null=True, verbose_name=_("Adresse du projet"))
     maitre_ouvrage = models.CharField(
-        max_length=300, blank=True, null=True, verbose_name="Maître d'ouvrage"
+        max_length=300, blank=True, null=True, verbose_name=_("Maître d'ouvrage")
     )
     permis = models.CharField(
         max_length=100,
         blank=True,
         null=True,
-        verbose_name="N° permis de construire",
+        verbose_name=_("N° permis de construire"),
     )
     is_predefined = models.BooleanField(
         default=False,
-        verbose_name="Prédéfini",
-        help_text="Prédéfini par l'admin, non supprimable par les utilisateurs.",
+        verbose_name=_("Prédéfini"),
+        help_text=_("Prédéfini par l'admin, non supprimable par les utilisateurs."),
     )
     created_by_user = models.ForeignKey(
         CustomUser,
@@ -65,14 +66,14 @@ class Project(models.Model):
         null=True,
         blank=True,
         related_name="projects_created",
-        verbose_name="Créé par",
+        verbose_name=_("Créé par"),
     )
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name = "Projet"
-        verbose_name_plural = "Projets"
+        verbose_name = _("Projet")
+        verbose_name_plural = _("Projets")
         ordering = ("name",)
 
     def __str__(self) -> str:
@@ -88,299 +89,299 @@ class Contract(models.Model):
         max_length=50,
         choices=COMPANY_CHOICES,
         default="casa_di_lusso",
-        verbose_name="Société",
+        verbose_name=_("Société"),
         db_index=True,
     )
     contract_category = models.CharField(
         max_length=30,
         choices=CONTRACT_CATEGORY_CHOICES,
         default="standard",
-        verbose_name="Catégorie de contrat",
+        verbose_name=_("Catégorie de contrat"),
         db_index=True,
     )
 
     numero_contrat = models.CharField(
         max_length=30,
-        verbose_name="Référence contrat",
-        help_text="Format ex: 0001/26",
+        verbose_name=_("Référence contrat"),
+        help_text=_("Format ex: 0001/26"),
     )
     date_contrat = models.DateField(
-        verbose_name="Date du contrat",
+        verbose_name=_("Date du contrat"),
         db_index=True,
     )
     statut = models.CharField(
         max_length=20,
         choices=STATUT_CHOICES,
         default="Brouillon",
-        verbose_name="Statut",
+        verbose_name=_("Statut"),
         db_index=True,
     )
 
     client_nom = models.CharField(
-        max_length=200, blank=True, null=True, verbose_name="Nom & Prénom"
+        max_length=200, blank=True, null=True, verbose_name=_("Nom & Prénom")
     )
     client_cin = models.CharField(
-        max_length=50, blank=True, null=True, verbose_name="CIN / ICE / Passeport"
+        max_length=50, blank=True, null=True, verbose_name=_("CIN / ICE / Passeport")
     )
     client_qualite = models.CharField(
         max_length=50,
         choices=CLIENT_QUALITE_CHOICES,
         blank=True,
         null=True,
-        verbose_name="Qualité du client",
+        verbose_name=_("Qualité du client"),
     )
     client_adresse = models.TextField(
-        blank=True, null=True, verbose_name="Adresse complète"
+        blank=True, null=True, verbose_name=_("Adresse complète")
     )
     client_tel = models.CharField(
-        max_length=30, blank=True, null=True, verbose_name="Téléphone"
+        max_length=30, blank=True, null=True, verbose_name=_("Téléphone")
     )
-    client_email = models.EmailField(blank=True, null=True, verbose_name="Email")
+    client_email = models.EmailField(blank=True, null=True, verbose_name=_("Email"))
     ville_signature = models.CharField(
         max_length=100,
         default="Tanger",
-        verbose_name="Ville de signature",
+        verbose_name=_("Ville de signature"),
     )
 
     adresse_travaux = models.TextField(
-        blank=True, null=True, verbose_name="Adresse des travaux"
+        blank=True, null=True, verbose_name=_("Adresse des travaux")
     )
     type_bien = models.CharField(
         max_length=50,
         choices=TYPE_BIEN_CHOICES,
         blank=True,
         null=True,
-        verbose_name="Type de bien",
+        verbose_name=_("Type de bien"),
     )
     surface = models.DecimalField(
         max_digits=10,
         decimal_places=2,
         null=True,
         blank=True,
-        verbose_name="Surface (m²)",
+        verbose_name=_("Surface (m²)"),
     )
     services = models.JSONField(
-        default=list, blank=True, verbose_name="Services sélectionnés"
+        default=list, blank=True, verbose_name=_("Services sélectionnés")
     )
     description_travaux = models.TextField(
-        blank=True, null=True, verbose_name="Description des travaux"
+        blank=True, null=True, verbose_name=_("Description des travaux")
     )
     date_debut = models.DateField(
-        null=True, blank=True, verbose_name="Date de début prévue"
+        null=True, blank=True, verbose_name=_("Date de début prévue")
     )
     duree_estimee = models.CharField(
         max_length=100,
         blank=True,
         null=True,
-        verbose_name="Durée estimée",
+        verbose_name=_("Durée estimée"),
     )
     conditions_acces = models.TextField(
-        blank=True, null=True, verbose_name="Conditions d'accès"
+        blank=True, null=True, verbose_name=_("Conditions d'accès")
     )
 
     montant_ht = models.DecimalField(
         max_digits=14,
         decimal_places=2,
         default=0,
-        verbose_name="Montant total HT",
+        verbose_name=_("Montant total HT"),
     )
     devise = models.CharField(
         max_length=3,
         choices=CURRENCY_CHOICES,
         default="MAD",
-        verbose_name="Devise",
+        verbose_name=_("Devise"),
     )
     tva = models.DecimalField(
         max_digits=5,
         decimal_places=2,
         default=20,
-        verbose_name="TVA (%)",
+        verbose_name=_("TVA (%)"),
     )
     tranches = models.JSONField(
         default=list,
         blank=True,
-        verbose_name="Échéancier de paiement",
-        help_text="Liste de {label, pourcentage}",
+        verbose_name=_("Echéancier de paiement"),
+        help_text=_("Liste de {label, pourcentage}"),
     )
     mode_paiement_texte = models.CharField(
         max_length=100,
         choices=MODE_PAIEMENT_TEXTE_CHOICES,
         blank=True,
         null=True,
-        verbose_name="Mode de paiement",
+        verbose_name=_("Mode de paiement"),
     )
     rib = models.CharField(
         max_length=200,
         blank=True,
         null=True,
-        verbose_name="RIB / Coordonnées bancaires",
+        verbose_name=_("RIB / Coordonnées bancaires"),
     )
     delai_retard = models.IntegerField(
-        default=5, verbose_name="Délai retard toléré (jours)"
+        default=5, verbose_name=_("Délai retard toléré (jours)")
     )
     penalite_retard = models.DecimalField(
         max_digits=10,
         decimal_places=2,
         default=0,
-        verbose_name="Pénalité retard (MAD/j)",
+        verbose_name=_("Pénalité retard (MAD/j)"),
     )
     frais_redemarrage = models.DecimalField(
         max_digits=12,
         decimal_places=2,
         null=True,
         blank=True,
-        verbose_name="Frais de redémarrage (MAD)",
+        verbose_name=_("Frais de redémarrage (MAD)"),
     )
 
     garantie = models.CharField(
         max_length=50,
         choices=GARANTIE_CHOICES,
         default="1 an",
-        verbose_name="Durée de garantie",
+        verbose_name=_("Durée de garantie"),
     )
     delai_reserves = models.IntegerField(
-        default=7, verbose_name="Délai réserves (j ouvrés)"
+        default=7, verbose_name=_("Délai réserves (j ouvrés)")
     )
     tribunal = models.CharField(
         max_length=50,
         choices=TRIBUNAL_CHOICES,
         default="Tanger",
-        verbose_name="Tribunal compétent",
+        verbose_name=_("Tribunal compétent"),
     )
     clauses_actives = models.JSONField(
         default=list,
         blank=True,
-        verbose_name="Clauses actives",
+        verbose_name=_("Clauses actives"),
     )
     clause_spec = models.TextField(
-        blank=True, null=True, verbose_name="Clauses spécifiques additionnelles"
+        blank=True, null=True, verbose_name=_("Clauses spécifiques additionnelles")
     )
     exclusions = models.TextField(
-        blank=True, null=True, verbose_name="Exclusions explicites"
+        blank=True, null=True, verbose_name=_("Exclusions explicites")
     )
 
     type_contrat = models.CharField(
         max_length=50,
         choices=CONTRACT_TYPE_CHOICES,
         default="travaux_finition",
-        verbose_name="Type de contrat",
+        verbose_name=_("Type de contrat"),
     )
     responsable_projet = models.CharField(
         max_length=200,
         blank=True,
         null=True,
-        verbose_name="Responsable de projet CASA DI LUSSO",
+        verbose_name=_("Responsable de projet CASA DI LUSSO"),
     )
     architecte = models.CharField(
         max_length=200,
         blank=True,
         null=True,
-        verbose_name="Architecte / Designer associé",
+        verbose_name=_("Architecte / Designer associé"),
     )
     confidentialite = models.CharField(
         max_length=30,
         choices=CONFIDENTIALITE_CHOICES,
         default="CONFIDENTIEL",
-        verbose_name="Note de confidentialité",
+        verbose_name=_("Note de confidentialité"),
     )
-    annexes = models.TextField(blank=True, null=True, verbose_name="Annexes jointes")
+    annexes = models.TextField(blank=True, null=True, verbose_name=_("Annexes jointes"))
 
     # ── Blueline Works specific fields ───────────────────────────────────────
     client_ville = models.CharField(
         max_length=100,
         blank=True,
         null=True,
-        verbose_name="Ville du client",
+        verbose_name=_("Ville du client"),
     )
     client_cp = models.CharField(
         max_length=10,
         blank=True,
         null=True,
-        verbose_name="Code postal client",
+        verbose_name=_("Code postal client"),
     )
     chantier_ville = models.CharField(
         max_length=100,
         blank=True,
         null=True,
-        verbose_name="Ville du chantier",
+        verbose_name=_("Ville du chantier"),
     )
     chantier_etage = models.CharField(
         max_length=100,
         blank=True,
         null=True,
-        verbose_name="Étage / Appartement",
+        verbose_name=_("Étage / Appartement"),
     )
     prestations = models.JSONField(
         default=list,
         blank=True,
-        verbose_name="Prestations",
-        help_text="Liste de {nom, desc, qte, unite, pu}",
+        verbose_name=_("Prestations"),
+        help_text=_("Liste de {nom, desc, qte, unite, pu}"),
     )
     fournitures = models.CharField(
         max_length=50,
         choices=FOURNITURES_CHOICES,
         blank=True,
         null=True,
-        verbose_name="Fournitures incluses",
+        verbose_name=_("Fournitures incluses"),
     )
     materiaux_detail = models.TextField(
         blank=True,
         null=True,
-        verbose_name="Matériaux à fournir par le client",
+        verbose_name=_("Matériaux à fournir par le client"),
     )
     eau_electricite = models.CharField(
         max_length=50,
         choices=EAU_ELECTRICITE_CHOICES,
         blank=True,
         null=True,
-        verbose_name="Eau & Électricité sur chantier",
+        verbose_name=_("Eau & Électricité sur chantier"),
     )
     garantie_nb = models.PositiveIntegerField(
         null=True,
         blank=True,
-        verbose_name="Durée de garantie (valeur)",
+        verbose_name=_("Durée de garantie (valeur)"),
     )
     garantie_unite = models.CharField(
         max_length=10,
         choices=GARANTIE_UNITE_CHOICES,
         blank=True,
         null=True,
-        verbose_name="Unité de garantie",
+        verbose_name=_("Unité de garantie"),
     )
     garantie_type = models.CharField(
         max_length=50,
         choices=GARANTIE_TYPE_CHOICES,
         blank=True,
         null=True,
-        verbose_name="Type de garantie",
+        verbose_name=_("Type de garantie"),
     )
     exclusions_garantie = models.TextField(
         blank=True,
         null=True,
-        verbose_name="Exclusions de garantie",
+        verbose_name=_("Exclusions de garantie"),
     )
     acompte = models.DecimalField(
         max_digits=5,
         decimal_places=2,
         null=True,
         blank=True,
-        verbose_name="Acompte (%)",
+        verbose_name=_("Acompte (%)"),
     )
     tranche2 = models.DecimalField(
         max_digits=5,
         decimal_places=2,
         null=True,
         blank=True,
-        verbose_name="2ème tranche (%)",
+        verbose_name=_("2ème tranche (%)"),
     )
     clause_resiliation = models.CharField(
         max_length=50,
         choices=CLAUSE_RESILIATION_CHOICES,
         blank=True,
         null=True,
-        verbose_name="Clause de résiliation",
+        verbose_name=_("Clause de résiliation"),
     )
-    notes = models.TextField(blank=True, null=True, verbose_name="Notes & Observations")
+    notes = models.TextField(blank=True, null=True, verbose_name=_("Notes & Observations"))
 
     # ── Sous-Traitance specific fields ───────────────────────────────────────
     st_projet = models.ForeignKey(
@@ -389,79 +390,79 @@ class Contract(models.Model):
         null=True,
         blank=True,
         related_name="contracts",
-        verbose_name="Projet",
+        verbose_name=_("Projet"),
     )
     # Sous-traitant identity
     st_name = models.CharField(
-        max_length=300, blank=True, null=True, verbose_name="Raison sociale ST"
+        max_length=300, blank=True, null=True, verbose_name=_("Raison sociale ST")
     )
     st_forme = models.CharField(
         max_length=50,
         choices=ST_FORME_JURIDIQUE_CHOICES,
         blank=True,
         null=True,
-        verbose_name="Forme juridique ST",
+        verbose_name=_("Forme juridique ST"),
     )
     st_capital = models.DecimalField(
         max_digits=14,
         decimal_places=2,
         null=True,
         blank=True,
-        verbose_name="Capital social ST",
+        verbose_name=_("Capital social ST"),
     )
     st_rc = models.CharField(
-        max_length=100, blank=True, null=True, verbose_name="RC ST"
+        max_length=100, blank=True, null=True, verbose_name=_("RC ST")
     )
     st_ice = models.CharField(
-        max_length=100, blank=True, null=True, verbose_name="ICE ST"
+        max_length=100, blank=True, null=True, verbose_name=_("ICE ST")
     )
     st_if = models.CharField(
         max_length=100,
         blank=True,
         null=True,
-        verbose_name="Identifiant fiscal ST",
+        verbose_name=_("Identifiant fiscal ST"),
     )
     st_cnss = models.CharField(
-        max_length=100, blank=True, null=True, verbose_name="CNSS ST"
+        max_length=100, blank=True, null=True, verbose_name=_("CNSS ST")
     )
-    st_addr = models.TextField(blank=True, null=True, verbose_name="Adresse siège ST")
+    st_addr = models.TextField(blank=True, null=True, verbose_name=_("Adresse siège ST"))
     st_rep = models.CharField(
-        max_length=300, blank=True, null=True, verbose_name="Représentant ST"
+        max_length=300, blank=True, null=True, verbose_name=_("Représentant ST")
     )
     st_cin = models.CharField(
-        max_length=50, blank=True, null=True, verbose_name="CIN représentant ST"
+        max_length=50, blank=True, null=True, verbose_name=_("CIN représentant ST")
     )
     st_qualite = models.CharField(
         max_length=100,
         blank=True,
         null=True,
-        verbose_name="Qualité représentant ST",
+        verbose_name=_("Qualité représentant ST"),
     )
     st_tel = models.CharField(
-        max_length=30, blank=True, null=True, verbose_name="Téléphone ST"
+        max_length=30, blank=True, null=True, verbose_name=_("Téléphone ST")
     )
-    st_email = models.EmailField(blank=True, null=True, verbose_name="Email ST")
+    st_email = models.EmailField(blank=True, null=True, verbose_name=_("Email ST"))
     st_rib = models.CharField(
-        max_length=200, blank=True, null=True, verbose_name="RIB ST"
+        max_length=200, blank=True, null=True, verbose_name=_("RIB ST")
     )
     st_banque = models.CharField(
-        max_length=200, blank=True, null=True, verbose_name="Banque ST"
+        max_length=200, blank=True, null=True, verbose_name=_("Banque ST")
     )
     # Lot / Travaux
     st_lot_type = models.JSONField(
         default=list,
         blank=True,
         null=True,
-        verbose_name="Type(s) de lot",
+        verbose_name=_("Type(s) de lot"),
     )
     st_lot_description = models.TextField(
-        blank=True, null=True, verbose_name="Description du lot"
+        blank=True, null=True, verbose_name=_("Description du lot")
     )
     st_type_prix = models.JSONField(
         default=list,
         blank=True,
         null=True,
-        verbose_name="Type(s) de prix",
+        verbose_name=_("Type(s) de prix"),
     )
     # Financial
     st_retenue_garantie = models.DecimalField(
@@ -469,76 +470,76 @@ class Contract(models.Model):
         decimal_places=2,
         null=True,
         blank=True,
-        verbose_name="Retenue de garantie (%)",
+        verbose_name=_("Retenue de garantie (%)"),
     )
     st_avance = models.DecimalField(
         max_digits=5,
         decimal_places=2,
         null=True,
         blank=True,
-        verbose_name="Avance forfaitaire (%)",
+        verbose_name=_("Avance forfaitaire (%)"),
     )
     st_penalite_taux = models.DecimalField(
         max_digits=10,
         decimal_places=2,
         null=True,
         blank=True,
-        verbose_name="Pénalité retard (MAD/jour)",
+        verbose_name=_("Pénalité retard (MAD/jour)"),
     )
     st_plafond_penalite = models.DecimalField(
         max_digits=5,
         decimal_places=2,
         null=True,
         blank=True,
-        verbose_name="Plafond pénalité (%)",
+        verbose_name=_("Plafond pénalité (%)"),
     )
     st_delai_paiement = models.PositiveIntegerField(
         null=True,
         blank=True,
-        verbose_name="Délai de paiement (jours)",
+        verbose_name=_("Délai de paiement (jours)"),
     )
     st_tranches = models.JSONField(
         default=list,
         blank=True,
-        verbose_name="Tranches paiement ST",
-        help_text="[{label, pourcentage}]",
+        verbose_name=_("Tranches paiement ST"),
+        help_text=_("{label, pourcentage}"),
     )
     # Delays
     st_delai_val = models.PositiveIntegerField(
         null=True,
         blank=True,
-        verbose_name="Délai d'exécution (valeur)",
+        verbose_name=_("Délai d'exécution (valeur)"),
     )
     st_delai_unit = models.CharField(
         max_length=20,
         choices=ST_DELAI_UNIT_CHOICES,
         blank=True,
         null=True,
-        verbose_name="Unité délai d'exécution",
+        verbose_name=_("Unité délai d'exécution"),
     )
     st_garantie_mois = models.PositiveIntegerField(
         null=True,
         blank=True,
-        verbose_name="Garantie décennale (mois)",
+        verbose_name=_("Garantie décennale (mois)"),
     )
     st_delai_reserves = models.PositiveIntegerField(
         null=True,
         blank=True,
-        verbose_name="Délai levée réserves (jours)",
+        verbose_name=_("Délai levée réserves (jours)"),
     )
     st_delai_med = models.PositiveIntegerField(
         null=True,
         blank=True,
-        verbose_name="Délai mise en demeure (jours)",
+        verbose_name=_("Délai mise en demeure (jours)"),
     )
     # Options
     st_clauses_actives = models.JSONField(
         default=list,
         blank=True,
-        verbose_name="Clauses actives ST",
+        verbose_name=_("Clauses actives ST"),
     )
     st_observations = models.TextField(
-        blank=True, null=True, verbose_name="Observations ST"
+        blank=True, null=True, verbose_name=_("Observations ST")
     )
 
     date_created = models.DateTimeField(auto_now_add=True)
@@ -549,13 +550,13 @@ class Contract(models.Model):
         null=True,
         blank=True,
         related_name="contracts_created",
-        verbose_name="Créé par",
+        verbose_name=_("Créé par"),
     )
-    history = HistoricalRecords(verbose_name="Historique Contrat")
+    history = HistoricalRecords(verbose_name=_("Historique Contrat"))
 
     class Meta:
-        verbose_name = "Contrat"
-        verbose_name_plural = "Contrats"
+        verbose_name = _("Contrat")
+        verbose_name_plural = _("Contrats")
         ordering = ("-date_created",)
         unique_together = [("company", "contract_category", "numero_contrat")]
         indexes = [

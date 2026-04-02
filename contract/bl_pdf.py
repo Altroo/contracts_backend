@@ -1,3 +1,4 @@
+# i18n: skip-file — bilingual document generator; FR+EN content is intentional
 from datetime import datetime, timedelta
 
 from django.http import HttpResponse

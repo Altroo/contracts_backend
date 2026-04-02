@@ -1,3 +1,4 @@
+# i18n: skip-file — ValueError messages here are caught by serializers and re-raised with _()
 import binascii
 from base64 import b64decode
 from http import HTTPStatus
@@ -17,6 +18,7 @@ GaussianBlur: Any = cv2.GaussianBlur
 
 from django.core.files.base import ContentFile
 from django.db.models import ProtectedError
+from django.utils.translation import ngettext
 from numpy import uint8, frombuffer
 from rest_framework import serializers, status
 from rest_framework.exceptions import Throttled
@@ -233,10 +235,14 @@ def api_exception_handler(exc, context):
         }
         return Response(error_payload, status=status.HTTP_409_CONFLICT)
 
-    # Translate DRF throttle message to French before handling
+    # Translate DRF throttle message before handling
     if isinstance(exc, Throttled):
         wait = int(exc.wait) if exc.wait else 0
-        exc.detail = f"Requête ralentie. Réessayez dans {wait} seconde{'s' if wait != 1 else ''}."
+        exc.detail = ngettext(
+            "Requête ralentie. Réessayez dans %(wait)d seconde.",
+            "Requête ralentie. Réessayez dans %(wait)d secondes.",
+            wait,
+        ) % {"wait": wait}
 
     response = exception_handler(exc, context)
 

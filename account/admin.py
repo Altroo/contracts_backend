@@ -2,6 +2,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.template.loader import render_to_string
+from django.utils.translation import gettext_lazy as _
 
 from account.models import CustomUser
 from .forms import CustomAuthShopChangeForm, CustomAuthShopCreationForm
@@ -27,7 +28,7 @@ class CustomUserAdmin(UserAdmin):
     date_hierarchy = "date_joined"
     fieldsets = (
         (
-            "Profile",
+            _("Profile"),
             {
                 "fields": (
                     "email",
@@ -42,12 +43,12 @@ class CustomUserAdmin(UserAdmin):
                 )
             },
         ),
-        ("Permissions", {"fields": ("is_active", "is_staff", "is_superuser")}),
-        ("Date d'activité", {"fields": ("date_joined", "date_updated", "last_login")}),
+        (_("Permissions"), {"fields": ("is_active", "is_staff", "is_superuser")}),
+        (_("Date d'activité"), {"fields": ("date_joined", "date_updated", "last_login")}),
     )
     add_fieldsets = (
         (
-            "Profile",
+            _("Profile"),
             {
                 "fields": (
                     "email",
@@ -59,7 +60,7 @@ class CustomUserAdmin(UserAdmin):
                 )
             },
         ),
-        ("Permissions", {"fields": ("is_active", "is_staff", "is_superuser")}),
+        (_("Permissions"), {"fields": ("is_active", "is_staff", "is_superuser")}),
     )
     search_fields = ("email",)
     ordering = ("-id",)
@@ -67,6 +68,8 @@ class CustomUserAdmin(UserAdmin):
     def user_change_password(self, request, id, form_url=""):
         """Override the password change view to send an email with the new password."""
         user = self.get_object(request, id)
+        if user is None:
+            return super().user_change_password(request, id, form_url)
         if request.method == "POST":
             form = self.change_password_form(user, request.POST)
             if form.is_valid():
@@ -83,7 +86,7 @@ class CustomUserAdmin(UserAdmin):
                 send_email.delay(
                     user_pk=user.pk,
                     email_=user.email,
-                    mail_subject="Changement de mot de passe - E.B.H Contrats",
+                    mail_subject=_("Changement de mot de passe - E.B.H Contrats"),
                     message=message,
                 )
                 return super().user_change_password(request, id, form_url)

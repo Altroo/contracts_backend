@@ -39,3 +39,6 @@ CHANNEL_LAYERS = {
 CORS_ORIGIN_WHITELIST = ("http://localhost:3001",)
 
 ACCOUNT_DEFAULT_HTTP_PROTOCOL = "http"
+
+# Disable throttling in tests
+REST_FRAMEWORK["DEFAULT_THROTTLE_CLASSES"] = []  # noqa: F405

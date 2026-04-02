@@ -1,5 +1,6 @@
 import django_filters
 from django.db.models import Q
+from django.utils.translation import gettext_lazy as _
 
 from .models import Contract
 
@@ -7,9 +8,9 @@ from .models import Contract
 class ContractFilter(django_filters.FilterSet):
     """Filter for the Contract model."""
 
-    search = django_filters.CharFilter(method="global_search", label="Recherche")
-    statut = django_filters.CharFilter(method="filter_statut", label="Statut")
-    company = django_filters.CharFilter(method="filter_company", label="Société")
+    search = django_filters.CharFilter(method="global_search", label=_("Recherche"))
+    statut = django_filters.CharFilter(method="filter_statut", label=_("Statut"))
+    company = django_filters.CharFilter(method="filter_company", label=_("Société"))
     contract_category = django_filters.CharFilter(
         field_name="contract_category", lookup_expr="exact"
     )
@@ -18,10 +19,10 @@ class ContractFilter(django_filters.FilterSet):
     )
     devise = django_filters.CharFilter(field_name="devise", lookup_expr="exact")
     date_after = django_filters.DateFilter(
-        method="filter_date_after", label="Date après"
+        method="filter_date_after", label=_("Date après")
     )
     date_before = django_filters.DateFilter(
-        method="filter_date_before", label="Date avant"
+        method="filter_date_before", label=_("Date avant")
     )
 
     # Numeric range filters for montant_ht

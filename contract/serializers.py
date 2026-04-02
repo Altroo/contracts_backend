@@ -1,5 +1,6 @@
 from decimal import Decimal, InvalidOperation
 
+from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
 
 from .models import Contract, Project
@@ -8,7 +9,7 @@ from core.constants import ST_LOT_TYPE_CHOICES, ST_TYPE_PRIX_CHOICES
 _VALID_LOT_TYPES = {code for code, _ in ST_LOT_TYPE_CHOICES}
 _VALID_TYPE_PRIX = {code for code, _ in ST_TYPE_PRIX_CHOICES}
 
-ECHEANCIER_TOTAL_ERROR = (
+ECHEANCIER_TOTAL_ERROR = _(
     "Le total des pourcentages de l'échéancier doit être égal à 100%."
 )
 
@@ -182,11 +183,11 @@ class ContractSerializer(serializers.ModelSerializer):
         if value is None:
             return value
         if not isinstance(value, list):
-            raise serializers.ValidationError("La valeur doit être une liste.")
+            raise serializers.ValidationError(_("La valeur doit être une liste."))
         invalid = [v for v in value if v not in _VALID_LOT_TYPES]
         if invalid:
             raise serializers.ValidationError(
-                f"Valeur(s) invalide(s) : {', '.join(invalid)}"
+                _("Valeur(s) invalide(s) : %(values)s") % {"values": ", ".join(invalid)}
             )
         return value
 
@@ -194,11 +195,11 @@ class ContractSerializer(serializers.ModelSerializer):
         if value is None:
             return value
         if not isinstance(value, list):
-            raise serializers.ValidationError("La valeur doit être une liste.")
+            raise serializers.ValidationError(_("La valeur doit être une liste."))
         invalid = [v for v in value if v not in _VALID_TYPE_PRIX]
         if invalid:
             raise serializers.ValidationError(
-                f"Valeur(s) invalide(s) : {', '.join(invalid)}"
+                _("Valeur(s) invalide(s) : %(values)s") % {"values": ", ".join(invalid)}
             )
         return value
 
@@ -218,7 +219,7 @@ class ContractSerializer(serializers.ModelSerializer):
         if self.instance:
             qs = qs.exclude(pk=self.instance.pk)
         if qs.exists():
-            raise serializers.ValidationError("Un contrat avec ce numéro existe déjà.")
+            raise serializers.ValidationError(_("Un contrat avec ce numéro existe déjà."))
         return value
 
     def validate(self, attrs):
@@ -255,10 +256,10 @@ class ContractSerializer(serializers.ModelSerializer):
         t = tranche2 or 0
         if a + t > 100:
             errors["acompte"] = [
-                "La somme de l'acompte et de la tranche 2 ne peut pas dépasser 100%."
+                _("La somme de l'acompte et de la tranche 2 ne peut pas dépasser 100%.")
             ]
             errors["tranche2"] = [
-                "La somme de l'acompte et de la tranche 2 ne peut pas dépasser 100%."
+                _("La somme de l'acompte et de la tranche 2 ne peut pas dépasser 100%.")
             ]
 
         if errors:

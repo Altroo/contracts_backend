@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 from core.constants import COMPANY_CHOICES
 
@@ -10,39 +11,39 @@ class CompanyConfig(models.Model):
         max_length=50,
         choices=COMPANY_CHOICES,
         unique=True,
-        verbose_name="Société",
+        verbose_name=_("Société"),
     )
-    name = models.CharField(max_length=200, verbose_name="Raison sociale")
+    name = models.CharField(max_length=200, verbose_name=_("Raison sociale"))
     forme_juridique = models.CharField(
-        max_length=50, blank=True, default="", verbose_name="Forme juridique"
+        max_length=50, blank=True, default="", verbose_name=_("Forme juridique")
     )
     capital = models.DecimalField(
         max_digits=14,
         decimal_places=2,
         null=True,
         blank=True,
-        verbose_name="Capital (DH)",
+        verbose_name=_("Capital (DH)"),
     )
     rc = models.CharField(
-        max_length=100, blank=True, default="", verbose_name="Registre de Commerce"
+        max_length=100, blank=True, default="", verbose_name=_("Registre de Commerce")
     )
-    ice = models.CharField(max_length=100, blank=True, default="", verbose_name="ICE")
+    ice = models.CharField(max_length=100, blank=True, default="", verbose_name=_("ICE"))
     identifiant_fiscal = models.CharField(
-        max_length=100, blank=True, default="", verbose_name="Identifiant Fiscal (IF)"
+        max_length=100, blank=True, default="", verbose_name=_("Identifiant Fiscal (IF)")
     )
     adresse = models.TextField(
-        blank=True, default="", verbose_name="Adresse du siège social"
+        blank=True, default="", verbose_name=_("Adresse du siège social")
     )
     representant = models.CharField(
-        max_length=200, blank=True, default="", verbose_name="Représentant légal"
+        max_length=200, blank=True, default="", verbose_name=_("Représentant légal")
     )
     qualite_representant = models.CharField(
-        max_length=100, default="Gérant", verbose_name="Qualité du représentant"
+        max_length=100, default=_("Gérant"), verbose_name=_("Qualité du représentant")
     )
 
     class Meta:
-        verbose_name = "Configuration Société"
-        verbose_name_plural = "Configurations Sociétés"
+        verbose_name = _("Configuration Société")
+        verbose_name_plural = _("Configurations Sociétés")
 
     def __str__(self) -> str:
         return f"{self.name} ({self.get_company_display()})"

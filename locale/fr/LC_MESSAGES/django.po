@@ -1,0 +1,1219 @@
+# French translations for contracts_backend
+# This file is distributed under the same license as the contracts_backend package.
+msgid ""
+msgstr ""
+"Project-Id-Version: contracts_backend\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-04-02 09:53+0100\n"
+"PO-Revision-Date: 2026-04-01 00:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: French\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "Profile"
+msgstr ""
+
+msgid "Permissions"
+msgstr ""
+
+msgid "Date d'activité"
+msgstr ""
+
+msgid "Changement de mot de passe - E.B.H Contrats"
+msgstr "Changement de mot de passe - E.B.H Contrats"
+
+msgid "Comptes"
+msgstr ""
+
+msgid "Search"
+msgstr ""
+
+msgid "Date Joined After"
+msgstr ""
+
+msgid "Date Joined Before"
+msgstr ""
+
+msgid "Last Login After"
+msgstr ""
+
+msgid "Last Login Before"
+msgstr ""
+
+msgid "Gender"
+msgstr ""
+
+msgid "Is Staff"
+msgstr ""
+
+msgid "Is Active"
+msgstr ""
+
+msgid "The Email must be set"
+msgstr ""
+
+msgid "Superuser must have is_staff=True."
+msgstr ""
+
+msgid "Superuser must have is_superuser=True."
+msgstr ""
+
+msgid "Adresse e‑mail"
+msgstr ""
+
+msgid "Adresse e‑mail de l'utilisateur"
+msgstr ""
+
+msgid "Prénom"
+msgstr ""
+
+msgid "Prénom de l'utilisateur"
+msgstr ""
+
+msgid "Nom"
+msgstr ""
+
+msgid "Nom de famille de l'utilisateur"
+msgstr ""
+
+msgid "Unset"
+msgstr ""
+
+msgid "Homme"
+msgstr ""
+
+msgid "Femme"
+msgstr ""
+
+msgid "Sexe"
+msgstr ""
+
+msgid "Sexe de l'utilisateur"
+msgstr ""
+
+msgid "Photo de profil"
+msgstr ""
+
+msgid "Image de profil de l'utilisateur"
+msgstr ""
+
+msgid "Photo de profil recadrée"
+msgstr ""
+
+msgid "Version recadrée de la photo de profil"
+msgstr ""
+
+msgid "Statut personnel"
+msgstr ""
+
+msgid "Indique si l'utilisateur peut se connecter au panneau d'administration."
+msgstr ""
+
+msgid "Actif"
+msgstr ""
+
+msgid "Indique si ce compte doit être considéré comme actif."
+msgstr ""
+
+msgid "Date d'inscription"
+msgstr ""
+
+msgid "Horodatage de l'inscription de l'utilisateur."
+msgstr ""
+
+msgid "Date de modification"
+msgstr ""
+
+msgid "Horodatage de la dernière modification du profil."
+msgstr ""
+
+msgid "Mot de passe - Code de réinitialisation"
+msgstr ""
+
+msgid "Code de réinitialisation du mot de passe (généré automatiquement)."
+msgstr ""
+
+msgid "Mot de passe - Date de création du code"
+msgstr ""
+
+msgid "Date à laquelle le code de réinitialisation a été créé."
+msgstr ""
+
+msgid "Mot de passe - Task ID de réinitialisation"
+msgstr ""
+
+msgid "Identifiant de la tâche Celery de réinitialisation du mot de passe."
+msgstr ""
+
+msgid "Mot de passe par défaut défini"
+msgstr ""
+
+msgid "Indique si le mot de passe par défaut a été défini."
+msgstr ""
+
+msgid "Peut consulter"
+msgstr ""
+
+msgid "Peut imprimer"
+msgstr ""
+
+msgid "Peut créer"
+msgstr ""
+
+msgid "Peut modifier"
+msgstr ""
+
+msgid "Peut supprimer"
+msgstr ""
+
+msgid "Historique Utilisateur"
+msgstr ""
+
+msgid "Historiques Utilisateurs"
+msgstr ""
+
+msgid "Utilisateur"
+msgstr ""
+
+#, fuzzy
+#| msgid "Utilisateur n'éxiste pas!"
+msgid "Utilisateurs"
+msgstr "Utilisateur n'éxiste pas!"
+
+# account/serializers.py
+#, python-format
+msgid "Valeur du sexe invalide : %(value)s. Doit être 'Homme' ou 'Femme'."
+msgstr "Valeur du sexe invalide : %(value)s. Doit être 'Homme' ou 'Femme'."
+
+#, python-format
+msgid "Format d'image non reconnu pour %(field_name)s"
+msgstr "Format d'image non reconnu pour %(field_name)s"
+
+#, python-format
+msgid "Téléchargement de fichier invalide pour %(field_name)s: %(error)s"
+msgstr "Téléchargement de fichier invalide pour %(field_name)s: %(error)s"
+
+#, python-format
+msgid "Format d'image base64 invalide pour %(field_name)s"
+msgstr "Format d'image base64 invalide pour %(field_name)s"
+
+#, python-format
+msgid "Données base64 mal formées pour %(field_name)s"
+msgstr "Données base64 mal formées pour %(field_name)s"
+
+#, python-format
+msgid "Type MIME d'image invalide pour %(field_name)s"
+msgstr "Type MIME d'image invalide pour %(field_name)s"
+
+msgid "Veuillez télécharger une image plus petite."
+msgstr "Veuillez télécharger une image plus petite."
+
+#, python-format
+msgid "Encodage base64 invalide pour %(field_name)s: %(error)s"
+msgstr "Encodage base64 invalide pour %(field_name)s: %(error)s"
+
+#, python-format
+msgid "Données d'image base64 invalides pour %(field_name)s: %(error)s"
+msgstr "Données d'image base64 invalides pour %(field_name)s: %(error)s"
+
+#, python-format
+msgid "Format d'image invalide pour %(field_name)s"
+msgstr "Format d'image invalide pour %(field_name)s"
+
+msgid "Invitation - Application de E.B.H Contrats"
+msgstr "Invitation - Application de E.B.H Contrats"
+
+# Email templates
+msgid "Invitation (Application de E.B.H Contrats)"
+msgstr "Invitation (Application de E.B.H Contrats)"
+
+#, fuzzy, python-format
+#| msgid ""
+#| "Bonjour %(first_name)s,<br>Voici le mot de passe de votre compte "
+#| "récemment créé sur L'application de E.B.H Contrats :"
+msgid ""
+"Bonjour %(first_name)s,<br>Voici le mot de passe de votre compte récement "
+"créé sur L'application de E.B.H Contrats :"
+msgstr ""
+"Bonjour %(first_name)s,<br>Voici le mot de passe de votre compte récemment "
+"créé sur L'application de E.B.H Contrats :"
+
+msgid "Vous pouvez utiliser cette adresse Email, Merci,"
+msgstr "Vous pouvez utiliser cette adresse Email, Merci,"
+
+msgid "Accéder à l'application"
+msgstr "Accéder à l'application"
+
+msgid "Cordialement,"
+msgstr "Cordialement,"
+
+msgid "L’équipe Application de E.B.H Contrats"
+msgstr "L’équipe Application de E.B.H Contrats"
+
+#, fuzzy
+#| msgid ""
+#| "Cet email vous a été envoyé car vous avez un compte sur L’application de "
+#| "E.B.H Contrats."
+msgid ""
+"Cet email vous a été envoyé car vous avez un compte sur L'application de "
+"E.B.H Contrats."
+msgstr ""
+"Cet email vous a été envoyé car vous avez un compte sur L’application de "
+"E.B.H Contrats."
+
+#, python-format
+msgid ""
+"Bonjour %(first_name)s,<br>Un administrateur a modifié le mot de passe de "
+"votre compte E.B.H Contrats. Voici votre nouveau mot de passe :"
+msgstr ""
+"Bonjour %(first_name)s,<br>Un administrateur a modifié le mot de passe de "
+"votre compte E.B.H Contrats. Voici votre nouveau mot de passe :"
+
+msgid ""
+"Vous pouvez utiliser ce nouveau mot de passe pour vous connecter avec votre "
+"adresse Email, Merci,"
+msgstr ""
+"Vous pouvez utiliser ce nouveau mot de passe pour vous connecter avec votre "
+"adresse Email, Merci,"
+
+# email templates (remaining strings)
+msgid "Renouvelez votre mot de passe - E.B.H Contrats"
+msgstr "Renouvelez votre mot de passe - E.B.H Contrats"
+
+#, python-format
+msgid ""
+"Bonjour %(first_name)s,<br>Pour modifier votre mot de passe, entrer ce code "
+"de sécurité :"
+msgstr ""
+"Bonjour %(first_name)s,<br>Pour modifier votre mot de passe, entrer ce code "
+"de sécurité :"
+
+msgid "Merci,"
+msgstr "Merci,"
+
+# account/views.py
+msgid "Un utilisateur avec ce champ adresse électronique existe déjà."
+msgstr "Un utilisateur avec ce champ adresse électronique existe déjà."
+
+msgid "L'adresse électronique est requise."
+msgstr "L'adresse électronique est requise."
+
+msgid "Entrez une adresse électronique valide."
+msgstr "Entrez une adresse électronique valide."
+
+msgid "Votre mot de passe est invalide."
+msgstr "Votre mot de passe est invalide."
+
+msgid "Les mots de passe ne correspondent pas."
+msgstr "Les mots de passe ne correspondent pas."
+
+msgid "Le mot de passe doit contenir au moins 8 caractères."
+msgstr "Le mot de passe doit contenir au moins 8 caractères."
+
+msgid "Utilisateur ou code verification invalide."
+msgstr "Utilisateur ou code verification invalide."
+
+msgid ""
+"Le code de réinitialisation a expiré. Veuillez demander un nouveau code."
+msgstr ""
+"Le code de réinitialisation a expiré. Veuillez demander un nouveau code."
+
+msgid "Renouvellement du mot de passe - E.B.H Contrats"
+msgstr "Renouvellement du mot de passe - E.B.H Contrats"
+
+msgid "Utilisateur n'éxiste pas!"
+msgstr "Utilisateur n'éxiste pas!"
+
+msgid "Aucune utilisateur ne correspond à la requête."
+msgstr "Aucune utilisateur ne correspond à la requête."
+
+msgid "Vous ne pouvez pas modifier votre utilisateur dans cette page."
+msgstr "Vous ne pouvez pas modifier votre utilisateur dans cette page."
+
+msgid "Vous ne pouvez pas supprimer votre utilisateur."
+msgstr "Vous ne pouvez pas supprimer votre utilisateur."
+
+msgid "Une liste d'identifiants est requise."
+msgstr "Une liste d'identifiants est requise."
+
+msgid "Les identifiants doivent être des entiers."
+msgstr "Les identifiants doivent être des entiers."
+
+msgid "Vous ne pouvez pas supprimer votre propre utilisateur."
+msgstr "Vous ne pouvez pas supprimer votre propre utilisateur."
+
+msgid "Certains utilisateurs sont introuvables."
+msgstr "Certains utilisateurs sont introuvables."
+
+msgid "Référence & Statut"
+msgstr ""
+
+msgid "Client"
+msgstr ""
+
+msgid "Projet & Services"
+msgstr ""
+
+msgid "Conditions Financières"
+msgstr ""
+
+msgid "Clauses Juridiques"
+msgstr ""
+
+msgid "Options"
+msgstr ""
+
+msgid "Blueline Works"
+msgstr ""
+
+msgid "Sous-Traitance"
+msgstr ""
+
+msgid "Métadonnées"
+msgstr ""
+
+msgid "Contrats"
+msgstr ""
+
+msgid "Recherche"
+msgstr ""
+
+msgid "Statut"
+msgstr ""
+
+msgid "Société"
+msgstr ""
+
+msgid "Date après"
+msgstr ""
+
+msgid "Date avant"
+msgstr ""
+
+msgid "Nom du projet"
+msgstr ""
+
+msgid "Type de projet"
+msgstr ""
+
+msgid "Description"
+msgstr ""
+
+msgid "Adresse du projet"
+msgstr ""
+
+msgid "Maître d'ouvrage"
+msgstr ""
+
+msgid "N° permis de construire"
+msgstr ""
+
+msgid "Prédéfini"
+msgstr ""
+
+msgid "Prédéfini par l'admin, non supprimable par les utilisateurs."
+msgstr ""
+
+msgid "Créé par"
+msgstr ""
+
+msgid "Projet"
+msgstr ""
+
+msgid "Projets"
+msgstr ""
+
+msgid "Catégorie de contrat"
+msgstr ""
+
+msgid "Référence contrat"
+msgstr ""
+
+msgid "Format ex: 0001/26"
+msgstr ""
+
+msgid "Date du contrat"
+msgstr ""
+
+msgid "Nom & Prénom"
+msgstr ""
+
+msgid "CIN / ICE / Passeport"
+msgstr ""
+
+msgid "Qualité du client"
+msgstr ""
+
+msgid "Adresse complète"
+msgstr ""
+
+msgid "Téléphone"
+msgstr ""
+
+msgid "Email"
+msgstr ""
+
+msgid "Ville de signature"
+msgstr ""
+
+msgid "Adresse des travaux"
+msgstr ""
+
+msgid "Type de bien"
+msgstr ""
+
+msgid "Surface (m²)"
+msgstr ""
+
+msgid "Services sélectionnés"
+msgstr ""
+
+msgid "Description des travaux"
+msgstr ""
+
+msgid "Date de début prévue"
+msgstr ""
+
+msgid "Durée estimée"
+msgstr ""
+
+msgid "Conditions d'accès"
+msgstr ""
+
+msgid "Montant total HT"
+msgstr ""
+
+msgid "Devise"
+msgstr ""
+
+msgid "TVA (%)"
+msgstr ""
+
+msgid "Echéancier de paiement"
+msgstr ""
+
+msgid "Liste de {label, pourcentage}"
+msgstr ""
+
+msgid "Mode de paiement"
+msgstr ""
+
+msgid "RIB / Coordonnées bancaires"
+msgstr ""
+
+msgid "Délai retard toléré (jours)"
+msgstr ""
+
+msgid "Pénalité retard (MAD/j)"
+msgstr ""
+
+msgid "Frais de redémarrage (MAD)"
+msgstr ""
+
+msgid "Durée de garantie"
+msgstr ""
+
+msgid "Délai réserves (j ouvrés)"
+msgstr ""
+
+msgid "Tribunal compétent"
+msgstr ""
+
+msgid "Clauses actives"
+msgstr ""
+
+msgid "Clauses spécifiques additionnelles"
+msgstr ""
+
+msgid "Exclusions explicites"
+msgstr ""
+
+msgid "Type de contrat"
+msgstr ""
+
+msgid "Responsable de projet CASA DI LUSSO"
+msgstr ""
+
+msgid "Architecte / Designer associé"
+msgstr ""
+
+msgid "Note de confidentialité"
+msgstr ""
+
+msgid "Annexes jointes"
+msgstr ""
+
+msgid "Ville du client"
+msgstr ""
+
+msgid "Code postal client"
+msgstr ""
+
+msgid "Ville du chantier"
+msgstr ""
+
+msgid "Étage / Appartement"
+msgstr ""
+
+msgid "Prestations"
+msgstr ""
+
+msgid "Liste de {nom, desc, qte, unite, pu}"
+msgstr ""
+
+msgid "Fournitures incluses"
+msgstr ""
+
+msgid "Matériaux à fournir par le client"
+msgstr ""
+
+msgid "Eau & Électricité sur chantier"
+msgstr ""
+
+msgid "Durée de garantie (valeur)"
+msgstr ""
+
+msgid "Unité de garantie"
+msgstr ""
+
+msgid "Type de garantie"
+msgstr ""
+
+msgid "Exclusions de garantie"
+msgstr ""
+
+msgid "Acompte (%)"
+msgstr ""
+
+msgid "2ème tranche (%)"
+msgstr ""
+
+msgid "Clause de résiliation"
+msgstr ""
+
+msgid "Notes & Observations"
+msgstr ""
+
+msgid "Raison sociale ST"
+msgstr ""
+
+msgid "Forme juridique ST"
+msgstr ""
+
+msgid "Capital social ST"
+msgstr ""
+
+msgid "RC ST"
+msgstr ""
+
+msgid "ICE ST"
+msgstr ""
+
+msgid "Identifiant fiscal ST"
+msgstr ""
+
+msgid "CNSS ST"
+msgstr ""
+
+msgid "Adresse siège ST"
+msgstr ""
+
+msgid "Représentant ST"
+msgstr ""
+
+msgid "CIN représentant ST"
+msgstr ""
+
+msgid "Qualité représentant ST"
+msgstr ""
+
+msgid "Téléphone ST"
+msgstr ""
+
+msgid "Email ST"
+msgstr ""
+
+msgid "RIB ST"
+msgstr ""
+
+msgid "Banque ST"
+msgstr ""
+
+msgid "Type(s) de lot"
+msgstr ""
+
+msgid "Description du lot"
+msgstr ""
+
+msgid "Type(s) de prix"
+msgstr ""
+
+msgid "Retenue de garantie (%)"
+msgstr ""
+
+msgid "Avance forfaitaire (%)"
+msgstr ""
+
+msgid "Pénalité retard (MAD/jour)"
+msgstr ""
+
+msgid "Plafond pénalité (%)"
+msgstr ""
+
+msgid "Délai de paiement (jours)"
+msgstr ""
+
+msgid "Tranches paiement ST"
+msgstr ""
+
+msgid "{label, pourcentage}"
+msgstr ""
+
+msgid "Délai d'exécution (valeur)"
+msgstr ""
+
+msgid "Unité délai d'exécution"
+msgstr ""
+
+msgid "Garantie décennale (mois)"
+msgstr ""
+
+msgid "Délai levée réserves (jours)"
+msgstr ""
+
+msgid "Délai mise en demeure (jours)"
+msgstr ""
+
+msgid "Clauses actives ST"
+msgstr ""
+
+msgid "Observations ST"
+msgstr ""
+
+msgid "Historique Contrat"
+msgstr ""
+
+msgid "Contrat"
+msgstr ""
+
+# contract/serializers.py
+msgid "Le total des pourcentages de l'échéancier doit être égal à 100%."
+msgstr "Le total des pourcentages de l'échéancier doit être égal à 100%."
+
+msgid "La valeur doit être une liste."
+msgstr "La valeur doit être une liste."
+
+#, python-format
+msgid "Valeur(s) invalide(s) : %(values)s"
+msgstr "Valeur(s) invalide(s) : %(values)s"
+
+msgid "Un contrat avec ce numéro existe déjà."
+msgstr "Un contrat avec ce numéro existe déjà."
+
+msgid "La somme de l'acompte et de la tranche 2 ne peut pas dépasser 100%."
+msgstr "La somme de l'acompte et de la tranche 2 ne peut pas dépasser 100%."
+
+# contract/views.py
+msgid "Vous n'avez pas les droits pour créer un contrat."
+msgstr "Vous n'avez pas les droits pour créer un contrat."
+
+msgid "Aucun contrat ne correspond à la requête."
+msgstr "Aucun contrat ne correspond à la requête."
+
+msgid "Vous n'avez pas les droits pour modifier ce contrat."
+msgstr "Vous n'avez pas les droits pour modifier ce contrat."
+
+msgid "Vous n'avez pas les droits pour supprimer ce contrat."
+msgstr "Vous n'avez pas les droits pour supprimer ce contrat."
+
+msgid "Statut invalide."
+msgstr "Statut invalide."
+
+#, fuzzy
+#| msgid "Vous n'avez pas les droits pour supprimer ce contrat."
+msgid "Vous n'avez pas les droits pour supprimer des contrats."
+msgstr "Vous n'avez pas les droits pour supprimer ce contrat."
+
+msgid "Certains contrats sont introuvables."
+msgstr "Certains contrats sont introuvables."
+
+msgid "Vous n'avez pas les droits pour imprimer ce contrat."
+msgstr "Vous n'avez pas les droits pour imprimer ce contrat."
+
+msgid "Vous n'avez pas les droits pour télécharger ce contrat."
+msgstr "Vous n'avez pas les droits pour télécharger ce contrat."
+
+msgid "Vous n'avez pas les droits pour créer un projet."
+msgstr "Vous n'avez pas les droits pour créer un projet."
+
+msgid "Aucun projet ne correspond à la requête."
+msgstr "Aucun projet ne correspond à la requête."
+
+#, fuzzy
+#| msgid "Vous n'avez pas les droits pour modifier ce contrat."
+msgid "Vous n'avez pas les droits pour modifier ce projet."
+msgstr "Vous n'avez pas les droits pour modifier ce contrat."
+
+#, fuzzy
+#| msgid "Vous n'avez pas les droits pour supprimer ce contrat."
+msgid "Vous n'avez pas les droits pour supprimer ce projet."
+msgstr "Vous n'avez pas les droits pour supprimer ce contrat."
+
+msgid "Les projets prédéfinis ne peuvent pas être supprimés."
+msgstr "Les projets prédéfinis ne peuvent pas être supprimés."
+
+msgid "Casa di Lusso"
+msgstr ""
+
+msgid "MAD – Dirham Marocain"
+msgstr ""
+
+msgid "EUR – Euro"
+msgstr ""
+
+msgid "USD – Dollar Américain"
+msgstr ""
+
+msgid "Travaux de Finition"
+msgstr ""
+
+msgid "Travaux Gros Œuvre"
+msgstr ""
+
+msgid "Design Intérieur"
+msgstr ""
+
+msgid "Clé en Main"
+msgstr ""
+
+msgid "Ameublement"
+msgstr ""
+
+msgid "Maintenance"
+msgstr ""
+
+msgid "Suivi Chantier"
+msgstr ""
+
+msgid "Appartement"
+msgstr ""
+
+msgid "Villa"
+msgstr ""
+
+msgid "Duplex"
+msgstr ""
+
+msgid "Résidence"
+msgstr ""
+
+msgid "Hôtel"
+msgstr ""
+
+msgid "Riad / Maison Traditionnelle"
+msgstr ""
+
+msgid "Bureau / Local Commercial"
+msgstr ""
+
+msgid "Commerce / Local"
+msgstr ""
+
+msgid "Hôtel / Riad Hôtelier"
+msgstr ""
+
+msgid "Immeuble"
+msgstr ""
+
+msgid "Autre"
+msgstr ""
+
+msgid "Particulier"
+msgstr ""
+
+msgid "Entreprise / Société"
+msgstr ""
+
+msgid "Investisseur Immobilier"
+msgstr ""
+
+msgid "Administration / Institution"
+msgstr ""
+
+msgid "1 mois"
+msgstr ""
+
+msgid "3 mois"
+msgstr ""
+
+msgid "6 mois"
+msgstr ""
+
+msgid "1 an"
+msgstr ""
+
+msgid "2 ans"
+msgstr ""
+
+msgid "3 ans"
+msgstr ""
+
+msgid "Sans garantie contractuelle"
+msgstr ""
+
+msgid "Tanger"
+msgstr ""
+
+msgid "Casablanca"
+msgstr ""
+
+msgid "Rabat"
+msgstr ""
+
+msgid "Marrakech"
+msgstr ""
+
+msgid "Fès"
+msgstr ""
+
+msgid "Agadir"
+msgstr ""
+
+msgid "CONFIDENTIEL"
+msgstr ""
+
+msgid "USAGE INTERNE"
+msgstr ""
+
+msgid "STANDARD"
+msgstr ""
+
+msgid "Brouillon"
+msgstr ""
+
+msgid "Envoyé"
+msgstr ""
+
+msgid "Signé"
+msgstr ""
+
+msgid "En cours"
+msgstr ""
+
+msgid "Terminé"
+msgstr ""
+
+msgid "Annulé"
+msgstr ""
+
+msgid "Expiré"
+msgstr ""
+
+msgid "Virement Bancaire"
+msgstr ""
+
+msgid "Chèque Certifié"
+msgstr ""
+
+msgid "Espèces"
+msgstr ""
+
+msgid "Paiement Mixte"
+msgstr ""
+
+msgid "Mobile Money"
+msgstr ""
+
+msgid "Virement ou Chèque"
+msgstr ""
+
+msgid "Non incluses (fournies par le client)"
+msgstr ""
+
+msgid "Incluses dans le contrat"
+msgstr ""
+
+msgid "Partiellement incluses"
+msgstr ""
+
+msgid "À la charge du client"
+msgstr ""
+
+msgid "À la charge de l'entreprise"
+msgstr ""
+
+msgid "Partagé"
+msgstr ""
+
+msgid "Selon le cas"
+msgstr ""
+
+msgid "Mois"
+msgstr ""
+
+msgid "Ans"
+msgstr ""
+
+msgid "Garantie des défauts"
+msgstr ""
+
+msgid "Garantie de bonne fin"
+msgstr ""
+
+msgid "Garantie décennale"
+msgstr ""
+
+msgid "Aucune garantie"
+msgstr ""
+
+msgid "Préavis de 30 jours"
+msgstr ""
+
+msgid "Préavis de 15 jours"
+msgstr ""
+
+msgid "D'un commun accord"
+msgstr ""
+
+msgid "Aucune clause"
+msgstr ""
+
+msgid "Pose de carrelage"
+msgstr ""
+
+msgid "Pose de marbre"
+msgstr ""
+
+msgid "Plan de travail cuisine"
+msgstr ""
+
+msgid "Revêtement mural faïence"
+msgstr ""
+
+msgid "Finitions peinture"
+msgstr ""
+
+msgid "Pose de parquet"
+msgstr ""
+
+msgid "Enduit & crépi"
+msgstr ""
+
+msgid "Joints & silicone"
+msgstr ""
+
+msgid "Dépose & démolition"
+msgstr ""
+
+msgid "Préparation des surfaces"
+msgstr ""
+
+msgid "Seuils & plinthes"
+msgstr ""
+
+msgid "Douche à l'italienne"
+msgstr ""
+
+msgid "Escalier marbre"
+msgstr ""
+
+msgid "Terrasse extérieure"
+msgstr ""
+
+msgid "Main d'œuvre qualifiée"
+msgstr ""
+
+msgid "Transport & déplacement"
+msgstr ""
+
+msgid "m²"
+msgstr ""
+
+msgid "ml"
+msgstr ""
+
+msgid "m³"
+msgstr ""
+
+msgid "unité"
+msgstr ""
+
+msgid "forfait"
+msgstr ""
+
+msgid "heure"
+msgstr ""
+
+msgid "jour"
+msgstr ""
+
+msgid "kg"
+msgstr ""
+
+msgid "Standard"
+msgstr ""
+
+msgid "Travaux de Gros Œuvre"
+msgstr ""
+
+msgid "Travaux d'Électricité"
+msgstr ""
+
+msgid "Travaux de Plomberie et Sanitaire"
+msgstr ""
+
+msgid "Travaux de Menuiserie Aluminium"
+msgstr ""
+
+msgid "Travaux de Menuiserie Bois"
+msgstr ""
+
+msgid "Travaux de Carrelage et Faïence"
+msgstr ""
+
+msgid "Travaux de Peinture"
+msgstr ""
+
+msgid "Travaux d'Étanchéité"
+msgstr ""
+
+msgid "Fourniture et Installation d'Ascenseur"
+msgstr ""
+
+msgid "Travaux de Plâtre et Faux Plafond"
+msgstr ""
+
+msgid "Travaux de Ferronnerie et Garde-Corps"
+msgstr ""
+
+msgid "Travaux de VRD et Façade"
+msgstr ""
+
+msgid "Travaux de Climatisation et Ventilation"
+msgstr ""
+
+msgid "Fourniture et Pose de Cuisines Équipées"
+msgstr ""
+
+msgid "Commercial"
+msgstr ""
+
+msgid "Industriel"
+msgstr ""
+
+msgid "Rénovation"
+msgstr ""
+
+msgid "SARL"
+msgstr ""
+
+msgid "SA"
+msgstr ""
+
+msgid "SARLAU"
+msgstr ""
+
+msgid "SNC"
+msgstr ""
+
+msgid "Auto-entrepreneur"
+msgstr ""
+
+msgid "Personne physique"
+msgstr ""
+
+msgid "Forfaitaire ferme"
+msgstr ""
+
+msgid "Prix unitaires"
+msgstr ""
+
+msgid "Régie"
+msgstr ""
+
+msgid "Semaines"
+msgstr ""
+
+msgid "Jours"
+msgstr ""
+
+msgid "Raison sociale"
+msgstr ""
+
+msgid "Forme juridique"
+msgstr ""
+
+msgid "Capital (DH)"
+msgstr ""
+
+msgid "Registre de Commerce"
+msgstr ""
+
+msgid "ICE"
+msgstr ""
+
+msgid "Identifiant Fiscal (IF)"
+msgstr ""
+
+msgid "Adresse du siège social"
+msgstr ""
+
+msgid "Représentant légal"
+msgstr ""
+
+msgid "Gérant"
+msgstr ""
+
+msgid "Qualité du représentant"
+msgstr ""
+
+msgid "Configuration Société"
+msgstr ""
+
+msgid "Configurations Sociétés"
+msgstr ""
+
+msgid "View site"
+msgstr ""
+
+msgid "Documentation"
+msgstr ""
+
+msgid "Change password"
+msgstr ""
+
+msgid "Log out"
+msgstr ""
+
+#~ msgid "Bonjour %(first_name)s,"
+#~ msgstr "Bonjour %(first_name)s,"
+
+#~ msgid ""
+#~ "Voici le mot de passe de votre compte récemment créé sur L'application de "
+#~ "E.B.H Contrats :"
+#~ msgstr ""
+#~ "Voici le mot de passe de votre compte récemment créé sur L'application de "
+#~ "E.B.H Contrats :"
+
+#~ msgid "L'équipe Application de E.B.H Contrats"
+#~ msgstr "L'équipe Application de E.B.H Contrats"
+
+#~ msgid "Renouvelez votre mot de passe"
+#~ msgstr "Renouvelez votre mot de passe"
+
+#~ msgid "Pour modifier votre mot de passe, entrer ce code de sécurité :"
+#~ msgstr "Pour modifier votre mot de passe, entrer ce code de sécurité :"
+
+#~ msgid "Changement de mot de passe (E.B.H Contrats)"
+#~ msgstr "Changement de mot de passe (E.B.H Contrats)"
+
+#~ msgid ""
+#~ "Un administrateur a modifié le mot de passe de votre compte E.B.H "
+#~ "Contrats. Voici votre nouveau mot de passe :"
+#~ msgstr ""
+#~ "Un administrateur a modifié le mot de passe de votre compte E.B.H "
+#~ "Contrats. Voici votre nouveau mot de passe :"

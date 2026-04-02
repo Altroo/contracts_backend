@@ -4,6 +4,7 @@ contract/st_doc.py
 Generates a Sous-Traitance DOCX using python-docx with CDL branding
 (dark #0F0F1A + gold #B8973A, Cormorant Garamond + Inter).
 """
+# i18n: skip-file — bilingual document generator; FR+EN content is intentional
 
 from datetime import datetime
 from io import BytesIO

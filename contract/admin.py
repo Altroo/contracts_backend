@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.translation import gettext_lazy as _
 from simple_history.admin import SimpleHistoryAdmin
 
 from .models import Contract, Project
@@ -54,7 +55,7 @@ class ContractAdmin(SimpleHistoryAdmin):
     readonly_fields = ("date_created", "date_updated", "created_by_user")
     fieldsets = (
         (
-            "Référence & Statut",
+            _("Référence & Statut"),
             {
                 "fields": (
                     "company",
@@ -67,7 +68,7 @@ class ContractAdmin(SimpleHistoryAdmin):
             },
         ),
         (
-            "Client",
+            _("Client"),
             {
                 "fields": (
                     "client_nom",
@@ -81,7 +82,7 @@ class ContractAdmin(SimpleHistoryAdmin):
             },
         ),
         (
-            "Projet & Services",
+            _("Projet & Services"),
             {
                 "fields": (
                     "adresse_travaux",
@@ -96,7 +97,7 @@ class ContractAdmin(SimpleHistoryAdmin):
             },
         ),
         (
-            "Conditions Financières",
+            _("Conditions Financières"),
             {
                 "fields": (
                     "montant_ht",
@@ -112,7 +113,7 @@ class ContractAdmin(SimpleHistoryAdmin):
             },
         ),
         (
-            "Clauses Juridiques",
+            _("Clauses Juridiques"),
             {
                 "fields": (
                     "garantie",
@@ -125,7 +126,7 @@ class ContractAdmin(SimpleHistoryAdmin):
             },
         ),
         (
-            "Options",
+            _("Options"),
             {
                 "fields": (
                     "type_contrat",
@@ -136,7 +137,7 @@ class ContractAdmin(SimpleHistoryAdmin):
             },
         ),
         (
-            "Blueline Works",
+            _("Blueline Works"),
             {
                 "classes": ("collapse",),
                 "fields": (
@@ -160,7 +161,7 @@ class ContractAdmin(SimpleHistoryAdmin):
             },
         ),
         (
-            "Sous-Traitance",
+            _("Sous-Traitance"),
             {
                 "classes": ("collapse",),
                 "fields": (
@@ -200,7 +201,7 @@ class ContractAdmin(SimpleHistoryAdmin):
             },
         ),
         (
-            "Métadonnées",
+            _("Métadonnées"),
             {
                 "fields": ("created_by_user", "date_created", "date_updated"),
             },

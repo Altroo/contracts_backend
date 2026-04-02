@@ -1,3 +1,4 @@
+# i18n: skip-file — bilingual document generator; FR+EN content is intentional
 import re
 from datetime import datetime, timedelta
 from io import BytesIO
