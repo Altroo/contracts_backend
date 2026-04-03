@@ -27,9 +27,12 @@
       <sourceFolder url="file://$MODULE_DIR$/templates/admin" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/ws" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/ws/migrations" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/locale" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.idea" />
       <excludeFolder url="file://$MODULE_DIR$/.venv" />
       <excludeFolder url="file://$MODULE_DIR$/.vscode" />
+      <excludeFolder url="file://$MODULE_DIR$/.docs" />
+      <excludeFolder url="file://$MODULE_DIR$/.github" />
     </content>
     <orderEntry type="jdk" jdkName="Python 3.14 (contracts_backend) (2)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
