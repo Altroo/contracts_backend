@@ -70,6 +70,9 @@ class Project(models.Model):
     )
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
+    history = HistoricalRecords(
+        verbose_name=_("Historique Projet"), verbose_name_plural=_("Historiques Projets")
+    )
 
     class Meta:
         verbose_name = _("Projet")

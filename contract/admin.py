@@ -5,7 +5,7 @@ from simple_history.admin import SimpleHistoryAdmin
 from .models import Contract, Project
 
 
-class ProjectAdmin(admin.ModelAdmin):
+class ProjectAdmin(SimpleHistoryAdmin):
     list_display = (
         "name",
         "company",
@@ -211,3 +211,85 @@ class ContractAdmin(SimpleHistoryAdmin):
 
 admin.site.register(Project, ProjectAdmin)
 admin.site.register(Contract, ContractAdmin)
+
+
+# Historical Model Admin (Read-only)
+class HistoricalProjectAdmin(admin.ModelAdmin):
+    """Read-only admin for viewing historical Project records."""
+
+    list_display = (
+        "history_id",
+        "id",
+        "name",
+        "company",
+        "type",
+        "is_predefined",
+        "history_type",
+        "history_date",
+        "history_user",
+    )
+    list_filter = ("history_type", "history_date", "company", "is_predefined")
+    search_fields = ("name", "maitre_ouvrage")
+    readonly_fields = [
+        field.name
+        for field in Project._meta.get_fields()
+        if hasattr(field, "name") and not field.many_to_many and not field.one_to_many
+    ] + [
+        "history_id",
+        "history_date",
+        "history_change_reason",
+        "history_type",
+        "history_user",
+    ]
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+
+class HistoricalContractAdmin(admin.ModelAdmin):
+    """Read-only admin for viewing historical Contract records."""
+
+    list_display = (
+        "history_id",
+        "id",
+        "numero_contrat",
+        "company",
+        "statut",
+        "client_nom",
+        "montant_ht",
+        "history_type",
+        "history_date",
+        "history_user",
+    )
+    list_filter = ("history_type", "history_date", "company", "statut")
+    search_fields = ("numero_contrat", "client_nom", "client_email")
+    readonly_fields = [
+        field.name
+        for field in Contract._meta.get_fields()
+        if hasattr(field, "name") and not field.many_to_many and not field.one_to_many
+    ] + [
+        "history_id",
+        "history_date",
+        "history_change_reason",
+        "history_type",
+        "history_user",
+    ]
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+
+admin.site.register(Project.history.model, HistoricalProjectAdmin)
+admin.site.register(Contract.history.model, HistoricalContractAdmin)

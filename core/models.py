@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from simple_history.models import HistoricalRecords
 
 from core.constants import COMPANY_CHOICES
 
@@ -39,6 +40,10 @@ class CompanyConfig(models.Model):
     )
     qualite_representant = models.CharField(
         max_length=100, default=_("Gérant"), verbose_name=_("Qualité du représentant")
+    )
+    history = HistoricalRecords(
+        verbose_name=_("Historique Configuration"),
+        verbose_name_plural=_("Historiques Configurations"),
     )
 
     class Meta:
