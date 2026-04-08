@@ -9,6 +9,7 @@ from core.constants import (
     CURRENCY_CHOICES,
     GARANTIE_CHOICES,
     MODE_PAIEMENT_TEXTE_CHOICES,
+    PENALITE_RETARD_UNITE_CHOICES,
     STATUT_CHOICES,
     TRIBUNAL_CHOICES,
     CLIENT_QUALITE_CHOICES,
@@ -230,6 +231,12 @@ class Contract(models.Model):
         decimal_places=2,
         default=0,
         verbose_name=_("Pénalité retard (MAD/j)"),
+    )
+    penalite_retard_unite = models.CharField(
+        max_length=20,
+        choices=PENALITE_RETARD_UNITE_CHOICES,
+        default="mad_per_day",
+        verbose_name=_("Unité pénalité retard"),
     )
     frais_redemarrage = models.DecimalField(
         max_digits=12,

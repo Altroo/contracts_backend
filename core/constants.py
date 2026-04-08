@@ -91,6 +91,11 @@ MODE_PAIEMENT_TEXTE_CHOICES = [
     ("Virement ou Chèque", _("Virement ou Chèque")),
 ]
 
+PENALITE_RETARD_UNITE_CHOICES = [
+    ("mad_per_day", _("MAD par jour")),
+    ("percent_per_day", _("Pourcentage par jour")),
+]
+
 # ── Blueline Works specific choices ────────────────────────────────────────
 
 FOURNITURES_CHOICES = [

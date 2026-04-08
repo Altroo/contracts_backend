@@ -310,6 +310,7 @@ class ContractSerializer(serializers.ModelSerializer):
             "rib",
             "delai_retard",
             "penalite_retard",
+            "penalite_retard_unite",
             "frais_redemarrage",
             # Clauses
             "garantie",

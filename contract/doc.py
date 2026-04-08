@@ -9,7 +9,7 @@ from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
 from docx.shared import Pt, RGBColor, Cm
 
-from .pdf import _fmt_date, _fmt_amt, _is_societe
+from .pdf import _fmt_date, _fmt_amt, _format_penalite_retard, _is_societe
 from .i18n import (
     TYPELABEL,
     TYPE_BIEN_LABELS,
@@ -1633,7 +1633,7 @@ class ContractDOCGenerator:
         tot_pct = sum(float(t.get("pourcentage", 0)) for t in tranches)
         rib_str = f" \u2014 {c.rib}" if c.rib else ""
         delai_ret = c.delai_retard if c.delai_retard is not None else 5
-        penalite = float(c.penalite_retard or 1.5)
+        penalite = _format_penalite_retard(c, lang)
 
         self._next_art(
             "CONDITIONS FINANCI\u00c8RES ET IRR\u00c9VOCABILIT\u00c9 DES PAIEMENTS"
@@ -1731,7 +1731,7 @@ class ContractDOCGenerator:
             ("Des " if fr else ""),
             ("p\u00e9nalit\u00e9s de retard" if fr else "Late payment penalties", True),
             (" de " if fr else " of "),
-            (f"{penalite}% " + ("par jour" if fr else "per day"), True),
+            (penalite, True),
             (
                 " de retard sont automatiquement applicables sur les sommes "
                 "dues\u202f;"

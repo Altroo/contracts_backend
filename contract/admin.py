@@ -108,6 +108,7 @@ class ContractAdmin(SimpleHistoryAdmin):
                     "rib",
                     "delai_retard",
                     "penalite_retard",
+                    "penalite_retard_unite",
                     "frais_redemarrage",
                 )
             },

@@ -813,6 +813,26 @@ class TestCDLPDFGenerator:
 
         html = _gen_contract_html(cdl_contract, "fr")
         assert "Acompte" in html
+
+    def test_html_uses_mad_penalty_unit_when_selected(self, cdl_contract):
+        from contract.pdf import _gen_contract_html
+
+        cdl_contract.penalite_retard = Decimal("0.01")
+        cdl_contract.penalite_retard_unite = "mad_per_day"
+        cdl_contract.save()
+
+        html = _gen_contract_html(cdl_contract, "fr")
+        assert "0.01 MAD par jour" in html
+
+    def test_html_uses_percentage_penalty_unit_when_selected(self, cdl_contract):
+        from contract.pdf import _gen_contract_html
+
+        cdl_contract.penalite_retard = Decimal("0.01")
+        cdl_contract.penalite_retard_unite = "percent_per_day"
+        cdl_contract.save()
+
+        html = _gen_contract_html(cdl_contract, "fr")
+        assert "0.01% par jour" in html
         assert "30" in html
 
     def test_html_contains_tribunal(self, cdl_contract):
@@ -927,6 +947,32 @@ class TestCDLDOCGenerator:
         assert (
             "Client" in full_text or "Agreement" in full_text or "Service" in full_text
         )
+
+    def test_docx_contains_mad_penalty_unit_when_selected(self, cdl_contract):
+        from docx import Document as DocxDocument
+
+        cdl_contract.penalite_retard = Decimal("0.01")
+        cdl_contract.penalite_retard_unite = "mad_per_day"
+        cdl_contract.save()
+
+        gen = ContractDOCGenerator(cdl_contract, language="fr")
+        response = gen.generate_response()
+        doc = DocxDocument(io.BytesIO(response.content))
+        full_text = "\n".join(p.text for p in doc.paragraphs)
+        assert "0.01 MAD par jour" in full_text
+
+    def test_docx_contains_percentage_penalty_unit_when_selected(self, cdl_contract):
+        from docx import Document as DocxDocument
+
+        cdl_contract.penalite_retard = Decimal("0.01")
+        cdl_contract.penalite_retard_unite = "percent_per_day"
+        cdl_contract.save()
+
+        gen = ContractDOCGenerator(cdl_contract, language="fr")
+        response = gen.generate_response()
+        doc = DocxDocument(io.BytesIO(response.content))
+        full_text = "\n".join(p.text for p in doc.paragraphs)
+        assert "0.01% par jour" in full_text
 
     def test_minimal_contract_generates(self, cdl_minimal_contract):
         gen = ContractDOCGenerator(cdl_minimal_contract, language="fr")

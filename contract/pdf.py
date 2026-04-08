@@ -42,6 +42,14 @@ def _fmt_amt(n, dev="MAD"):
     return f"{whole},{dec}\u00a0{dev}"
 
 
+def _format_penalite_retard(c, lang: str) -> str:
+    unite = getattr(c, "penalite_retard_unite", "mad_per_day") or "mad_per_day"
+    penalite = float(c.penalite_retard or 1.5)
+    if unite == "percent_per_day":
+        return f"{penalite:g}% par jour" if lang == "fr" else f"{penalite:g}% per day"
+    return f"{penalite:g} MAD par jour" if lang == "fr" else f"{penalite:g} MAD per day"
+
+
 def _esc(text: str) -> str:
     """Minimal HTML escaping of a plain-text string."""
     if not text:
@@ -598,7 +606,7 @@ def _build_articles(c, lang="fr") -> list:
         )
     rib_str = f" \u2014 {_esc(c.rib)}" if c.rib else ""
     delai_ret = c.delai_retard if c.delai_retard is not None else 5
-    penalite = float(c.penalite_retard or 1.5)
+    penalite_label = _format_penalite_retard(c, lang)
     frais_li = (
         (
             f"<li>Des <strong>frais de red\u00e9marrage</strong> d\u2019un montant de "
@@ -642,7 +650,7 @@ def _build_articles(c, lang="fr") -> list:
           <li>En cas de retard de paiement sup\u00e9rieur \u00e0 <strong>{delai_ret} jours</strong> calendaires\u202f:
             <ul>
               <li>Les travaux sont <strong>imm\u00e9diatement suspendus</strong> et les \u00e9quipes retir\u00e9es du chantier\u202f;</li>
-              <li>Des <strong>p\u00e9nalit\u00e9s de retard</strong> de <strong>{penalite}% par jour</strong> de retard sont automatiquement applicables sur les sommes dues\u202f;</li>
+              <li>Des <strong>p\u00e9nalit\u00e9s de retard</strong> de <strong>{penalite_label}</strong> de retard sont automatiquement applicables sur les sommes dues\u202f;</li>
               {frais_li}
               <li>Le planning est automatiquement r\u00e9vis\u00e9 sans droit \u00e0 indemnit\u00e9 pour le Client.</li>
             </ul>
@@ -667,7 +675,7 @@ def _build_articles(c, lang="fr") -> list:
           <li>In case of payment delay exceeding <strong>{delai_ret} calendar days</strong>:
             <ul>
               <li>Works are <strong>immediately suspended</strong> and teams removed from site;</li>
-              <li><strong>Late payment penalties</strong> of <strong>{penalite}% per day</strong> automatically apply on overdue amounts;</li>
+              <li><strong>Late payment penalties</strong> of <strong>{penalite_label}</strong> automatically apply on overdue amounts;</li>
               {frais_li}
               <li>The schedule is automatically revised with no right to compensation for the Client.</li>
             </ul>
