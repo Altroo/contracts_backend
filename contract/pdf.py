@@ -3,12 +3,16 @@ contract/pdf.py
 ~~~~~~~~~~~~~~~
 Generates a full legal contract PDF using WeasyPrint + inline HTML/CSS,
 replicating the output of casa_di_lusso_contracts_v2.html.
-Supports both French (fr) and English (en) via the *lang* parameter.
+Supports both French and English via the *lang* parameter.
 """
+
+from __future__ import annotations
 
 # i18n: skip-file — bilingual document generator; FR+EN content is intentional
 
 from django.http import HttpResponse
+
+from .document_types import ArticleSection, ContractDocumentLike, DateLike, NumericLike
 
 from .i18n import (
     TYPELABEL,
@@ -21,7 +25,7 @@ from .i18n import (
 )
 
 
-def _fmt_date(d):
+def _fmt_date(d: DateLike) -> str:
     """Return a formatted date string like '27 / 02 / 2026'."""
     if not d:
         return "…… / …… / ………"
@@ -30,7 +34,7 @@ def _fmt_date(d):
     return str(d)
 
 
-def _fmt_amt(n, dev="MAD"):
+def _fmt_amt(n: NumericLike, dev: str = "MAD") -> str:
     """Return a French-formatted amount string like '1 234,56 MAD'."""
     try:
         val = float(n)
@@ -42,7 +46,7 @@ def _fmt_amt(n, dev="MAD"):
     return f"{whole},{dec}\u00a0{dev}"
 
 
-def _format_penalite_retard(c, lang: str) -> str:
+def _format_penalite_retard(c: ContractDocumentLike, lang: str) -> str:
     unite = getattr(c, "penalite_retard_unite", "mad_per_day") or "mad_per_day"
     penalite = float(c.penalite_retard or 1.5)
     if unite == "percent_per_day":
@@ -50,20 +54,18 @@ def _format_penalite_retard(c, lang: str) -> str:
     return f"{penalite:g} MAD par jour" if lang == "fr" else f"{penalite:g} MAD per day"
 
 
-def _esc(text: str) -> str:
+def _esc(text: object | None) -> str:
     """Minimal HTML escaping of a plain-text string."""
     if not text:
         return ""
     return str(text).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
 
-# ── backward-compatible aliases (doc.py imports these names) ──────────────────
-_TYPELABEL = TYPELABEL["fr"]
-_CTYPES_DISPLAY = CTYPES_DISPLAY["fr"]
-_TYPE_BIEN_LABELS = TYPE_BIEN_LABELS["fr"]
-_MODE_NAMES = MODE_NAMES["fr"]
-_CONFID_LABELS = CONFID_LABELS
-_QUALITE_LABELS = QUALITE_LABELS["fr"]
+def _css_esc(text: object | None) -> str:
+    """Escape a string for safe insertion in CSS content values."""
+    if not text:
+        return ""
+    return str(text).replace("\\", "\\\\").replace('"', '\\"').replace("\n", " ")
 
 
 def _is_societe(qualite: str) -> bool:
@@ -78,12 +80,25 @@ _PDF_CSS_TMPL = """
 
 @page {
   size: A4;
-  margin: 18mm 18mm 22mm 18mm;
+  margin: 7mm 7mm 13mm 7mm;
+  @bottom-left {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 8pt;
+    font-weight: 700;
+    color: #B8973A;
+    content: "__FOOTER_LEFT__";
+  }
   @bottom-center {
+    font-family: 'Inter', Arial, Helvetica, sans-serif;
+    font-size: 7pt;
+    color: #bbb;
+    content: "__FOOTER_CENTER__";
+  }
+  @bottom-right {
     font-family: 'JetBrains Mono', 'Courier New', monospace;
     font-size: 7pt;
     color: #ccc;
-    content: "Page " counter(page) " __PAGE_SEP__ " counter(pages);
+    content: "__FOOTER_RIGHT__" " · Page " counter(page) " __PAGE_SEP__ " counter(pages);
   }
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -261,20 +276,22 @@ body {
 """
 
 
-def _build_articles(c, lang="fr") -> list:
+def _build_articles(
+  c: ContractDocumentLike, lang: str = "fr"
+) -> list[ArticleSection]:
     """
     Build all contract articles with bilingual support (fr/en).
     Returns list of dicts: [{'num': '02', 'title': '...', 'body': '...'}, ...]
     """
     fr = lang == "fr"
-    articles = []
+    articles: list[ArticleSection] = []
     _n = [0]
 
-    def _next():
+    def _next() -> int:
         _n[0] += 1
         return _n[0]
 
-    def _add(title: str, body: str):
+    def _add(title: str, body: str) -> None:
         articles.append({"num": str(_next()).zfill(2), "title": title, "body": body})
 
     type_label = TYPELABEL[lang].get(c.type_contrat or "", c.type_contrat or "")
@@ -614,7 +631,7 @@ def _build_articles(c, lang="fr") -> list:
             f"avant toute reprise des travaux\u202f;</li>"
             if fr
             else f"<li><strong>Restart fees</strong> of <strong>{_fmt_amt(float(c.frais_redemarrage), devise)}</strong> "
-            f"will be invoiced before any resumption of works;</li>"
+                 f"will be invoiced before any resumption of works;</li>"
         )
         if c.frais_redemarrage
         else ""
@@ -1219,7 +1236,7 @@ def _build_articles(c, lang="fr") -> list:
     return articles
 
 
-def _gen_contract_html(c, lang: str = "fr") -> str:
+def _gen_contract_html(c: ContractDocumentLike, lang: str = "fr") -> str:
     fr = lang == "fr"
     confid_label = CONFID_LABELS.get(
         c.confidentialite or "confidentiel", "CONFIDENTIEL"
@@ -1228,9 +1245,9 @@ def _gen_contract_html(c, lang: str = "fr") -> str:
         c.type_contrat or "travaux_finition", c.type_contrat or ""
     )
     date_str = _fmt_date(c.date_contrat)
-    version_str = "v1.0 \u2013 D\u00e9finitif" if fr else "v1.0 \u2013 Final"
     ville = _esc(c.ville_signature) if c.ville_signature else "Tanger"
-    ref = _esc(c.numero_contrat)
+    ref_raw = c.numero_contrat or ""
+    ref = _esc(ref_raw)
 
     client_nom = (
         _esc(c.client_nom)
@@ -1286,7 +1303,6 @@ def _gen_contract_html(c, lang: str = "fr") -> str:
 
     # Bilingual labels
     lbl_date = "Date" if fr else "Date"
-    lbl_version = "Version"
     lbl_classe = "Classe" if fr else "Class"
     confid_ribbon = (
         "DOCUMENT CONFIDENTIEL \u2013 USAGE EXCLUSIF DES PARTIES SIGNATAIRES"
@@ -1328,6 +1344,17 @@ def _gen_contract_html(c, lang: str = "fr") -> str:
         else "Initials of parties (each page)"
     )
     lbl_provider_init = "Prestataire" if fr else "Service Provider"
+    footer_mid = (
+        f"{ref_raw} · RC 143377 · Tanger, {'Maroc' if fr else 'Morocco'}"
+        if ref_raw
+        else f"RC 143377 · Tanger, {'Maroc' if fr else 'Morocco'}"
+    )
+    css = (
+        _PDF_CSS_TMPL.replace("__PAGE_SEP__", "sur" if fr else "of")
+        .replace("__FOOTER_LEFT__", _css_esc("CASA DI LUSSO"))
+        .replace("__FOOTER_CENTER__", _css_esc(footer_mid))
+        .replace("__FOOTER_RIGHT__", _css_esc(confid_label))
+    )
 
     return f"""<!DOCTYPE html>
 <html lang="{lang}">
@@ -1335,7 +1362,7 @@ def _gen_contract_html(c, lang: str = "fr") -> str:
   <meta charset="UTF-8">
   <title>{"Contrat" if fr else "Contract"} {ref} \u2013 CASA DI LUSSO</title>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-  <style>{_PDF_CSS_TMPL.replace("__PAGE_SEP__", "sur" if fr else "of")}</style>
+  <style>{css}</style>
 </head>
 <body>
 
@@ -1356,7 +1383,6 @@ def _gen_contract_html(c, lang: str = "fr") -> str:
     <div class="c-ref">{ref}</div>
     <div class="c-date">
       <strong>{lbl_date}\u202f:</strong> {date_str}<br>
-      <strong>{lbl_version}\u202f:</strong> {version_str}<br>
       <strong>{lbl_classe}\u202f:</strong> {confid_label}<br>
       {ville}, {"Maroc" if fr else "Morocco"}
     </div>
@@ -1425,12 +1451,6 @@ def _gen_contract_html(c, lang: str = "fr") -> str:
   </div>
 </div>
 
-<div class="c-footer">
-  <div class="c-footer-logo">CASA DI LUSSO</div>
-  <div class="c-footer-mid">{ref} \u00b7 RC 143377 \u00b7 Tanger, {"Maroc" if fr else "Morocco"}</div>
-  <div class="c-footer-right">{version_str} \u00b7 {confid_label}</div>
-</div>
-
 </body>
 </html>"""
 
@@ -1438,8 +1458,8 @@ def _gen_contract_html(c, lang: str = "fr") -> str:
 class ContractPDFGenerator:
     """Generate a WeasyPrint PDF for a Contract instance."""
 
-    def __init__(self, contract, language: str = "fr"):
-        self.contract = contract
+    def __init__(self, contract: ContractDocumentLike, language: str = "fr") -> None:
+        self.contract: ContractDocumentLike = contract
         self.language = language
 
     def generate_response(self) -> HttpResponse:
@@ -1448,7 +1468,7 @@ class ContractPDFGenerator:
         html_content = _gen_contract_html(self.contract, self.language)
         pdf_bytes = weasyprint.HTML(string=html_content).write_pdf()
 
-        safe_ref = self.contract.numero_contrat.replace("/", "-")
+        safe_ref = (self.contract.numero_contrat or "").replace("/", "-")
         filename = f"contrat_{self.contract.id}_{safe_ref}.pdf"
         response = HttpResponse(pdf_bytes, content_type="application/pdf")
         response["Content-Disposition"] = f'inline; filename="{filename}"'

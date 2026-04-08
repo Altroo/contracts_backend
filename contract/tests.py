@@ -876,6 +876,13 @@ class TestCDLPDFGenerator:
         # Annexes text should appear (but any HTML in it escaped)
         assert "Plans architecturaux" in html
 
+    def test_html_uses_facturation_like_margins_and_no_version(self, cdl_contract):
+        from contract.pdf import _gen_contract_html
+
+        html = _gen_contract_html(cdl_contract, "fr")
+        assert "margin: 7mm 7mm 13mm 7mm;" in html
+        assert "v1.0" not in html
+
 
 # ══════════════════════════════════════════════════════════════════════════════
 #  INTEGRATION TESTS — CDL DOC Generator
@@ -978,6 +985,30 @@ class TestCDLDOCGenerator:
         gen = ContractDOCGenerator(cdl_minimal_contract, language="fr")
         response = gen.generate_response()
         assert response.status_code == 200
+
+    def test_docx_uses_facturation_like_margins_and_no_version(self, cdl_contract):
+        from docx import Document as DocxDocument
+
+        gen = ContractDOCGenerator(cdl_contract, language="fr")
+        response = gen.generate_response()
+        doc = DocxDocument(io.BytesIO(response.content))
+        section = doc.sections[0]
+
+        assert section.top_margin.cm == pytest.approx(0.7, abs=0.01)
+        assert section.bottom_margin.cm == pytest.approx(1.3, abs=0.01)
+        assert section.left_margin.cm == pytest.approx(0.7, abs=0.01)
+        assert section.right_margin.cm == pytest.approx(0.7, abs=0.01)
+
+        body_text = "\n".join(p.text for p in doc.paragraphs)
+        footer_text = "\n".join(p.text for p in section.footer.paragraphs)
+        for table in section.footer.tables:
+            for row in table.rows:
+                for cell in row.cells:
+                    footer_text += "\n" + cell.text
+
+        assert "v1.0" not in body_text
+        assert "v1.0" not in footer_text
+        assert "CONFIDENTIEL" in footer_text
 
 
 # ══════════════════════════════════════════════════════════════════════════════

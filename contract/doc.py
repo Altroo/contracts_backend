@@ -1,5 +1,8 @@
 # i18n: skip-file — bilingual document generator; FR+EN content is intentional
+from __future__ import annotations
+
 from io import BytesIO
+from typing import Any, TypeAlias
 
 from django.http import HttpResponse
 from docx import Document
@@ -9,6 +12,7 @@ from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
 from docx.shared import Pt, RGBColor, Cm
 
+from .document_types import ContractDocumentLike, PaymentTranche, PlanCard
 from .pdf import _fmt_date, _fmt_amt, _format_penalite_retard, _is_societe
 from .i18n import (
     TYPELABEL,
@@ -31,91 +35,103 @@ WHITE = RGBColor(0xFF, 0xFF, 0xFF)
 MUTED = RGBColor(0x6B, 0x6B, 0x80)
 BORDER_HEX = "E2D9C8"
 DARK_HEX = "0F0F1A"
+Segment: TypeAlias = str | tuple[str, bool] | tuple[str, bool, bool]
+BorderSpec: TypeAlias = tuple[str, int] | None
 
 
-def _cell_bg(cell, hex_color: str):
+def _cell_bg(cell: Any, hex_color: str) -> None:
     """Set table cell background fill."""
     tc = cell._tc
-    tcPr = tc.get_or_add_tcPr()
+    tc_pr = tc.get_or_add_tcPr()
     shd = OxmlElement("w:shd")
     shd.set(qn("w:val"), "clear")
     shd.set(qn("w:color"), "auto")
     shd.set(qn("w:fill"), hex_color)
-    tcPr.append(shd)
+    tc_pr.append(shd)
 
 
-def _para_bg(para, hex_color: str):
+def _para_bg(para: Any, hex_color: str) -> None:
     """Set paragraph shading (full-width highlight bar)."""
-    pPr = para._p.get_or_add_pPr()
+    p_pr = para._p.get_or_add_pPr()
     shd = OxmlElement("w:shd")
     shd.set(qn("w:val"), "clear")
     shd.set(qn("w:color"), "auto")
     shd.set(qn("w:fill"), hex_color)
-    pPr.append(shd)
+    p_pr.append(shd)
 
 
-def _para_border_left(para, color: str = "B8973A", size: str = "12"):
+def _para_border_left(
+    para: Any, color: str = "B8973A", size: str = "12"
+) -> None:
     """Add a left border to a paragraph (for highlight / art-title style)."""
-    pPr = para._p.get_or_add_pPr()
-    pBdr = OxmlElement("w:pBdr")
+    p_pr = para._p.get_or_add_pPr()
+    p_bdr = OxmlElement("w:pBdr")
     left = OxmlElement("w:left")
     left.set(qn("w:val"), "single")
     left.set(qn("w:sz"), size)
     left.set(qn("w:space"), "6")
     left.set(qn("w:color"), color)
-    pBdr.append(left)
-    pPr.append(pBdr)
+    p_bdr.append(left)
+    p_pr.append(p_bdr)
 
 
-def _para_border_bottom(para, color: str = "E2D9C8", size: str = "4"):
+def _para_border_bottom(
+    para: Any, color: str = "E2D9C8", size: str = "4"
+) -> None:
     """Add a bottom border to a paragraph."""
-    pPr = para._p.get_or_add_pPr()
-    pBdr = pPr.find(qn("w:pBdr"))
-    if pBdr is None:
-        pBdr = OxmlElement("w:pBdr")
-        pPr.append(pBdr)
+    p_pr = para._p.get_or_add_pPr()
+    p_bdr = p_pr.find(qn("w:pBdr"))
+    if p_bdr is None:
+        p_bdr = OxmlElement("w:pBdr")
+        p_pr.append(p_bdr)
     bot = OxmlElement("w:bottom")
     bot.set(qn("w:val"), "single")
     bot.set(qn("w:sz"), size)
     bot.set(qn("w:space"), "1")
     bot.set(qn("w:color"), color)
-    pBdr.append(bot)
+    p_bdr.append(bot)
 
 
-def _para_border_top(para, color: str = "EEEEEE", size: str = "4"):
+def _para_border_top(para: Any, color: str = "EEEEEE", size: str = "4") -> None:
     """Add a top border to a paragraph."""
-    pPr = para._p.get_or_add_pPr()
-    pBdr = pPr.find(qn("w:pBdr"))
-    if pBdr is None:
-        pBdr = OxmlElement("w:pBdr")
-        pPr.append(pBdr)
+    p_pr = para._p.get_or_add_pPr()
+    p_bdr = p_pr.find(qn("w:pBdr"))
+    if p_bdr is None:
+        p_bdr = OxmlElement("w:pBdr")
+        p_pr.append(p_bdr)
     top = OxmlElement("w:top")
     top.set(qn("w:val"), "single")
     top.set(qn("w:sz"), size)
     top.set(qn("w:space"), "1")
     top.set(qn("w:color"), color)
-    pBdr.append(top)
+    p_bdr.append(top)
 
 
-def _para_box_borders(para, color: str = "E2D9C8", size: str = "4"):
+def _para_box_borders(para: Any, color: str = "E2D9C8", size: str = "4") -> None:
     """Wrap paragraph in a full box border (all 4 sides)."""
-    pPr = para._p.get_or_add_pPr()
-    pBdr = OxmlElement("w:pBdr")
+    p_pr = para._p.get_or_add_pPr()
+    p_bdr = OxmlElement("w:pBdr")
     for side in ("top", "left", "bottom", "right"):
         el = OxmlElement(f"w:{side}")
         el.set(qn("w:val"), "single")
         el.set(qn("w:sz"), size)
         el.set(qn("w:space"), "4")
         el.set(qn("w:color"), color)
-        pBdr.append(el)
-    pPr.append(pBdr)
+        p_bdr.append(el)
+    p_pr.append(p_bdr)
 
 
-def _cell_borders(cell, top=None, bottom=None, left=None, right=None):
+def _cell_borders(
+    cell: Any,
+    top: BorderSpec = None,
+    bottom: BorderSpec = None,
+    left: BorderSpec = None,
+    right: BorderSpec = None,
+) -> None:
     """Set individual cell borders.  Each arg is a (color, size) tuple or None."""
     tc = cell._tc
-    tcPr = tc.get_or_add_tcPr()
-    tcBorders = OxmlElement("w:tcBorders")
+    tc_pr = tc.get_or_add_tcPr()
+    tc_borders = OxmlElement("w:tcBorders")
     for side, val in [
         ("top", top),
         ("bottom", bottom),
@@ -128,47 +144,47 @@ def _cell_borders(cell, top=None, bottom=None, left=None, right=None):
             el.set(qn("w:sz"), str(val[1]))
             el.set(qn("w:space"), "0")
             el.set(qn("w:color"), val[0])
-            tcBorders.append(el)
+            tc_borders.append(el)
         else:
             el = OxmlElement(f"w:{side}")
             el.set(qn("w:val"), "nil")
-            tcBorders.append(el)
-    tcPr.append(tcBorders)
+            tc_borders.append(el)
+    tc_pr.append(tc_borders)
 
 
-def _set_cell_width(cell, cm_val):
+def _set_cell_width(cell: Any, cm_val: float | int) -> None:
     """Set explicit cell width."""
     tc = cell._tc
-    tcPr = tc.get_or_add_tcPr()
-    tcW = OxmlElement("w:tcW")
-    tcW.set(qn("w:w"), str(int(cm_val * 567)))
-    tcW.set(qn("w:type"), "dxa")
-    tcPr.append(tcW)
+    tc_pr = tc.get_or_add_tcPr()
+    tc_w = OxmlElement("w:tcW")
+    tc_w.set(qn("w:w"), str(int(cm_val * 567)))
+    tc_w.set(qn("w:type"), "dxa")
+    tc_pr.append(tc_w)
 
 
-def _remove_table_borders(table):
+def _remove_table_borders(table: Any) -> None:
     """Remove all borders from a table."""
     tbl = table._tbl
-    tblPr = tbl.tblPr if tbl.tblPr is not None else OxmlElement("w:tblPr")
+    tbl_pr = tbl.tblPr if tbl.tblPr is not None else OxmlElement("w:tblPr")
     borders = OxmlElement("w:tblBorders")
     for side in ("top", "left", "bottom", "right", "insideH", "insideV"):
         el = OxmlElement(f"w:{side}")
         el.set(qn("w:val"), "nil")
         borders.append(el)
-    tblPr.append(borders)
+    tbl_pr.append(borders)
 
 
-def _set_row_height(row, pt_val):
+def _set_row_height(row: Any, pt_val: float | int) -> None:
     """Set minimum row height."""
     tr = row._tr
-    trPr = tr.get_or_add_trPr()
-    trH = OxmlElement("w:trHeight")
-    trH.set(qn("w:val"), str(int(pt_val * 20)))
-    trH.set(qn("w:hRule"), "atLeast")
-    trPr.append(trH)
+    tr_pr = tr.get_or_add_trPr()
+    tr_h = OxmlElement("w:trHeight")
+    tr_h.set(qn("w:val"), str(int(pt_val * 20)))
+    tr_h.set(qn("w:hRule"), "atLeast")
+    tr_pr.append(tr_h)
 
 
-def _run_shd(run, hex_color: str):
+def _run_shd(run: Any, hex_color: str) -> None:
     """Apply a character-level shading (badge background) to a run."""
     rPr = run._r.get_or_add_rPr()
     shd = OxmlElement("w:shd")
@@ -181,19 +197,20 @@ def _run_shd(run, hex_color: str):
 class ContractDOCGenerator:
     """Generate a python-docx DOCX for a Contract instance, matching the PDF output."""
 
-    def __init__(self, contract, language: str = "fr"):
-        self.contract = contract
+    def __init__(self, contract: ContractDocumentLike, language: str = "fr") -> None:
+        self.contract: ContractDocumentLike = contract
         self.language = language
         self.fr = language == "fr"
         self.doc = Document()
         self._configure_page()
 
-    def _configure_page(self):
+    def _configure_page(self) -> None:
         section = self.doc.sections[0]
-        section.top_margin = Cm(1.8)
-        section.bottom_margin = Cm(2.2)
-        section.left_margin = Cm(1.8)
-        section.right_margin = Cm(1.8)
+        section.top_margin = Cm(0.7)
+        section.bottom_margin = Cm(1.3)
+        section.left_margin = Cm(0.7)
+        section.right_margin = Cm(0.7)
+        section.footer_distance = Cm(0.4)
 
         # Explicit Normal-style defaults
         normal = self.doc.styles["Normal"]
@@ -301,7 +318,7 @@ class ContractDOCGenerator:
         return p
 
     def _sub_title(self, text):
-        """Sub-section title (e.g. 12.1 – …)."""
+        """Subsection title (e.g. 12.1 – …)."""
         p = self.doc.add_paragraph()
         p.paragraph_format.space_before = Pt(6)
         p.paragraph_format.space_after = Pt(2)
@@ -344,7 +361,7 @@ class ContractDOCGenerator:
             sr.font.color.rgb = GOLD
             _run_shd(sr, DARK_HEX)
 
-    def _plan_grid(self, cards):
+    def _plan_grid(self, cards: list[PlanCard]) -> None:
         """Planning info cards rendered as a mini-table.
 
         *cards*: list of ``{"label": ..., "val": ...}`` dicts.
@@ -390,7 +407,13 @@ class ContractDOCGenerator:
             vr.font.color.rgb = INK
         self.doc.add_paragraph().paragraph_format.space_after = Pt(2)
 
-    def _pay_table(self, tranches, montant_ttc, tot_pct, devise):
+    def _pay_table(
+        self,
+        tranches: list[PaymentTranche],
+        montant_ttc: float,
+        tot_pct: float,
+        devise: str,
+    ) -> None:
         """Payment schedule table (dark header, striped rows, gold footer)."""
         headers = ["#", "Description", "%", "Montant" if self.fr else "Amount"]
         data_rows = []
@@ -500,7 +523,13 @@ class ContractDOCGenerator:
         p.paragraph_format.space_after = Pt(12)
         _para_border_bottom(p, "B8973A", "12")
 
-    def _add_header(self, c, ref, date_str, version_str, confid_label, ville):
+    def _add_header(
+        self,
+        ref: str,
+        date_str: str,
+        confid_label: str,
+        ville: str,
+    ) -> None:
         table = self.doc.add_table(rows=1, cols=2)
         table.alignment = WD_TABLE_ALIGNMENT.LEFT
         _remove_table_borders(table)
@@ -546,9 +575,9 @@ class ContractDOCGenerator:
             ir.font.size = Pt(7)
             ir.font.color.rgb = RGBColor(0xBB, 0xBB, 0xBB)
 
-        if c.responsable_projet:
+        if self.contract.responsable_projet:
             rp_label = "Chef de projet" if self.fr else "Project Manager"
-            rp = info.add_run(f"{rp_label} : {c.responsable_projet}")
+            rp = info.add_run(f"{rp_label} : {self.contract.responsable_projet}")
             rp.font.size = Pt(7)
             rp.font.color.rgb = MUTED
             rp.bold = True
@@ -573,7 +602,6 @@ class ContractDOCGenerator:
         date_p.paragraph_format.space_after = Pt(0)
         for label, val in [
             ("Date :", date_str),
-            ("Version :", version_str),
             ("Classe :" if self.fr else "Class :", confid_label),
         ]:
             lr = date_p.add_run(label + " ")
@@ -891,16 +919,29 @@ class ContractDOCGenerator:
         ir.font.size = Pt(8)
         ir.font.color.rgb = MUTED
 
-    def _add_footer(self, ref, version_str, confid_label):
-        sep = self.doc.add_paragraph()
-        sep.paragraph_format.space_before = Pt(10)
-        sep.paragraph_format.space_after = Pt(4)
-        _para_border_bottom(sep, BORDER_HEX, "2")
+    def _add_footer(self, ref: str, confid_label: str) -> None:
+        section = self.doc.sections[0]
+        footer = section.footer
+        footer_width = Cm(
+            section.page_width.cm - section.left_margin.cm - section.right_margin.cm
+        )
 
-        ft = self.doc.add_table(rows=1, cols=3)
+        sep = footer.paragraphs[0] if footer.paragraphs else footer.add_paragraph()
+        sep.paragraph_format.space_before = Pt(0)
+        sep.paragraph_format.space_after = Pt(3)
+        _para_border_top(sep, BORDER_HEX, "2")
+
+        ft = footer.add_table(
+            rows=1,
+            cols=3,
+            width=footer_width,
+        )
         _remove_table_borders(ft)
+        ft.alignment = WD_TABLE_ALIGNMENT.LEFT
 
         fp = ft.rows[0].cells[0].paragraphs[0]
+        fp.paragraph_format.space_before = Pt(0)
+        fp.paragraph_format.space_after = Pt(0)
         fr1 = fp.add_run("CASA DI LUSSO")
         fr1.font.size = Pt(10)
         fr1.bold = True
@@ -908,6 +949,8 @@ class ContractDOCGenerator:
 
         cp = ft.rows[0].cells[1].paragraphs[0]
         cp.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        cp.paragraph_format.space_before = Pt(0)
+        cp.paragraph_format.space_after = Pt(0)
         cr = cp.add_run(
             f"{ref} \u00b7 RC 143377 \u00b7 Tanger, {'Maroc' if self.fr else 'Morocco'}"
         )
@@ -916,7 +959,9 @@ class ContractDOCGenerator:
 
         rp2 = ft.rows[0].cells[2].paragraphs[0]
         rp2.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-        rr = rp2.add_run(f"{version_str} \u00b7 {confid_label}")
+        rp2.paragraph_format.space_before = Pt(0)
+        rp2.paragraph_format.space_after = Pt(0)
+        rr = rp2.add_run(confid_label)
         rr.font.size = Pt(7)
         rr.font.color.rgb = RGBColor(0xBB, 0xBB, 0xBB)
 
@@ -2757,7 +2802,7 @@ class ContractDOCGenerator:
             )
 
         self._next_art("R\u00c9SILIATION DU CONTRAT" if fr else "CONTRACT TERMINATION")
-        _rn = self._n  # capture dynamic article number for sub-sections
+        _rn = self._n  # capture dynamic article number for subsections
         self._sub_title(
             f"{_rn}.1 \u2013 R\u00e9siliation \u00e0 l\u2019initiative du Client"
             if fr
@@ -3086,7 +3131,7 @@ class ContractDOCGenerator:
                 c.annexes,
             )
 
-    def _build(self):
+    def _build(self) -> None:
         c = self.contract
         lang = self.language
         fr = self.fr
@@ -3098,7 +3143,6 @@ class ContractDOCGenerator:
             c.type_contrat or "travaux_finition", c.type_contrat or ""
         )
         date_str = _fmt_date(c.date_contrat)
-        version_str = "v1.0 \u2013 D\u00e9finitif" if fr else "v1.0 \u2013 Final"
         ville = c.ville_signature if c.ville_signature else "Tanger"
         ref = c.numero_contrat or ""
 
@@ -3135,7 +3179,7 @@ class ContractDOCGenerator:
 
         # ── assemble ──
         self._add_top_strip()
-        self._add_header(c, ref, date_str, version_str, confid_label, ville)
+        self._add_header(ref, date_str, confid_label, ville)
         self._add_confidential()
         self._add_title_block(ctype_display)
         self._add_parties(
@@ -3153,7 +3197,7 @@ class ContractDOCGenerator:
 
         # Signatures & footer
         self._add_signatures(ville, date_str, sig_name, sig_role)
-        self._add_footer(ref, version_str, confid_label)
+        self._add_footer(ref, confid_label)
 
     def generate_response(self) -> HttpResponse:
         self._build()
