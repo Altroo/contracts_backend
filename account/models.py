@@ -27,7 +27,10 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         _("Prénom"), max_length=30, blank=True, help_text=_("Prénom de l'utilisateur")
     )
     last_name = models.CharField(
-        _("Nom"), max_length=30, blank=True, help_text=_("Nom de famille de l'utilisateur")
+        _("Nom"),
+        max_length=30,
+        blank=True,
+        help_text=_("Nom de famille de l'utilisateur"),
     )
     GENDER_CHOICES = (("", _("Unset")), ("H", _("Homme")), ("F", _("Femme")))
     gender = models.CharField(
@@ -58,7 +61,9 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         _("Statut personnel"),
         default=False,
         db_index=True,
-        help_text=_("Indique si l'utilisateur peut se connecter au panneau d'administration."),
+        help_text=_(
+            "Indique si l'utilisateur peut se connecter au panneau d'administration."
+        ),
     )
     is_active = models.BooleanField(
         _("Actif"),
@@ -83,7 +88,9 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         blank=True,
         null=True,
         db_index=True,
-        help_text=_("Code de réinitialisation du mot de passe (généré automatiquement)."),
+        help_text=_(
+            "Code de réinitialisation du mot de passe (généré automatiquement)."
+        ),
     )
     password_reset_code_created_at = models.DateTimeField(
         verbose_name=_("Mot de passe - Date de création du code"),
@@ -99,7 +106,9 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         null=True,
         blank=True,
         db_index=True,
-        help_text=_("Identifiant de la tâche Celery de réinitialisation du mot de passe."),
+        help_text=_(
+            "Identifiant de la tâche Celery de réinitialisation du mot de passe."
+        ),
     )
     default_password_set = models.BooleanField(
         verbose_name=_("Mot de passe par défaut défini"),

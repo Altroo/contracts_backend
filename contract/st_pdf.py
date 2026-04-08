@@ -4,6 +4,7 @@ contract/st_pdf.py
 Generates a full Sous-Traitance contract PDF using WeasyPrint + inline HTML/CSS.
 Uses CDL branding (dark #0F0F1A + gold #B8973A, Cormorant Garamond + Inter fonts).
 """
+
 # i18n: skip-file — bilingual document generator; FR+EN content is intentional
 
 from datetime import datetime

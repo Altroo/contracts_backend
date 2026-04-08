@@ -55,6 +55,8 @@ urlpatterns = [
     path("api/account/", include("account.urls")),
     # Contract
     path("api/contract/", include("contract.urls")),
+    # Notifications
+    path("api/notifications/", include("notification.urls")),
     # Company config
     path("api/company-config/", include("core.urls")),
     # WS maintenance bootstrap
@@ -68,4 +70,3 @@ urlpatterns += [
     re_path(r"^media/(?P<path>.*)$", serve, {"document_root": settings.MEDIA_ROOT}),
     re_path(r"^static/(?P<path>.*)$", serve, {"document_root": settings.STATIC_ROOT}),
 ]
-

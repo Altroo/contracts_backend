@@ -45,7 +45,9 @@ class Project(models.Model):
         verbose_name=_("Type de projet"),
     )
     description = models.TextField(blank=True, null=True, verbose_name=_("Description"))
-    adresse = models.TextField(blank=True, null=True, verbose_name=_("Adresse du projet"))
+    adresse = models.TextField(
+        blank=True, null=True, verbose_name=_("Adresse du projet")
+    )
     maitre_ouvrage = models.CharField(
         max_length=300, blank=True, null=True, verbose_name=_("Maître d'ouvrage")
     )
@@ -71,7 +73,8 @@ class Project(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
     history = HistoricalRecords(
-        verbose_name=_("Historique Projet"), verbose_name_plural=_("Historiques Projets")
+        verbose_name=_("Historique Projet"),
+        verbose_name_plural=_("Historiques Projets"),
     )
 
     class Meta:
@@ -384,7 +387,9 @@ class Contract(models.Model):
         null=True,
         verbose_name=_("Clause de résiliation"),
     )
-    notes = models.TextField(blank=True, null=True, verbose_name=_("Notes & Observations"))
+    notes = models.TextField(
+        blank=True, null=True, verbose_name=_("Notes & Observations")
+    )
 
     # ── Sous-Traitance specific fields ───────────────────────────────────────
     st_projet = models.ForeignKey(
@@ -428,7 +433,9 @@ class Contract(models.Model):
     st_cnss = models.CharField(
         max_length=100, blank=True, null=True, verbose_name=_("CNSS ST")
     )
-    st_addr = models.TextField(blank=True, null=True, verbose_name=_("Adresse siège ST"))
+    st_addr = models.TextField(
+        blank=True, null=True, verbose_name=_("Adresse siège ST")
+    )
     st_rep = models.CharField(
         max_length=300, blank=True, null=True, verbose_name=_("Représentant ST")
     )

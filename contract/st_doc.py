@@ -4,6 +4,7 @@ contract/st_doc.py
 Generates a Sous-Traitance DOCX using python-docx with CDL branding
 (dark #0F0F1A + gold #B8973A, Cormorant Garamond + Inter).
 """
+
 # i18n: skip-file — bilingual document generator; FR+EN content is intentional
 
 from datetime import datetime
@@ -593,7 +594,9 @@ class SousTraitanceDOCGenerator:
         lot_keys = _resolve_lot_keys(c.st_lot_type)
         lot_key = lot_keys[0] if lot_keys else ""
         labels_map = LOT_LABELS.get(lang, LOT_LABELS["fr"])
-        lot_label = " / ".join(labels_map.get(k, k) for k in lot_keys) if lot_keys else ""
+        lot_label = (
+            " / ".join(labels_map.get(k, k) for k in lot_keys) if lot_keys else ""
+        )
         lot_desc = c.st_lot_description or LOT_DESC_DEFAULT.get(
             lang, LOT_DESC_DEFAULT["fr"]
         ).get(lot_key, "")

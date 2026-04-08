@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "account.apps.AccountConfig",
     "core.apps.CoreConfig",
     "contract.apps.ContractConfig",
+    "notification.apps.NotificationConfig",
     "axes",
 ]
 

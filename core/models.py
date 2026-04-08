@@ -28,9 +28,14 @@ class CompanyConfig(models.Model):
     rc = models.CharField(
         max_length=100, blank=True, default="", verbose_name=_("Registre de Commerce")
     )
-    ice = models.CharField(max_length=100, blank=True, default="", verbose_name=_("ICE"))
+    ice = models.CharField(
+        max_length=100, blank=True, default="", verbose_name=_("ICE")
+    )
     identifiant_fiscal = models.CharField(
-        max_length=100, blank=True, default="", verbose_name=_("Identifiant Fiscal (IF)")
+        max_length=100,
+        blank=True,
+        default="",
+        verbose_name=_("Identifiant Fiscal (IF)"),
     )
     adresse = models.TextField(
         blank=True, default="", verbose_name=_("Adresse du siège social")

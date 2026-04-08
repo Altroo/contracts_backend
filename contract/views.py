@@ -137,8 +137,13 @@ class ContractStatusUpdateView(APIView):
         valid_statuses = [choice[0] for choice in contract.STATUT_CHOICES]
         if new_status not in valid_statuses:
             raise ValidationError({"statut": _("Statut invalide.")})
+        old_statut = contract.statut
         contract.statut = new_status
         contract.save(update_fields=["statut"])
+        if old_statut != new_status:
+            from notification.tasks import notify_contract_status_change
+
+            notify_contract_status_change(contract, old_statut, new_status)
         return Response({"statut": contract.statut}, status=status.HTTP_200_OK)
 
 

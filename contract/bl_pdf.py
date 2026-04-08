@@ -439,7 +439,9 @@ class BluelinePDFGenerator:
         g_nb = int(c.garantie_nb or 0)
         g_text = _garantie_text(c, lang)
         garantie_type = (c.garantie_type or "").strip()
-        garantie_type_labels = GARANTIE_TYPE_LABELS.get(lang, GARANTIE_TYPE_LABELS["fr"])
+        garantie_type_labels = GARANTIE_TYPE_LABELS.get(
+            lang, GARANTIE_TYPE_LABELS["fr"]
+        )
         garantie_type_text = garantie_type_labels.get(garantie_type, garantie_type)
         garantie_full_text = g_text
         if g_nb > 0 and garantie_type_text and garantie_type != "aucune":

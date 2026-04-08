@@ -219,14 +219,18 @@ class ContractSerializer(serializers.ModelSerializer):
         if self.instance:
             qs = qs.exclude(pk=self.instance.pk)
         if qs.exists():
-            raise serializers.ValidationError(_("Un contrat avec ce numéro existe déjà."))
+            raise serializers.ValidationError(
+                _("Un contrat avec ce numéro existe déjà.")
+            )
         return value
 
     def validate(self, attrs):
         """Cross-field validation."""
         company = attrs.get(
             "company",
-            getattr(self.instance, "company", Contract._meta.get_field("company").default),
+            getattr(
+                self.instance, "company", Contract._meta.get_field("company").default
+            ),
         )
         contract_category = attrs.get(
             "contract_category",

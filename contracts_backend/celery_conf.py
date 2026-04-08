@@ -3,6 +3,7 @@ from __future__ import absolute_import, unicode_literals
 from os import environ
 
 from celery import Celery
+from celery.schedules import crontab
 from django.conf import settings
 
 environ.setdefault("DJANGO_SETTINGS_MODULE", "contracts_backend.settings")
@@ -17,5 +18,13 @@ app.conf.accept_content = ["json"]
 app.autodiscover_tasks(
     packages=[
         "account.tasks",
+        "notification.tasks",
     ]
 )
+
+app.conf.beat_schedule = {
+    "check-contract-notifications-every-hour": {
+        "task": "notification.check_contract_notifications",
+        "schedule": crontab(minute=0),  # every hour
+    },
+}
