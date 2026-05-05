@@ -441,10 +441,20 @@ class ProfileView(APIView):
             user_data = {
                 **serializer.data,
                 "id": updated_account.pk,
+                "email": updated_account.email,
                 "avatar": updated_account.get_absolute_avatar_img,
                 "avatar_cropped": updated_account.get_absolute_avatar_cropped_img,
                 "date_joined": updated_account.date_joined,
+                "date_updated": updated_account.date_updated,
+                "last_login": updated_account.last_login,
                 "is_staff": updated_account.is_staff,
+                "is_active": updated_account.is_active,
+                "default_password_set": updated_account.default_password_set,
+                "can_view": updated_account.can_view,
+                "can_print": updated_account.can_print,
+                "can_create": updated_account.can_create,
+                "can_edit": updated_account.can_edit,
+                "can_delete": updated_account.can_delete,
             }
             return Response(user_data, status=status.HTTP_200_OK)
         raise ValidationError(serializer.errors)

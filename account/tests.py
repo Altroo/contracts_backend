@@ -484,8 +484,74 @@ class TestAccountAPIExtras:
         url = reverse("account:profil")
         resp = self.auth_client.get(url)
         assert resp.status_code == 200
-        for key in ("id", "is_staff", "date_joined", "last_login"):
+        for key in (
+            "id",
+            "is_staff",
+            "date_joined",
+            "last_login",
+            "can_view",
+            "can_print",
+            "can_create",
+            "can_edit",
+            "can_delete",
+        ):
             assert key in resp.data
+
+    def test_regular_profile_returns_granted_permission_flags(self):
+        user = self.user_model.objects.create_user(
+            email="regular-profile@example.com",
+            password="securepass123",
+            is_staff=False,
+            can_view=True,
+            can_print=False,
+            can_create=True,
+            can_edit=True,
+            can_delete=False,
+        )
+        client = APIClient()
+        client.credentials(
+            HTTP_AUTHORIZATION=f"Bearer {str(AccessToken.for_user(user))}"
+        )
+        url = reverse("account:profil")
+        resp = client.get(url)
+
+        assert resp.status_code == 200
+        assert resp.data["is_staff"] is False
+        assert resp.data["can_view"] is True
+        assert resp.data["can_print"] is False
+        assert resp.data["can_create"] is True
+        assert resp.data["can_edit"] is True
+        assert resp.data["can_delete"] is False
+
+    def test_patch_profile_preserves_permission_flags_in_response(self):
+        user = self.user_model.objects.create_user(
+            email="regular-profile-patch@example.com",
+            password="securepass123",
+            is_staff=False,
+            can_view=True,
+            can_print=True,
+            can_create=True,
+            can_edit=False,
+            can_delete=False,
+        )
+        client = APIClient()
+        client.credentials(
+            HTTP_AUTHORIZATION=f"Bearer {str(AccessToken.for_user(user))}"
+        )
+        url = reverse("account:profil")
+        resp = client.patch(
+            url,
+            {"first_name": "Regular", "last_name": "Profile", "gender": "Homme"},
+        )
+
+        assert resp.status_code == 200
+        assert resp.data["first_name"] == "Regular"
+        assert resp.data["is_staff"] is False
+        assert resp.data["can_view"] is True
+        assert resp.data["can_print"] is True
+        assert resp.data["can_create"] is True
+        assert resp.data["can_edit"] is False
+        assert resp.data["can_delete"] is False
 
 
 def test_send_email_task_updates_user_and_sends_mail():
@@ -1366,6 +1432,11 @@ class TestUserDetailSerializerExtra:
     def test_get_gender_female(self, user_extra):
         user_extra.gender = "F"
         assert UserDetailSerializer.get_gender(user_extra) == "Femme"
+
+    def test_profile_get_includes_permission_flags(self, user_extra):
+        data = ProfileGETSerializer(instance=user_extra).data
+        for field in ("can_view", "can_print", "can_create", "can_edit", "can_delete"):
+            assert field in data
 
     def test_includes_permission_flags(self, user_extra):
         data = UserDetailSerializer(instance=user_extra).data

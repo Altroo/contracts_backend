@@ -238,6 +238,11 @@ class ProfileGETSerializer(serializers.ModelSerializer):
             "default_password_set",
             "date_joined",
             "last_login",
+            "can_view",
+            "can_print",
+            "can_create",
+            "can_edit",
+            "can_delete",
         ]
 
 
