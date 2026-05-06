@@ -13,7 +13,7 @@ from docx.oxml import OxmlElement
 from docx.shared import Pt, RGBColor, Cm
 
 from .document_types import ContractDocumentLike, PaymentTranche, PlanCard
-from .pdf import _fmt_date, _fmt_amt, _format_penalite_retard, _is_societe
+from .pdf import _fmt_date, _fmt_amt, _format_penalite_retard, _has_penalite_retard, _is_societe
 from .i18n import (
     TYPELABEL,
     TYPE_BIEN_LABELS,
@@ -1772,18 +1772,29 @@ class ContractDOCGenerator:
                 else " and teams removed from site;"
             ),
         )
-        self._subbullet(
-            ("Des " if fr else ""),
-            ("p\u00e9nalit\u00e9s de retard" if fr else "Late payment penalties", True),
-            (" de " if fr else " of "),
-            (penalite, True),
-            (
-                " de retard sont automatiquement applicables sur les sommes "
-                "dues\u202f;"
-                if fr
-                else " automatically apply on overdue amounts;"
-            ),
-        )
+        if _has_penalite_retard(c):
+            self._subbullet(
+                ("Des " if fr else ""),
+                ("p\u00e9nalit\u00e9s de retard" if fr else "Late payment penalties", True),
+                (" de " if fr else " of "),
+                (penalite, True),
+                (
+                    " de retard sont automatiquement applicables sur les sommes "
+                    "dues\u202f;"
+                    if fr
+                    else " automatically apply on overdue amounts;"
+                ),
+            )
+        else:
+            self._subbullet(
+                ("Aucune " if fr else "No "),
+                ("p\u00e9nalit\u00e9 de retard" if fr else "late payment penalty", True),
+                (
+                    " n\u2019est appliqu\u00e9e sur les sommes dues\u202f;"
+                    if fr
+                    else " applies on overdue amounts;"
+                ),
+            )
         if c.frais_redemarrage:
             self._subbullet(
                 ("Des " if fr else ""),

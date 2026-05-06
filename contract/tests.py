@@ -835,6 +835,17 @@ class TestCDLPDFGenerator:
         assert "0.01% par jour" in html
         assert "30" in html
 
+    def test_html_renders_no_penalty_when_penalty_is_zero(self, cdl_contract):
+        from contract.pdf import _gen_contract_html
+
+        cdl_contract.penalite_retard = Decimal("0.00")
+        cdl_contract.penalite_retard_unite = "mad_per_day"
+        cdl_contract.save()
+
+        html = _gen_contract_html(cdl_contract, "fr")
+        assert "Aucune <strong>p\u00e9nalit\u00e9 de retard</strong>" in html
+        assert "0 MAD par jour" not in html
+
     def test_html_contains_tribunal(self, cdl_contract):
         from contract.pdf import _gen_contract_html
 
@@ -980,6 +991,20 @@ class TestCDLDOCGenerator:
         doc = DocxDocument(io.BytesIO(response.content))
         full_text = "\n".join(p.text for p in doc.paragraphs)
         assert "0.01% par jour" in full_text
+
+    def test_docx_renders_no_penalty_when_penalty_is_zero(self, cdl_contract):
+        from docx import Document as DocxDocument
+
+        cdl_contract.penalite_retard = Decimal("0.00")
+        cdl_contract.penalite_retard_unite = "mad_per_day"
+        cdl_contract.save()
+
+        gen = ContractDOCGenerator(cdl_contract, language="fr")
+        response = gen.generate_response()
+        doc = DocxDocument(io.BytesIO(response.content))
+        full_text = "\n".join(p.text for p in doc.paragraphs)
+        assert "Aucune p\u00e9nalit\u00e9 de retard" in full_text
+        assert "0 MAD par jour" not in full_text
 
     def test_minimal_contract_generates(self, cdl_minimal_contract):
         gen = ContractDOCGenerator(cdl_minimal_contract, language="fr")

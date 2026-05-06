@@ -48,10 +48,21 @@ def _fmt_amt(n: NumericLike, dev: str = "MAD") -> str:
 
 def _format_penalite_retard(c: ContractDocumentLike, lang: str) -> str:
     unite = getattr(c, "penalite_retard_unite", "mad_per_day") or "mad_per_day"
-    penalite = float(c.penalite_retard or 1.5)
+    penalite = _get_penalite_retard_value(c)
     if unite == "percent_per_day":
         return f"{penalite:g}% par jour" if lang == "fr" else f"{penalite:g}% per day"
     return f"{penalite:g} MAD par jour" if lang == "fr" else f"{penalite:g} MAD per day"
+
+
+def _get_penalite_retard_value(c: ContractDocumentLike) -> float:
+    try:
+        return float(getattr(c, "penalite_retard", 0) or 0)
+    except (TypeError, ValueError):
+        return 0.0
+
+
+def _has_penalite_retard(c: ContractDocumentLike) -> bool:
+    return _get_penalite_retard_value(c) > 0
 
 
 def _esc(text: object | None) -> str:
@@ -624,6 +635,29 @@ def _build_articles(
     rib_str = f" \u2014 {_esc(c.rib)}" if c.rib else ""
     delai_ret = c.delai_retard if c.delai_retard is not None else 5
     penalite_label = _format_penalite_retard(c, lang)
+    has_penalite = _has_penalite_retard(c)
+    if fr:
+        if has_penalite:
+            penalite_li = (
+                f"<li>Des <strong>p\u00e9nalit\u00e9s de retard</strong> de "
+                f"<strong>{penalite_label}</strong> de retard sont automatiquement applicables "
+                f"sur les sommes dues\u202f;</li>"
+            )
+        else:
+            penalite_li = (
+                "<li>Aucune <strong>p\u00e9nalit\u00e9 de retard</strong> n\u2019est "
+                "appliqu\u00e9e sur les sommes dues\u202f;</li>"
+            )
+    else:
+        if has_penalite:
+            penalite_li = (
+                f"<li><strong>Late payment penalties</strong> of "
+                f"<strong>{penalite_label}</strong> automatically apply on overdue amounts;</li>"
+            )
+        else:
+            penalite_li = (
+                "<li>No <strong>late payment penalty</strong> applies on overdue amounts;</li>"
+            )
     frais_li = (
         (
             f"<li>Des <strong>frais de red\u00e9marrage</strong> d\u2019un montant de "
@@ -667,7 +701,7 @@ def _build_articles(
           <li>En cas de retard de paiement sup\u00e9rieur \u00e0 <strong>{delai_ret} jours</strong> calendaires\u202f:
             <ul>
               <li>Les travaux sont <strong>imm\u00e9diatement suspendus</strong> et les \u00e9quipes retir\u00e9es du chantier\u202f;</li>
-              <li>Des <strong>p\u00e9nalit\u00e9s de retard</strong> de <strong>{penalite_label}</strong> de retard sont automatiquement applicables sur les sommes dues\u202f;</li>
+              {penalite_li}
               {frais_li}
               <li>Le planning est automatiquement r\u00e9vis\u00e9 sans droit \u00e0 indemnit\u00e9 pour le Client.</li>
             </ul>
@@ -692,7 +726,7 @@ def _build_articles(
           <li>In case of payment delay exceeding <strong>{delai_ret} calendar days</strong>:
             <ul>
               <li>Works are <strong>immediately suspended</strong> and teams removed from site;</li>
-              <li><strong>Late payment penalties</strong> of <strong>{penalite_label}</strong> automatically apply on overdue amounts;</li>
+              {penalite_li}
               {frais_li}
               <li>The schedule is automatically revised with no right to compensation for the Client.</li>
             </ul>
