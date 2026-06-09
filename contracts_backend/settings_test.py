@@ -42,3 +42,10 @@ ACCOUNT_DEFAULT_HTTP_PROTOCOL = "http"
 
 # Disable throttling in tests
 REST_FRAMEWORK["DEFAULT_THROTTLE_CLASSES"] = []  # noqa: F405
+REST_FRAMEWORK["DEFAULT_THROTTLE_RATES"] = {  # noqa: F405
+    **REST_FRAMEWORK.get("DEFAULT_THROTTLE_RATES", {}),
+    "anon": "100000/minute",
+    "user": "100000/minute",
+    "login": "100000/minute",
+    "password_reset": "100000/minute",
+}
