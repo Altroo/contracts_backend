@@ -204,3 +204,21 @@ def test_configured_gateway_identity_matches_this_application():
     from contracts_backend import settings as application_settings
 
     assert application_settings.AI_ASSISTANT_SERVICE_NAME == "contracts"
+
+
+@pytest.mark.parametrize(
+    "value,english",
+    [("CONFIDENTIEL", "CONFIDENTIAL"), ("USAGE INTERNE", "INTERNAL USE")],
+)
+def test_english_pdf_translates_confidentiality_labels(value, english):
+    from datetime import date
+    from contract.models import Contract
+    from contract.pdf import _gen_contract_html
+
+    contract = Contract(
+        numero_contrat="QA-TEST", date_contrat=date(2026, 10, 7), confidentialite=value
+    )
+    english_html = _gen_contract_html(contract, "en")
+    assert english in english_html
+    assert value not in english_html
+    assert value in _gen_contract_html(contract, "fr")

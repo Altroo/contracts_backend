@@ -1272,6 +1272,11 @@ def _gen_contract_html(c: ContractDocumentLike, lang: str = "fr") -> str:
     confid_label = CONFID_LABELS.get(
         c.confidentialite or "confidentiel", "CONFIDENTIEL"
     )
+    if not fr:
+        confid_label = {
+            "CONFIDENTIEL": "CONFIDENTIAL",
+            "USAGE INTERNE": "INTERNAL USE",
+        }.get(confid_label, confid_label)
     ctype_display = CTYPES_DISPLAY[lang].get(
         c.type_contrat or "travaux_finition", c.type_contrat or ""
     )
