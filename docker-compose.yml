@@ -28,7 +28,6 @@ services:
       - .env
     volumes:
       - ./media:/app/media
-      - ./static:/app/static
     depends_on:
       db:
         condition: service_healthy
@@ -82,7 +81,6 @@ services:
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
     volumes:
       - ./media:/app/media
-      - ./static:/app/static
 
 volumes:
   contracts_db_data:
@@ -91,4 +89,3 @@ volumes:
 networks:
   backend:
     driver: bridge
-
