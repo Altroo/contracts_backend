@@ -10,6 +10,7 @@ Uses CDL branding (dark #0F0F1A + gold #B8973A, Cormorant Garamond + Inter fonts
 from datetime import datetime
 
 from django.http import HttpResponse
+from .ai_pdf import translated_contract
 from weasyprint import HTML
 
 from core.models import CompanyConfig
@@ -181,7 +182,7 @@ class SousTraitancePDFGenerator:
     """Generate a WeasyPrint PDF for a Sous-Traitance contract."""
 
     def __init__(self, contract, language: str = "fr"):
-        self.c = contract
+        self.c = translated_contract(contract, language)
         self.lang = language
         self.fr = language == "fr"
         self._ep = None  # lazily loaded CompanyConfig

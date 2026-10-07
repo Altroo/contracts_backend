@@ -2,6 +2,7 @@
 from datetime import datetime, timedelta
 
 from django.http import HttpResponse
+from .ai_pdf import translated_contract
 
 from weasyprint import HTML
 
@@ -157,7 +158,7 @@ class BluelinePDFGenerator:
     """Generate a WeasyPrint PDF for a Blueline Works contract."""
 
     def __init__(self, contract, language: str = "fr"):
-        self.c = contract
+        self.c = translated_contract(contract, language)
         self.lang = language
         self.fr = language == "fr"
 

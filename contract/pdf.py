@@ -11,6 +11,7 @@ from __future__ import annotations
 # i18n: skip-file — bilingual document generator; FR+EN content is intentional
 
 from django.http import HttpResponse
+from .ai_pdf import translated_contract
 
 from .document_types import ArticleSection, ContractDocumentLike, DateLike, NumericLike
 
@@ -287,9 +288,7 @@ body {
 """
 
 
-def _build_articles(
-  c: ContractDocumentLike, lang: str = "fr"
-) -> list[ArticleSection]:
+def _build_articles(c: ContractDocumentLike, lang: str = "fr") -> list[ArticleSection]:
     """
     Build all contract articles with bilingual support (fr/en).
     Returns list of dicts: [{'num': '02', 'title': '...', 'body': '...'}, ...]
@@ -655,9 +654,7 @@ def _build_articles(
                 f"<strong>{penalite_label}</strong> automatically apply on overdue amounts;</li>"
             )
         else:
-            penalite_li = (
-                "<li>No <strong>late payment penalty</strong> applies on overdue amounts;</li>"
-            )
+            penalite_li = "<li>No <strong>late payment penalty</strong> applies on overdue amounts;</li>"
     frais_li = (
         (
             f"<li>Des <strong>frais de red\u00e9marrage</strong> d\u2019un montant de "
@@ -665,7 +662,7 @@ def _build_articles(
             f"avant toute reprise des travaux\u202f;</li>"
             if fr
             else f"<li><strong>Restart fees</strong> of <strong>{_fmt_amt(float(c.frais_redemarrage), devise)}</strong> "
-                 f"will be invoiced before any resumption of works;</li>"
+            f"will be invoiced before any resumption of works;</li>"
         )
         if c.frais_redemarrage
         else ""
@@ -1493,7 +1490,7 @@ class ContractPDFGenerator:
     """Generate a WeasyPrint PDF for a Contract instance."""
 
     def __init__(self, contract: ContractDocumentLike, language: str = "fr") -> None:
-        self.contract: ContractDocumentLike = contract
+        self.contract: ContractDocumentLike = translated_contract(contract, language)
         self.language = language
 
     def generate_response(self) -> HttpResponse:
