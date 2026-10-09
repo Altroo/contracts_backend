@@ -1,0 +1,4390 @@
+{
+  "application": "Contracts",
+  "audit_date": "2026-10-09",
+  "scope": "All reachable commits, deduplicated within each repository, before this release implementation. Dates are development dates, not evidence of deployment.",
+  "repository_heads": {
+    "contracts_backend": "177068517d52db7420324d55629bf71a5ca89500",
+    "contracts_frontend": "50bddac85c52915b134be3da79e2babc493b567f"
+  },
+  "release_tags": {
+    "contracts_backend": [],
+    "contracts_frontend": []
+  },
+  "commits": [
+    {
+      "repository": "contracts_backend",
+      "hash": "0c6e5197c137b5be0c14953bb18bc9ddb1132236",
+      "date": "2026-02-23",
+      "subject": "initial commit",
+      "body": "",
+      "files": [
+        ".env.example",
+        ".idea/.gitignore",
+        ".idea/contracts_backend.iml",
+        ".idea/copilot.data.migration.ask2agent.xml",
+        ".idea/inspectionProfiles/Project_Default.xml",
+        ".idea/inspectionProfiles/profiles_settings.xml",
+        ".idea/material_theme_project_new.xml",
+        ".idea/misc.xml",
+        ".idea/modules.xml",
+        "Dockerfile",
+        "account/__init__.py",
+        "account/admin.py",
+        "account/apps.py",
+        "account/filters.py",
+        "account/forms.py",
+        "account/managers.py",
+        "account/migrations/__init__.py",
+        "account/models.py",
+        "account/permissions.py",
+        "account/serializers.py",
+        "account/tasks.py",
+        "account/templates/new_account.html",
+        "account/templates/new_password.html",
+        "account/templates/password_reset.html",
+        "account/urls.py",
+        "account/views.py",
+        "casa_di_lusso_contracts_v2.html",
+        "contract/__init__.py",
+        "contract/admin.py",
+        "contract/apps.py",
+        "contract/doc.py",
+        "contract/filters.py",
+        "contract/migrations/__init__.py",
+        "contract/models.py",
+        "contract/pdf.py",
+        "contract/serializers.py",
+        "contract/urls.py",
+        "contract/utils.py",
+        "contract/views.py",
+        "contracts_backend/__init__.py",
+        "contracts_backend/asgi.py",
+        "contracts_backend/celery_conf.py",
+        "contracts_backend/settings.py",
+        "contracts_backend/urls.py",
+        "contracts_backend/utils.py",
+        "contracts_backend/wsgi.py",
+        "core/__init__.py",
+        "core/admin.py",
+        "core/apps.py",
+        "core/authentication.py",
+        "core/constants.py",
+        "core/filters.py",
+        "core/migrations/__init__.py",
+        "core/models.py",
+        "core/pdf_utils.py",
+        "core/permissions.py",
+        "core/serializers.py",
+        "core/utils.py",
+        "core/views.py",
+        "docker-compose.yml",
+        "manage.py",
+        "plan-independentContractsApp.prompt.md",
+        "requirements.txt",
+        "templates/admin/base_site.html",
+        "ws/__init__.py",
+        "ws/__pycache__/__init__.cpython-314.pyc",
+        "ws/__pycache__/admin.cpython-314.pyc",
+        "ws/__pycache__/apps.cpython-314.pyc",
+        "ws/__pycache__/consumers.cpython-314.pyc",
+        "ws/__pycache__/jwt_middleware.cpython-314.pyc",
+        "ws/__pycache__/models.cpython-314.pyc",
+        "ws/__pycache__/routing.cpython-314.pyc",
+        "ws/__pycache__/test_jwt_middleware_extra.cpython-314-pytest-9.0.2.pyc",
+        "ws/__pycache__/tests.cpython-314-pytest-8.4.2.pyc",
+        "ws/__pycache__/tests.cpython-314-pytest-8.4.2.pyc.19264",
+        "ws/__pycache__/tests.cpython-314-pytest-9.0.1.pyc",
+        "ws/__pycache__/tests.cpython-314-pytest-9.0.2.pyc",
+        "ws/__pycache__/tests.cpython-314.pyc",
+        "ws/__pycache__/views.cpython-314.pyc",
+        "ws/admin.py",
+        "ws/apps.py",
+        "ws/consumers.py",
+        "ws/jwt_middleware.py",
+        "ws/migrations/__init__.py",
+        "ws/migrations/__pycache__/__init__.cpython-314.pyc",
+        "ws/models.py",
+        "ws/routing.py",
+        "ws/tests.py",
+        "ws/views.py"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "0e7565dbf2c9fbef8489dcab6105128acad4513a",
+      "date": "2026-02-23",
+      "subject": "add configuration files and update URL paths for contracts_backend",
+      "body": "",
+      "files": [
+        ".coveragerc",
+        ".idea/contracts_backend.iml",
+        ".idea/misc.xml",
+        "account/tests.py",
+        "blueline-contrat.html",
+        "contract/tests.py",
+        "contracts_backend/settings_test.py",
+        "contracts_backend/tests.py",
+        "contracts_backend/urls.py",
+        "core/tests.py",
+        "pyproject.toml",
+        "pytest.ini",
+        "ws/tests.py"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "e7da0443c829ce41ffec550d7e810f6844b9a7fa",
+      "date": "2026-02-23",
+      "subject": "add .gitignore file to exclude unnecessary files and directories",
+      "body": "",
+      "files": [
+        ".gitignore"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "7222ae0ce9ce9d5bc1f36f818223221a8e2e4943",
+      "date": "2026-02-23",
+      "subject": "add configuration files for Yarn, Docker, Prettier, and Jest setup; implement initial tests for various components",
+      "body": "",
+      "files": [
+        ".dockerignore",
+        ".prettierrc",
+        ".yarnrc.yml",
+        "docker-compose.yml",
+        "jest.config.ts",
+        "jest.setup.ts",
+        "qodana.yaml",
+        "src/app/(auth)/login/page.test.tsx",
+        "src/app/(auth)/reset-password/enter-code/page.test.tsx",
+        "src/app/(auth)/reset-password/page.test.tsx",
+        "src/app/(auth)/reset-password/set-password-complete/page.test.tsx",
+        "src/app/(auth)/reset-password/set-password/page.test.tsx",
+        "src/app/api/auth/[...nextauth]/route.test.ts",
+        "src/app/api/cookies/route.test.ts",
+        "src/app/dashboard/contracts/[id]/edit/page.test.tsx",
+        "src/app/dashboard/contracts/[id]/page.test.tsx",
+        "src/app/dashboard/contracts/new/page.test.tsx",
+        "src/app/dashboard/contracts/page.test.tsx",
+        "src/app/dashboard/page.test.tsx",
+        "src/app/dashboard/settings/edit-profile/page.test.tsx",
+        "src/app/dashboard/settings/password/page.test.tsx",
+        "src/app/dashboard/users/[id]/page.test.tsx",
+        "src/app/dashboard/users/new/page.test.tsx",
+        "src/app/dashboard/users/page.test.tsx",
+        "src/app/layout.test.tsx",
+        "src/app/not-found.test.tsx",
+        "src/app/page.test.tsx",
+        "src/components/layouts/navigationBar/navigationBar.test.tsx",
+        "src/components/shared/errorBoundary/ErrorBoundary.test.tsx",
+        "src/contexts/initContext.test.tsx",
+        "src/contexts/initEffects.test.tsx",
+        "src/contexts/toastContext.test.tsx",
+        "src/models/classes.test.ts",
+        "src/store/actions/_initActions.test.ts",
+        "src/store/actions/accountActions.test.ts",
+        "src/store/sagas/_initSaga.test.ts",
+        "src/store/sagas/accountSaga.test.ts",
+        "src/store/sagas/index.test.ts",
+        "src/store/selectors/index.test.ts",
+        "src/store/services/account.test.ts",
+        "src/store/services/contract.test.ts",
+        "src/store/session.test.ts",
+        "src/store/setupApiStore.ts",
+        "src/store/slices/_initSlice.test.ts",
+        "src/store/slices/accountSlice.test.ts",
+        "src/store/store.test.ts",
+        "src/utils/apiHelpers.test.ts",
+        "src/utils/axiosBaseQuery.test.ts",
+        "src/utils/clientHelpers.test.tsx",
+        "src/utils/corsHeaders.test.ts",
+        "src/utils/helpers.test.ts",
+        "src/utils/hooks.test.ts",
+        "src/utils/routes.test.ts",
+        "src/utils/themes.test.ts"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "a9f8f3b495fdf235c085735722b72b117c5bc1c6",
+      "date": "2026-02-23",
+      "subject": "initial commit",
+      "body": "",
+      "files": [
+        ".env.example",
+        ".idea/.gitignore",
+        ".idea/contracts_frontend.iml",
+        ".idea/copilot.data.migration.ask2agent.xml",
+        ".idea/deployment.xml",
+        ".idea/inspectionProfiles/Project_Default.xml",
+        ".idea/material_theme_project_new.xml",
+        ".idea/modules.xml",
+        ".idea/vcs.xml",
+        "Dockerfile",
+        "docker-compose.yml",
+        "env.d.ts",
+        "eslint.config.mjs",
+        "next-env.d.ts",
+        "next.config.ts",
+        "package.json",
+        "src/app/(auth)/login/page.tsx",
+        "src/app/(auth)/reset-password/enter-code/page.tsx",
+        "src/app/(auth)/reset-password/page.tsx",
+        "src/app/(auth)/reset-password/set-password-complete/page.tsx",
+        "src/app/(auth)/reset-password/set-password/page.tsx",
+        "src/app/api/auth/[...nextauth]/route.ts",
+        "src/app/api/cookies/route.ts",
+        "src/app/dashboard/contracts/[id]/edit/page.tsx",
+        "src/app/dashboard/contracts/[id]/page.tsx",
+        "src/app/dashboard/contracts/new/page.tsx",
+        "src/app/dashboard/contracts/page.tsx",
+        "src/app/dashboard/layout.tsx",
+        "src/app/dashboard/page.tsx",
+        "src/app/dashboard/settings/edit-profile/page.tsx",
+        "src/app/dashboard/settings/password/page.tsx",
+        "src/app/dashboard/users/[id]/page.tsx",
+        "src/app/dashboard/users/new/page.tsx",
+        "src/app/dashboard/users/page.tsx",
+        "src/app/layout.tsx",
+        "src/app/not-found.tsx",
+        "src/app/page.tsx",
+        "src/auth.ts",
+        "src/components/layouts/navigationBar/navigationBar.tsx",
+        "src/components/pages/auth/login/login.test.tsx",
+        "src/components/pages/auth/login/login.tsx",
+        "src/components/pages/auth/reset-password/enterCode.test.tsx",
+        "src/components/pages/auth/reset-password/enterCode.tsx",
+        "src/components/pages/auth/reset-password/resetPassword.test.tsx",
+        "src/components/pages/auth/reset-password/resetPassword.tsx",
+        "src/components/pages/auth/reset-password/setPassword.test.tsx",
+        "src/components/pages/auth/reset-password/setPassword.tsx",
+        "src/components/pages/auth/reset-password/setPasswordComplete.test.tsx",
+        "src/components/pages/auth/reset-password/setPasswordComplete.tsx",
+        "src/components/pages/contracts/contract-form.test.tsx",
+        "src/components/pages/contracts/contract-form.tsx",
+        "src/components/pages/contracts/contract-view.test.tsx",
+        "src/components/pages/contracts/contract-view.tsx",
+        "src/components/pages/contracts/contracts-list.test.tsx",
+        "src/components/pages/contracts/contracts-list.tsx",
+        "src/components/pages/settings/edit-profile.test.tsx",
+        "src/components/pages/settings/edit-profile.tsx",
+        "src/components/pages/settings/password.test.tsx",
+        "src/components/pages/settings/password.tsx",
+        "src/components/pages/users/users-form.test.tsx",
+        "src/components/pages/users/users-form.tsx",
+        "src/components/pages/users/users-list.test.tsx",
+        "src/components/pages/users/users-list.tsx",
+        "src/components/pages/users/users-view.test.tsx",
+        "src/components/pages/users/users-view.tsx",
+        "src/components/shared/errorBoundary/errorBoundary.tsx",
+        "src/components/shared/errorBoundary/index.ts",
+        "src/components/shared/sessionExpiredListener/sessionExpiredListener.tsx",
+        "src/contexts/InitContext.tsx",
+        "src/contexts/initEffects.tsx",
+        "src/contexts/toastContext.tsx",
+        "src/middleware.ts",
+        "src/models/classes.ts",
+        "src/providers/sessionProvider.tsx",
+        "src/providers/storeProvider.tsx",
+        "src/providers/themeProvider.tsx",
+        "src/proxy.ts",
+        "src/store/actions/_initActions.ts",
+        "src/store/actions/accountActions.ts",
+        "src/store/actions/index.ts",
+        "src/store/sagas/_initSaga.ts",
+        "src/store/sagas/accountSaga.ts",
+        "src/store/sagas/index.ts",
+        "src/store/selectors/index.ts",
+        "src/store/services/account.ts",
+        "src/store/services/contract.ts",
+        "src/store/session.ts",
+        "src/store/slices/_initSlice.ts",
+        "src/store/slices/accountSlice.ts",
+        "src/store/store.ts",
+        "src/styles/globals.sass",
+        "src/styles/sass/_colors.sass",
+        "src/styles/sass/_mixins.sass",
+        "src/styles/sass/_typography.sass",
+        "src/styles/sass/_variables.sass",
+        "src/types/_initTypes.ts",
+        "src/types/accountTypes.ts",
+        "src/types/contractTypes.ts",
+        "src/utils/apiHelpers.ts",
+        "src/utils/axiosBaseQuery.ts",
+        "src/utils/clientHelpers.tsx",
+        "src/utils/corsHeaders.ts",
+        "src/utils/helpers.ts",
+        "src/utils/hooks.ts",
+        "src/utils/routes.ts",
+        "src/utils/themes.ts",
+        "tsconfig.json"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "f0bd47b949d4029fde5e287a364a57344329b580",
+      "date": "2026-02-23",
+      "subject": "add .gitignore file to exclude unnecessary files and directories",
+      "body": "",
+      "files": [
+        ".gitignore"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "3c150cdf6b98e766e298a7165495a2515c38a4ae",
+      "date": "2026-02-24",
+      "subject": "refactor password reset and login components; enhance form handling and validation",
+      "body": "",
+      "files": [
+        "bun.lock",
+        "package.json",
+        "public/assets/images/success-illu.svg",
+        "src/app/(auth)/reset-password/enter-code/page.tsx",
+        "src/app/(auth)/reset-password/set-password/page.tsx",
+        "src/components/formikElements/customOutlinedText/customOutlinedText.tsx",
+        "src/components/formikElements/customPasswordInput/customPasswordInput.tsx",
+        "src/components/htmlElements/buttons/primaryAnchorButton/primaryAnchorButton.module.sass",
+        "src/components/htmlElements/buttons/primaryAnchorButton/primaryAnchorButton.tsx",
+        "src/components/htmlElements/buttons/textButton/textButton.module.sass",
+        "src/components/htmlElements/buttons/textButton/textButton.tsx",
+        "src/components/pages/auth/login/login.test.tsx",
+        "src/components/pages/auth/login/login.tsx",
+        "src/components/pages/auth/reset-password/enterCode.test.tsx",
+        "src/components/pages/auth/reset-password/enterCode.tsx",
+        "src/components/pages/auth/reset-password/resetPassword.test.tsx",
+        "src/components/pages/auth/reset-password/resetPassword.tsx",
+        "src/components/pages/auth/reset-password/setPassword.test.tsx",
+        "src/components/pages/auth/reset-password/setPassword.tsx",
+        "src/components/pages/auth/reset-password/setPasswordComplete.test.tsx",
+        "src/components/pages/auth/reset-password/setPasswordComplete.tsx",
+        "src/utils/formValidationSchemas.ts",
+        "src/utils/themes.ts"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "444e12383c7a43d50f4bc1cf77fb0679d75ed0f0",
+      "date": "2026-02-24",
+      "subject": "refactor contract-related dropdowns and status handling; centralize data in rawData module",
+      "body": "",
+      "files": [
+        "package.json",
+        "src/components/pages/auth/reset-password/enterCode.tsx",
+        "src/components/pages/contracts/contract-form.tsx",
+        "src/components/pages/contracts/contract-view.tsx",
+        "src/components/pages/contracts/contracts-list.tsx",
+        "src/utils/helpers.test.ts",
+        "src/utils/helpers.ts",
+        "src/utils/rawData.test.ts",
+        "src/utils/rawData.ts"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "ed546f105592c3ee85eb11906dc47191ea361424",
+      "date": "2026-02-24",
+      "subject": "add robots.txt, raw data for gender items, and various components; update authentication and session handling in pages",
+      "body": "",
+      "files": [
+        "bun.lock",
+        "next.config.ts",
+        "package.json",
+        "public/assets/fonts/Poppins-Bold.ttf",
+        "public/assets/fonts/Poppins-Medium.ttf",
+        "public/assets/fonts/Poppins-Regular.ttf",
+        "public/assets/fonts/Poppins-SemiBold.ttf",
+        "public/assets/ico/browserconfig.xml",
+        "public/assets/ico/manifest.json",
+        "public/assets/images/auth_illu/blueprint.svg",
+        "public/assets/images/auth_illu/contract.svg",
+        "public/assets/images/auth_illu/handshake.svg",
+        "public/assets/images/auth_illu/signature.svg",
+        "public/robots.txt",
+        "src/app/(auth)/reset-password/enter-code/page.test.tsx",
+        "src/app/(auth)/reset-password/enter-code/page.tsx",
+        "src/app/(auth)/reset-password/set-password-complete/clearCookiesClient.test.tsx",
+        "src/app/(auth)/reset-password/set-password-complete/clearCookiesClient.tsx",
+        "src/app/(auth)/reset-password/set-password-complete/page.test.tsx",
+        "src/app/(auth)/reset-password/set-password-complete/page.tsx",
+        "src/app/(auth)/reset-password/set-password/page.test.tsx",
+        "src/app/(auth)/reset-password/set-password/page.tsx",
+        "src/app/dashboard/contracts/[id]/edit/page.test.tsx",
+        "src/app/dashboard/contracts/[id]/edit/page.tsx",
+        "src/app/dashboard/contracts/[id]/page.test.tsx",
+        "src/app/dashboard/contracts/[id]/page.tsx",
+        "src/app/dashboard/contracts/new/page.test.tsx",
+        "src/app/dashboard/contracts/new/page.tsx",
+        "src/app/dashboard/contracts/page.test.tsx",
+        "src/app/dashboard/contracts/page.tsx",
+        "src/app/dashboard/page.test.tsx",
+        "src/app/dashboard/page.tsx",
+        "src/app/dashboard/settings/edit-profile/page.test.tsx",
+        "src/app/dashboard/settings/edit-profile/page.tsx",
+        "src/app/dashboard/settings/password/page.test.tsx",
+        "src/app/dashboard/settings/password/page.tsx",
+        "src/app/dashboard/users/[id]/edit/page.test.tsx",
+        "src/app/dashboard/users/[id]/edit/page.tsx",
+        "src/app/dashboard/users/[id]/page.test.tsx",
+        "src/app/dashboard/users/[id]/page.tsx",
+        "src/app/dashboard/users/new/page.test.tsx",
+        "src/app/dashboard/users/new/page.tsx",
+        "src/app/dashboard/users/page.test.tsx",
+        "src/app/dashboard/users/page.tsx",
+        "src/app/not-found.tsx",
+        "src/auth.ts",
+        "src/components/formikElements/apiLoading/apiAlert/apiAlert.test.tsx",
+        "src/components/formikElements/apiLoading/apiAlert/apiAlert.tsx",
+        "src/components/formikElements/apiLoading/apiProgress/apiProgress.test.tsx",
+        "src/components/formikElements/apiLoading/apiProgress/apiProgress.tsx",
+        "src/components/formikElements/customDropDownSelect/customDropDownSelect.module.sass",
+        "src/components/formikElements/customDropDownSelect/customDropDownSelect.test.tsx",
+        "src/components/formikElements/customDropDownSelect/customDropDownSelect.tsx",
+        "src/components/formikElements/customTextInput/customTextInput.test.tsx",
+        "src/components/formikElements/customTextInput/customTextInput.tsx",
+        "src/components/htmlElements/buttons/primaryLoadingButton/primaryLoadingButton.module.sass",
+        "src/components/htmlElements/buttons/primaryLoadingButton/primaryLoadingButton.test.tsx",
+        "src/components/htmlElements/buttons/primaryLoadingButton/primaryLoadingButton.tsx",
+        "src/components/layouts/auth/authLayout.module.sass",
+        "src/components/layouts/auth/authLayout.test.tsx",
+        "src/components/layouts/auth/authLayout.tsx",
+        "src/components/layouts/protected/protected.test.tsx",
+        "src/components/layouts/protected/protected.tsx",
+        "src/components/pages/auth/login/login.tsx",
+        "src/components/pages/auth/reset-password/enterCode.tsx",
+        "src/components/pages/auth/reset-password/resetPassword.tsx",
+        "src/components/pages/auth/reset-password/setPassword.tsx",
+        "src/components/pages/auth/reset-password/setPasswordComplete.tsx",
+        "src/components/pages/contracts/contract-form.test.tsx",
+        "src/components/pages/contracts/contract-form.tsx",
+        "src/components/pages/contracts/contract-view.test.tsx",
+        "src/components/pages/contracts/contract-view.tsx",
+        "src/components/pages/contracts/contracts-list.test.tsx",
+        "src/components/pages/contracts/contracts-list.tsx",
+        "src/components/pages/settings/edit-profile.test.tsx",
+        "src/components/pages/settings/edit-profile.tsx",
+        "src/components/pages/settings/password.test.tsx",
+        "src/components/pages/settings/password.tsx",
+        "src/components/pages/users/users-form.test.tsx",
+        "src/components/pages/users/users-form.tsx",
+        "src/components/pages/users/users-list.test.tsx",
+        "src/components/pages/users/users-list.tsx",
+        "src/components/pages/users/users-view.test.tsx",
+        "src/components/pages/users/users-view.tsx",
+        "src/components/shared/errorBoundary/ErrorBoundary.test.tsx",
+        "src/components/shared/noPermission/noPermission.test.tsx",
+        "src/components/shared/noPermission/noPermission.tsx",
+        "src/contexts/initContext.test.tsx",
+        "src/contexts/toastContext.test.tsx",
+        "src/models/classes.test.ts",
+        "src/store/sagas/_initSaga.ts",
+        "src/store/services/contract.test.ts",
+        "src/styles/auth/auth.module.sass",
+        "src/styles/dashboard/dashboard.module.sass",
+        "src/styles/dashboard/settings/settings.module.sass",
+        "src/styles/sass/_mixins.sass",
+        "src/styles/sass/_typography.sass",
+        "src/styles/sass/_variables.sass",
+        "src/types/accountTypes.ts",
+        "src/types/contractTypes.ts",
+        "src/types/next-auth.d.ts",
+        "src/types/zod-formik-adapter.d.ts",
+        "src/utils/apiHelpers.test.ts",
+        "src/utils/clientHelpers.test.tsx",
+        "src/utils/corsHeaders.test.ts",
+        "src/utils/formValidationErrorMessages.ts",
+        "src/utils/formValidationSchemas.test.ts",
+        "src/utils/formValidationSchemas.ts",
+        "src/utils/helpers.test.ts",
+        "src/utils/helpers.ts",
+        "src/utils/hooks.test.ts",
+        "src/utils/hooks.test.tsx",
+        "src/utils/rawData.test.ts",
+        "src/utils/rawData.ts",
+        "src/utils/routes.test.ts",
+        "src/utils/themes.test.ts",
+        "src/utils/themes.ts"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "06f7bcdc06705456bfae2e85f85dd3b3ac3275a5",
+      "date": "2026-02-25",
+      "subject": "add new JavaScript and CSS files for dashboard functionality and improve form handling",
+      "body": "",
+      "files": [
+        ".idea/contracts_backend.iml",
+        "account/views.py",
+        "contracts_backend/settings.py",
+        "contracts_backend/utils.py",
+        "static/admin/css/autocomplete.css",
+        "static/admin/css/base.css",
+        "static/admin/css/changelists.css",
+        "static/admin/css/dark_mode.css",
+        "static/admin/css/dashboard.css",
+        "static/admin/css/forms.css",
+        "static/admin/css/login.css",
+        "static/admin/css/nav_sidebar.css",
+        "static/admin/css/responsive.css",
+        "static/admin/css/responsive_rtl.css",
+        "static/admin/css/rtl.css",
+        "static/admin/css/unusable_password_field.css",
+        "static/admin/css/vendor/select2/LICENSE-SELECT2.md",
+        "static/admin/css/vendor/select2/select2.css",
+        "static/admin/css/vendor/select2/select2.min.css",
+        "static/admin/css/widgets.css",
+        "static/admin/img/README.md",
+        "static/admin/img/calendar-icons.svg",
+        "static/admin/img/icon-addlink.svg",
+        "static/admin/img/icon-alert-dark.svg",
+        "static/admin/img/icon-alert.svg",
+        "static/admin/img/icon-calendar.svg",
+        "static/admin/img/icon-changelink.svg",
+        "static/admin/img/icon-clock.svg",
+        "static/admin/img/icon-debug-dark.svg",
+        "static/admin/img/icon-debug.svg",
+        "static/admin/img/icon-deletelink.svg",
+        "static/admin/img/icon-hidelink.svg",
+        "static/admin/img/icon-info-dark.svg",
+        "static/admin/img/icon-info.svg",
+        "static/admin/img/icon-no-dark.svg",
+        "static/admin/img/icon-no.svg",
+        "static/admin/img/icon-unknown-alt.svg",
+        "static/admin/img/icon-unknown.svg",
+        "static/admin/img/icon-viewlink.svg",
+        "static/admin/img/icon-yes-dark.svg",
+        "static/admin/img/icon-yes.svg",
+        "static/admin/img/inline-delete.svg",
+        "static/admin/img/search.svg",
+        "static/admin/img/selector-icons.svg",
+        "static/admin/img/sorting-icons.svg",
+        "static/admin/img/tooltag-add.svg",
+        "static/admin/img/tooltag-arrowright.svg",
+        "static/admin/js/SelectBox.js",
+        "static/admin/js/SelectFilter2.js",
+        "static/admin/js/actions.js",
+        "static/admin/js/admin/DateTimeShortcuts.js",
+        "static/admin/js/admin/RelatedObjectLookups.js",
+        "static/admin/js/autocomplete.js",
+        "static/admin/js/calendar.js",
+        "static/admin/js/cancel.js",
+        "static/admin/js/change_form.js",
+        "static/admin/js/core.js",
+        "static/admin/js/filters.js",
+        "static/admin/js/inlines.js",
+        "static/admin/js/jquery.init.js",
+        "static/admin/js/nav_sidebar.js",
+        "static/admin/js/popup_response.js",
+        "static/admin/js/prepopulate.js",
+        "static/admin/js/prepopulate_init.js",
+        "static/admin/js/theme.js",
+        "static/admin/js/urlify.js",
+        "static/admin/js/vendor/jquery/LICENSE.txt",
+        "static/admin/js/vendor/jquery/jquery.js",
+        "static/admin/js/vendor/jquery/jquery.min.js",
+        "static/admin/js/vendor/select2/LICENSE.md",
+        "static/admin/js/vendor/select2/i18n/af.js",
+        "static/admin/js/vendor/select2/i18n/ar.js",
+        "static/admin/js/vendor/select2/i18n/az.js",
+        "static/admin/js/vendor/select2/i18n/bg.js",
+        "static/admin/js/vendor/select2/i18n/bn.js",
+        "static/admin/js/vendor/select2/i18n/bs.js",
+        "static/admin/js/vendor/select2/i18n/ca.js",
+        "static/admin/js/vendor/select2/i18n/cs.js",
+        "static/admin/js/vendor/select2/i18n/da.js",
+        "static/admin/js/vendor/select2/i18n/de.js",
+        "static/admin/js/vendor/select2/i18n/dsb.js",
+        "static/admin/js/vendor/select2/i18n/el.js",
+        "static/admin/js/vendor/select2/i18n/en.js",
+        "static/admin/js/vendor/select2/i18n/es.js",
+        "static/admin/js/vendor/select2/i18n/et.js",
+        "static/admin/js/vendor/select2/i18n/eu.js",
+        "static/admin/js/vendor/select2/i18n/fa.js",
+        "static/admin/js/vendor/select2/i18n/fi.js",
+        "static/admin/js/vendor/select2/i18n/fr.js",
+        "static/admin/js/vendor/select2/i18n/gl.js",
+        "static/admin/js/vendor/select2/i18n/he.js",
+        "static/admin/js/vendor/select2/i18n/hi.js",
+        "static/admin/js/vendor/select2/i18n/hr.js",
+        "static/admin/js/vendor/select2/i18n/hsb.js",
+        "static/admin/js/vendor/select2/i18n/hu.js",
+        "static/admin/js/vendor/select2/i18n/hy.js",
+        "static/admin/js/vendor/select2/i18n/id.js",
+        "static/admin/js/vendor/select2/i18n/is.js",
+        "static/admin/js/vendor/select2/i18n/it.js",
+        "static/admin/js/vendor/select2/i18n/ja.js",
+        "static/admin/js/vendor/select2/i18n/ka.js",
+        "static/admin/js/vendor/select2/i18n/km.js",
+        "static/admin/js/vendor/select2/i18n/ko.js",
+        "static/admin/js/vendor/select2/i18n/lt.js",
+        "static/admin/js/vendor/select2/i18n/lv.js",
+        "static/admin/js/vendor/select2/i18n/mk.js",
+        "static/admin/js/vendor/select2/i18n/ms.js",
+        "static/admin/js/vendor/select2/i18n/nb.js",
+        "static/admin/js/vendor/select2/i18n/ne.js",
+        "static/admin/js/vendor/select2/i18n/nl.js",
+        "static/admin/js/vendor/select2/i18n/pl.js",
+        "static/admin/js/vendor/select2/i18n/ps.js",
+        "static/admin/js/vendor/select2/i18n/pt-BR.js",
+        "static/admin/js/vendor/select2/i18n/pt.js",
+        "static/admin/js/vendor/select2/i18n/ro.js",
+        "static/admin/js/vendor/select2/i18n/ru.js",
+        "static/admin/js/vendor/select2/i18n/sk.js",
+        "static/admin/js/vendor/select2/i18n/sl.js",
+        "static/admin/js/vendor/select2/i18n/sq.js",
+        "static/admin/js/vendor/select2/i18n/sr-Cyrl.js",
+        "static/admin/js/vendor/select2/i18n/sr.js",
+        "static/admin/js/vendor/select2/i18n/sv.js",
+        "static/admin/js/vendor/select2/i18n/th.js",
+        "static/admin/js/vendor/select2/i18n/tk.js",
+        "static/admin/js/vendor/select2/i18n/tr.js",
+        "static/admin/js/vendor/select2/i18n/uk.js",
+        "static/admin/js/vendor/select2/i18n/vi.js",
+        "static/admin/js/vendor/select2/i18n/zh-CN.js",
+        "static/admin/js/vendor/select2/i18n/zh-TW.js",
+        "static/admin/js/vendor/select2/select2.full.js",
+        "static/admin/js/vendor/select2/select2.full.min.js",
+        "static/admin/js/vendor/xregexp/LICENSE.txt",
+        "static/admin/js/vendor/xregexp/xregexp.js",
+        "static/admin/js/vendor/xregexp/xregexp.min.js",
+        "static/fonts/Poppins-Bold.ttf",
+        "static/rest_framework/css/bootstrap-theme.min.css",
+        "static/rest_framework/css/bootstrap-theme.min.css.map",
+        "static/rest_framework/css/bootstrap-tweaks.css",
+        "static/rest_framework/css/bootstrap.min.css",
+        "static/rest_framework/css/bootstrap.min.css.map",
+        "static/rest_framework/css/default.css",
+        "static/rest_framework/css/font-awesome-4.0.3.css",
+        "static/rest_framework/css/prettify.css",
+        "static/rest_framework/docs/css/base.css",
+        "static/rest_framework/docs/css/highlight.css",
+        "static/rest_framework/docs/css/jquery.json-view.min.css",
+        "static/rest_framework/docs/img/favicon.ico",
+        "static/rest_framework/docs/img/grid.png",
+        "static/rest_framework/docs/js/api.js",
+        "static/rest_framework/docs/js/highlight.pack.js",
+        "static/rest_framework/docs/js/jquery.json-view.min.js",
+        "static/rest_framework/fonts/fontawesome-webfont.eot",
+        "static/rest_framework/fonts/fontawesome-webfont.svg",
+        "static/rest_framework/fonts/fontawesome-webfont.ttf",
+        "static/rest_framework/fonts/fontawesome-webfont.woff",
+        "static/rest_framework/fonts/glyphicons-halflings-regular.eot",
+        "static/rest_framework/fonts/glyphicons-halflings-regular.svg",
+        "static/rest_framework/fonts/glyphicons-halflings-regular.ttf",
+        "static/rest_framework/fonts/glyphicons-halflings-regular.woff",
+        "static/rest_framework/fonts/glyphicons-halflings-regular.woff2",
+        "static/rest_framework/img/glyphicons-halflings-white.png",
+        "static/rest_framework/img/glyphicons-halflings.png",
+        "static/rest_framework/img/grid.png",
+        "static/rest_framework/js/ajax-form.js",
+        "static/rest_framework/js/bootstrap.min.js",
+        "static/rest_framework/js/coreapi-0.1.1.js",
+        "static/rest_framework/js/csrf.js",
+        "static/rest_framework/js/default.js",
+        "static/rest_framework/js/jquery-3.7.1.min.js",
+        "static/rest_framework/js/load-ajax-form.js",
+        "static/rest_framework/js/prettify-min.js"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "f3bf504b9c03da5155f945537b03925cdc32b64d",
+      "date": "2026-02-25",
+      "subject": "add error message extraction utility for RTK Query mutations; enhance error handling in API responses",
+      "body": "",
+      "files": [
+        ".idea/contracts_frontend.iml",
+        "src/utils/helpers.ts"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "28d87b0be0679fdb12635ccafd9213d8f94269e7",
+      "date": "2026-02-26",
+      "subject": "add database connection settings and initial migration for user and contract models",
+      "body": "",
+      "files": [
+        "account/migrations/0001_initial.py",
+        "contract/migrations/0001_initial.py",
+        "contracts_backend/settings.py"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "70e39756f2d51a5885d366750d46f5df77e6487a",
+      "date": "2026-02-26",
+      "subject": "update requirements and improve Docker configuration; add health check endpoint and static file serving",
+      "body": "",
+      "files": [
+        "Dockerfile",
+        "account/admin.py",
+        "account/models.py",
+        "account/serializers.py",
+        "account/tests.py",
+        "account/views.py",
+        "contract/views.py",
+        "contracts_backend/tests.py",
+        "contracts_backend/urls.py",
+        "docker-compose.yml",
+        "requirements.txt"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "6416b7f9b5fadfec9f9224dbfbacf7920908b1a8",
+      "date": "2026-02-26",
+      "subject": "refactor authentication flow and error handling; enhance session management and token refresh logic",
+      "body": "",
+      "files": [
+        "src/auth.ts",
+        "src/components/shared/errorBoundary/errorBoundary.tsx",
+        "src/components/shared/sessionExpiredListener/sessionExpiredListener.tsx",
+        "src/proxy.ts",
+        "src/utils/axiosBaseQuery.ts",
+        "src/utils/clientHelpers.tsx",
+        "src/utils/corsHeaders.ts",
+        "src/utils/formValidationErrorMessages.ts",
+        "src/utils/helpers.ts",
+        "src/utils/themes.ts"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "6eb5c834ba9cfb918b8ac8d6425d45fa7f65d494",
+      "date": "2026-02-26",
+      "subject": "update dependencies; bump versions for @mui/x-data-grid, @types/node, and npm-check-updates",
+      "body": "",
+      "files": [
+        "bun.lock",
+        "next-env.d.ts",
+        "package.json",
+        "src/middleware.ts"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "7b20715f97a477f84757ee1ab5630a0800b05f87",
+      "date": "2026-02-26",
+      "subject": "update Content Security Policy; adjust image and connection sources for development environment",
+      "body": "",
+      "files": [
+        "next.config.ts"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "bd8aef6279140b0ede138999397b99ca4de5bb83",
+      "date": "2026-02-27",
+      "subject": "refactor: clean up unused imports and improve code formatting across multiple files",
+      "body": "",
+      "files": [
+        ".idea/misc.xml",
+        "account/filters.py",
+        "account/models.py",
+        "account/serializers.py",
+        "account/tests.py",
+        "account/views.py",
+        "contract/admin.py",
+        "contract/doc.py",
+        "contract/filters.py",
+        "contract/models.py",
+        "contract/pdf.py",
+        "contract/serializers.py",
+        "contract/tests.py",
+        "contract/urls.py",
+        "contract/views.py",
+        "contracts_backend/tests.py",
+        "core/admin.py",
+        "core/constants.py",
+        "core/models.py",
+        "core/serializers.py",
+        "core/tests.py"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "e23e8714519895c6e2e2da7917add504f9e45363",
+      "date": "2026-02-27",
+      "subject": "update .env.example with improved configuration for database and Redis settings",
+      "body": "",
+      "files": [
+        ".env.example"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "53f86571234d7d71501831cb96c916be716907b0",
+      "date": "2026-02-27",
+      "subject": "refactor contract status handling; replace contractStatusColors with getContractStatusColor function",
+      "body": "",
+      "files": [
+        "src/app/dashboard/layout.tsx",
+        "src/components/pages/contracts/contract-form.tsx",
+        "src/components/pages/contracts/contract-view.tsx",
+        "src/components/pages/contracts/contracts-list.test.tsx",
+        "src/components/pages/contracts/contracts-list.tsx",
+        "src/components/pages/users/users-view.tsx",
+        "src/components/shared/paginatedDataGrid/paginatedDataGrid.tsx",
+        "src/utils/rawData.test.ts",
+        "src/utils/rawData.ts"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "9132f7c49fbf19019b4f39e2bc39b44e661ce043",
+      "date": "2026-02-27",
+      "subject": "refactor contract form and view components; integrate date pickers and enhance UI elements",
+      "body": "",
+      "files": [
+        "src/components/pages/contracts/contract-form.tsx",
+        "src/components/pages/contracts/contract-view.test.tsx",
+        "src/components/pages/contracts/contract-view.tsx",
+        "src/components/pages/contracts/contracts-list.test.tsx",
+        "src/components/pages/contracts/contracts-list.tsx",
+        "src/utils/formValidationSchemas.ts",
+        "src/utils/rawData.ts"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "9e16fc80c31acd368fa50491bb97c060beac350c",
+      "date": "2026-02-27",
+      "subject": "refactor application name and copyright; update manifest and layout files",
+      "body": "",
+      "files": [
+        ".idea/contracts_frontend.iml",
+        "bun.lock",
+        "env.d.ts",
+        "package.json",
+        "public/assets/ico/manifest.json",
+        "src/app/dashboard/layout.tsx",
+        "src/app/layout.tsx",
+        "src/auth.test.ts",
+        "src/components/formikElements/customOutlinedText/customOutlinedText.test.tsx",
+        "src/components/formikElements/customPasswordInput/customPasswordInput.test.tsx",
+        "src/components/formikElements/customSquareImageUploading/customSquareImageUploading.module.sass",
+        "src/components/formikElements/customSquareImageUploading/customSquareImageUploading.test.tsx",
+        "src/components/formikElements/customSquareImageUploading/customSquareImageUploading.tsx",
+        "src/components/htmlElements/buttons/primaryAnchorButton/primaryAnchorButton.test.tsx",
+        "src/components/htmlElements/buttons/squareImageInputFile/squareImageInputFile.module.sass",
+        "src/components/htmlElements/buttons/squareImageInputFile/squareImageInputFile.test.tsx",
+        "src/components/htmlElements/buttons/squareImageInputFile/squareImageInputFile.tsx",
+        "src/components/htmlElements/buttons/textButton/textButton.test.tsx",
+        "src/components/htmlElements/modals/actionModal/actionModals.test.tsx",
+        "src/components/htmlElements/modals/actionModal/actionModals.tsx",
+        "src/components/htmlElements/tooltip/darkTooltip/darkTooltip.test.tsx",
+        "src/components/htmlElements/tooltip/darkTooltip/darkTooltip.tsx",
+        "src/components/pages/contracts/contract-form.test.tsx",
+        "src/components/pages/contracts/contract-form.tsx",
+        "src/components/pages/contracts/contracts-list.test.tsx",
+        "src/components/pages/contracts/contracts-list.tsx",
+        "src/components/pages/settings/edit-profile.test.tsx",
+        "src/components/pages/settings/edit-profile.tsx",
+        "src/components/pages/settings/password.test.tsx",
+        "src/components/pages/settings/password.tsx",
+        "src/components/pages/users/users-form.test.tsx",
+        "src/components/pages/users/users-form.tsx",
+        "src/components/pages/users/users-list.test.tsx",
+        "src/components/pages/users/users-list.tsx",
+        "src/components/portals/customToast/customToast.module.sass",
+        "src/components/portals/customToast/customToast.tsx",
+        "src/components/shared/dateRangeFilter/dateRangeFilterOperator.test.tsx",
+        "src/components/shared/dateRangeFilter/dateRangeFilterOperator.tsx",
+        "src/components/shared/dropdownFilter/dropdownFilter.test.tsx",
+        "src/components/shared/dropdownFilter/dropdownFilter.tsx",
+        "src/components/shared/filterPanel/customFilterPanel.test.tsx",
+        "src/components/shared/filterPanel/customFilterPanel.tsx",
+        "src/components/shared/mobileActionsMenu/mobileActionsMenu.test.tsx",
+        "src/components/shared/mobileActionsMenu/mobileActionsMenu.tsx",
+        "src/components/shared/paginatedDataGrid/paginatedDataGrid.test.tsx",
+        "src/components/shared/paginatedDataGrid/paginatedDataGrid.tsx",
+        "src/components/shared/sessionExpiredListener/sessionExpiredListener.test.tsx",
+        "src/contexts/portal.tsx",
+        "src/contexts/toastContext.tsx",
+        "src/proxy.test.ts",
+        "src/store/services/account.ts",
+        "src/store/services/contract.ts",
+        "src/utils/formValidationErrorMessages.ts",
+        "src/utils/formValidationSchemas.test.ts",
+        "src/utils/formValidationSchemas.ts",
+        "src/utils/rawData.ts",
+        "src/utils/routes.test.ts",
+        "src/utils/routes.ts",
+        "src/utils/themes.ts"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "f643a06aedf7f48468fd405aa5747049622ddca4",
+      "date": "2026-02-27",
+      "subject": "refactor contract and user components; integrate NavigationBar and Protected layouts, enhance user and contract detail views",
+      "body": "",
+      "files": [
+        "src/components/pages/contracts/contract-form.test.tsx",
+        "src/components/pages/contracts/contract-form.tsx",
+        "src/components/pages/contracts/contract-view.test.tsx",
+        "src/components/pages/contracts/contract-view.tsx",
+        "src/components/pages/contracts/contracts-list.test.tsx",
+        "src/components/pages/contracts/contracts-list.tsx",
+        "src/components/pages/users/users-form.test.tsx",
+        "src/components/pages/users/users-form.tsx",
+        "src/components/pages/users/users-list.test.tsx",
+        "src/components/pages/users/users-list.tsx",
+        "src/components/pages/users/users-view.test.tsx",
+        "src/components/pages/users/users-view.tsx"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "f7f81adf36117924c48f9ddb88f4db9d1522666f",
+      "date": "2026-02-27",
+      "subject": "refactor contract components; add PDF and DOCX download functionality, integrate language selection modal",
+      "body": "",
+      "files": [
+        "src/app/dashboard/settings/edit-profile/page.tsx",
+        "src/components/pages/contracts/contract-form.test.tsx",
+        "src/components/pages/contracts/contract-form.tsx",
+        "src/components/pages/contracts/contract-view.test.tsx",
+        "src/components/pages/contracts/contract-view.tsx",
+        "src/components/pages/contracts/contracts-list.test.tsx",
+        "src/components/pages/contracts/contracts-list.tsx",
+        "src/components/pages/settings/edit-profile.test.tsx",
+        "src/components/pages/settings/edit-profile.tsx",
+        "src/components/pages/settings/password.test.tsx",
+        "src/components/pages/settings/password.tsx",
+        "src/components/portals/customToast/customToast.test.tsx",
+        "src/components/shared/numericFilter/numericFilterOperator.test.tsx",
+        "src/components/shared/numericFilter/numericFilterOperator.tsx",
+        "src/components/shared/pdfLanguageModal/pdfLanguageModal.test.tsx",
+        "src/components/shared/pdfLanguageModal/pdfLanguageModal.tsx",
+        "src/utils/rawData.ts",
+        "src/utils/routes.ts"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "a88354772dc93c9e7f5e875738b3427cf02315f8",
+      "date": "2026-03-03",
+      "subject": "feat: add company field to Contract model and implement related functionality",
+      "body": "",
+      "files": [
+        "account/serializers.py",
+        "account/tests.py",
+        "account/views.py",
+        "contract/admin.py",
+        "contract/bl_doc.py",
+        "contract/bl_i18n.py",
+        "contract/bl_pdf.py",
+        "contract/doc.py",
+        "contract/filters.py",
+        "contract/i18n.py",
+        "contract/migrations/0002_add_company_and_blueline_fields.py",
+        "contract/migrations/0003_numero_contrat_unique_per_company.py",
+        "contract/models.py",
+        "contract/pdf.py",
+        "contract/serializers.py",
+        "contract/tests.py",
+        "contract/views.py",
+        "contracts_backend/asgi.py",
+        "contracts_backend/settings.py",
+        "contracts_backend/settings_test.py",
+        "contracts_backend/tests.py",
+        "contracts_backend/utils.py",
+        "core/constants.py",
+        "core/filters.py",
+        "manage.py",
+        "requirements.txt",
+        "ws/tests.py"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "d5a9a97bf1496cac7b3603a4e9858f300931bc51",
+      "date": "2026-03-03",
+      "subject": "refactor contract components; add chip select filter for company and enhance contract details",
+      "body": "",
+      "files": [
+        "bun.lock",
+        "package.json",
+        "src/components/formikElements/customDropDownSelect/customDropDownSelect.tsx",
+        "src/components/pages/contracts/contract-form.test.tsx",
+        "src/components/pages/contracts/contract-form.tsx",
+        "src/components/pages/contracts/contract-view.tsx",
+        "src/components/pages/contracts/contracts-list.test.tsx",
+        "src/components/pages/contracts/contracts-list.tsx",
+        "src/components/shared/chipSelectFilter/chipSelectFilter.tsx",
+        "src/components/shared/chipSelectFilter/chipSelectFilterBar.tsx",
+        "src/models/classes.test.ts",
+        "src/models/classes.ts",
+        "src/types/contractTypes.ts",
+        "src/utils/formValidationSchemas.test.ts",
+        "src/utils/formValidationSchemas.ts",
+        "src/utils/rawData.ts",
+        "src/utils/themes.ts"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "0da540ca61020dabdbc537dce0d5e8f558e05637",
+      "date": "2026-03-04",
+      "subject": "feat: add cross-field validation for acompte and tranche2 in Contract serializer",
+      "body": "",
+      "files": [
+        "contract/bl_pdf.py",
+        "contract/serializers.py",
+        "contract/tests.py"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "3448927f4b17b24583b604ed559f951fe9747160",
+      "date": "2026-03-04",
+      "subject": "feat: add phone number to company details and improve guarantee type display in documents",
+      "body": "",
+      "files": [
+        "account/views.py",
+        "contract/bl_doc.py",
+        "contract/bl_i18n.py",
+        "contract/bl_pdf.py",
+        "contract/doc.py",
+        "contract/i18n.py",
+        "contract/pdf.py",
+        "contract/serializers.py"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "5caaa48c914a29265a7ef9b4524049a6662b9ad3",
+      "date": "2026-03-04",
+      "subject": "feat: enhance contract document generation with dynamic VAT and guarantee labels",
+      "body": "",
+      "files": [
+        "account/tests.py",
+        "account/views.py",
+        "contract/bl_doc.py",
+        "contract/bl_pdf.py",
+        "contract/doc.py",
+        "contract/i18n.py",
+        "contract/pdf.py",
+        "contract/tests.py"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "9d77865a73d47459c0dfa0c963dcd036e41fdfbb",
+      "date": "2026-03-04",
+      "subject": "feat: add client quality and works description fields in document generation",
+      "body": "",
+      "files": [
+        "contract/bl_doc.py",
+        "contract/bl_i18n.py",
+        "contract/bl_pdf.py",
+        "contract/doc.py"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "fbc6d2dc6104d928605a24e16f13a80ba6cfff52",
+      "date": "2026-03-04",
+      "subject": "feat: enhance document generation with improved HTML parsing and dynamic footer details",
+      "body": "",
+      "files": [
+        "contract/bl_doc.py",
+        "contract/bl_i18n.py",
+        "contract/bl_pdf.py",
+        "contract/doc.py",
+        "contract/i18n.py",
+        "contract/pdf.py"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "05a29f764f5e617d2da0d58ab58322422ebd066f",
+      "date": "2026-03-04",
+      "subject": "refactor contract-view; remove unused date formatting function and update status change handling",
+      "body": "",
+      "files": [
+        "src/components/pages/contracts/contract-view.tsx"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "3976fa7b3ea56ab1e08f0c1852f1cd9669d9719d",
+      "date": "2026-03-04",
+      "subject": "refactor contract components; update date formatting and enhance contract schema with new fields",
+      "body": "",
+      "files": [
+        "src/components/pages/contracts/contract-form.tsx",
+        "src/components/pages/contracts/contract-view.tsx",
+        "src/types/contractTypes.ts",
+        "src/utils/formValidationSchemas.test.ts",
+        "src/utils/formValidationSchemas.ts",
+        "src/utils/helpers.ts"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "7395b40b233afc3d86300338107571b74d6d53cb",
+      "date": "2026-03-04",
+      "subject": "refactor contract components; add Casa Di Lusso fields and enhance contract form functionality",
+      "body": "",
+      "files": [
+        "src/components/pages/contracts/contract-form.tsx",
+        "src/components/pages/contracts/contract-view.tsx",
+        "src/types/contractTypes.ts",
+        "src/utils/formValidationSchemas.ts",
+        "src/utils/rawData.ts"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "75286fa8d291ab40c80ba5b0391c052602958062",
+      "date": "2026-03-04",
+      "subject": "refactor contract forms and views; conditionally render fields based on isBlueline and update error handling logic",
+      "body": "",
+      "files": [
+        "src/components/pages/contracts/contract-form.tsx",
+        "src/components/pages/contracts/contract-view.tsx"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "79c8a8a31a3dd606a4eaee67105d462e60daf25c",
+      "date": "2026-03-04",
+      "subject": "refactor tests; update ChipSelectFilter to use string format for selectedIds and enhance contract form options",
+      "body": "",
+      "files": [
+        "src/components/pages/contracts/contract-form.test.tsx",
+        "src/components/shared/chipSelectFilter/chipSelectFilter.test.tsx"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "7d41e5969c1622753376d332057cfcc0b2f7128e",
+      "date": "2026-03-04",
+      "subject": "refactor tests; update ChipSelectFilter selectedIds to string format and enhance mock session structure",
+      "body": "",
+      "files": [
+        "src/components/pages/contracts/contracts-list.test.tsx",
+        "src/components/shared/chipSelectFilter/chipSelectFilter.test.tsx"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "9fb0ebe88f227876b53091fec36751dd434d3acb",
+      "date": "2026-03-04",
+      "subject": "refactor contract components; remove client field and update related validations and labels",
+      "body": "",
+      "files": [
+        "src/components/pages/contracts/contract-form.tsx",
+        "src/components/pages/contracts/contract-view.tsx",
+        "src/models/classes.test.ts",
+        "src/models/classes.ts",
+        "src/utils/formValidationSchemas.ts",
+        "src/utils/rawData.ts"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "a084ec6af7df71a277a463d79483294fb523bb57",
+      "date": "2026-03-04",
+      "subject": "add tests for ChipSelectFilter and ChipSelectFilterBar components; verify rendering and functionality",
+      "body": "",
+      "files": [
+        "src/components/shared/chipSelectFilter/chipSelectFilter.test.tsx",
+        "src/components/shared/chipSelectFilter/chipSelectFilterBar.test.tsx"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "7674d7dc1e98c3df12861149f378a49637930583",
+      "date": "2026-03-05",
+      "subject": "fix: update PostgreSQL data volume path in docker-compose configuration",
+      "body": "",
+      "files": [
+        "docker-compose.yml"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "a899e92a0eea17b2b21340010db5ab53cfbe955f",
+      "date": "2026-03-05",
+      "subject": "fix: update Python SDK name in project configuration files",
+      "body": "",
+      "files": [
+        ".idea/contracts_backend.iml",
+        ".idea/misc.xml"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "ad0c7f5234faec8ef9404fc13c24b39b5b0a5d7f",
+      "date": "2026-03-05",
+      "subject": "fix: update translations and improve document formatting in service agreement",
+      "body": "",
+      "files": [
+        "contract/bl_doc.py",
+        "contract/bl_i18n.py",
+        "contract/bl_pdf.py",
+        "contract/doc.py",
+        "contract/i18n.py",
+        "contract/pdf.py",
+        "requirements.txt"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "b0548211ee8e41b5185ff256dd9de792fabc6208",
+      "date": "2026-03-05",
+      "subject": "feat: ensure app import on Django startup for shared_task integration",
+      "body": "",
+      "files": [
+        "contracts_backend/__init__.py"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "31de8193df4b08d2262febcd88f22d7b13ba249c",
+      "date": "2026-03-05",
+      "subject": "refactor contract form; enhance validation logic and replace tranches input with DataGrid for better usability - update dependencies; bump MUI packages to version 7.3.9 and related libraries to latest versions",
+      "body": "",
+      "files": [
+        "bun.lock",
+        "package.json",
+        "src/components/pages/contracts/contract-form.tsx"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "6307095c1f0f030bdc7515d691963593c569e1b5",
+      "date": "2026-03-05",
+      "subject": "refactor next.config.ts; update API hostname for media and security policies",
+      "body": "",
+      "files": [
+        "next.config.ts"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "c81ec183c53ceaf54afdcf64150478e7a211a311",
+      "date": "2026-03-05",
+      "subject": "refactor docker-compose; switch to production environment variables",
+      "body": "",
+      "files": [
+        "docker-compose.yml"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "ea080c99dae1706c4110abd5dabbd38a869e5f90",
+      "date": "2026-03-05",
+      "subject": "chore: retrigger deploy",
+      "body": "",
+      "files": []
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "0e065ad09398f955961447fc2cb4f5269faddf17",
+      "date": "2026-03-06",
+      "subject": "feat: add num2words integration for number-to-words conversion and update document formatting",
+      "body": "",
+      "files": [
+        "contract/models.py",
+        "contract/st_doc.py",
+        "contract/st_i18n.py",
+        "contract/st_pdf.py",
+        "requirements.txt"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "241f239435eca29fc4c989fc225d65a8c3ef884e",
+      "date": "2026-03-06",
+      "subject": "fix: update label for service provider in French and English contexts",
+      "body": "",
+      "files": [
+        "contract/doc.py"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "b0c3ef3fd650f433dd04e024e940bdc7bafcb552",
+      "date": "2026-03-06",
+      "subject": "feat: added contract sous traitance casa di lusso html",
+      "body": "",
+      "files": [
+        "Contrat_Sous_Traitance_Casa_Di_Lusso_V2.html"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "cec338ae022efd165e218cff4a6d4356fb19fe9e",
+      "date": "2026-03-06",
+      "subject": "feat: add CompanyConfig model and related views for company configurations",
+      "body": "",
+      "files": [
+        "account/tests.py",
+        "account/views.py",
+        "contract/admin.py",
+        "contract/bl_doc.py",
+        "contract/bl_pdf.py",
+        "contract/doc.py",
+        "contract/filters.py",
+        "contract/migrations/0004_alter_contract_unique_together_and_more.py",
+        "contract/models.py",
+        "contract/serializers.py",
+        "contract/st_doc.py",
+        "contract/st_i18n.py",
+        "contract/st_pdf.py",
+        "contract/tests.py",
+        "contract/urls.py",
+        "contract/utils.py",
+        "contract/views.py",
+        "contracts_backend/__init__.py",
+        "contracts_backend/settings.py",
+        "contracts_backend/urls.py",
+        "core/admin.py",
+        "core/constants.py",
+        "core/migrations/0001_initial.py",
+        "core/models.py",
+        "core/serializers.py",
+        "core/urls.py",
+        "core/views.py",
+        "docker-compose.yml"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "0eaea94cfa2f0b4636f05a16fccb1d12526c388c",
+      "date": "2026-03-06",
+      "subject": "refactor contract forms; update client fields to allow null values, enhance validation logic, and adjust labels for better clarity",
+      "body": "",
+      "files": [
+        "src/components/pages/contracts/contract-form.test.tsx",
+        "src/components/pages/contracts/contract-form.tsx",
+        "src/components/pages/contracts/contract-view.test.tsx",
+        "src/components/pages/contracts/contract-view.tsx",
+        "src/components/pages/contracts/contracts-list.tsx",
+        "src/models/classes.ts",
+        "src/types/contractTypes.ts",
+        "src/utils/formValidationSchemas.ts",
+        "src/utils/rawData.test.ts",
+        "src/utils/rawData.ts"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "2e68f1e02e05ebc8ed5ad02b0d46fc7c70eb21ca",
+      "date": "2026-03-06",
+      "subject": "refactor contract validation; simplify required fields for ST category in form validation schemas",
+      "body": "",
+      "files": [
+        "src/components/pages/contracts/contract-form.test.tsx",
+        "src/utils/formValidationSchemas.ts"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "429f264ec3b229ebe8077d7507aa3ccdee6f42c3",
+      "date": "2026-03-06",
+      "subject": "chore: update dependencies; bump @mui/x-data-grid to 8.27.4 and @types/node to 25.3.5",
+      "body": "",
+      "files": [
+        "bun.lock",
+        "package.json"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "44371e019fa5291aad621cf64edc7677ad19395e",
+      "date": "2026-03-06",
+      "subject": "refactor contract management; add project and company configuration handling, enhance contract category support, and update validation logic",
+      "body": "",
+      "files": [
+        "env.d.ts",
+        "src/components/pages/contracts/contract-form.test.tsx",
+        "src/components/pages/contracts/contract-form.tsx",
+        "src/components/pages/contracts/contract-view.test.tsx",
+        "src/components/pages/contracts/contract-view.tsx",
+        "src/components/pages/contracts/contracts-list.test.tsx",
+        "src/components/pages/contracts/contracts-list.tsx",
+        "src/models/classes.test.ts",
+        "src/models/classes.ts",
+        "src/store/services/contract.test.ts",
+        "src/store/services/contract.ts",
+        "src/types/contractTypes.ts",
+        "src/utils/formValidationSchemas.test.ts",
+        "src/utils/formValidationSchemas.ts",
+        "src/utils/rawData.test.ts",
+        "src/utils/rawData.ts"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "93459ef4c6d9b706746dab3f975f9b6712378ca5",
+      "date": "2026-03-06",
+      "subject": "refactor contract form validation; allow null values for optional fields and enhance error handling for ST tranches",
+      "body": "",
+      "files": [
+        "src/components/pages/contracts/contract-form.tsx",
+        "src/utils/formValidationSchemas.ts"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "b7a6b78b54431b096f595497408baa924283b03d",
+      "date": "2026-03-06",
+      "subject": "refactor contract types; update fields to allow null values for better flexibility and data handling",
+      "body": "",
+      "files": [
+        "src/models/classes.ts",
+        "src/types/contractTypes.ts"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "0b964c958599b0f58f9ce76f9cd4480d3dc87625",
+      "date": "2026-03-09",
+      "subject": "feat: add validation for total percentages in contract tranches and enhance error handling",
+      "body": "",
+      "files": [
+        "contract/serializers.py",
+        "contract/tests.py"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "252abccd0c0226ab82e91b61eee5eccad8313d6f",
+      "date": "2026-03-09",
+      "subject": "feat: update contract clauses and improve document structure in subcontracting agreement",
+      "body": "",
+      "files": [
+        "contract/bl_doc.py",
+        "contract/bl_i18n.py",
+        "contract/bl_pdf.py",
+        "contract/st_doc.py",
+        "contract/st_i18n.py",
+        "contract/st_pdf.py"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "41c9a51ec51b50bb6a0145c070620b94be00b3ca",
+      "date": "2026-03-09",
+      "subject": "feat: update docker-compose to configure Redis and restore Celery service",
+      "body": "",
+      "files": [
+        "docker-compose.yml"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "a5dd4b6dc83fe96a1f9cb97e4f4f95383e0e9f9e",
+      "date": "2026-03-09",
+      "subject": "chore: update redis and numpy versions in requirements.txt",
+      "body": "",
+      "files": [
+        "requirements.txt"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "f64af455426250f195911a54f616d7967900a3cb",
+      "date": "2026-03-09",
+      "subject": "feat: update email subjects and titles to include 'E.B.H' for consistency",
+      "body": "",
+      "files": [
+        "account/admin.py",
+        "account/templates/new_account.html",
+        "account/templates/new_password.html",
+        "account/templates/password_reset.html",
+        "account/views.py"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "009aa819fb29c1371130597c5735259f93d28df2",
+      "date": "2026-03-09",
+      "subject": "chore: update docker-compose; set container name for web service and add healthcheck configuration",
+      "body": "",
+      "files": [
+        "docker-compose.yml"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "1e9c67948c4dddae9eb184a74ffe4f38e2f2543b",
+      "date": "2026-03-09",
+      "subject": "style: update logo dimensions in auth layout; adjust width to 150px and height to 200px, and add logo to login page",
+      "body": "",
+      "files": [
+        "src/components/layouts/auth/authLayout.module.sass",
+        "src/components/pages/auth/login/login.tsx",
+        "src/styles/auth/auth.module.sass"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "364521b41af45e07050ca0149a583a0acbaf9094",
+      "date": "2026-03-09",
+      "subject": "feat: update layout and assets; add logo to auth layout and enhance metadata for better branding",
+      "body": "",
+      "files": [
+        "public/assets/ico/android-icon-144x144.png",
+        "public/assets/ico/android-icon-192x192.png",
+        "public/assets/ico/android-icon-36x36.png",
+        "public/assets/ico/android-icon-48x48.png",
+        "public/assets/ico/android-icon-72x72.png",
+        "public/assets/ico/android-icon-96x96.png",
+        "public/assets/ico/apple-icon-114x114.png",
+        "public/assets/ico/apple-icon-120x120.png",
+        "public/assets/ico/apple-icon-144x144.png",
+        "public/assets/ico/apple-icon-152x152.png",
+        "public/assets/ico/apple-icon-180x180.png",
+        "public/assets/ico/apple-icon-57x57.png",
+        "public/assets/ico/apple-icon-60x60.png",
+        "public/assets/ico/apple-icon-72x72.png",
+        "public/assets/ico/apple-icon-76x76.png",
+        "public/assets/ico/apple-icon-precomposed.png",
+        "public/assets/ico/apple-icon.png",
+        "public/assets/ico/browserconfig.xml",
+        "public/assets/ico/favicon-16x16.png",
+        "public/assets/ico/favicon-32x32.png",
+        "public/assets/ico/favicon-96x96.png",
+        "public/assets/ico/favicon.ico",
+        "public/assets/ico/manifest.json",
+        "public/assets/ico/ms-icon-144x144.png",
+        "public/assets/ico/ms-icon-150x150.png",
+        "public/assets/ico/ms-icon-310x310.png",
+        "public/assets/ico/ms-icon-70x70.png",
+        "public/assets/images/contrats-logo.png",
+        "src/app/layout.tsx",
+        "src/components/layouts/auth/authLayout.module.sass",
+        "src/components/layouts/auth/authLayout.tsx"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "409ebf5501032407c401b339f440c9d12ab13250",
+      "date": "2026-03-09",
+      "subject": "style: adjust logo dimensions in auth layout; update width to 130px and height to 180px",
+      "body": "",
+      "files": [
+        "src/components/layouts/auth/authLayout.module.sass"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "7f44fad8d95bd8183e46de61001ed4e8aac3b25c",
+      "date": "2026-03-09",
+      "subject": "feat: add validation for tranche totals; ensure total percentages equal 100% for both CDL and ST tranches",
+      "body": "",
+      "files": [
+        "src/components/pages/contracts/contract-form.tsx",
+        "src/utils/formValidationSchemas.test.ts",
+        "src/utils/formValidationSchemas.ts"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "847d3ccaf102f6eccb0ce239d53c47f58977d329",
+      "date": "2026-03-09",
+      "subject": "fix: update API endpoint paths for cookie operations; prepend '/api' to cookie-related requests",
+      "body": "",
+      "files": [
+        "src/app/(auth)/reset-password/set-password-complete/clearCookiesClient.test.tsx",
+        "src/app/(auth)/reset-password/set-password-complete/clearCookiesClient.tsx",
+        "src/components/layouts/navigationBar/navigationBar.tsx",
+        "src/components/pages/auth/reset-password/enterCode.tsx",
+        "src/components/pages/auth/reset-password/resetPassword.tsx",
+        "src/components/pages/auth/reset-password/setPassword.tsx",
+        "src/utils/apiHelpers.ts"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "db340813e453a99871f12b4ab8d84aa995de5da8",
+      "date": "2026-03-09",
+      "subject": "feat: initialize form values based on raw data; set default values for tranches and prestations",
+      "body": "",
+      "files": [
+        "src/components/pages/contracts/contract-form.tsx",
+        "src/components/pages/contracts/contracts-list.tsx"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "b483edb0eccebf09585e4fa6548092e6f6a1767e",
+      "date": "2026-03-10",
+      "subject": "feat: enhance garantie text formatting in documents and update Dockerfile for simplified package installation",
+      "body": "",
+      "files": [
+        "Dockerfile",
+        "contract/bl_doc.py",
+        "contract/bl_pdf.py"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "0678eada75bdcab9704b9a6b80286bf3ad099304",
+      "date": "2026-03-10",
+      "subject": "chore: update dependencies in package.json; bump versions for @types/node, @typescript-eslint/eslint-plugin, @typescript-eslint/parser, jest, and jest-environment-jsdom",
+      "body": "",
+      "files": [
+        "bun.lock",
+        "package.json"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "0bfb604b20e414d9cb2a1b231bae6ee2702eacd5",
+      "date": "2026-03-10",
+      "subject": "fix: update container name in docker-compose; change from 'contracts_frontend_web' to 'contracts_web'",
+      "body": "",
+      "files": [
+        "docker-compose.yml"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "a31bc0e3512cb6b58a3d7bcbf18f82aaa8d74afa",
+      "date": "2026-03-10",
+      "subject": "fix: revert container name in docker-compose; change from 'contracts_frontend_web' back to 'contracts_web'",
+      "body": "",
+      "files": [
+        "docker-compose.yml"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "d93aa3b50d14235d477f9626a333725e44717593",
+      "date": "2026-03-10",
+      "subject": "style: update alt text for logo images; provide descriptive alt text for accessibility",
+      "body": "",
+      "files": [
+        "src/app/page.tsx",
+        "src/components/layouts/auth/authLayout.tsx",
+        "src/components/pages/auth/login/login.tsx"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "1d92a36566ee1a25ea9c870a6db138ce972a0cf1",
+      "date": "2026-03-11",
+      "subject": "feat: add new residence and hotel options, update penalty field to use MAD currency, and adjust migration for contract model",
+      "body": "",
+      "files": [
+        "contract/migrations/0005_alter_contract_penalite_retard.py",
+        "contract/models.py",
+        "core/constants.py"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "34fb3d646e2e8f82995cf470854ee2bcd95003f9",
+      "date": "2026-03-11",
+      "subject": "feat: update Celery broker and result backend to use Redis database 0",
+      "body": "",
+      "files": [
+        "docker-compose.yml"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "44f53edb271215d444e9bbc68d510fc4c463d9aa",
+      "date": "2026-03-11",
+      "subject": "feat: update contract form fields and validation; modify default values, labels, and add new options for services",
+      "body": "",
+      "files": [
+        "qodana.yaml",
+        "src/components/pages/contracts/contract-form.tsx",
+        "src/components/pages/contracts/contract-view.tsx",
+        "src/utils/formValidationSchemas.ts",
+        "src/utils/rawData.ts"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "5f2fe4b68598296e3d44f1a97da3389ad6856d2b",
+      "date": "2026-03-11",
+      "subject": "chore: update sass version in package.json and bun.lock; bump from 1.97.3 to 1.98.0",
+      "body": "",
+      "files": [
+        "bun.lock",
+        "package.json"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "ba3ba6c3a547f71490138a21145c9c3af05a1a4a",
+      "date": "2026-03-13",
+      "subject": "fix : fixed dockerfile & celery redis db in settings.py",
+      "body": "",
+      "files": [
+        "Dockerfile",
+        "contracts_backend/settings.py",
+        "entrypoint.sh"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "2f31f3d508307618c18d71a74152553e44249fd0",
+      "date": "2026-03-13",
+      "subject": "Empty commit",
+      "body": "",
+      "files": []
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "4be96a2b76d1946f13eeec544f7467a49778e837",
+      "date": "2026-03-13",
+      "subject": "fix: improve handling of numeric fields in contract form; set default values to 0 for tva and penalite_retard when empty or null",
+      "body": "",
+      "files": [
+        "src/components/pages/contracts/contract-form.tsx"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "b45cec75f124f12c511af37da425193bb48849ba",
+      "date": "2026-03-13",
+      "subject": "fix: update tva field handling in contract form; ensure default value is 0 when empty or null",
+      "body": "",
+      "files": [
+        "src/components/pages/contracts/contract-form.tsx"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "d77111f34935a7fa68b91feca696600e6458875a",
+      "date": "2026-03-13",
+      "subject": "fix: adjust penalite_retard field validation in form; limit maximum value to 100",
+      "body": "",
+      "files": [
+        "src/utils/formValidationSchemas.ts"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "dc3cfe77114dc84085053c95a91d613aec88bfb1",
+      "date": "2026-03-13",
+      "subject": "fix: update penalite_retard default value in contract form; limit to 100 in validation schema",
+      "body": "",
+      "files": [
+        "src/components/pages/contracts/contract-form.tsx",
+        "src/utils/formValidationSchemas.ts"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "b75eed3f655f1e08de0ab578c935afb71de156cc",
+      "date": "2026-03-14",
+      "subject": "feat: update contract model fields for garantie and penalite_retard, and add migration for changes",
+      "body": "",
+      "files": [
+        "contract/migrations/0006_alter_contract_garantie_and_more.py",
+        "contract/models.py"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "d12fcbd22e8ad9c6ff21901ddc2af97fa11f9670",
+      "date": "2026-03-14",
+      "subject": "feat: add FRONTEND_URL to environment settings and update email templates to include frontend link",
+      "body": "",
+      "files": [
+        ".env.example",
+        "account/admin.py",
+        "account/templates/new_account.html",
+        "account/templates/new_password.html",
+        "account/templates/password_reset.html",
+        "account/views.py",
+        "contracts_backend/settings.py"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "760169c87048376e3a55a20c96beafa3eb4a995a",
+      "date": "2026-03-14",
+      "subject": "fix: update Protected component to accept specific permissions; adjust tests accordingly",
+      "body": "",
+      "files": [
+        "src/components/layouts/protected/protected.test.tsx",
+        "src/components/layouts/protected/protected.tsx",
+        "src/components/pages/contracts/contract-view.tsx",
+        "src/components/pages/contracts/contracts-list.tsx"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "76fa6dbc60a455a6fb59fc86f035fdaaf967bd44",
+      "date": "2026-03-14",
+      "subject": "fix: add project and company config endpoints to .env.example",
+      "body": "",
+      "files": [
+        ".env.example"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "e07d1b64a0dc6329445ca0e58a722b302c473fbb",
+      "date": "2026-03-14",
+      "subject": "fix: enhance token refresh logic; add refresh expiration handling and error logging",
+      "body": "",
+      "files": [
+        "src/auth.test.ts",
+        "src/auth.ts"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "373540fcdb745e55806be3960c7bf5553e482aef",
+      "date": "2026-03-24",
+      "subject": "feat: add WsMaintenanceState model and admin interface, and implement maintenance state broadcasting",
+      "body": "",
+      "files": [
+        "ws/admin.py",
+        "ws/consumers.py",
+        "ws/migrations/0001_initial.py",
+        "ws/models.py",
+        "ws/views.py"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "4fc518589ff145d8e42ae4f57919efe88fee22b2",
+      "date": "2026-03-24",
+      "subject": "chore: update package versions in requirements.txt",
+      "body": "",
+      "files": [
+        "requirements.txt"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "f3960b0b16a07d0f4074c1eaf1366228ad3d4880",
+      "date": "2026-03-24",
+      "subject": "feat: add GetMaintenanceView to retrieve current maintenance state",
+      "body": "",
+      "files": [
+        "contracts_backend/urls.py",
+        "ws/views.py"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "021a820083bb5a1fc3f36b4ef702fa8e299029ed",
+      "date": "2026-03-24",
+      "subject": "feat: implement maintenance mode feature; add websocket handling and UI component",
+      "body": "",
+      "files": [
+        "public/assets/images/auth_illu/maintenance.svg",
+        "src/app/layout.test.tsx",
+        "src/app/layout.tsx",
+        "src/components/shared/maintenance/Maintenance.test.tsx",
+        "src/components/shared/maintenance/Maintenance.tsx",
+        "src/store/actions/index.ts",
+        "src/store/actions/wsActions.ts",
+        "src/store/sagas/index.test.ts",
+        "src/store/sagas/index.ts",
+        "src/store/sagas/wsSaga.test.ts",
+        "src/store/sagas/wsSaga.ts",
+        "src/store/selectors/index.ts",
+        "src/store/services/ws.ts",
+        "src/store/slices/wsSlice.test.ts",
+        "src/store/slices/wsSlice.ts",
+        "src/store/store.ts"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "836b3c36997ef3e7715966ffce2d156bf13d521f",
+      "date": "2026-03-24",
+      "subject": "feat: add document SVG and update Maintenance component to use new image",
+      "body": "",
+      "files": [
+        "public/assets/images/auth_illu/document.svg",
+        "public/assets/images/auth_illu/maintenance.svg",
+        "src/components/shared/maintenance/Maintenance.tsx"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "a8d526395187b853a9716b45604d107a1a292506",
+      "date": "2026-03-24",
+      "subject": "feat: add WebSocket types for user avatar and maintenance events",
+      "body": "",
+      "files": [
+        "src/types/wsTypes.ts"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "c28ce52724c5d960b56c08cdb9bdf1b95ac490ba",
+      "date": "2026-03-24",
+      "subject": "feat: add initApp action and refactor related sagas and tests",
+      "body": "",
+      "files": [
+        "src/contexts/initEffects.test.tsx",
+        "src/contexts/initEffects.tsx",
+        "src/store/actions/_initActions.test.ts",
+        "src/store/actions/_initActions.ts",
+        "src/store/actions/index.ts",
+        "src/store/sagas/_initSaga.test.ts",
+        "src/store/sagas/_initSaga.ts",
+        "src/store/sagas/wsSaga.test.ts",
+        "src/utils/apiHelpers.test.ts",
+        "src/utils/apiHelpers.ts"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "d4fd79ba3a492929f679b13f8a59bfec934c574f",
+      "date": "2026-03-24",
+      "subject": "fix: update dependencies to latest versions; adjust package.json and bun.lock accordingly",
+      "body": "",
+      "files": [
+        "bun.lock",
+        "package.json"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "fe4df55fb41bbc2fb4f054df84dbd1b9477f921d",
+      "date": "2026-03-25",
+      "subject": "feat: update verbose names for WS Maintenance State to Maintenance",
+      "body": "",
+      "files": [
+        "ws/models.py"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "006683d5efe59a2d0fab2197a4a1d48416f74765",
+      "date": "2026-03-25",
+      "subject": "Empty commit",
+      "body": "",
+      "files": []
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "7131fb9929c879a390d1e2ffe8815e943dfbdf7f",
+      "date": "2026-03-25",
+      "subject": "feat: corrected next.config.ts custom Cache-Control header and init types.",
+      "body": "",
+      "files": [
+        "next.config.ts",
+        "src/store/sagas/_initSaga.ts",
+        "src/types/_initTypes.ts"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "0bdbc7e343d0c16422f46b5989e9aa8a4c618ec4",
+      "date": "2026-03-26",
+      "subject": "feat: add NEXT_PUBLIC_WS_MAINTENANCE_ROOT to env.d.ts and refactor WebSocket types, fix websocket profile picture",
+      "body": "",
+      "files": [
+        ".yarnrc.yml",
+        "env.d.ts",
+        "eslint.config.mjs",
+        "jest.config.ts",
+        "jest.setup.ts",
+        "next.config.ts",
+        "src/app/(auth)/login/page.test.tsx",
+        "src/app/(auth)/login/page.tsx",
+        "src/app/(auth)/reset-password/enter-code/page.test.tsx",
+        "src/app/(auth)/reset-password/enter-code/page.tsx",
+        "src/app/(auth)/reset-password/page.test.tsx",
+        "src/app/(auth)/reset-password/page.tsx",
+        "src/app/(auth)/reset-password/set-password-complete/clearCookiesClient.test.tsx",
+        "src/app/(auth)/reset-password/set-password-complete/clearCookiesClient.tsx",
+        "src/app/(auth)/reset-password/set-password-complete/page.test.tsx",
+        "src/app/(auth)/reset-password/set-password-complete/page.tsx",
+        "src/app/(auth)/reset-password/set-password/page.test.tsx",
+        "src/app/(auth)/reset-password/set-password/page.tsx",
+        "src/app/api/auth/[...nextauth]/route.test.ts",
+        "src/app/api/auth/[...nextauth]/route.ts",
+        "src/app/api/cookies/route.test.ts",
+        "src/app/api/cookies/route.ts",
+        "src/app/dashboard/contracts/[id]/edit/page.test.tsx",
+        "src/app/dashboard/contracts/[id]/edit/page.tsx",
+        "src/app/dashboard/contracts/[id]/page.test.tsx",
+        "src/app/dashboard/contracts/[id]/page.tsx",
+        "src/app/dashboard/contracts/new/page.test.tsx",
+        "src/app/dashboard/contracts/new/page.tsx",
+        "src/app/dashboard/contracts/page.test.tsx",
+        "src/app/dashboard/contracts/page.tsx",
+        "src/app/dashboard/layout.tsx",
+        "src/app/dashboard/page.test.tsx",
+        "src/app/dashboard/page.tsx",
+        "src/app/dashboard/settings/edit-profile/page.test.tsx",
+        "src/app/dashboard/settings/edit-profile/page.tsx",
+        "src/app/dashboard/settings/password/page.test.tsx",
+        "src/app/dashboard/settings/password/page.tsx",
+        "src/app/dashboard/users/[id]/edit/page.test.tsx",
+        "src/app/dashboard/users/[id]/edit/page.tsx",
+        "src/app/dashboard/users/[id]/page.test.tsx",
+        "src/app/dashboard/users/[id]/page.tsx",
+        "src/app/dashboard/users/new/page.test.tsx",
+        "src/app/dashboard/users/new/page.tsx",
+        "src/app/dashboard/users/page.test.tsx",
+        "src/app/dashboard/users/page.tsx",
+        "src/app/layout.test.tsx",
+        "src/app/layout.tsx",
+        "src/app/not-found.test.tsx",
+        "src/app/not-found.tsx",
+        "src/app/page.test.tsx",
+        "src/app/page.tsx",
+        "src/auth.test.ts",
+        "src/auth.ts",
+        "src/components/formikElements/apiLoading/apiAlert/apiAlert.test.tsx",
+        "src/components/formikElements/apiLoading/apiAlert/apiAlert.tsx",
+        "src/components/formikElements/apiLoading/apiProgress/apiProgress.test.tsx",
+        "src/components/formikElements/apiLoading/apiProgress/apiProgress.tsx",
+        "src/components/formikElements/customDropDownSelect/customDropDownSelect.module.sass",
+        "src/components/formikElements/customDropDownSelect/customDropDownSelect.test.tsx",
+        "src/components/formikElements/customDropDownSelect/customDropDownSelect.tsx",
+        "src/components/formikElements/customOutlinedText/customOutlinedText.test.tsx",
+        "src/components/formikElements/customOutlinedText/customOutlinedText.tsx",
+        "src/components/formikElements/customPasswordInput/customPasswordInput.test.tsx",
+        "src/components/formikElements/customPasswordInput/customPasswordInput.tsx",
+        "src/components/formikElements/customSquareImageUploading/customSquareImageUploading.module.sass",
+        "src/components/formikElements/customSquareImageUploading/customSquareImageUploading.test.tsx",
+        "src/components/formikElements/customSquareImageUploading/customSquareImageUploading.tsx",
+        "src/components/formikElements/customTextInput/customTextInput.test.tsx",
+        "src/components/formikElements/customTextInput/customTextInput.tsx",
+        "src/components/htmlElements/buttons/primaryAnchorButton/primaryAnchorButton.module.sass",
+        "src/components/htmlElements/buttons/primaryAnchorButton/primaryAnchorButton.test.tsx",
+        "src/components/htmlElements/buttons/primaryAnchorButton/primaryAnchorButton.tsx",
+        "src/components/htmlElements/buttons/primaryLoadingButton/primaryLoadingButton.module.sass",
+        "src/components/htmlElements/buttons/primaryLoadingButton/primaryLoadingButton.test.tsx",
+        "src/components/htmlElements/buttons/primaryLoadingButton/primaryLoadingButton.tsx",
+        "src/components/htmlElements/buttons/squareImageInputFile/squareImageInputFile.module.sass",
+        "src/components/htmlElements/buttons/squareImageInputFile/squareImageInputFile.test.tsx",
+        "src/components/htmlElements/buttons/squareImageInputFile/squareImageInputFile.tsx",
+        "src/components/htmlElements/buttons/textButton/textButton.module.sass",
+        "src/components/htmlElements/buttons/textButton/textButton.test.tsx",
+        "src/components/htmlElements/buttons/textButton/textButton.tsx",
+        "src/components/htmlElements/modals/actionModal/actionModals.test.tsx",
+        "src/components/htmlElements/modals/actionModal/actionModals.tsx",
+        "src/components/htmlElements/tooltip/darkTooltip/darkTooltip.test.tsx",
+        "src/components/htmlElements/tooltip/darkTooltip/darkTooltip.tsx",
+        "src/components/layouts/auth/authLayout.module.sass",
+        "src/components/layouts/auth/authLayout.test.tsx",
+        "src/components/layouts/auth/authLayout.tsx",
+        "src/components/layouts/navigationBar/navigationBar.test.tsx",
+        "src/components/layouts/navigationBar/navigationBar.tsx",
+        "src/components/layouts/protected/protected.test.tsx",
+        "src/components/layouts/protected/protected.tsx",
+        "src/components/pages/auth/login/login.test.tsx",
+        "src/components/pages/auth/login/login.tsx",
+        "src/components/pages/auth/reset-password/enterCode.test.tsx",
+        "src/components/pages/auth/reset-password/enterCode.tsx",
+        "src/components/pages/auth/reset-password/resetPassword.test.tsx",
+        "src/components/pages/auth/reset-password/resetPassword.tsx",
+        "src/components/pages/auth/reset-password/setPassword.test.tsx",
+        "src/components/pages/auth/reset-password/setPassword.tsx",
+        "src/components/pages/auth/reset-password/setPasswordComplete.test.tsx",
+        "src/components/pages/auth/reset-password/setPasswordComplete.tsx",
+        "src/components/pages/contracts/contract-form.test.tsx",
+        "src/components/pages/contracts/contract-form.tsx",
+        "src/components/pages/contracts/contract-view.test.tsx",
+        "src/components/pages/contracts/contract-view.tsx",
+        "src/components/pages/contracts/contracts-list.test.tsx",
+        "src/components/pages/contracts/contracts-list.tsx",
+        "src/components/pages/settings/edit-profile.test.tsx",
+        "src/components/pages/settings/edit-profile.tsx",
+        "src/components/pages/settings/password.test.tsx",
+        "src/components/pages/settings/password.tsx",
+        "src/components/pages/users/users-form.test.tsx",
+        "src/components/pages/users/users-form.tsx",
+        "src/components/pages/users/users-list.test.tsx",
+        "src/components/pages/users/users-list.tsx",
+        "src/components/pages/users/users-view.test.tsx",
+        "src/components/pages/users/users-view.tsx",
+        "src/components/portals/customToast/customToast.module.sass",
+        "src/components/portals/customToast/customToast.test.tsx",
+        "src/components/portals/customToast/customToast.tsx",
+        "src/components/shared/chipSelectFilter/chipSelectFilter.test.tsx",
+        "src/components/shared/chipSelectFilter/chipSelectFilter.tsx",
+        "src/components/shared/chipSelectFilter/chipSelectFilterBar.test.tsx",
+        "src/components/shared/chipSelectFilter/chipSelectFilterBar.tsx",
+        "src/components/shared/dateRangeFilter/dateRangeFilterOperator.test.tsx",
+        "src/components/shared/dateRangeFilter/dateRangeFilterOperator.tsx",
+        "src/components/shared/dropdownFilter/dropdownFilter.test.tsx",
+        "src/components/shared/dropdownFilter/dropdownFilter.tsx",
+        "src/components/shared/errorBoundary/ErrorBoundary.test.tsx",
+        "src/components/shared/errorBoundary/errorBoundary.tsx",
+        "src/components/shared/errorBoundary/index.ts",
+        "src/components/shared/filterPanel/customFilterPanel.test.tsx",
+        "src/components/shared/filterPanel/customFilterPanel.tsx",
+        "src/components/shared/maintenance/Maintenance.test.tsx",
+        "src/components/shared/maintenance/Maintenance.tsx",
+        "src/components/shared/mobileActionsMenu/mobileActionsMenu.test.tsx",
+        "src/components/shared/mobileActionsMenu/mobileActionsMenu.tsx",
+        "src/components/shared/noPermission/noPermission.test.tsx",
+        "src/components/shared/noPermission/noPermission.tsx",
+        "src/components/shared/numericFilter/numericFilterOperator.test.tsx",
+        "src/components/shared/numericFilter/numericFilterOperator.tsx",
+        "src/components/shared/paginatedDataGrid/paginatedDataGrid.test.tsx",
+        "src/components/shared/paginatedDataGrid/paginatedDataGrid.tsx",
+        "src/components/shared/pdfLanguageModal/pdfLanguageModal.test.tsx",
+        "src/components/shared/pdfLanguageModal/pdfLanguageModal.tsx",
+        "src/components/shared/sessionExpiredListener/sessionExpiredListener.test.tsx",
+        "src/components/shared/sessionExpiredListener/sessionExpiredListener.tsx",
+        "src/contexts/InitContext.tsx",
+        "src/contexts/initContext.test.tsx",
+        "src/contexts/initEffects.test.tsx",
+        "src/contexts/initEffects.tsx",
+        "src/contexts/portal.tsx",
+        "src/contexts/toastContext.test.tsx",
+        "src/contexts/toastContext.tsx",
+        "src/models/classes.test.ts",
+        "src/models/classes.ts",
+        "src/providers/sessionProvider.tsx",
+        "src/providers/storeProvider.tsx",
+        "src/providers/themeProvider.tsx",
+        "src/proxy.test.ts",
+        "src/proxy.ts",
+        "src/store/actions/_initActions.test.ts",
+        "src/store/actions/_initActions.ts",
+        "src/store/actions/accountActions.test.ts",
+        "src/store/actions/accountActions.ts",
+        "src/store/actions/index.ts",
+        "src/store/actions/wsActions.ts",
+        "src/store/sagas/_initSaga.test.ts",
+        "src/store/sagas/_initSaga.ts",
+        "src/store/sagas/accountSaga.test.ts",
+        "src/store/sagas/accountSaga.ts",
+        "src/store/sagas/index.test.ts",
+        "src/store/sagas/index.ts",
+        "src/store/sagas/wsSaga.test.ts",
+        "src/store/sagas/wsSaga.ts",
+        "src/store/selectors/index.test.ts",
+        "src/store/selectors/index.ts",
+        "src/store/services/account.test.ts",
+        "src/store/services/account.ts",
+        "src/store/services/contract.test.ts",
+        "src/store/services/contract.ts",
+        "src/store/services/ws.ts",
+        "src/store/session.test.ts",
+        "src/store/session.ts",
+        "src/store/setupApiStore.ts",
+        "src/store/slices/_initSlice.test.ts",
+        "src/store/slices/_initSlice.ts",
+        "src/store/slices/accountSlice.test.ts",
+        "src/store/slices/accountSlice.ts",
+        "src/store/slices/wsSlice.test.ts",
+        "src/store/slices/wsSlice.ts",
+        "src/store/store.test.ts",
+        "src/store/store.ts",
+        "src/styles/auth/auth.module.sass",
+        "src/styles/dashboard/dashboard.module.sass",
+        "src/styles/globals.sass",
+        "src/styles/sass/_colors.sass",
+        "src/styles/sass/_mixins.sass",
+        "src/styles/sass/_variables.sass",
+        "src/types/_initTypes.ts",
+        "src/types/accountTypes.ts",
+        "src/types/contractTypes.ts",
+        "src/types/next-auth.d.ts",
+        "src/types/wsTypes.ts",
+        "src/types/zod-formik-adapter.d.ts",
+        "src/utils/apiHelpers.test.ts",
+        "src/utils/apiHelpers.ts",
+        "src/utils/axiosBaseQuery.test.ts",
+        "src/utils/axiosBaseQuery.ts",
+        "src/utils/clientHelpers.test.tsx",
+        "src/utils/clientHelpers.tsx",
+        "src/utils/corsHeaders.test.ts",
+        "src/utils/corsHeaders.ts",
+        "src/utils/formValidationErrorMessages.ts",
+        "src/utils/formValidationSchemas.test.ts",
+        "src/utils/formValidationSchemas.ts",
+        "src/utils/helpers.test.ts",
+        "src/utils/helpers.ts",
+        "src/utils/hooks.test.tsx",
+        "src/utils/hooks.ts",
+        "src/utils/rawData.test.ts",
+        "src/utils/rawData.ts",
+        "src/utils/routes.test.ts",
+        "src/utils/routes.ts",
+        "src/utils/themes.test.ts",
+        "src/utils/themes.ts",
+        "tsconfig.json"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "26114a4c9ebd208f114fb06c27010fb8ec93ae06",
+      "date": "2026-03-26",
+      "subject": "feat: consumed initContext token in various places.",
+      "body": "",
+      "files": [
+        "src/components/pages/auth/login/login.test.tsx",
+        "src/components/pages/auth/reset-password/enterCode.test.tsx",
+        "src/components/pages/auth/reset-password/resetPassword.test.tsx",
+        "src/components/pages/auth/reset-password/setPassword.test.tsx",
+        "src/components/pages/auth/reset-password/setPasswordComplete.test.tsx",
+        "src/components/pages/contracts/contract-form.test.tsx",
+        "src/components/pages/contracts/contract-form.tsx",
+        "src/components/pages/contracts/contract-view.test.tsx",
+        "src/components/pages/contracts/contract-view.tsx",
+        "src/components/pages/contracts/contracts-list.test.tsx",
+        "src/components/pages/contracts/contracts-list.tsx",
+        "src/components/pages/settings/edit-profile.test.tsx",
+        "src/components/pages/settings/edit-profile.tsx",
+        "src/components/pages/settings/password.test.tsx",
+        "src/components/pages/users/users-form.test.tsx",
+        "src/components/pages/users/users-form.tsx",
+        "src/components/pages/users/users-list.test.tsx",
+        "src/components/pages/users/users-list.tsx",
+        "src/components/pages/users/users-view.test.tsx",
+        "src/components/pages/users/users-view.tsx",
+        "src/contexts/InitContext.tsx"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "b2dcfd689719624fdb0251034d4affc8020ea6f9",
+      "date": "2026-03-26",
+      "subject": "feat: add accessToken prop to various list components for improved authentication handling",
+      "body": "",
+      "files": [
+        "src/components/pages/contracts/contract-form.tsx",
+        "src/components/pages/contracts/contract-view.tsx",
+        "src/components/pages/contracts/contracts-list.tsx",
+        "src/components/pages/settings/edit-profile.tsx",
+        "src/components/pages/users/users-form.tsx",
+        "src/components/pages/users/users-list.tsx",
+        "src/components/pages/users/users-view.tsx"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "3d14e62b931823804889731c7b521e74c4e77dcc",
+      "date": "2026-03-27",
+      "subject": "feat: sanitize legacy values and update fields to JSONField in contract and historicalcontract models",
+      "body": "",
+      "files": [
+        "contract/migrations/0007_alter_st_lot_type_st_type_prix_penalite.py",
+        "contract/migrations/0008_alter_historicalcontract_st_lot_type_and_more.py",
+        "ws/migrations/0002_alter_wsmaintenancestate_options.py"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "40f61ee8d6e9202cf071baf4be8ee3a6f8b00d67",
+      "date": "2026-03-27",
+      "subject": "feat: update contract model to use JSONField for st_lot_type and st_type_prix, and modify penalty rate field",
+      "body": "",
+      "files": [
+        "contract/migrations/0007_alter_st_lot_type_st_type_prix_penalite.py",
+        "contract/models.py",
+        "contract/serializers.py",
+        "contract/st_doc.py",
+        "contract/st_i18n.py",
+        "contract/st_pdf.py",
+        "contract/tests.py"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "5182f54377c4d28bdf4d3af0281f9cdb2fe6fbe4",
+      "date": "2026-03-27",
+      "subject": "feat: remove version_document field from contract and historicalcontract models",
+      "body": "",
+      "files": [
+        "account/urls.py",
+        "account/views.py",
+        "contract/admin.py",
+        "contract/doc.py",
+        "contract/migrations/0009_remove_version_document.py",
+        "contract/models.py",
+        "contract/pdf.py",
+        "contract/serializers.py",
+        "contract/tests.py"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "3d4661f4ddee15069826327e85a9e565a888ce9b",
+      "date": "2026-03-27",
+      "subject": "feat: enhance error handling by implementing token refresh on 401 responses",
+      "body": "",
+      "files": [
+        "src/utils/helpers.ts"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "7fb06ca1280064dad5f4f00f567c54fb90f04548",
+      "date": "2026-03-27",
+      "subject": "feat: add email input field to edit profile and enhance permission checks in Protected component",
+      "body": "",
+      "files": [
+        "src/components/layouts/protected/protected.test.tsx",
+        "src/components/layouts/protected/protected.tsx",
+        "src/components/pages/settings/edit-profile.tsx"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "b0a037ef4f10c3b76ba6eaa504ea4a7aef91fffc",
+      "date": "2026-03-27",
+      "subject": "feat: refactor st_lot_type and st_type_prix to use arrays, enhance form handling and validation",
+      "body": "",
+      "files": [
+        "src/components/pages/contracts/contract-form.test.tsx",
+        "src/components/pages/contracts/contract-form.tsx",
+        "src/components/pages/contracts/contract-view.test.tsx",
+        "src/components/pages/contracts/contract-view.tsx",
+        "src/components/pages/contracts/contracts-list.tsx",
+        "src/components/shared/paginatedDataGrid/paginatedDataGrid.tsx",
+        "src/models/classes.test.ts",
+        "src/models/classes.ts",
+        "src/types/contractTypes.ts",
+        "src/utils/formValidationSchemas.test.ts",
+        "src/utils/formValidationSchemas.ts",
+        "src/utils/rawData.ts"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "b85b1653aa94d9351c44e7942a96a4dbd2fb54db",
+      "date": "2026-03-27",
+      "subject": "feat: remove version_document field from contract-related classes and forms",
+      "body": "",
+      "files": [
+        "src/components/pages/auth/reset-password/enterCode.test.tsx",
+        "src/components/pages/auth/reset-password/enterCode.tsx",
+        "src/components/pages/contracts/contract-form.tsx",
+        "src/components/pages/users/users-list.test.tsx",
+        "src/components/pages/users/users-list.tsx",
+        "src/components/pages/users/users-view.tsx",
+        "src/models/classes.test.ts",
+        "src/models/classes.ts",
+        "src/types/contractTypes.ts",
+        "src/utils/formValidationSchemas.ts"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "b9d565f565d3feaa047b8b00830738169e9842ad",
+      "date": "2026-03-27",
+      "subject": "feat: enhance token refresh logic to handle transient errors and improve session stability",
+      "body": "",
+      "files": [
+        "src/auth.test.ts",
+        "src/auth.ts",
+        "src/contexts/initEffects.test.tsx",
+        "src/utils/helpers.ts"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "f5bb86483530f6817bfbfb219fd86eb51b28e816",
+      "date": "2026-03-27",
+      "subject": "feat: refactor token handling in initEffects and enhance session provider with proactive refresh",
+      "body": "",
+      "files": [
+        "src/contexts/initEffects.tsx",
+        "src/providers/sessionProvider.tsx"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "69707636fec116087c6064bfbb4891bb3dbaebff",
+      "date": "2026-03-30",
+      "subject": "chore: update package versions in requirements.txt",
+      "body": "",
+      "files": [
+        "requirements.txt"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "845531cf17d2e6601b7110516512250c07059d49",
+      "date": "2026-03-30",
+      "subject": "feat: add email field to serializer for user details",
+      "body": "",
+      "files": [
+        "account/serializers.py"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "2edec82a3d964dbb84e5bfed370cd12f537bd647",
+      "date": "2026-03-30",
+      "subject": "feat: refactor RootLayout to fetch session client-side and remove auth call",
+      "body": "",
+      "files": [
+        "src/app/layout.test.tsx",
+        "src/app/layout.tsx"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "32cf27f595017e5b8691536193ea1b4dd62b7db7",
+      "date": "2026-03-30",
+      "subject": "feat: update dependencies for @mui/x-data-grid, axios, baseline-browser-mapping, and npm-check-updates",
+      "body": "",
+      "files": [
+        "bun.lock",
+        "package.json"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "347d58867ee86e0afbd4fff80d23a0fd610ef1a3",
+      "date": "2026-03-31",
+      "subject": "feat: update @typescript-eslint/eslint-plugin and @typescript-eslint/parser to version 8.58.0",
+      "body": "",
+      "files": [
+        "bun.lock",
+        "package.json"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "c174f024f2f89d65bb417b90d8ed44e51f987c60",
+      "date": "2026-04-02",
+      "subject": "feat: add internationalization support for various fields and messages",
+      "body": "",
+      "files": [
+        ".gitignore",
+        "account/admin.py",
+        "account/apps.py",
+        "account/filters.py",
+        "account/models.py",
+        "account/serializers.py",
+        "account/templates/new_account.html",
+        "account/templates/new_password.html",
+        "account/templates/password_reset.html",
+        "account/tests.py",
+        "account/views.py",
+        "contract/admin.py",
+        "contract/apps.py",
+        "contract/bl_doc.py",
+        "contract/bl_pdf.py",
+        "contract/doc.py",
+        "contract/filters.py",
+        "contract/migrations/0010_alter_contract_st_tranches_alter_contract_tranches_and_more.py",
+        "contract/models.py",
+        "contract/pdf.py",
+        "contract/serializers.py",
+        "contract/st_doc.py",
+        "contract/st_pdf.py",
+        "contracts_backend/settings.py",
+        "contracts_backend/settings_test.py",
+        "contracts_backend/utils.py",
+        "core/authentication.py",
+        "core/constants.py",
+        "core/models.py",
+        "locale/en/LC_MESSAGES/django.po",
+        "locale/fr/LC_MESSAGES/django.po",
+        "ws/jwt_middleware.py",
+        "ws/models.py"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "3a92c9a974edfb418eefa85685c4b781cbaa41a6",
+      "date": "2026-04-02",
+      "subject": "feat: enhance navigation bar with mobile menu and language switcher functionality",
+      "body": "",
+      "files": [
+        "src/components/layouts/navigationBar/navigationBar.tsx"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "899dd63d5a09c6e1e04bfbee9512fee01c4cf3de",
+      "date": "2026-04-02",
+      "subject": "Force rebuild",
+      "body": "",
+      "files": []
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "9cab39a0e6454756b7cd7ea805bef950eafeb130",
+      "date": "2026-04-02",
+      "subject": "feat: replace language icon with flag emojis in language switcher menu",
+      "body": "",
+      "files": [
+        "src/components/layouts/navigationBar/navigationBar.tsx"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "9ef21242094f7ad7b4a0a8720c4d3dfbe075062c",
+      "date": "2026-04-02",
+      "subject": "feat: update filter options and labels to use translations in various components",
+      "body": "",
+      "files": [
+        "src/components/pages/contracts/contracts-list.tsx",
+        "src/store/actions/index.ts",
+        "src/store/actions/wsActions.test.ts",
+        "src/store/actions/wsActions.ts",
+        "src/store/sagas/wsSaga.test.ts",
+        "src/store/sagas/wsSaga.ts",
+        "src/store/services/ws.test.ts",
+        "src/store/services/ws.ts",
+        "src/types/wsTypes.ts"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "adbfef0b9fd3d2697aa24b872c40347572934441",
+      "date": "2026-04-02",
+      "subject": "Force rebuild",
+      "body": "",
+      "files": []
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "fae96d9468c477673966a48084cf9839d6733423",
+      "date": "2026-04-02",
+      "subject": "feat: add language switcher and server-side translation support",
+      "body": "",
+      "files": [
+        ".gitignore",
+        "bun.lock",
+        "eslint.config.mjs",
+        "jest.setup.ts",
+        "package.json",
+        "src/app/(auth)/login/page.test.tsx",
+        "src/app/(auth)/login/page.tsx",
+        "src/app/(auth)/reset-password/enter-code/page.test.tsx",
+        "src/app/(auth)/reset-password/enter-code/page.tsx",
+        "src/app/(auth)/reset-password/page.test.tsx",
+        "src/app/(auth)/reset-password/page.tsx",
+        "src/app/(auth)/reset-password/set-password-complete/page.test.tsx",
+        "src/app/(auth)/reset-password/set-password-complete/page.tsx",
+        "src/app/(auth)/reset-password/set-password/page.test.tsx",
+        "src/app/(auth)/reset-password/set-password/page.tsx",
+        "src/app/dashboard/contracts/[id]/edit/page.test.tsx",
+        "src/app/dashboard/contracts/[id]/edit/page.tsx",
+        "src/app/dashboard/contracts/[id]/page.test.tsx",
+        "src/app/dashboard/contracts/[id]/page.tsx",
+        "src/app/dashboard/contracts/new/page.test.tsx",
+        "src/app/dashboard/contracts/new/page.tsx",
+        "src/app/dashboard/contracts/page.test.tsx",
+        "src/app/dashboard/contracts/page.tsx",
+        "src/app/dashboard/page.test.tsx",
+        "src/app/dashboard/settings/edit-profile/page.test.tsx",
+        "src/app/dashboard/settings/edit-profile/page.tsx",
+        "src/app/dashboard/settings/password/page.test.tsx",
+        "src/app/dashboard/settings/password/page.tsx",
+        "src/app/dashboard/users/[id]/edit/page.test.tsx",
+        "src/app/dashboard/users/[id]/edit/page.tsx",
+        "src/app/dashboard/users/[id]/page.test.tsx",
+        "src/app/dashboard/users/[id]/page.tsx",
+        "src/app/dashboard/users/new/page.test.tsx",
+        "src/app/dashboard/users/new/page.tsx",
+        "src/app/dashboard/users/page.test.tsx",
+        "src/app/dashboard/users/page.tsx",
+        "src/app/layout.test.tsx",
+        "src/app/layout.tsx",
+        "src/app/not-found.tsx",
+        "src/app/page.test.tsx",
+        "src/app/page.tsx",
+        "src/auth.test.ts",
+        "src/components/formikElements/apiLoading/apiAlert/apiAlert.test.tsx",
+        "src/components/formikElements/apiLoading/apiAlert/apiAlert.tsx",
+        "src/components/formikElements/customDropDownSelect/customDropDownSelect.test.tsx",
+        "src/components/formikElements/customDropDownSelect/customDropDownSelect.tsx",
+        "src/components/formikElements/customPasswordInput/customPasswordInput.test.tsx",
+        "src/components/formikElements/customPasswordInput/customPasswordInput.tsx",
+        "src/components/formikElements/customSquareImageUploading/customSquareImageUploading.test.tsx",
+        "src/components/formikElements/customSquareImageUploading/customSquareImageUploading.tsx",
+        "src/components/htmlElements/buttons/squareImageInputFile/squareImageInputFile.test.tsx",
+        "src/components/htmlElements/buttons/squareImageInputFile/squareImageInputFile.tsx",
+        "src/components/layouts/auth/authLayout.tsx",
+        "src/components/layouts/navigationBar/navigationBar.test.tsx",
+        "src/components/layouts/navigationBar/navigationBar.tsx",
+        "src/components/layouts/protected/protected.test.tsx",
+        "src/components/pages/auth/login/login.test.tsx",
+        "src/components/pages/auth/login/login.tsx",
+        "src/components/pages/auth/reset-password/enterCode.test.tsx",
+        "src/components/pages/auth/reset-password/enterCode.tsx",
+        "src/components/pages/auth/reset-password/resetPassword.test.tsx",
+        "src/components/pages/auth/reset-password/resetPassword.tsx",
+        "src/components/pages/auth/reset-password/setPassword.test.tsx",
+        "src/components/pages/auth/reset-password/setPassword.tsx",
+        "src/components/pages/auth/reset-password/setPasswordComplete.tsx",
+        "src/components/pages/contracts/contract-form.test.tsx",
+        "src/components/pages/contracts/contract-form.tsx",
+        "src/components/pages/contracts/contract-view.test.tsx",
+        "src/components/pages/contracts/contract-view.tsx",
+        "src/components/pages/contracts/contracts-list.test.tsx",
+        "src/components/pages/contracts/contracts-list.tsx",
+        "src/components/pages/settings/edit-profile.test.tsx",
+        "src/components/pages/settings/edit-profile.tsx",
+        "src/components/pages/settings/password.test.tsx",
+        "src/components/pages/settings/password.tsx",
+        "src/components/pages/users/users-form.test.tsx",
+        "src/components/pages/users/users-form.tsx",
+        "src/components/pages/users/users-list.test.tsx",
+        "src/components/pages/users/users-list.tsx",
+        "src/components/pages/users/users-view.test.tsx",
+        "src/components/pages/users/users-view.tsx",
+        "src/components/shared/dateRangeFilter/dateRangeFilterOperator.tsx",
+        "src/components/shared/dropdownFilter/dropdownFilter.tsx",
+        "src/components/shared/errorBoundary/errorBoundary.tsx",
+        "src/components/shared/filterPanel/customFilterPanel.tsx",
+        "src/components/shared/languageSwitcher/languageSwitcher.test.tsx",
+        "src/components/shared/languageSwitcher/languageSwitcher.tsx",
+        "src/components/shared/maintenance/Maintenance.test.tsx",
+        "src/components/shared/maintenance/Maintenance.tsx",
+        "src/components/shared/mobileActionsMenu/mobileActionsMenu.test.tsx",
+        "src/components/shared/mobileActionsMenu/mobileActionsMenu.tsx",
+        "src/components/shared/noPermission/noPermission.test.tsx",
+        "src/components/shared/noPermission/noPermission.tsx",
+        "src/components/shared/numericFilter/numericFilterOperator.tsx",
+        "src/components/shared/paginatedDataGrid/paginatedDataGrid.tsx",
+        "src/components/shared/pdfLanguageModal/pdfLanguageModal.test.tsx",
+        "src/components/shared/pdfLanguageModal/pdfLanguageModal.tsx",
+        "src/components/shared/sessionExpiredListener/sessionExpiredListener.test.tsx",
+        "src/components/shared/sessionExpiredListener/sessionExpiredListener.tsx",
+        "src/contexts/languageContext.test.tsx",
+        "src/contexts/languageContext.tsx",
+        "src/proxy.test.ts",
+        "src/store/store.test.ts",
+        "src/translations/en.ts",
+        "src/translations/fr.ts",
+        "src/translations/index.ts",
+        "src/translations/translations.test.ts",
+        "src/types/contractTypes.ts",
+        "src/types/languageTypes.ts",
+        "src/utils/axiosBaseQuery.test.ts",
+        "src/utils/axiosBaseQuery.ts",
+        "src/utils/formValidationErrorMessages.ts",
+        "src/utils/formValidationSchemas.ts",
+        "src/utils/helpers.test.ts",
+        "src/utils/helpers.ts",
+        "src/utils/hooks.test.tsx",
+        "src/utils/hooks.ts",
+        "src/utils/rawData.test.ts",
+        "src/utils/rawData.ts",
+        "src/utils/routes.test.ts",
+        "src/utils/serverTranslations.ts"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "f943a4982f98613571a222adaf7946d9c797a073",
+      "date": "2026-04-03",
+      "subject": "fix: update Pillow version to 12.2.0 in requirements",
+      "body": "",
+      "files": [
+        ".idea/contracts_backend.iml",
+        "requirements.txt"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "f1d28c95e81bcbed4ad4b9ee0f5f2410d2304187",
+      "date": "2026-04-03",
+      "subject": "feat: update sass dependency to version 1.99.0",
+      "body": "",
+      "files": [
+        "bun.lock",
+        "package.json"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "2a52d6b2413a056321a4243758ea48460d32a83f",
+      "date": "2026-04-06",
+      "subject": "feat: update routes type import path and add document SVG asset",
+      "body": "",
+      "files": [
+        "next-env.d.ts",
+        "public/assets/images/auth_illu/document.svg"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "2bf86c1b5f8e272611b23ba4bdea56b77cbc941d",
+      "date": "2026-04-06",
+      "subject": "feat: remove unused auth illu",
+      "body": "",
+      "files": [
+        "public/assets/images/auth_illu/document.svg"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "6573e797b5c6393bd486785ec29c9df2e694786f",
+      "date": "2026-04-06",
+      "subject": "feat: update typescript to version 6.0.2 and change module resolution to bundler",
+      "body": "",
+      "files": [
+        "bun.lock",
+        "package.json",
+        "src/store/services/ws.test.ts",
+        "tsconfig.json"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "78741ddfa0b227b15b2604fc024797f5d1d204e5",
+      "date": "2026-04-06",
+      "subject": "feat: update @types/node and baseline-browser-mapping dependencies to latest versions",
+      "body": "",
+      "files": [
+        "bun.lock",
+        "package.json"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "86bee6be18400fd78ec8822f81af6726efc03e8c",
+      "date": "2026-04-06",
+      "subject": "feat: implement exponential backoff for WebSocket reconnection on token retrieval failure",
+      "body": "",
+      "files": [
+        "src/store/services/ws.ts"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "8fc5deaa441cbf4a38375f1badc4d285d152a9f2",
+      "date": "2026-04-06",
+      "subject": "feat: refactor websocket initialization to use async token retrieval",
+      "body": "",
+      "files": [
+        "src/app/layout.test.tsx",
+        "src/contexts/languageContext.test.tsx",
+        "src/store/sagas/wsSaga.test.ts",
+        "src/store/sagas/wsSaga.ts",
+        "src/store/services/ws.test.ts",
+        "src/store/services/ws.ts"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "c6f37382b55bf3c80623eecf7ea074c326ff3afa",
+      "date": "2026-04-06",
+      "subject": "feat: update mock implementation of cookies to use async function",
+      "body": "",
+      "files": [
+        "src/app/layout.test.tsx"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "e9a4c89b3af2fc3c1fb94137cc3b7e415ffae844",
+      "date": "2026-04-06",
+      "subject": "feat: update .env.example with new API and account endpoint configurations",
+      "body": "",
+      "files": [
+        ".env.example"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "f20804eda4f8d38541217cb19a63df28ecb9ce1d",
+      "date": "2026-04-06",
+      "subject": "feat: enhance language context to support initial language from cookies",
+      "body": "",
+      "files": [
+        "src/app/layout.tsx",
+        "src/contexts/languageContext.tsx"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "f612a54b8efd3462fa692d621358a0f96b4ed79d",
+      "date": "2026-04-06",
+      "subject": "feat: update CORS configuration to allow specific production domain",
+      "body": "",
+      "files": [
+        "src/utils/corsHeaders.ts"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "20a10462b7d33dd81f48e0383c9d40a081a41154",
+      "date": "2026-04-07",
+      "subject": "feat: unregister Group and Site models from admin if registered",
+      "body": "",
+      "files": [
+        "core/admin.py"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "a98cfd7ae93b8fd568c4cf237a806845b4a17951",
+      "date": "2026-04-07",
+      "subject": "feat: add historical admin views for CompanyConfig, Project, and Contract models",
+      "body": "",
+      "files": [
+        "contract/admin.py",
+        "contract/migrations/0011_historicalproject.py",
+        "contract/models.py",
+        "core/admin.py",
+        "core/migrations/0002_historicalcompanyconfig.py",
+        "core/models.py"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "41b3a10fc1c955f991d7c892d116bbd0271499ff",
+      "date": "2026-04-08",
+      "subject": "feat: add penalty unit options for late payment in contract model",
+      "body": "",
+      "files": [
+        "contract/admin.py",
+        "contract/doc.py",
+        "contract/migrations/0012_contract_penalite_retard_unite.py",
+        "contract/models.py",
+        "contract/pdf.py",
+        "contract/serializers.py",
+        "contract/tests.py",
+        "core/constants.py"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "b175b000682f9eecaf239f0687ee6200ce43c143",
+      "date": "2026-04-08",
+      "subject": "feat: enhance document generation with type hints and margin adjustments",
+      "body": "",
+      "files": [
+        "contract/doc.py",
+        "contract/document_types.py",
+        "contract/pdf.py",
+        "contract/tests.py"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "cdfca7c355172b37239a89d2b021bdc23d69a2ec",
+      "date": "2026-04-08",
+      "subject": "feat: add notification system with preferences and real-time alerts for contract events",
+      "body": "",
+      "files": [
+        "account/admin.py",
+        "account/filters.py",
+        "account/models.py",
+        "account/serializers.py",
+        "account/tests.py",
+        "account/views.py",
+        "contract/bl_pdf.py",
+        "contract/models.py",
+        "contract/pdf.py",
+        "contract/serializers.py",
+        "contract/st_doc.py",
+        "contract/st_pdf.py",
+        "contract/views.py",
+        "contracts_backend/celery_conf.py",
+        "contracts_backend/settings.py",
+        "contracts_backend/urls.py",
+        "core/models.py",
+        "notification/__init__.py",
+        "notification/admin.py",
+        "notification/apps.py",
+        "notification/migrations/0001_initial.py",
+        "notification/migrations/__init__.py",
+        "notification/models.py",
+        "notification/serializers.py",
+        "notification/signals.py",
+        "notification/tasks.py",
+        "notification/urls.py",
+        "notification/views.py",
+        "ws/migrations/0001_initial.py",
+        "ws/views.py"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "d23c79fcc2f12da0643d6a83691a7be06d41cfca",
+      "date": "2026-04-08",
+      "subject": "chore: update .env.example by removing unnecessary blank lines",
+      "body": "",
+      "files": [
+        ".env.example"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "13b506a7c9d14c2223e13162e3872e93c23f4032",
+      "date": "2026-04-08",
+      "subject": "feat: update notification API root path in environment configuration",
+      "body": "",
+      "files": [
+        ".env.example"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "2175dd8f99edc19cd3ac98e0ccfe2c12fe282cba",
+      "date": "2026-04-08",
+      "subject": "feat: add penalty unit for late penalties in contract forms and views",
+      "body": "",
+      "files": [
+        "src/components/pages/contracts/contract-form.test.tsx",
+        "src/components/pages/contracts/contract-form.tsx",
+        "src/components/pages/contracts/contract-view.tsx",
+        "src/models/classes.test.ts",
+        "src/models/classes.ts",
+        "src/translations/en.ts",
+        "src/translations/fr.ts",
+        "src/types/contractTypes.ts",
+        "src/types/languageTypes.ts",
+        "src/utils/formValidationSchemas.test.ts",
+        "src/utils/formValidationSchemas.ts",
+        "src/utils/rawData.test.ts",
+        "src/utils/rawData.ts"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "33e637c29e1d9d92871d55396f1e4f284d93517c",
+      "date": "2026-04-08",
+      "subject": "feat: add notification preferences management and WebSocket integration",
+      "body": "",
+      "files": [
+        ".env.example",
+        "env.d.ts",
+        "src/app/dashboard/settings/notifications/page.tsx",
+        "src/components/layouts/navigationBar/navigationBar.tsx",
+        "src/components/pages/settings/notifications.test.tsx",
+        "src/components/pages/settings/notifications.tsx",
+        "src/store/actions/index.ts",
+        "src/store/actions/wsActions.ts",
+        "src/store/sagas/wsSaga.ts",
+        "src/store/selectors/index.ts",
+        "src/store/services/notification.ts",
+        "src/store/services/ws.test.ts",
+        "src/store/services/ws.ts",
+        "src/store/slices/notificationSlice.test.ts",
+        "src/store/slices/notificationSlice.ts",
+        "src/store/store.ts",
+        "src/translations/en.ts",
+        "src/translations/fr.ts",
+        "src/types/contractNotificationTypes.ts",
+        "src/types/languageTypes.ts",
+        "src/types/wsTypes.ts",
+        "src/utils/routes.ts"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "3a3fbca518830d6f4f700a934bf034f5375e3965",
+      "date": "2026-04-08",
+      "subject": "feat: integrate custom text input component and update form handling in notifications",
+      "body": "",
+      "files": [
+        "src/components/pages/settings/notifications.test.tsx",
+        "src/components/pages/settings/notifications.tsx"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "5093eef3da4fa12e477f53793cebea95ff42bdc1",
+      "date": "2026-04-08",
+      "subject": "feat: update notification label to reflect preferences in navigation bar",
+      "body": "",
+      "files": [
+        "src/components/layouts/navigationBar/navigationBar.tsx"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "62a3d3977fd6641bd850f2b972b884759b912c16",
+      "date": "2026-04-08",
+      "subject": "feat: simplify RIB label in English localization",
+      "body": "",
+      "files": [
+        "src/translations/en.ts"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "9f2bd022090f805e380e30d4e0e52a3cdae9b0b0",
+      "date": "2026-04-08",
+      "subject": "feat: update environment configuration for unread notification count",
+      "body": "",
+      "files": [
+        ".env.example"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "c7018d733f034fd6e6960e708e992d16d2772ebf",
+      "date": "2026-04-08",
+      "subject": "feat: remove unused late penalty unit list from contract view",
+      "body": "",
+      "files": [
+        "src/components/pages/contracts/contract-view.tsx"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "d71b3b3868bb4c8cc40af5cfd7f9fc098d8cb693",
+      "date": "2026-04-08",
+      "subject": "feat: normalize gender values in profile forms and update related tests",
+      "body": "",
+      "files": [
+        "src/components/pages/settings/edit-profile.test.tsx",
+        "src/components/pages/settings/edit-profile.tsx",
+        "src/components/pages/users/users-form.test.tsx",
+        "src/components/pages/users/users-form.tsx"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "d859bbbde13079037359c62e575a8bc74a7c036b",
+      "date": "2026-04-08",
+      "subject": "feat: simplify RIB label in French localization",
+      "body": "",
+      "files": [
+        "src/translations/fr.ts"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "da71ceb240aed3de5d94d9b881ccbd7003e9b88c",
+      "date": "2026-04-08",
+      "subject": "feat: update late penalty display and localization in contract views",
+      "body": "",
+      "files": [
+        "src/components/pages/contracts/contract-view.tsx",
+        "src/translations/en.ts",
+        "src/translations/fr.ts"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "5ae0d99c55751337b240c8ba0d79626c38b781a6",
+      "date": "2026-04-09",
+      "subject": "chore: update Django, gevent, and pytest versions in requirements.txt",
+      "body": "",
+      "files": [
+        "requirements.txt"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "12eb5412fa2b3350caf173fa3eeda461777379a0",
+      "date": "2026-04-09",
+      "subject": "feat: update @mui from v7 to v9",
+      "body": "",
+      "files": [
+        "bun.lock",
+        "package.json",
+        "src/app/not-found.test.tsx",
+        "src/app/not-found.tsx",
+        "src/components/formikElements/customDropDownSelect/customDropDownSelect.tsx",
+        "src/components/formikElements/customSquareImageUploading/customSquareImageUploading.tsx",
+        "src/components/htmlElements/buttons/squareImageInputFile/squareImageInputFile.tsx",
+        "src/components/htmlElements/modals/actionModal/actionModals.tsx",
+        "src/components/layouts/navigationBar/navigationBar.test.tsx",
+        "src/components/layouts/navigationBar/navigationBar.tsx",
+        "src/components/layouts/protected/protected.tsx",
+        "src/components/pages/auth/login/login.tsx",
+        "src/components/pages/auth/reset-password/enterCode.tsx",
+        "src/components/pages/auth/reset-password/resetPassword.tsx",
+        "src/components/pages/auth/reset-password/setPassword.tsx",
+        "src/components/pages/contracts/contract-form.tsx",
+        "src/components/pages/contracts/contract-view.tsx",
+        "src/components/pages/contracts/contracts-list.tsx",
+        "src/components/pages/settings/edit-profile.tsx",
+        "src/components/pages/settings/notifications.tsx",
+        "src/components/pages/settings/password.tsx",
+        "src/components/pages/users/users-form.tsx",
+        "src/components/pages/users/users-list.tsx",
+        "src/components/pages/users/users-view.tsx",
+        "src/components/portals/customToast/customToast.test.tsx",
+        "src/components/portals/customToast/customToast.tsx",
+        "src/components/shared/chipSelectFilter/chipSelectFilter.tsx",
+        "src/components/shared/errorBoundary/errorBoundary.tsx",
+        "src/components/shared/filterPanel/customFilterPanel.tsx",
+        "src/components/shared/maintenance/Maintenance.tsx",
+        "src/components/shared/noPermission/noPermission.tsx",
+        "src/components/shared/paginatedDataGrid/paginatedDataGrid.tsx",
+        "src/store/sagas/wsSaga.test.ts",
+        "src/store/sagas/wsSaga.ts",
+        "src/translations/en.ts",
+        "src/translations/fr.ts",
+        "src/types/languageTypes.ts"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "46cd43225bbcf19624100a9f626c0cf06dddf098",
+      "date": "2026-04-09",
+      "subject": "chore: update dependencies to latest versions for improved performance and security",
+      "body": "",
+      "files": [
+        "bun.lock",
+        "package.json"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "48384cf98835f95896aa866fa4a1ef70e6561e04",
+      "date": "2026-04-09",
+      "subject": "chore: update dependencies to latest versions for improved performance and security",
+      "body": "",
+      "files": [
+        "bun.lock"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "89224df63395afe715afc818a09b3bb9f73eca89",
+      "date": "2026-04-10",
+      "subject": "chore: update dependencies to latest versions for improved performance and security",
+      "body": "",
+      "files": [
+        "bun.lock",
+        "package.json"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "8ebedcd50c294dc3aaa1599747bdae9f71199ef7",
+      "date": "2026-04-15",
+      "subject": "chore: update @typescript-eslint packages and other dependencies to latest versions",
+      "body": "",
+      "files": [
+        "bun.lock",
+        "package.json",
+        "src/components/pages/contracts/contract-form.test.tsx",
+        "src/components/pages/contracts/contract-form.tsx"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "6292de5c3d4fb3a71ea7349b1a6ad707c55ae710",
+      "date": "2026-04-17",
+      "subject": "Force rebuild",
+      "body": "",
+      "files": []
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "38d2f1c802fdc5f4d0e86219ac4c2e697f2af371",
+      "date": "2026-04-17",
+      "subject": "feat: enhance request interceptor to support NextAuth session fallback for auth token",
+      "body": "",
+      "files": [
+        "src/utils/helpers.test.ts",
+        "src/utils/helpers.ts"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "c63cb6a784091b731c0061a443161c0e978d291c",
+      "date": "2026-04-17",
+      "subject": "Force rebuild",
+      "body": "",
+      "files": []
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "ddc94afbb9ab29d336e52cd7d4db7bc07e031dcc",
+      "date": "2026-05-05",
+      "subject": "fix: include profile permissions",
+      "body": "",
+      "files": [
+        "account/serializers.py",
+        "account/tests.py",
+        "account/views.py"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "2d87240b6473bd40a563df08de4255f9e3ac4416",
+      "date": "2026-05-06",
+      "subject": "fix: support contracts without penalties",
+      "body": "",
+      "files": [
+        "contract/doc.py",
+        "contract/pdf.py",
+        "contract/tests.py"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "d6cfd043114a93c75a5af56bc40f644ae9731ee7",
+      "date": "2026-05-06",
+      "subject": "fix: support contracts without penalties",
+      "body": "",
+      "files": [
+        "src/components/pages/contracts/contract-form.test.tsx",
+        "src/components/pages/contracts/contract-form.tsx",
+        "src/components/pages/contracts/contract-view.test.tsx",
+        "src/components/pages/contracts/contract-view.tsx",
+        "src/translations/en.ts",
+        "src/translations/fr.ts",
+        "src/types/contractTypes.ts",
+        "src/types/languageTypes.ts",
+        "src/utils/formValidationSchemas.test.ts",
+        "src/utils/formValidationSchemas.ts"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "ed52a2dddf7019c918a5c0dc161e74e328bfa9a4",
+      "date": "2026-05-06",
+      "subject": "fix: improve penalty switch layout",
+      "body": "",
+      "files": [
+        "src/components/pages/contracts/contract-form.tsx"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "0bdcc4517268ff364f9908e13daefdb5d6836b4d",
+      "date": "2026-05-13",
+      "subject": "feat: add SSO account linking",
+      "body": "",
+      "files": [
+        ".env.example",
+        "account/migrations/0002_customuser_sso_subject.py",
+        "account/models.py",
+        "account/sso.py",
+        "account/urls.py",
+        "contracts_backend/settings.py"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "0465f443e1f3af0e7cc5e9bda46ca159b770a979",
+      "date": "2026-05-13",
+      "subject": "fix(auth): use absolute login route",
+      "body": "",
+      "files": [
+        "src/auth.test.ts",
+        "src/auth.ts"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "35b0a08645c0dffb26663af3c4cbd4a646bd3433",
+      "date": "2026-05-13",
+      "subject": "test: add missing page smoke coverage",
+      "body": "",
+      "files": [
+        "src/app/dashboard/settings/notifications/page.test.tsx",
+        "src/app/sso/callback/page.test.tsx",
+        "src/app/sso/start/page.test.tsx"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "f6d1e49aac6d9dea2b2b8a320fd9836953fafa30",
+      "date": "2026-05-13",
+      "subject": "feat: add SSO entry and SVG flags",
+      "body": "",
+      "files": [
+        ".env.example",
+        "next-env.d.ts",
+        "public/assets/flags/en.svg",
+        "public/assets/flags/fr.svg",
+        "src/app/sso/callback/page.tsx",
+        "src/app/sso/start/page.tsx",
+        "src/auth.ts",
+        "src/components/layouts/navigationBar/navigationBar.tsx",
+        "src/components/shared/languageSwitcher/languageSwitcher.tsx",
+        "src/components/shared/pdfLanguageModal/pdfLanguageModal.tsx",
+        "src/proxy.ts"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "ac9ff332abae49e567049c38cc97d5c22be2b426",
+      "date": "2026-05-18",
+      "subject": "chore: enforce LF line endings",
+      "body": "",
+      "files": [
+        ".gitattributes"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "d9171f4be3ef45ef3b6386ab0fc0526dc3e7e909",
+      "date": "2026-05-18",
+      "subject": "chore(deploy): test new production server",
+      "body": "Repo: contracts_backend\nTarget: 148.251.138.48",
+      "files": []
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "449dbc23c5d2a11a1ab7cd5073cbac3b823ece5e",
+      "date": "2026-05-18",
+      "subject": "chore: enforce LF line endings",
+      "body": "",
+      "files": [
+        ".gitattributes"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "96cefc3c5093788e553e086c9aebc44d2596dd82",
+      "date": "2026-05-18",
+      "subject": "chore(deploy): test new production server",
+      "body": "Repo: contracts_frontend\nTarget: 148.251.138.48",
+      "files": []
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "c2db03b47434f8cbcd4d7fc36c05e188f135c2fe",
+      "date": "2026-05-20",
+      "subject": "feat(sso): add credential check endpoint",
+      "body": "",
+      "files": [
+        "account/sso.py",
+        "account/urls.py"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "dd12c1a2e9bd51ecbd38cffe4b3b914cf4a8d414",
+      "date": "2026-05-20",
+      "subject": "chore: untrack Python cache files",
+      "body": "",
+      "files": [
+        ".env.example",
+        "ws/__pycache__/__init__.cpython-314.pyc",
+        "ws/__pycache__/admin.cpython-314.pyc",
+        "ws/__pycache__/apps.cpython-314.pyc",
+        "ws/__pycache__/consumers.cpython-314.pyc",
+        "ws/__pycache__/jwt_middleware.cpython-314.pyc",
+        "ws/__pycache__/models.cpython-314.pyc",
+        "ws/__pycache__/routing.cpython-314.pyc",
+        "ws/__pycache__/test_jwt_middleware_extra.cpython-314-pytest-9.0.2.pyc",
+        "ws/__pycache__/tests.cpython-314-pytest-8.4.2.pyc",
+        "ws/__pycache__/tests.cpython-314-pytest-8.4.2.pyc.19264",
+        "ws/__pycache__/tests.cpython-314-pytest-9.0.1.pyc",
+        "ws/__pycache__/tests.cpython-314-pytest-9.0.2.pyc",
+        "ws/__pycache__/tests.cpython-314.pyc",
+        "ws/__pycache__/views.cpython-314.pyc",
+        "ws/migrations/__pycache__/__init__.cpython-314.pyc"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "7c3e130aa422941c099485e6f6344d0f49adf3c0",
+      "date": "2026-05-20",
+      "subject": "chore: normalize line endings",
+      "body": "",
+      "files": [
+        ".env.example",
+        "src/auth.test.ts",
+        "src/auth.ts"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "91dd9842fa0ca0b92b3a658253c9e53c4dea5ea5",
+      "date": "2026-06-02",
+      "subject": "fix: scope login lockouts by user",
+      "body": "",
+      "files": [
+        "contracts_backend/settings.py"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "bfa3d81c7f7bdd9290cbb93ee815ee229857d1bf",
+      "date": "2026-06-09",
+      "subject": "fix: support upgraded backend deps",
+      "body": "",
+      "files": [
+        "Dockerfile",
+        "account/tests.py",
+        "contracts_backend/settings_test.py",
+        "requirements.txt"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "80a0e625cf1611512b66bba03d6fe902a6b467ae",
+      "date": "2026-06-09",
+      "subject": "force build",
+      "body": "",
+      "files": []
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "8beff6d80141aa60c99728a6f8bf1db211a57b26",
+      "date": "2026-06-09",
+      "subject": "chore: update app logo assets",
+      "body": "",
+      "files": [
+        "next-env.d.ts",
+        "public/assets/ico/android-icon-144x144.png",
+        "public/assets/ico/android-icon-192x192.png",
+        "public/assets/ico/android-icon-36x36.png",
+        "public/assets/ico/android-icon-48x48.png",
+        "public/assets/ico/android-icon-72x72.png",
+        "public/assets/ico/android-icon-96x96.png",
+        "public/assets/ico/apple-icon-114x114.png",
+        "public/assets/ico/apple-icon-120x120.png",
+        "public/assets/ico/apple-icon-144x144.png",
+        "public/assets/ico/apple-icon-152x152.png",
+        "public/assets/ico/apple-icon-180x180.png",
+        "public/assets/ico/apple-icon-57x57.png",
+        "public/assets/ico/apple-icon-60x60.png",
+        "public/assets/ico/apple-icon-72x72.png",
+        "public/assets/ico/apple-icon-76x76.png",
+        "public/assets/ico/apple-icon-precomposed.png",
+        "public/assets/ico/apple-icon.png",
+        "public/assets/ico/browserconfig.xml",
+        "public/assets/ico/favicon-16x16.png",
+        "public/assets/ico/favicon-32x32.png",
+        "public/assets/ico/favicon-96x96.png",
+        "public/assets/ico/favicon.ico",
+        "public/assets/ico/manifest.json",
+        "public/assets/ico/ms-icon-144x144.png",
+        "public/assets/ico/ms-icon-150x150.png",
+        "public/assets/ico/ms-icon-310x310.png",
+        "public/assets/ico/ms-icon-70x70.png",
+        "public/assets/images/contrats-logo.png"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "9b116af312478d4ebb5d521f8f3166389701cbe2",
+      "date": "2026-06-09",
+      "subject": "updated packages",
+      "body": "",
+      "files": [
+        "bun.lock",
+        "package.json"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "02f29c3d0cb7e8c485c5257a0b4a3fab9278fe0b",
+      "date": "2026-06-12",
+      "subject": "upgraded packages",
+      "body": "",
+      "files": [
+        "bun.lock"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "1810caeae671505c304a53e344f53fb87df75f9e",
+      "date": "2026-06-12",
+      "subject": "downgrade eslint to 9.39.3",
+      "body": "",
+      "files": [
+        "bun.lock",
+        "package.json"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "283d1c85ebf2d901e466543614eb4074032b5d5c",
+      "date": "2026-06-12",
+      "subject": "upgraded packages",
+      "body": "",
+      "files": [
+        "bun.lock",
+        "package.json"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "6812f3bbcac269369fd34aea71afbe098a33cc9c",
+      "date": "2026-06-12",
+      "subject": "upgraded packages",
+      "body": "",
+      "files": [
+        "package.json",
+        "src/app/dashboard/settings/notifications/page.test.tsx",
+        "src/app/sso/callback/page.test.tsx",
+        "src/app/sso/start/page.test.tsx"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "defcf079232610785066fd5672547fbfb1321305",
+      "date": "2026-06-12",
+      "subject": "fix infinite test loop in store.test.ts",
+      "body": "",
+      "files": [
+        "src/store/store.test.ts"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "14addcfd84cd0a34c461114a47b938f97cdc3e1a",
+      "date": "2026-06-13",
+      "subject": "docs: improve README screenshots",
+      "body": "",
+      "files": [
+        "README.md",
+        "docs/screenshots/contracts-showcase.png"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "59695c64a7e34439ecd274965b9e3522240ca5a2",
+      "date": "2026-06-13",
+      "subject": "Improve portfolio README",
+      "body": "",
+      "files": [
+        "README.md",
+        "docs/screenshots/contracts-list.png",
+        "docs/screenshots/contracts-login.png",
+        "docs/screenshots/contracts-new.png",
+        "docs/screenshots/contracts-showcase.png"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "a135ccf9902043de5f9ae5fd50729192968de8d0",
+      "date": "2026-06-13",
+      "subject": "docs: add project README",
+      "body": "",
+      "files": [
+        "README.md",
+        "docs/screenshots/contracts-login.png"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "f75fd0c910c4c22741ed25c3d6512b9fb3fa5f8a",
+      "date": "2026-06-13",
+      "subject": "force rebuild",
+      "body": "",
+      "files": [
+        ".DS_Store",
+        ".idea/contracts_backend.iml",
+        ".idea/misc.xml",
+        "account/.DS_Store",
+        "contract/.DS_Store",
+        "contracts_backend/.DS_Store",
+        "core/.DS_Store",
+        "locale/.DS_Store",
+        "notification/.DS_Store",
+        "static/.DS_Store",
+        "ws/.DS_Store"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "53b6047969df6157b4dace41e54019c00c1c8ebc",
+      "date": "2026-06-13",
+      "subject": "docs: improve README screenshots",
+      "body": "",
+      "files": [
+        "README.md",
+        "docs/screenshots/contracts-showcase.png"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "6a8323d0f95bcb9f45bac686da78f11e885687e3",
+      "date": "2026-06-13",
+      "subject": "docs: add project README",
+      "body": "",
+      "files": [
+        "README.md",
+        "docs/screenshots/contracts-login.png"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "cd41d95d6db3baca05f4da83c2192fa0ed0c11d5",
+      "date": "2026-06-13",
+      "subject": "Improve portfolio README",
+      "body": "",
+      "files": [
+        "README.md",
+        "docs/screenshots/contracts-list.png",
+        "docs/screenshots/contracts-login.png",
+        "docs/screenshots/contracts-new.png",
+        "docs/screenshots/contracts-showcase.png"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "49ef4837c589309195b625db0fd4e70649cdc0ee",
+      "date": "2026-06-18",
+      "subject": "chore: remove mac metadata file",
+      "body": "",
+      "files": [
+        ".DS_Store"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "2b35a118f415d8ce10cfc5d36b07a9055d9b4db4",
+      "date": "2026-06-18",
+      "subject": "feat: expand contract note fields",
+      "body": "",
+      "files": [
+        "src/components/formikElements/customTextInput/customTextInput.tsx",
+        "src/components/pages/contracts/contract-form.tsx",
+        "src/utils/formValidationSchemas.ts"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "5e54caa3b1903bc1c28a9db10a43a7f229995acd",
+      "date": "2026-06-19",
+      "subject": "upgrade packages",
+      "body": "",
+      "files": [
+        "bun.lock",
+        "package.json"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "d9ccdc0c0c6220ae0893ba3e03ba4af8e56b6d68",
+      "date": "2026-07-29",
+      "subject": "fix: eslint issues, upgraded packages",
+      "body": "",
+      "files": [
+        "bun.lock",
+        "package.json",
+        "src/components/formikElements/customSquareImageUploading/customSquareImageUploading.test.tsx",
+        "src/components/layouts/navigationBar/navigationBar.tsx",
+        "src/components/pages/contracts/contract-form.tsx"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "15142b5352c8521cfe46b6d1ad64f5ac0597090a",
+      "date": "2026-09-07",
+      "subject": "upgrade packages",
+      "body": "",
+      "files": [
+        ".idea/misc.xml",
+        "requirements.txt"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "4e936f9a861322e46c59c00ddd27ac7d17ca6e67",
+      "date": "2026-09-07",
+      "subject": "fix(email): migrate settings to MAILERS",
+      "body": "",
+      "files": [
+        "account/tasks.py",
+        "account/tests.py",
+        "contracts_backend/settings.py",
+        "contracts_backend/settings_test.py"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "11f5cda3a73366e692282aca20054fb2cdd23039",
+      "date": "2026-09-07",
+      "subject": "upgrade packages",
+      "body": "",
+      "files": [
+        "bun.lock",
+        "eslint.config.mjs",
+        "next-env.d.ts",
+        "package.json"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "632ab106cdf0856ea8774e2a5a620c8ed493fd9d",
+      "date": "2026-09-17",
+      "subject": "feat: upgaraded packages",
+      "body": "",
+      "files": [
+        "bun.lock",
+        "package.json"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "d43f17f60c0361c2e1d18fbe296402bc57da5ed7",
+      "date": "2026-09-18",
+      "subject": "feat: upgraded packages & fix celery_conf",
+      "body": "",
+      "files": [
+        "contracts_backend/celery_conf.py",
+        "requirements.txt"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "1cfcfcad9a0a708dc40e45280da7f7da95307659",
+      "date": "2026-09-23",
+      "subject": "chore: migrate to React 19 and Next.js 16",
+      "body": "Align App Router APIs, component refs, effects, static data, and\nproduction build checks with the installed framework versions.",
+      "files": [
+        "Dockerfile",
+        "next.config.ts",
+        "src/app/(auth)/login/page.test.tsx",
+        "src/app/(auth)/reset-password/enter-code/page.test.tsx",
+        "src/app/(auth)/reset-password/page.test.tsx",
+        "src/app/(auth)/reset-password/set-password-complete/clearCookiesClient.test.tsx",
+        "src/app/(auth)/reset-password/set-password-complete/page.test.tsx",
+        "src/app/(auth)/reset-password/set-password/page.test.tsx",
+        "src/app/dashboard/contracts/[id]/edit/page.test.tsx",
+        "src/app/dashboard/contracts/[id]/edit/page.tsx",
+        "src/app/dashboard/contracts/[id]/page.test.tsx",
+        "src/app/dashboard/contracts/[id]/page.tsx",
+        "src/app/dashboard/contracts/new/page.test.tsx",
+        "src/app/dashboard/contracts/page.test.tsx",
+        "src/app/dashboard/layout.tsx",
+        "src/app/dashboard/settings/edit-profile/page.test.tsx",
+        "src/app/dashboard/settings/notifications/page.test.tsx",
+        "src/app/dashboard/settings/password/page.test.tsx",
+        "src/app/dashboard/users/[id]/edit/page.test.tsx",
+        "src/app/dashboard/users/[id]/edit/page.tsx",
+        "src/app/dashboard/users/[id]/page.test.tsx",
+        "src/app/dashboard/users/[id]/page.tsx",
+        "src/app/dashboard/users/new/page.test.tsx",
+        "src/app/dashboard/users/page.test.tsx",
+        "src/app/layout.test.tsx",
+        "src/app/layout.tsx",
+        "src/app/not-found.test.tsx",
+        "src/app/not-found.tsx",
+        "src/app/sso/callback/page.test.tsx",
+        "src/components/formikElements/apiLoading/apiAlert/apiAlert.test.tsx",
+        "src/components/formikElements/apiLoading/apiAlert/apiAlert.tsx",
+        "src/components/formikElements/apiLoading/apiProgress/apiProgress.test.tsx",
+        "src/components/formikElements/apiLoading/apiProgress/apiProgress.tsx",
+        "src/components/formikElements/customDropDownSelect/customDropDownSelect.test.tsx",
+        "src/components/formikElements/customDropDownSelect/customDropDownSelect.tsx",
+        "src/components/formikElements/customOutlinedText/customOutlinedText.tsx",
+        "src/components/formikElements/customPasswordInput/customPasswordInput.tsx",
+        "src/components/formikElements/customSquareImageUploading/customSquareImageUploading.test.tsx",
+        "src/components/formikElements/customSquareImageUploading/customSquareImageUploading.tsx",
+        "src/components/formikElements/customTextInput/customTextInput.tsx",
+        "src/components/htmlElements/buttons/primaryAnchorButton/primaryAnchorButton.tsx",
+        "src/components/htmlElements/buttons/primaryLoadingButton/primaryLoadingButton.tsx",
+        "src/components/htmlElements/buttons/squareImageInputFile/squareImageInputFile.test.tsx",
+        "src/components/htmlElements/buttons/squareImageInputFile/squareImageInputFile.tsx",
+        "src/components/htmlElements/buttons/textButton/textButton.tsx",
+        "src/components/htmlElements/modals/actionModal/actionModals.tsx",
+        "src/components/htmlElements/tooltip/darkTooltip/darkTooltip.test.tsx",
+        "src/components/htmlElements/tooltip/darkTooltip/darkTooltip.tsx",
+        "src/components/layouts/auth/authLayout.tsx",
+        "src/components/layouts/navigationBar/navigationBar.test.tsx",
+        "src/components/layouts/navigationBar/navigationBar.tsx",
+        "src/components/layouts/protected/protected.test.tsx",
+        "src/components/pages/auth/login/login.test.tsx",
+        "src/components/pages/auth/login/login.tsx",
+        "src/components/pages/auth/reset-password/enterCode.test.tsx",
+        "src/components/pages/auth/reset-password/enterCode.tsx",
+        "src/components/pages/auth/reset-password/resetPassword.test.tsx",
+        "src/components/pages/auth/reset-password/resetPassword.tsx",
+        "src/components/pages/auth/reset-password/setPassword.test.tsx",
+        "src/components/pages/auth/reset-password/setPassword.tsx",
+        "src/components/pages/auth/reset-password/setPasswordComplete.test.tsx",
+        "src/components/pages/auth/reset-password/setPasswordComplete.tsx",
+        "src/components/pages/contracts/contract-form.test.tsx",
+        "src/components/pages/contracts/contract-form.tsx",
+        "src/components/pages/contracts/contract-view.test.tsx",
+        "src/components/pages/contracts/contract-view.tsx",
+        "src/components/pages/contracts/contracts-list.test.tsx",
+        "src/components/pages/contracts/contracts-list.tsx",
+        "src/components/pages/settings/edit-profile.test.tsx",
+        "src/components/pages/settings/edit-profile.tsx",
+        "src/components/pages/settings/notifications.test.tsx",
+        "src/components/pages/settings/notifications.tsx",
+        "src/components/pages/settings/password.test.tsx",
+        "src/components/pages/settings/password.tsx",
+        "src/components/pages/users/users-form.test.tsx",
+        "src/components/pages/users/users-form.tsx",
+        "src/components/pages/users/users-list.test.tsx",
+        "src/components/pages/users/users-list.tsx",
+        "src/components/pages/users/users-view.test.tsx",
+        "src/components/pages/users/users-view.tsx",
+        "src/components/portals/customToast/customToast.test.tsx",
+        "src/components/portals/customToast/customToast.tsx",
+        "src/components/shared/chipSelectFilter/chipSelectFilter.test.tsx",
+        "src/components/shared/chipSelectFilter/chipSelectFilter.tsx",
+        "src/components/shared/chipSelectFilter/chipSelectFilterBar.test.tsx",
+        "src/components/shared/chipSelectFilter/chipSelectFilterBar.tsx",
+        "src/components/shared/dateRangeFilter/dateRangeFilterOperator.test.tsx",
+        "src/components/shared/dateRangeFilter/dateRangeFilterOperator.tsx",
+        "src/components/shared/dropdownFilter/dropdownFilter.test.tsx",
+        "src/components/shared/dropdownFilter/dropdownFilter.tsx",
+        "src/components/shared/errorBoundary/ErrorBoundary.test.tsx",
+        "src/components/shared/errorBoundary/errorBoundary.tsx",
+        "src/components/shared/filterPanel/customFilterPanel.test.tsx",
+        "src/components/shared/filterPanel/customFilterPanel.tsx",
+        "src/components/shared/languageSwitcher/languageSwitcher.test.tsx",
+        "src/components/shared/languageSwitcher/languageSwitcher.tsx",
+        "src/components/shared/maintenance/Maintenance.test.tsx",
+        "src/components/shared/maintenance/Maintenance.tsx",
+        "src/components/shared/mobileActionsMenu/mobileActionsMenu.tsx",
+        "src/components/shared/noPermission/noPermission.test.tsx",
+        "src/components/shared/numericFilter/numericFilterOperator.test.tsx",
+        "src/components/shared/numericFilter/numericFilterOperator.tsx",
+        "src/components/shared/paginatedDataGrid/paginatedDataGrid.test.tsx",
+        "src/components/shared/paginatedDataGrid/paginatedDataGrid.tsx",
+        "src/components/shared/paginatedDataGrid/useDataGridPagination.ts",
+        "src/components/shared/pdfLanguageModal/pdfLanguageModal.test.tsx",
+        "src/components/shared/pdfLanguageModal/pdfLanguageModal.tsx",
+        "src/components/shared/sessionExpiredListener/sessionExpiredListener.test.tsx",
+        "src/components/shared/sessionExpiredListener/sessionExpiredListener.tsx",
+        "src/contexts/InitContext.tsx",
+        "src/contexts/initContext.test.tsx",
+        "src/contexts/initEffects.test.tsx",
+        "src/contexts/initEffects.tsx",
+        "src/contexts/languageContext.test.tsx",
+        "src/contexts/languageContext.tsx",
+        "src/contexts/portal.tsx",
+        "src/contexts/toastContext.test.tsx",
+        "src/contexts/toastContext.tsx",
+        "src/providers/storeProvider.tsx",
+        "src/providers/themeProvider.tsx",
+        "src/types/authTypes.ts",
+        "src/types/contractTypes.ts",
+        "src/types/routeTypes.ts",
+        "src/utils/clientHelpers.test.tsx",
+        "src/utils/hooks.test.tsx",
+        "src/utils/rawData.test.ts",
+        "src/utils/rawData.ts",
+        "src/utils/runWithCleanup.ts"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "c2cdf1f707ec7a0c6e685fb0c2b91caf81ef38a8",
+      "date": "2026-09-23",
+      "subject": "feat(grid): restore pagination on back",
+      "body": "",
+      "files": [
+        "src/components/pages/contracts/contract-form.tsx",
+        "src/components/pages/contracts/contract-view.tsx",
+        "src/components/pages/contracts/contracts-list.tsx",
+        "src/components/pages/users/users-form.tsx",
+        "src/components/pages/users/users-list.tsx",
+        "src/components/pages/users/users-view.tsx",
+        "src/components/shared/paginatedDataGrid/useDataGridPagination.test.ts",
+        "src/components/shared/paginatedDataGrid/useDataGridPagination.ts"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "129ce1ea6e3823b6a00b633852193bc677da964a",
+      "date": "2026-10-06",
+      "subject": "fix(lists): sort results before pagination",
+      "body": "",
+      "files": [
+        "contracts_backend/ordering.py",
+        "contracts_backend/test_ordering.py",
+        "contracts_backend/utils.py"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "a6dff6fdd12f672987e0ef472720777f620a5144",
+      "date": "2026-10-06",
+      "subject": "feat: upgraded packages",
+      "body": "",
+      "files": [
+        "bun.lock",
+        "package.json"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "b39e581af194e4fb089415aad976e8dacfe64c7a",
+      "date": "2026-10-06",
+      "subject": "fix(lists): use server-side column sorting",
+      "body": "",
+      "files": [
+        "src/components/pages/contracts/contracts-list.tsx",
+        "src/components/pages/users/users-list.tsx",
+        "src/components/shared/paginatedDataGrid/paginatedDataGrid.tsx",
+        "src/components/shared/paginatedDataGrid/useDataGridPagination.test.ts",
+        "src/components/shared/paginatedDataGrid/useDataGridPagination.ts",
+        "src/store/services/ordering.test.ts"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "177068517d52db7420324d55629bf71a5ca89500",
+      "date": "2026-10-07",
+      "subject": "fix(ai): stop failed jobs and preserve recovery",
+      "body": "",
+      "files": [
+        "ai_assistant/client.py",
+        "ai_assistant/management/commands/ai_correct_texts.py",
+        "ai_assistant/test_correction_command.py"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "2d79d54e91059b9df19155c3576c7c4bb184d181",
+      "date": "2026-10-07",
+      "subject": "fix(ai): use each application service identity",
+      "body": "",
+      "files": [
+        "ai_assistant/tests.py",
+        "contracts_backend/settings.py"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "53ae13f9aec97b533fa0bb45e6b527323ed161d1",
+      "date": "2026-10-07",
+      "subject": "fix(pdf): translate confidentiality labels",
+      "body": "",
+      "files": [
+        "ai_assistant/tests.py",
+        "contract/pdf.py"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "7f275302ea6d78c7f0fe1861795b3562f96e57c7",
+      "date": "2026-10-07",
+      "subject": "fix(ai): isolate assistant request quota",
+      "body": "",
+      "files": [
+        "ai_assistant/tests.py",
+        "ai_assistant/views.py"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "9ef7acdefa1194742786969d482c1451663966a8",
+      "date": "2026-10-07",
+      "subject": "feat: add private AI text and PDF assistance",
+      "body": "",
+      "files": [
+        "ai_assistant/__init__.py",
+        "ai_assistant/apps.py",
+        "ai_assistant/client.py",
+        "ai_assistant/exceptions.py",
+        "ai_assistant/management/__init__.py",
+        "ai_assistant/management/commands/__init__.py",
+        "ai_assistant/management/commands/ai_correct_texts.py",
+        "ai_assistant/serializers.py",
+        "ai_assistant/tests.py",
+        "ai_assistant/urls.py",
+        "ai_assistant/views.py",
+        "contract/ai_pdf.py",
+        "contract/bl_pdf.py",
+        "contract/pdf.py",
+        "contract/st_pdf.py",
+        "contracts_backend/settings.py",
+        "contracts_backend/urls.py",
+        "docker-compose.yml"
+      ]
+    },
+    {
+      "repository": "contracts_backend",
+      "hash": "fd023fea6e03d400fb8a005bcf4f2928b6cce3ba",
+      "date": "2026-10-07",
+      "subject": "fix(admin): serve current versioned static assets",
+      "body": "",
+      "files": [
+        ".dockerignore",
+        ".gitignore",
+        "contracts_backend/settings.py",
+        "contracts_backend/test_static_assets.py",
+        "docker-compose.yml"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "3c8219371b19ee36660ea77670aa3decfab71521",
+      "date": "2026-10-07",
+      "subject": "feat: add private AI text and PDF assistance",
+      "body": "",
+      "files": [
+        "bun.lock",
+        "package.json",
+        "src/components/formikElements/customTextInput/customTextInput.tsx",
+        "src/components/shared/aiAssistantControl/aiAssistantControl.test.tsx",
+        "src/components/shared/aiAssistantControl/aiAssistantControl.tsx",
+        "src/components/shared/aiTextField/aiTextField.tsx",
+        "src/store/services/aiAssistant.ts",
+        "src/store/store.ts",
+        "src/translations/en.ts",
+        "src/translations/fr.ts",
+        "src/types/aiTypes.ts",
+        "src/types/languageTypes.ts",
+        "src/utils/aiTextFields.test.ts",
+        "src/utils/aiTextFields.ts"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "a7c773dfdc087a504a22206ce25b018c4c7abd53",
+      "date": "2026-10-07",
+      "subject": "fix(ai): restrict buttons to writing fields",
+      "body": "",
+      "files": [
+        "src/components/formikElements/customTextInput/customTextInput.tsx",
+        "src/components/shared/aiTextField/aiTextField.test.tsx",
+        "src/components/shared/aiTextField/aiTextField.tsx",
+        "src/utils/aiTextFields.test.ts",
+        "src/utils/aiTextFields.ts"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "4da5e91f980610d3a19ab12745303212e9b29d63",
+      "date": "2026-10-09",
+      "subject": "fix(form): widen work description field",
+      "body": "",
+      "files": [
+        "src/components/pages/contracts/contract-form.tsx"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "50bddac85c52915b134be3da79e2babc493b567f",
+      "date": "2026-10-09",
+      "subject": "fix(ai): align wrapped action buttons",
+      "body": "",
+      "files": [
+        "src/components/shared/aiAssistantControl/aiAssistantControl.tsx"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "96c5e60c9c26468a7f60f615823fb6ab9f45f4a9",
+      "date": "2026-10-09",
+      "subject": "fix(form): align editors and widen text areas",
+      "body": "",
+      "files": [
+        "src/components/pages/contracts/contract-form.tsx"
+      ]
+    },
+    {
+      "repository": "contracts_frontend",
+      "hash": "cdac487bdcfbae782ad2041565346acfb043c63c",
+      "date": "2026-10-09",
+      "subject": "fix(form): prevent table editor clipping",
+      "body": "",
+      "files": [
+        "src/components/pages/contracts/contract-form.tsx"
+      ]
+    }
+  ],
+  "versioning": {
+    "status": "Reconstructed historical product versions; no release tags were present and package.json remained 0.1.0. These dates describe development, not verified production deployment dates.",
+    "convention": "One entry per development date. Major: new principal business workflow. Minor: capability within that generation. Patch: fixes, compatibility, documentation or maintenance. Reset lower components after increment.",
+    "initial_milestone": {
+      "date": "2026-02-23",
+      "version": "1.0.0",
+      "reason": "Both initial repositories already contain contract/account workflows and PDF/DOCX generation.",
+      "evidence": [
+        "0c6e5197c137b5be0c14953bb18bc9ddb1132236",
+        "a9f8f3b495fdf235c085735722b72b117c5bc1c6"
+      ]
+    },
+    "major_milestones": [
+      {
+        "date": "2026-03-06",
+        "version": "2.0.0",
+        "reason": "Dedicated subcontracting workflow, company settings and project integration.",
+        "evidence": [
+          "b0c3ef3fd650f433dd04e024e940bdc7bafcb552",
+          "cec338ae022efd165e218cff4a6d4356fb19fe9e",
+          "44371e019fa5291aad621cf64edc7677ad19395e"
+        ]
+      }
+    ],
+    "current_release": "2.12.0",
+    "date_classifications": [
+      {
+        "date": "2026-02-23",
+        "increment": "major",
+        "version": "1.0.0",
+        "reason": "Contract management foundations"
+      },
+      {
+        "date": "2026-02-24",
+        "increment": "patch",
+        "version": "1.0.1",
+        "reason": "Sign-in and forms"
+      },
+      {
+        "date": "2026-02-25",
+        "increment": "patch",
+        "version": "1.0.2",
+        "reason": "Messages and administration"
+      },
+      {
+        "date": "2026-02-26",
+        "increment": "patch",
+        "version": "1.0.3",
+        "reason": "Account and service stability"
+      },
+      {
+        "date": "2026-02-27",
+        "increment": "minor",
+        "version": "1.1.0",
+        "reason": "Documents and contract details"
+      },
+      {
+        "date": "2026-03-03",
+        "increment": "minor",
+        "version": "1.2.0",
+        "reason": "Contracts by company"
+      },
+      {
+        "date": "2026-03-04",
+        "increment": "minor",
+        "version": "1.3.0",
+        "reason": "Company-specific forms"
+      },
+      {
+        "date": "2026-03-05",
+        "increment": "minor",
+        "version": "1.4.0",
+        "reason": "Editable payment schedule"
+      },
+      {
+        "date": "2026-03-06",
+        "increment": "major",
+        "version": "2.0.0",
+        "reason": "Subcontracting contracts"
+      },
+      {
+        "date": "2026-03-09",
+        "increment": "patch",
+        "version": "2.0.1",
+        "reason": "Reliable payment schedules"
+      },
+      {
+        "date": "2026-03-10",
+        "increment": "patch",
+        "version": "2.0.2",
+        "reason": "Documents and accessibility"
+      },
+      {
+        "date": "2026-03-11",
+        "increment": "minor",
+        "version": "2.1.0",
+        "reason": "Work and service options"
+      },
+      {
+        "date": "2026-03-13",
+        "increment": "patch",
+        "version": "2.1.1",
+        "reason": "Numeric value entry"
+      },
+      {
+        "date": "2026-03-14",
+        "increment": "patch",
+        "version": "2.1.2",
+        "reason": "Permissions and sessions"
+      },
+      {
+        "date": "2026-03-24",
+        "increment": "minor",
+        "version": "2.2.0",
+        "reason": "Maintenance information"
+      },
+      {
+        "date": "2026-03-25",
+        "increment": "patch",
+        "version": "2.2.1",
+        "reason": "Display and caching"
+      },
+      {
+        "date": "2026-03-26",
+        "increment": "patch",
+        "version": "2.2.2",
+        "reason": "Session initialization"
+      },
+      {
+        "date": "2026-03-27",
+        "increment": "minor",
+        "version": "2.3.0",
+        "reason": "Multiple subcontracting choices"
+      },
+      {
+        "date": "2026-03-30",
+        "increment": "patch",
+        "version": "2.3.1",
+        "reason": "Account loading"
+      },
+      {
+        "date": "2026-03-31",
+        "increment": "patch",
+        "version": "2.3.2",
+        "reason": "Interface maintenance"
+      },
+      {
+        "date": "2026-04-02",
+        "increment": "minor",
+        "version": "2.4.0",
+        "reason": "French and English interface"
+      },
+      {
+        "date": "2026-04-03",
+        "increment": "patch",
+        "version": "2.4.1",
+        "reason": "Component maintenance"
+      },
+      {
+        "date": "2026-04-06",
+        "increment": "patch",
+        "version": "2.4.2",
+        "reason": "Language and reconnection"
+      },
+      {
+        "date": "2026-04-07",
+        "increment": "minor",
+        "version": "2.5.0",
+        "reason": "History in administration"
+      },
+      {
+        "date": "2026-04-08",
+        "increment": "minor",
+        "version": "2.6.0",
+        "reason": "Notifications and preferences"
+      },
+      {
+        "date": "2026-04-09",
+        "increment": "patch",
+        "version": "2.6.1",
+        "reason": "Component compatibility"
+      },
+      {
+        "date": "2026-04-10",
+        "increment": "patch",
+        "version": "2.6.2",
+        "reason": "Dependency maintenance"
+      },
+      {
+        "date": "2026-04-15",
+        "increment": "patch",
+        "version": "2.6.3",
+        "reason": "Code-quality maintenance"
+      },
+      {
+        "date": "2026-04-17",
+        "increment": "patch",
+        "version": "2.6.4",
+        "reason": "Request authentication"
+      },
+      {
+        "date": "2026-05-05",
+        "increment": "patch",
+        "version": "2.6.5",
+        "reason": "Profile permissions"
+      },
+      {
+        "date": "2026-05-06",
+        "increment": "patch",
+        "version": "2.6.6",
+        "reason": "Contracts without penalties"
+      },
+      {
+        "date": "2026-05-13",
+        "increment": "minor",
+        "version": "2.7.0",
+        "reason": "Sign-in from the portal"
+      },
+      {
+        "date": "2026-05-18",
+        "increment": "patch",
+        "version": "2.7.1",
+        "reason": "Deployment environment"
+      },
+      {
+        "date": "2026-05-20",
+        "increment": "minor",
+        "version": "2.8.0",
+        "reason": "Portal account verification"
+      },
+      {
+        "date": "2026-06-02",
+        "increment": "patch",
+        "version": "2.8.1",
+        "reason": "Sign-in protection"
+      },
+      {
+        "date": "2026-06-09",
+        "increment": "patch",
+        "version": "2.8.2",
+        "reason": "Compatibility and visual identity"
+      },
+      {
+        "date": "2026-06-12",
+        "increment": "patch",
+        "version": "2.8.3",
+        "reason": "Reliable technical checks"
+      },
+      {
+        "date": "2026-06-13",
+        "increment": "patch",
+        "version": "2.8.4",
+        "reason": "Application documentation"
+      },
+      {
+        "date": "2026-06-18",
+        "increment": "minor",
+        "version": "2.9.0",
+        "reason": "Longer contract notes"
+      },
+      {
+        "date": "2026-06-19",
+        "increment": "patch",
+        "version": "2.9.1",
+        "reason": "Library maintenance"
+      },
+      {
+        "date": "2026-07-29",
+        "increment": "patch",
+        "version": "2.9.2",
+        "reason": "Quality checks"
+      },
+      {
+        "date": "2026-09-07",
+        "increment": "patch",
+        "version": "2.9.3",
+        "reason": "Email compatibility"
+      },
+      {
+        "date": "2026-09-17",
+        "increment": "patch",
+        "version": "2.9.4",
+        "reason": "Web environment maintenance"
+      },
+      {
+        "date": "2026-09-18",
+        "increment": "patch",
+        "version": "2.9.5",
+        "reason": "Background tasks"
+      },
+      {
+        "date": "2026-09-23",
+        "increment": "minor",
+        "version": "2.10.0",
+        "reason": "Returning to lists"
+      },
+      {
+        "date": "2026-10-06",
+        "increment": "patch",
+        "version": "2.10.1",
+        "reason": "Consistent list sorting"
+      },
+      {
+        "date": "2026-10-07",
+        "increment": "minor",
+        "version": "2.11.0",
+        "reason": "Private writing assistant"
+      },
+      {
+        "date": "2026-10-09",
+        "increment": "minor",
+        "version": "2.12.0",
+        "reason": "History, updates and dark mode"
+      }
+    ],
+    "current_implementation": "The 2026-10-09 entry additionally includes the changelog, release announcements and dark mode implemented after the audited repository heads. Its draft is published only after the matching frontend is healthy."
+  }
+}

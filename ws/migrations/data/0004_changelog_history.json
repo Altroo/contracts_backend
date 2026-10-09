@@ -1,0 +1,581 @@
+[
+  {
+    "date": "2026-02-23",
+    "version": "1.0.0",
+    "title_fr": "Fondations de la gestion des contrats",
+    "title_en": "Contract management foundations",
+    "changes_fr": [
+      "Gestion des contrats, des utilisateurs et des comptes, avec préparation des documents PDF et Word."
+    ],
+    "changes_en": [
+      "Contract, user and account management, with PDF and Word document preparation."
+    ]
+  },
+  {
+    "date": "2026-02-24",
+    "version": "1.0.1",
+    "title_fr": "Connexion et formulaires",
+    "title_en": "Sign-in and forms",
+    "changes_fr": [
+      "Amélioration de la connexion, de la récupération du mot de passe et des listes de choix des contrats."
+    ],
+    "changes_en": [
+      "Improved sign-in, password recovery and contract selection fields."
+    ]
+  },
+  {
+    "date": "2026-02-25",
+    "version": "1.0.2",
+    "title_fr": "Messages et administration",
+    "title_en": "Messages and administration",
+    "changes_fr": [
+      "Messages d'erreur plus exploitables dans les formulaires et améliorations de l'interface d'administration."
+    ],
+    "changes_en": [
+      "Clearer form errors and improvements to the administration interface."
+    ]
+  },
+  {
+    "date": "2026-02-26",
+    "version": "1.0.3",
+    "title_fr": "Stabilité des comptes et du service",
+    "title_en": "Account and service stability",
+    "changes_fr": [
+      "Amélioration du renouvellement de session, de la configuration des données et des contrôles de disponibilité."
+    ],
+    "changes_en": [
+      "Improved session renewal, data configuration and service health checks."
+    ]
+  },
+  {
+    "date": "2026-02-27",
+    "version": "1.1.0",
+    "title_fr": "Documents et consultation des contrats",
+    "title_en": "Documents and contract details",
+    "changes_fr": [
+      "Téléchargement PDF ou Word avec choix de langue, sélecteurs de dates et consultation enrichie des contrats."
+    ],
+    "changes_en": [
+      "PDF or Word downloads with language selection, date pickers and richer contract details."
+    ]
+  },
+  {
+    "date": "2026-03-03",
+    "version": "1.2.0",
+    "title_fr": "Contrats par société",
+    "title_en": "Contracts by company",
+    "changes_fr": [
+      "Association des contrats à une société et filtrage de la liste par société."
+    ],
+    "changes_en": [
+      "Company assignment for contracts and company filters in the contract list."
+    ]
+  },
+  {
+    "date": "2026-03-04",
+    "version": "1.3.0",
+    "title_fr": "Formulaires adaptés aux sociétés",
+    "title_en": "Company-specific forms",
+    "changes_fr": [
+      "Champs et documents adaptés à Casa Di Lusso et Blueline, avec validation des acomptes, garanties et informations de travaux."
+    ],
+    "changes_en": [
+      "Forms and documents adapted to Casa Di Lusso and Blueline, with validation of deposits, warranties and work details."
+    ]
+  },
+  {
+    "date": "2026-03-05",
+    "version": "1.4.0",
+    "title_fr": "Échéancier éditable",
+    "title_en": "Editable payment schedule",
+    "changes_fr": [
+      "Saisie des tranches dans un tableau éditable, validation améliorée et corrections de présentation des documents."
+    ],
+    "changes_en": [
+      "Installment entry in an editable table, improved validation and document presentation fixes."
+    ]
+  },
+  {
+    "date": "2026-03-06",
+    "version": "2.0.0",
+    "title_fr": "Contrats de sous-traitance",
+    "title_en": "Subcontracting contracts",
+    "changes_fr": [
+      "Parcours de sous-traitance Casa Di Lusso, gestion des projets et paramètres de société, avec documents dédiés."
+    ],
+    "changes_en": [
+      "Casa Di Lusso subcontracting workflow, project management and company settings, with dedicated documents."
+    ]
+  },
+  {
+    "date": "2026-03-09",
+    "version": "2.0.1",
+    "title_fr": "Fiabilité des échéanciers",
+    "title_en": "Reliable payment schedules",
+    "changes_fr": [
+      "Contrôle du total des tranches à 100 %, initialisation des lignes et amélioration des clauses de sous-traitance."
+    ],
+    "changes_en": [
+      "Validation of installment totals at 100%, initial row setup and improved subcontracting clauses."
+    ]
+  },
+  {
+    "date": "2026-03-10",
+    "version": "2.0.2",
+    "title_fr": "Documents et accessibilité",
+    "title_en": "Documents and accessibility",
+    "changes_fr": [
+      "Présentation des garanties et textes alternatifs des logos corrigés, avec maintenance de l'environnement d'exécution."
+    ],
+    "changes_en": [
+      "Corrected warranty presentation and logo alternative text, with runtime maintenance."
+    ]
+  },
+  {
+    "date": "2026-03-11",
+    "version": "2.1.0",
+    "title_fr": "Options de travaux et prestations",
+    "title_en": "Work and service options",
+    "changes_fr": [
+      "Nouveaux choix de résidences, hôtels et services, et adaptation de la saisie des pénalités."
+    ],
+    "changes_en": [
+      "New residence, hotel and service choices, and updated penalty entry."
+    ]
+  },
+  {
+    "date": "2026-03-13",
+    "version": "2.1.1",
+    "title_fr": "Saisie des valeurs numériques",
+    "title_en": "Numeric value entry",
+    "changes_fr": [
+      "Valeurs vides de TVA et de pénalités mieux gérées et validation des pénalités harmonisée."
+    ],
+    "changes_en": [
+      "Improved handling of empty VAT and penalty values, with consistent penalty validation."
+    ]
+  },
+  {
+    "date": "2026-03-14",
+    "version": "2.1.2",
+    "title_fr": "Autorisations et sessions",
+    "title_en": "Permissions and sessions",
+    "changes_fr": [
+      "Permissions de consultation et de modification précisées, renouvellement de session amélioré et liens des courriels corrigés."
+    ],
+    "changes_en": [
+      "More precise view and edit permissions, improved session renewal and corrected email links."
+    ]
+  },
+  {
+    "date": "2026-03-24",
+    "version": "2.2.0",
+    "title_fr": "Information de maintenance",
+    "title_en": "Maintenance information",
+    "changes_fr": [
+      "Affichage de l'état de maintenance dès l'ouverture de l'application et réception de ses changements en temps réel."
+    ],
+    "changes_en": [
+      "Maintenance status shown when opening the app, with real-time updates."
+    ]
+  },
+  {
+    "date": "2026-03-25",
+    "version": "2.2.1",
+    "title_fr": "Affichage et cache",
+    "title_en": "Display and caching",
+    "changes_fr": [
+      "Correction des en-têtes de cache et clarification de la gestion de maintenance."
+    ],
+    "changes_en": [
+      "Corrected cache headers and clearer maintenance administration."
+    ]
+  },
+  {
+    "date": "2026-03-26",
+    "version": "2.2.2",
+    "title_fr": "Initialisation des sessions",
+    "title_en": "Session initialization",
+    "changes_fr": [
+      "Accès aux données mieux synchronisé avec la session et correction des mises à jour de photo de profil."
+    ],
+    "changes_en": [
+      "Data access better synchronized with the session and corrected profile-photo updates."
+    ]
+  },
+  {
+    "date": "2026-03-27",
+    "version": "2.3.0",
+    "title_fr": "Choix multiples en sous-traitance",
+    "title_en": "Multiple subcontracting choices",
+    "changes_fr": [
+      "Sélection de plusieurs lots et types de prix, avec amélioration du profil et de la stabilité de session."
+    ],
+    "changes_en": [
+      "Selection of multiple work packages and pricing types, with profile and session-stability improvements."
+    ]
+  },
+  {
+    "date": "2026-03-30",
+    "version": "2.3.1",
+    "title_fr": "Chargement du compte",
+    "title_en": "Account loading",
+    "changes_fr": [
+      "Chargement de la session côté client et données du compte harmonisés, avec maintenance des dépendances."
+    ],
+    "changes_en": [
+      "Consistent client-side session loading and account data, with dependency maintenance."
+    ]
+  },
+  {
+    "date": "2026-03-31",
+    "version": "2.3.2",
+    "title_fr": "Maintenance de l'interface",
+    "title_en": "Interface maintenance",
+    "changes_fr": [
+      "Mise à jour des outils de vérification du code de l'interface."
+    ],
+    "changes_en": [
+      "Updated frontend code-checking tools."
+    ]
+  },
+  {
+    "date": "2026-04-02",
+    "version": "2.4.0",
+    "title_fr": "Interface français et anglais",
+    "title_en": "French and English interface",
+    "changes_fr": [
+      "Changement de langue, traductions des écrans et filtres, et menu mobile enrichi."
+    ],
+    "changes_en": [
+      "Language switching, translated screens and filters, and an improved mobile menu."
+    ]
+  },
+  {
+    "date": "2026-04-03",
+    "version": "2.4.1",
+    "title_fr": "Maintenance des composants",
+    "title_en": "Component maintenance",
+    "changes_fr": [
+      "Mise à jour des composants de traitement d'images et de styles."
+    ],
+    "changes_en": [
+      "Updated image-processing and styling components."
+    ]
+  },
+  {
+    "date": "2026-04-06",
+    "version": "2.4.2",
+    "title_fr": "Langue et reconnexion",
+    "title_en": "Language and reconnection",
+    "changes_fr": [
+      "Langue mémorisée par cookie, reconnexion temps réel progressive et configuration des accès améliorée."
+    ],
+    "changes_en": [
+      "Cookie-based language preference, progressive real-time reconnection and improved access configuration."
+    ]
+  },
+  {
+    "date": "2026-04-07",
+    "version": "2.5.0",
+    "title_fr": "Historique dans l'administration",
+    "title_en": "History in administration",
+    "changes_fr": [
+      "Consultation de l'historique des contrats, projets et paramètres de société dans l'administration."
+    ],
+    "changes_en": [
+      "Contract, project and company-setting history available in administration."
+    ]
+  },
+  {
+    "date": "2026-04-08",
+    "version": "2.6.0",
+    "title_fr": "Notifications et préférences",
+    "title_en": "Notifications and preferences",
+    "changes_fr": [
+      "Alertes de contrats en temps réel avec préférences personnelles, et choix de l'unité des pénalités de retard."
+    ],
+    "changes_en": [
+      "Real-time contract alerts with personal preferences, and a choice of late-penalty units."
+    ]
+  },
+  {
+    "date": "2026-04-09",
+    "version": "2.6.1",
+    "title_fr": "Compatibilité des composants",
+    "title_en": "Component compatibility",
+    "changes_fr": [
+      "Mise à niveau des composants d'interface et des dépendances du serveur."
+    ],
+    "changes_en": [
+      "Upgraded interface components and server dependencies."
+    ]
+  },
+  {
+    "date": "2026-04-10",
+    "version": "2.6.2",
+    "title_fr": "Maintenance des dépendances",
+    "title_en": "Dependency maintenance",
+    "changes_fr": [
+      "Mise à jour des bibliothèques de l'interface."
+    ],
+    "changes_en": [
+      "Updated frontend libraries."
+    ]
+  },
+  {
+    "date": "2026-04-15",
+    "version": "2.6.3",
+    "title_fr": "Maintenance de la qualité du code",
+    "title_en": "Code-quality maintenance",
+    "changes_fr": [
+      "Mise à jour des outils de contrôle et des dépendances de l'interface."
+    ],
+    "changes_en": [
+      "Updated code-checking tools and frontend dependencies."
+    ]
+  },
+  {
+    "date": "2026-04-17",
+    "version": "2.6.4",
+    "title_fr": "Authentification des requêtes",
+    "title_en": "Request authentication",
+    "changes_fr": [
+      "Récupération de la session améliorée pour les requêtes nécessitant une authentification."
+    ],
+    "changes_en": [
+      "Improved session retrieval for authenticated requests."
+    ]
+  },
+  {
+    "date": "2026-05-05",
+    "version": "2.6.5",
+    "title_fr": "Permissions du profil",
+    "title_en": "Profile permissions",
+    "changes_fr": [
+      "Transmission des permissions du profil corrigée."
+    ],
+    "changes_en": [
+      "Corrected delivery of profile permissions."
+    ]
+  },
+  {
+    "date": "2026-05-06",
+    "version": "2.6.6",
+    "title_fr": "Contrats sans pénalités",
+    "title_en": "Contracts without penalties",
+    "changes_fr": [
+      "Création de contrats sans pénalités et présentation du choix des pénalités corrigées."
+    ],
+    "changes_en": [
+      "Corrected support for contracts without penalties and the penalty toggle layout."
+    ]
+  },
+  {
+    "date": "2026-05-13",
+    "version": "2.7.0",
+    "title_fr": "Connexion depuis le portail",
+    "title_en": "Sign-in from the portal",
+    "changes_fr": [
+      "Connexion unique avec liaison des comptes et amélioration des liens de connexion et indicateurs de langue."
+    ],
+    "changes_en": [
+      "Single sign-on with account linking, plus improved sign-in links and language indicators."
+    ]
+  },
+  {
+    "date": "2026-05-18",
+    "version": "2.7.1",
+    "title_fr": "Environnement de déploiement",
+    "title_en": "Deployment environment",
+    "changes_fr": [
+      "Vérification de la configuration du nouveau serveur et normalisation des fichiers du projet."
+    ],
+    "changes_en": [
+      "Verified new-server configuration and normalized project files."
+    ]
+  },
+  {
+    "date": "2026-05-20",
+    "version": "2.8.0",
+    "title_fr": "Vérification des comptes du portail",
+    "title_en": "Portal account verification",
+    "changes_fr": [
+      "Ajout de la vérification des identifiants pour le parcours de connexion unique."
+    ],
+    "changes_en": [
+      "Added credential verification for the single sign-on workflow."
+    ]
+  },
+  {
+    "date": "2026-06-02",
+    "version": "2.8.1",
+    "title_fr": "Protection des connexions",
+    "title_en": "Sign-in protection",
+    "changes_fr": [
+      "Blocage des tentatives de connexion limité au compte concerné."
+    ],
+    "changes_en": [
+      "Sign-in attempt lockouts scoped to the affected account."
+    ]
+  },
+  {
+    "date": "2026-06-09",
+    "version": "2.8.2",
+    "title_fr": "Compatibilité et identité visuelle",
+    "title_en": "Compatibility and visual identity",
+    "changes_fr": [
+      "Compatibilité des dépendances serveur améliorée et ressources du logo actualisées."
+    ],
+    "changes_en": [
+      "Improved server dependency compatibility and refreshed logo assets."
+    ]
+  },
+  {
+    "date": "2026-06-12",
+    "version": "2.8.3",
+    "title_fr": "Fiabilité des contrôles techniques",
+    "title_en": "Reliable technical checks",
+    "changes_fr": [
+      "Correction d'une boucle dans les tests et ajustement des outils de vérification et bibliothèques."
+    ],
+    "changes_en": [
+      "Fixed a test loop and adjusted checking tools and libraries."
+    ]
+  },
+  {
+    "date": "2026-06-13",
+    "version": "2.8.4",
+    "title_fr": "Documentation de l'application",
+    "title_en": "Application documentation",
+    "changes_fr": [
+      "Documentation et captures de présentation de l'application complétées."
+    ],
+    "changes_en": [
+      "Expanded application documentation and presentation screenshots."
+    ]
+  },
+  {
+    "date": "2026-06-18",
+    "version": "2.9.0",
+    "title_fr": "Notes de contrat plus longues",
+    "title_en": "Longer contract notes",
+    "changes_fr": [
+      "Extension des champs de notes et de leur validation pour les descriptions plus détaillées."
+    ],
+    "changes_en": [
+      "Expanded note fields and validation for more detailed descriptions."
+    ]
+  },
+  {
+    "date": "2026-06-19",
+    "version": "2.9.1",
+    "title_fr": "Entretien des bibliothèques",
+    "title_en": "Library maintenance",
+    "changes_fr": [
+      "Mise à jour des bibliothèques de l'application."
+    ],
+    "changes_en": [
+      "Updated application libraries."
+    ]
+  },
+  {
+    "date": "2026-07-29",
+    "version": "2.9.2",
+    "title_fr": "Contrôles de qualité",
+    "title_en": "Quality checks",
+    "changes_fr": [
+      "Corrections des contrôles de code et mise à jour des dépendances."
+    ],
+    "changes_en": [
+      "Corrected code-checking issues and updated dependencies."
+    ]
+  },
+  {
+    "date": "2026-09-07",
+    "version": "2.9.3",
+    "title_fr": "Compatibilité des courriels",
+    "title_en": "Email compatibility",
+    "changes_fr": [
+      "Adaptation de la configuration des courriels aux nouvelles bibliothèques et maintenance des dépendances."
+    ],
+    "changes_en": [
+      "Adapted email configuration to newer libraries and maintained dependencies."
+    ]
+  },
+  {
+    "date": "2026-09-17",
+    "version": "2.9.4",
+    "title_fr": "Maintenance de l'environnement web",
+    "title_en": "Web environment maintenance",
+    "changes_fr": [
+      "Mise à jour des dépendances de l'interface web."
+    ],
+    "changes_en": [
+      "Updated web interface dependencies."
+    ]
+  },
+  {
+    "date": "2026-09-18",
+    "version": "2.9.5",
+    "title_fr": "Tâches en arrière-plan",
+    "title_en": "Background tasks",
+    "changes_fr": [
+      "Configuration des tâches en arrière-plan corrigée et dépendances serveur mises à jour."
+    ],
+    "changes_en": [
+      "Corrected background-task configuration and updated server dependencies."
+    ]
+  },
+  {
+    "date": "2026-09-23",
+    "version": "2.10.0",
+    "title_fr": "Retour aux listes",
+    "title_en": "Returning to lists",
+    "changes_fr": [
+      "Pagination conservée au retour dans une liste, avec migration de l'interface vers React 19 et Next.js 16."
+    ],
+    "changes_en": [
+      "Pagination retained when returning to a list, alongside migration to React 19 and Next.js 16."
+    ]
+  },
+  {
+    "date": "2026-10-06",
+    "version": "2.10.1",
+    "title_fr": "Tri cohérent des listes",
+    "title_en": "Consistent list sorting",
+    "changes_fr": [
+      "Tri des résultats avant pagination pour garder un ordre cohérent sur toutes les pages."
+    ],
+    "changes_en": [
+      "Results sorted before pagination to keep a consistent order across pages."
+    ]
+  },
+  {
+    "date": "2026-10-07",
+    "version": "2.11.0",
+    "title_fr": "Assistant de rédaction privé",
+    "title_en": "Private writing assistant",
+    "changes_fr": [
+      "Traduction et amélioration des textes avec aperçu avant application, assistance aux documents PDF et protection des champs non rédactionnels."
+    ],
+    "changes_en": [
+      "Text translation and improvement with preview before applying, PDF assistance and protection of non-writing fields."
+    ]
+  },
+  {
+    "date": "2026-10-09",
+    "version": "2.12.0",
+    "title_fr": "Historique, mises à jour et mode sombre",
+    "title_en": "History, updates and dark mode",
+    "changes_fr": [
+      "Historique bilingue des versions, notification des mises à jour disponibles et thème sombre mémorisé.",
+      "Champs de description élargis et alignement des tableaux et boutons de l’assistant corrigé pour CDL, Blueline et la sous-traitance."
+    ],
+    "changes_en": [
+      "Bilingual version history, available-update notifications and a remembered dark theme.",
+      "Wider description fields and corrected table and assistant-button alignment for CDL, Blueline and subcontracting."
+    ],
+    "is_published": false
+  }
+]
