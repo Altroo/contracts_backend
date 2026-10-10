@@ -1,0 +1,31 @@
+{
+  "document_id": "contract-financial-terms",
+  "application_id": "contrat",
+  "approved": true,
+  "title": "Montants et échéanciers",
+  "content": "Le Montant HT et la TVA servent à calculer le montant contractuel TTC. L’échéancier indique la répartition prévue des paiements en pourcentages. Le solde de l’échéancier est un pourcentage restant, pas une créance comptable vérifiée. Cette application ne contient pas de registre des paiements reçus, de recettes, de dépenses ou de bénéfice. L’assistant ne déduit pas ces indicateurs des montants des contrats et ne convertit pas les devises.\nAmount excluding tax and VAT determine the contract amount including tax. The payment schedule describes planned payment percentages. Its remaining balance is a percentage, not a verified accounting receivable. This application has no ledger of collected payments, receipts, expenses or profit. The assistant does not derive those metrics from contract amounts or convert currencies.",
+  "localized_content": {
+    "fr": "Le Montant HT et la TVA servent à calculer le montant contractuel TTC. L’échéancier indique la répartition prévue des paiements en pourcentages. Le solde de l’échéancier est un pourcentage restant, pas une créance comptable vérifiée. Cette application ne contient pas de registre des paiements reçus, de recettes, de dépenses ou de bénéfice. L’assistant ne déduit pas ces indicateurs des montants des contrats et ne convertit pas les devises.",
+    "en": "Amount excluding tax and VAT determine the contract amount including tax. The payment schedule describes planned payment percentages. Its remaining balance is a percentage, not a verified accounting receivable. This application has no ledger of collected payments, receipts, expenses or profit. The assistant does not derive those metrics from contract amounts or convert currencies."
+  },
+  "keywords": [
+    "montant",
+    "amount",
+    "tax",
+    "tva",
+    "vat",
+    "echeancier",
+    "payment",
+    "received",
+    "encaissement",
+    "revenue",
+    "profit",
+    "solde"
+  ],
+  "category": "workflow",
+  "sensitivity": "member",
+  "required_capabilities": [
+    "read"
+  ],
+  "tenant_scope_id": null
+}

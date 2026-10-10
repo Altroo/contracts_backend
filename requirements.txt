@@ -34,3 +34,6 @@ django-axes==8.3.1
 python-docx==1.2.0
 weasyprint==70.0
 num2words==0.5.14
+
+# Shared self-hosted assistant core; no hosted model dependency.
+./vendor/chat_ai_assistant-0.2.0-py3-none-any.whl

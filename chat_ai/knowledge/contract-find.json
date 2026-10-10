@@ -1,0 +1,27 @@
+{
+  "document_id": "contract-find",
+  "application_id": "contrat",
+  "approved": true,
+  "title": "Retrouver un contrat",
+  "content": "Dans la liste des contrats, utilisez la recherche pour retrouver une référence ou un client. Vous pouvez aussi filtrer par société, catégorie, statut et date du contrat. La référence du contrat n’est pas son identifiant interne. Dans l’assistant, décrivez le contrat, choisissez la société concernée, puis sélectionnez le bon résultat.\nIn the contracts list, search for a reference or customer. You can also filter by company, category, status and contract date. A contract reference is not its internal identifier. In the assistant, describe the contract, choose the relevant company and select the matching result.",
+  "localized_content": {
+    "fr": "Dans la liste des contrats, utilisez la recherche pour retrouver une référence ou un client. Vous pouvez aussi filtrer par société, catégorie, statut et date du contrat. La référence du contrat n’est pas son identifiant interne. Dans l’assistant, décrivez le contrat, choisissez la société concernée, puis sélectionnez le bon résultat.",
+    "en": "In the contracts list, search for a reference or customer. You can also filter by company, category, status and contract date. A contract reference is not its internal identifier. In the assistant, describe the contract, choose the relevant company and select the matching result."
+  },
+  "keywords": [
+    "contrat",
+    "contract",
+    "recherche",
+    "search",
+    "client",
+    "customer",
+    "reference",
+    "référence"
+  ],
+  "category": "workflow",
+  "sensitivity": "member",
+  "required_capabilities": [
+    "read"
+  ],
+  "tenant_scope_id": null
+}

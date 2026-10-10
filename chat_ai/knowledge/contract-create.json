@@ -1,0 +1,26 @@
+{
+  "document_id": "contract-create",
+  "application_id": "contrat",
+  "approved": true,
+  "title": "Créer un contrat",
+  "content": "Ouvrez la liste des contrats puis le formulaire de création. Choisissez la société et la catégorie, puis renseignez les informations demandées par le formulaire. Les champs varient selon la société et le type de contrat. Les échéanciers Casa di Lusso et sous-traitance doivent totaliser 100 %. Le formulaire applique les contrôles natifs avant l’enregistrement.\nOpen the contracts list and its creation form. Choose the company and category, then fill in the requested information. Fields vary by company and contract type. Casa di Lusso and subcontracting payment schedules must total 100%. The form applies the existing validation rules before saving.",
+  "localized_content": {
+    "fr": "Ouvrez la liste des contrats puis le formulaire de création. Choisissez la société et la catégorie, puis renseignez les informations demandées par le formulaire. Les champs varient selon la société et le type de contrat. Les échéanciers Casa di Lusso et sous-traitance doivent totaliser 100 %. Le formulaire applique les contrôles natifs avant l’enregistrement.",
+    "en": "Open the contracts list and its creation form. Choose the company and category, then fill in the requested information. Fields vary by company and contract type. Casa di Lusso and subcontracting payment schedules must total 100%. The form applies the existing validation rules before saving."
+  },
+  "keywords": [
+    "creer",
+    "create",
+    "nouveau",
+    "new",
+    "contrat",
+    "contract"
+  ],
+  "category": "workflow",
+  "sensitivity": "member",
+  "required_capabilities": [
+    "read",
+    "create"
+  ],
+  "tenant_scope_id": null
+}

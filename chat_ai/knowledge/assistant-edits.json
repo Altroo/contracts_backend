@@ -1,0 +1,28 @@
+{
+  "document_id": "assistant-edits",
+  "application_id": "contrat",
+  "approved": true,
+  "title": "Modifications et confirmations",
+  "content": "Décrivez d’abord le contrat ou le projet et sélectionnez le bon résultat. Pour un champ pris en charge, précisez la nouvelle valeur puis vérifiez la prévisualisation avant de confirmer. Les changements sont enregistrés sous votre identité dans l’historique natif et le journal de l’assistant. Les champs non pris en charge doivent être modifiés dans le formulaire natif. Une modification des droits ou du document invalide la confirmation.\nDescribe the contract or project and select the correct result. For a supported field, specify the new value, review the preview and confirm. Changes are recorded under your identity in the native history and assistant audit. Unsupported fields must be edited in the existing form. A permission or record change invalidates the confirmation.",
+  "localized_content": {
+    "fr": "Décrivez d’abord le contrat ou le projet et sélectionnez le bon résultat. Pour un champ pris en charge, précisez la nouvelle valeur puis vérifiez la prévisualisation avant de confirmer. Les changements sont enregistrés sous votre identité dans l’historique natif et le journal de l’assistant. Les champs non pris en charge doivent être modifiés dans le formulaire natif. Une modification des droits ou du document invalide la confirmation.",
+    "en": "Describe the contract or project and select the correct result. For a supported field, specify the new value, review the preview and confirm. Changes are recorded under your identity in the native history and assistant audit. Unsupported fields must be edited in the existing form. A permission or record change invalidates the confirmation."
+  },
+  "keywords": [
+    "modifier",
+    "edit",
+    "update",
+    "supprimer",
+    "delete",
+    "confirmation",
+    "historique",
+    "history"
+  ],
+  "category": "workflow",
+  "sensitivity": "member",
+  "required_capabilities": [
+    "read",
+    "update"
+  ],
+  "tenant_scope_id": null
+}

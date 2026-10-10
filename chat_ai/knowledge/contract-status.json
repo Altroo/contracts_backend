@@ -1,0 +1,27 @@
+{
+  "document_id": "contract-status",
+  "application_id": "contrat",
+  "approved": true,
+  "title": "Statuts des contrats",
+  "content": "Les statuts disponibles sont Brouillon, Envoyé, Signé, En cours, Terminé, Annulé et Expiré. Ils décrivent l’état du contrat, pas les paiements reçus. Un contrat Signé ou Terminé n’atteste donc pas qu’il est payé. La modification du statut nécessite le droit de modification et utilise la commande native de changement de statut.\nAvailable contract statuses are Draft, Sent, Signed, In progress, Completed, Cancelled and Expired. They describe the contract state, not received payments. Signed or Completed therefore does not mean paid. Changing status requires edit permission and the existing status-change action.",
+  "localized_content": {
+    "fr": "Les statuts disponibles sont Brouillon, Envoyé, Signé, En cours, Terminé, Annulé et Expiré. Ils décrivent l’état du contrat, pas les paiements reçus. Un contrat Signé ou Terminé n’atteste donc pas qu’il est payé. La modification du statut nécessite le droit de modification et utilise la commande native de changement de statut.",
+    "en": "Available contract statuses are Draft, Sent, Signed, In progress, Completed, Cancelled and Expired. They describe the contract state, not received payments. Signed or Completed therefore does not mean paid. Changing status requires edit permission and the existing status-change action."
+  },
+  "keywords": [
+    "statut",
+    "status",
+    "signed",
+    "signe",
+    "brouillon",
+    "draft",
+    "paiement",
+    "paid"
+  ],
+  "category": "workflow",
+  "sensitivity": "member",
+  "required_capabilities": [
+    "read"
+  ],
+  "tenant_scope_id": null
+}

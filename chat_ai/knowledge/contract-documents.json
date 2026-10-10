@@ -1,0 +1,28 @@
+{
+  "document_id": "contract-documents",
+  "application_id": "contrat",
+  "approved": true,
+  "title": "Documents PDF et Word",
+  "content": "Les contrats peuvent être générés en PDF ou Word, en français ou en anglais. Utilisez le menu du contrat pour choisir le format puis la langue. Le document suit le modèle de la société et de la catégorie du contrat. Le droit d’impression est requis. Dans l’assistant, /pdf ou /word suivi d’une description recherche le contrat avant de proposer son document.\nContracts can be generated as PDF or Word documents in French or English. Use the contract menu to choose the format and language. The document uses the template for the contract company and category. Print permission is required. In the assistant, /pdf or /word followed by a description searches for the contract before offering its document.",
+  "localized_content": {
+    "fr": "Les contrats peuvent être générés en PDF ou Word, en français ou en anglais. Utilisez le menu du contrat pour choisir le format puis la langue. Le document suit le modèle de la société et de la catégorie du contrat. Le droit d’impression est requis. Dans l’assistant, /pdf ou /word suivi d’une description recherche le contrat avant de proposer son document.",
+    "en": "Contracts can be generated as PDF or Word documents in French or English. Use the contract menu to choose the format and language. The document uses the template for the contract company and category. Print permission is required. In the assistant, /pdf or /word followed by a description searches for the contract before offering its document."
+  },
+  "keywords": [
+    "pdf",
+    "word",
+    "docx",
+    "imprimer",
+    "print",
+    "telecharger",
+    "download",
+    "document"
+  ],
+  "category": "workflow",
+  "sensitivity": "member",
+  "required_capabilities": [
+    "read",
+    "print"
+  ],
+  "tenant_scope_id": null
+}

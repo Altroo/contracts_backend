@@ -28,6 +28,12 @@ This is a production-oriented business backend. It models real operational workf
 - PDF/DOCX-oriented business workflow support for contract lifecycle screens.
 - pytest coverage around contract creation, document behavior, auth, and websocket middleware.
 
+## Chat AI Assistant
+
+The `chat_ai` adapter provides company-scoped contract/project search, authorized document downloads, approved workflow help and persistent conversations. Supported edits/deletes require exact-target confirmation and retain the requesting user's native history and audit identity. It reuses existing permissions and the shared self-hosted model.
+
+The feature defaults to disabled pending shared-model acceptance. Configuration and migration instructions are in [the assistant guide](docs/AI_ASSISTANT.md). Training data contains synthetic English/French scenarios only.
+
 ## Stack
 
 - Python, Django 6, Django REST Framework

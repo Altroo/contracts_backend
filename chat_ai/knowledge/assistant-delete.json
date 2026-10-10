@@ -1,0 +1,26 @@
+{
+  "document_id": "assistant-delete",
+  "application_id": "contrat",
+  "approved": true,
+  "title": "Suppression confirmée",
+  "content": "Une suppression nécessite le droit de suppression, la sélection exacte du document et une confirmation explicite. Elle est enregistrée sous votre identité. Les projets prédéfinis ne peuvent pas être supprimés. Supprimer un projet détache ses contrats sans les supprimer ; la prévisualisation indique cet effet. L’assistant refuse la suppression si elle toucherait des contrats d’une autre société.\nDeletion requires delete permission, selection of the exact record and explicit confirmation. It is recorded under your identity. Predefined projects cannot be deleted. Deleting a project detaches its contracts without deleting them; the preview explains this effect. The assistant refuses deletion if contracts from another company would be affected.",
+  "localized_content": {
+    "fr": "Une suppression nécessite le droit de suppression, la sélection exacte du document et une confirmation explicite. Elle est enregistrée sous votre identité. Les projets prédéfinis ne peuvent pas être supprimés. Supprimer un projet détache ses contrats sans les supprimer ; la prévisualisation indique cet effet. L’assistant refuse la suppression si elle toucherait des contrats d’une autre société.",
+    "en": "Deletion requires delete permission, selection of the exact record and explicit confirmation. It is recorded under your identity. Predefined projects cannot be deleted. Deleting a project detaches its contracts without deleting them; the preview explains this effect. The assistant refuses deletion if contracts from another company would be affected."
+  },
+  "keywords": [
+    "supprimer",
+    "delete",
+    "remove",
+    "confirmation",
+    "projet",
+    "project"
+  ],
+  "category": "workflow",
+  "sensitivity": "member",
+  "required_capabilities": [
+    "read",
+    "delete"
+  ],
+  "tenant_scope_id": null
+}
