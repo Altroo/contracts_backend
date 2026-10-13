@@ -36,4 +36,4 @@ weasyprint==70.0
 num2words==0.5.14
 
 # Shared self-hosted assistant core; no hosted model dependency.
-./vendor/chat_ai_assistant-0.2.2-py3-none-any.whl
+./vendor/chat_ai_assistant-0.2.3-py3-none-any.whl
