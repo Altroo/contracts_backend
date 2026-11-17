@@ -1,6 +1,6 @@
 from copy import copy, deepcopy
 from django.conf import settings
-from ai_assistant.client import AiAssistantClient
+from ai_assistant.pdf_translation import load_pdf_translations, source
 
 TEXT_FIELDS = (
     "description_travaux",
@@ -22,15 +22,11 @@ JSON_FIELDS = {
 }
 
 
-def translated_contract(contract, language):
-    if not getattr(settings, "AI_PDF_TRANSLATION_ENABLED", False):
-        return contract
-    result = copy(contract)
+def contract_pdf_sources(contract):
     texts = [getattr(contract, field, "") for field in TEXT_FIELDS]
     for field, keys in JSON_FIELDS.items():
         value = getattr(contract, field, None)
         if isinstance(value, list):
-            setattr(result, field, deepcopy(value))
             texts.extend(
                 row.get(key, "")
                 for row in value
@@ -53,11 +49,44 @@ def translated_contract(contract, language):
             "st_banque",
         )
     ]
-    translated = AiAssistantClient().translate_many(
-        texts,
-        target_language=language,
-        protected_terms=[str(p) for p in protected if p and len(str(p)) <= 200],
-        context="contract_pdf",
+    project = getattr(contract, "st_projet", None)
+    if project is not None:
+        protected.extend(
+            [getattr(project, "name", ""), getattr(project, "maitre_ouvrage", "")]
+        )
+    if getattr(contract, "contract_category", "") == "sous_traitance":
+        from core.models import CompanyConfig
+
+        config = CompanyConfig.objects.filter(company=contract.company).first()
+        if config is not None:
+            texts.append(config.qualite_representant)
+            protected.extend([config.name, config.representant])
+    display = getattr(contract, "get_company_display", None)
+    if display:
+        protected.append(display())
+    return [
+        spec
+        for text in texts
+        if (
+            spec := source(
+                text, [str(p) for p in protected if p and len(str(p)) <= 200]
+            )
+        )
+    ]
+
+
+def translated_contract(contract, language):
+    if not getattr(settings, "AI_PDF_TRANSLATION_ENABLED", False):
+        return contract
+    result = copy(contract)
+    for field in JSON_FIELDS:
+        if isinstance(getattr(contract, field, None), list):
+            setattr(result, field, deepcopy(getattr(contract, field)))
+    duration = getattr(contract, "duree_estimee", "")
+    translated = load_pdf_translations(
+        str(getattr(contract, "company", "default")),
+        contract_pdf_sources(contract),
+        language,
     )
     for field in TEXT_FIELDS:
         value = getattr(contract, field, None)
@@ -74,3 +103,16 @@ def translated_contract(contract, language):
                         if isinstance(row.get(key), str):
                             row[key] = translated.get(row[key], row[key])
     return result
+
+
+def company_role_source(config):
+    return source(str(config.qualite_representant), [config.name, config.representant])
+
+
+def translated_company_role(config, language):
+    value = str(config.qualite_representant)
+    if not getattr(settings, "AI_PDF_TRANSLATION_ENABLED", False):
+        return "Manager" if language == "en" and value == "Gérant" else value
+    return load_pdf_translations(
+        str(config.company), [company_role_source(config)], language
+    )[value]

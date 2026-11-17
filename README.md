@@ -79,3 +79,21 @@ python -m pytest --cov
 ## Portfolio Note
 
 The repository is public for portfolio review. Screenshots are redacted, and sensitive production values are intentionally hidden.
+
+
+## Business text and PDF translations
+
+Translation, grammar correction and professional rewriting use the signed private
+Groq gateway when this service is enabled there. Provider credentials remain in
+the gateway environment. This does not enable the separate chat assistant.
+
+Contract saves prepare durable translation rows without calling the model. Celery
+processes them asynchronously, preserving source text, JSON structure, names,
+amounts, references, units and list formatting. All contract PDF variants read the
+same prepared values. Requests promote pending text ahead of historical work;
+quota waits are deferred without consuming failure attempts.
+
+Run `python manage.py translate_pdf_content` after deployment to prepare existing
+contracts. Inspect progress using `--status`. Large refreshes resume under the
+shared free allowance and may take days. The `pdf-beat` service schedules only PDF
+translations; it does not activate unrelated notification schedules.

@@ -140,17 +140,23 @@ def test_contract_translation_is_a_print_only_copy(settings):
         st_tranches=[],
         duree_estimee="10 jours",
     )
-    with patch.object(
-        AiAssistantClient,
-        "translate_many",
-        return_value={
-            "Pose de carrelage": "Tiling work",
-            "Carrelage": "Tiles",
-            "Fourniture et pose": "Supply and installation",
-            "À la commande": "On order",
-            "10 jours": "10 days",
-        },
-    ) as translate:
+    from ai_assistant.pdf_translation import ensure_sources
+    from ai_assistant.models import PdfTextTranslation
+    from contract.ai_pdf import contract_pdf_sources
+
+    values = {
+        "Pose de carrelage": "Tiling work",
+        "Carrelage": "Tiles",
+        "Fourniture et pose": "Supply and installation",
+        "À la commande": "On order",
+        "10 jours": "10 days",
+    }
+    ensure_sources("default", contract_pdf_sources(contract), ["en"], dispatch=False)
+    for row in PdfTextTranslation.objects.all():
+        row.status = "ready"
+        row.translated_text = values[row.source_text]
+        row.save()
+    with patch.object(AiAssistantClient, "translate_many") as translate:
         output = translated_contract(contract, "en")
     assert output.description_travaux == "Tiling work"
     assert output.prestations[0]["nom"] == "Tiles"
@@ -161,7 +167,8 @@ def test_contract_translation_is_a_print_only_copy(settings):
         "1200"
     )
     assert output.client_nom == "Client SARL" and output.numero_contrat == "CT-10"
-    assert "Client SARL" in translate.call_args.kwargs["protected_terms"]
+    translate.assert_not_called()
+    assert output.client_nom == "Client SARL"
 
 
 def test_pdf_batch_waits_for_existing_rate_limit_before_retrying():

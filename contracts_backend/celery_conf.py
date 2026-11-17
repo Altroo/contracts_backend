@@ -18,11 +18,16 @@ app.conf.accept_content = ["json"]
 app.autodiscover_tasks(
     packages=[
         "account.tasks",
+        "ai_assistant.tasks",
         "notification.tasks",
     ]
 )
 
 app.conf.beat_schedule = {
+    "prepare-pending-pdf-translations": {
+        "task": "ai_assistant.translate_pending_pdf_texts",
+        "schedule": crontab(),
+    },
     "check-contract-notifications-every-hour": {
         "task": "notification.tasks.check_contract_notifications",
         "schedule": crontab(minute=0),  # every hour

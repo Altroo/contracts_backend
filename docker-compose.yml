@@ -77,9 +77,25 @@ services:
       - .env
     networks:
       - backend
+      - ai-gateway
     environment:
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    volumes:
+      - ./media:/app/media
+
+  pdf-beat:
+    build: .
+    container_name: contracts_pdf_beat
+    restart: always
+    command: celery -A ai_assistant.pdf_beat beat --loglevel=info --schedule=/tmp/pdf-celerybeat
+    depends_on:
+      redis:
+        condition: service_healthy
+    env_file:
+      - .env
+    networks:
+      - backend
     volumes:
       - ./media:/app/media
 

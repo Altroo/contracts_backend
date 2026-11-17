@@ -10,7 +10,8 @@ Uses CDL branding (dark #0F0F1A + gold #B8973A, Cormorant Garamond + Inter fonts
 from datetime import datetime
 
 from django.http import HttpResponse
-from .ai_pdf import translated_contract
+from .ai_pdf import translated_contract, translated_company_role
+from copy import copy
 from weasyprint import HTML
 
 from core.models import CompanyConfig
@@ -216,7 +217,10 @@ class SousTraitancePDFGenerator:
     def ep(self):
         if self._ep is None:
             try:
-                self._ep = CompanyConfig.objects.get(company=self.c.company)
+                self._ep = copy(CompanyConfig.objects.get(company=self.c.company))
+                self._ep.qualite_representant = translated_company_role(
+                    self._ep, self.lang
+                )
             except CompanyConfig.DoesNotExist:
                 self._ep = None
         return self._ep
@@ -306,7 +310,11 @@ class SousTraitancePDFGenerator:
         ep_if = _esc(ep.identifiant_fiscal) if ep else "—"
         ep_addr = _esc(ep.adresse) if ep else "—"
         ep_rep = _esc(ep.representant) if ep else "—"
-        ep_qualite = _esc(ep.qualite_representant) if ep else "Gérant"
+        ep_qualite = (
+            _esc(ep.qualite_representant)
+            if ep
+            else ("Gérant" if self.fr else "Manager")
+        )
 
         # ST info
         st_name = _esc(c.st_name or "—")
@@ -795,7 +803,7 @@ class SousTraitancePDFGenerator:
         date_str = _fmt_date(c.date_contrat)
         ville = _esc(c.ville_signature) if c.ville_signature else "Tanger"
         ep_name = _esc(ep.name) if ep else "CASA DI LUSSO SARL"
-        st_name = _esc(c.st_name or "Sous-Traitant")
+        st_name = _esc(c.st_name or ("Sous-Traitant" if self.fr else "Subcontractor"))
 
         return f"""
         <div class="st-sig-box">
@@ -809,7 +817,7 @@ class SousTraitancePDFGenerator:
               <div class="st-sig-note">{t('lu_approuve')}</div>
               <div class="st-sig-line"></div>
               <div class="st-sig-name">{ep_name}</div>
-              <div class="st-sig-role">{_esc(ep.qualite_representant) if ep else 'Gérant'}</div>
+              <div class="st-sig-role">{_esc(ep.qualite_representant) if ep else ('Gérant' if self.fr else 'Manager')}</div>
             </div>
             <div class="st-sig">
               <div class="st-sig-label">{t('lbl_st')}</div>

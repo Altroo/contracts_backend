@@ -20,8 +20,11 @@ checks. Saving an entry does not broadcast an update.
 
 1. Choose the next package version and prepare bilingual changelog content.
 2. Apply compatible backend migrations and deploy the backend before the frontend.
-   The production post-receive hook rebuilds containers but **does not run migrations**;
-   migrations must be run explicitly as part of the release.
+   The checked-in `deploy/post-receive` hook builds first, backs up the database,
+   runs and checks migrations, and replaces only application services. Install
+   that reviewed hook on the production bare repository; older hooks did not run
+   migrations. For the 2.12.4 preparation protocol, deploy the compatible frontend
+   first so it can handle queued replies before enabling the new backend.
 3. Deploy the frontend and confirm `/api/app-version` returns the intended version
    with `Cache-Control: no-store`. Check container health and the actual screens.
 4. Publish the changelog entry. Set the latest `WsMaintenanceState.version` to the

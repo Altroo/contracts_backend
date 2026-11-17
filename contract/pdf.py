@@ -70,7 +70,20 @@ def _esc(text: object | None) -> str:
     """Minimal HTML escaping of a plain-text string."""
     if not text:
         return ""
-    return str(text).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+    escaped = (
+        str(text)
+        .replace("\r\n", "\n")
+        .replace("\r", "\n")
+        .expandtabs(4)
+        .replace("&", "&amp;")
+        .replace("<", "&lt;")
+        .replace(">", "&gt;")
+    )
+    import re
+
+    return re.sub(
+        r"(?m)^[ ]+", lambda match: "&#160;" * len(match.group()), escaped
+    ).replace("\n", "<br>")
 
 
 def _css_esc(text: object | None) -> str:
