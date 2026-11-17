@@ -34,6 +34,6 @@ while read -r oldrev newrev ref; do
   "${compose[@]}" exec -T web python manage.py migrate --check
   docker exec nginx nginx -t
   docker exec nginx nginx -s reload
-  curl --retry 6 --retry-delay 2 --retry-connrefused --fail --silent --show-error --output /dev/null https://contrats-api.elbouazzatiholding.ma/api/health/
+  curl --http1.1 -H 'Connection: close' --retry 6 --retry-delay 2 --retry-connrefused --fail --silent --show-error --output /dev/null https://contrats-api.elbouazzatiholding.ma/api/health/
   printf 'Contracts backend deployment verified: %s\n' "$newrev"
 done

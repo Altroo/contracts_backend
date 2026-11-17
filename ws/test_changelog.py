@@ -172,3 +172,10 @@ def test_versions_use_ascii_digits_consistently_with_the_browser():
     from .models import app_version_validator
     with pytest.raises(ValidationError):
         app_version_validator("1٢.0.0")
+
+
+def test_redis_socket_deadline_exceeds_blocking_channel_receive():
+    from contracts_backend import settings as application_settings
+    from channels_redis.core import RedisChannelLayer
+    host=application_settings.CHANNEL_LAYERS['default']['CONFIG']['hosts'][0]
+    assert host['socket_timeout'] > RedisChannelLayer.brpop_timeout

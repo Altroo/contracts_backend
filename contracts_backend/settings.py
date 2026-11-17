@@ -212,7 +212,14 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [(REDIS_HOST, REDIS_PORT)],
+            "hosts": [
+                {
+                    "host": REDIS_HOST,
+                    "port": int(REDIS_PORT),
+                    "socket_connect_timeout": 5,
+                    "socket_timeout": 10,
+                }
+            ],
         },
     },
 }
@@ -307,7 +314,9 @@ AI_PDF_TRANSLATION_ENABLED = config(
 )
 
 # Shared Chat AI Assistant (enable only after application/model acceptance).
-CHAT_AI_ASSISTANT_ENABLED = config("CHAT_AI_ASSISTANT_ENABLED", default=False, cast=bool)
+CHAT_AI_ASSISTANT_ENABLED = config(
+    "CHAT_AI_ASSISTANT_ENABLED", default=False, cast=bool
+)
 CHAT_AI_MODEL_URL = config("CHAT_AI_MODEL_URL", default="http://chat-ai-model:18090/v1")
 CHAT_AI_MODEL_ID = config("CHAT_AI_MODEL_ID", default="")
 CHAT_AI_MODEL_KEY = config("CHAT_AI_MODEL_KEY", default="")
