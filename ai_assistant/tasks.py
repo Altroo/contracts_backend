@@ -83,7 +83,7 @@ def translate_pending_pdf_texts():
             protected_terms=list(
                 dict.fromkeys(term for row in rows for term in row.protected_terms)
             ),
-            context="invoice_pdf",
+            context="contract_pdf",
             retry_rate_limit=False,
             background=first["priority"] >= 100,
         )
@@ -112,7 +112,7 @@ def translate_pending_pdf_texts():
                             [row.source_text],
                             target_language=row.language,
                             protected_terms=row.protected_terms,
-                            context="invoice_pdf",
+                            context="contract_pdf",
                             retry_rate_limit=False,
                             background=row.priority >= 100,
                         )

@@ -123,6 +123,7 @@ def test_worker_persists_valid_text_and_rejects_broken_layout():
         translate_pending_pdf_texts()
     assert PdfTextTranslation.objects.get().status == "ready"
     assert client.call_args.kwargs["retry_rate_limit"] is False
+    assert client.call_args.kwargs["context"] == "contract_pdf"
     row = PdfTextTranslation.objects.get()
     for broken in [
         "Deliver 120*120cm. Marble not included.",
