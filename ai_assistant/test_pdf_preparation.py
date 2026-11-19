@@ -263,3 +263,12 @@ def test_original_english_contract_parties_remain_valid():
         language="en",
     )
     validate_saved_translation(row, row.source_text)
+
+
+
+def test_french_pdf_uses_original_source_before_reading_translation_rows():
+    value = "Location STORE N° 42"
+    with patch.object(PdfTextTranslation.objects, "filter") as lookup:
+        assert load_pdf_translations("casa_di_lusso", [source(value)], "fr") == {value: value}
+
+    lookup.assert_not_called()
