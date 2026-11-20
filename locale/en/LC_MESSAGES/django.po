@@ -1000,6 +1000,14 @@ msgid_plural "Requête ralentie. Réessayez dans %(wait)d secondes."
 msgstr[0] "Request throttled. Please retry in %(wait)d second."
 msgstr[1] "Request throttled. Please retry in %(wait)d seconds."
 
+#, python-format
+msgid "Requête ralentie. Réessayez dans %(duration)s."
+msgstr "Request throttled. Try again in %(duration)s."
+
+msgid "Requête ralentie. Réessayez plus tard."
+msgstr "Request throttled. Try again later."
+
+
 #: .\core\constants.py:8
 msgid "Casa di Lusso"
 msgstr "Casa di Lusso"
